@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use AppBundle\Enum\EventClassroomTypeEnum;
+use App\Enum\EventClassroomTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

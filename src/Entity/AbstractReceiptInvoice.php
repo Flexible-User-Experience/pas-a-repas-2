@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use AppBundle\Enum\InvoiceYearMonthEnum;
+use App\Enum\InvoiceYearMonthEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

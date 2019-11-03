@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use AppBundle\Enum\StudentPaymentEnum;
+use App\Enum\StudentPaymentEnum;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

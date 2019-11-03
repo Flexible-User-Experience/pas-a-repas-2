@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use AppBundle\Entity\Traits\DescriptionTrait;
-use AppBundle\Entity\Traits\ImageTrait;
-use AppBundle\Entity\Traits\PositionTrait;
-use AppBundle\Entity\Traits\SlugTrait;
+use App\Entity\Traits\DescriptionTrait;
+use App\Entity\Traits\ImageTrait;
+use App\Entity\Traits\PositionTrait;
+use App\Entity\Traits\SlugTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;

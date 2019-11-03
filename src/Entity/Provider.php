@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use AppBundle\Enum\StudentPaymentEnum;
+use App\Enum\StudentPaymentEnum;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;

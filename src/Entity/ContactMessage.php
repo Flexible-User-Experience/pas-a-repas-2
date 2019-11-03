@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use AppBundle\Entity\Traits\DescriptionTrait;
+use App\Entity\Traits\DescriptionTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

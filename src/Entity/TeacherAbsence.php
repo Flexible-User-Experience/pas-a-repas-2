@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use AppBundle\Enum\TeacherAbsenceTypeEnum;
+use App\Enum\TeacherAbsenceTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
