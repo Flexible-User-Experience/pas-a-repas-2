@@ -20,7 +20,7 @@ class TeacherAbsence extends AbstractBase
     /**
      * @var Teacher
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Teacher")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Teacher")
      */
     private $teacher;
 

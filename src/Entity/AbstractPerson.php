@@ -69,7 +69,7 @@ abstract class AbstractPerson extends AbstractBase
     /**
      * @var City
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\City")
+     * @ORM\ManyToOne(targetEntity="App\Entity\City")
      */
     protected $city;
 

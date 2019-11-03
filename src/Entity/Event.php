@@ -35,7 +35,7 @@ class Event extends AbstractBase
     /**
      * @var Teacher
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Teacher")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Teacher")
      */
     private $teacher;
 
@@ -49,14 +49,14 @@ class Event extends AbstractBase
     /**
      * @var ClassGroup
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ClassGroup")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClassGroup")
      */
     private $group;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Student", inversedBy="events")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Student", inversedBy="events")
      * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
      */
     private $students;
@@ -64,7 +64,7 @@ class Event extends AbstractBase
     /**
      * @var Event
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Event")
      * @ORM\JoinColumn(name="previous_id", referencedColumnName="id", nullable=true)
      */
     private $previous;
@@ -72,7 +72,7 @@ class Event extends AbstractBase
     /**
      * @var Event
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Event")
      * @ORM\JoinColumn(name="next_id", referencedColumnName="id", nullable=true)
      */
     private $next;

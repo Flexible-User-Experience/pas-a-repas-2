@@ -43,21 +43,21 @@ class Student extends AbstractPerson
     /**
      * @var Person
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person", inversedBy="students")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person", inversedBy="students")
      */
     private $parent;
 
     /**
      * @var Bank
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Bank", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Bank", cascade={"persist"})
      */
     protected $bank;
 
     /**
      * @var Tariff
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Tariff")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tariff")
      * @ORM\JoinColumn(name="tariff_id", referencedColumnName="id")
      */
     private $tariff;
@@ -65,7 +65,7 @@ class Student extends AbstractPerson
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Event", mappedBy="students")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="students")
      */
     private $events;
 

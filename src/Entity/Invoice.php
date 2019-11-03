@@ -21,7 +21,7 @@ class Invoice extends AbstractReceiptInvoice
     /**
      * @var Receipt
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Receipt")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Receipt")
      * @ORM\JoinColumn(name="receipt_id", referencedColumnName="id")
      */
     private $receipt;
@@ -29,7 +29,7 @@ class Invoice extends AbstractReceiptInvoice
     /**
      * @var ArrayCollection|array|InvoiceLine[]
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceLine", mappedBy="invoice", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\InvoiceLine", mappedBy="invoice", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $lines;
 

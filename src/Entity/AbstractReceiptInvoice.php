@@ -15,7 +15,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
     /**
      * @var Student
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Student")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student")
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
     protected $student;
@@ -23,7 +23,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
     /**
      * @var Person
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     protected $person;

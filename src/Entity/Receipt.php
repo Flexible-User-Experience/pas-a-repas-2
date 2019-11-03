@@ -20,7 +20,7 @@ class Receipt extends AbstractReceiptInvoice
     /**
      * @var ArrayCollection|array|ReceiptLine[]
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ReceiptLine", mappedBy="receipt", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ReceiptLine", mappedBy="receipt", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $lines;
 

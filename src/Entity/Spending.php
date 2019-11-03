@@ -29,7 +29,7 @@ class Spending extends AbstractBase
     /**
      * @var SpendingCategory
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SpendingCategory")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SpendingCategory")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
@@ -37,7 +37,7 @@ class Spending extends AbstractBase
     /**
      * @var Provider
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Provider")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Provider")
      * @ORM\JoinColumn(name="provider_id", referencedColumnName="id")
      */
     private $provider;

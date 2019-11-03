@@ -25,14 +25,14 @@ class Person extends AbstractPerson
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Student", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="parent")
      */
     private $students;
 
     /**
      * @var Bank
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Bank", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Bank", cascade={"persist"})
      */
     protected $bank;
 

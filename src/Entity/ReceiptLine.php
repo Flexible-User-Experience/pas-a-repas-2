@@ -17,7 +17,7 @@ class ReceiptLine extends AbstractReceiptInvoiceLine
     /**
      * @var Receipt
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Receipt", inversedBy="lines")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Receipt", inversedBy="lines")
      * @ORM\JoinColumn(name="receipt_id", referencedColumnName="id")
      */
     private $receipt;

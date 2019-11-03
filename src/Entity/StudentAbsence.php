@@ -19,7 +19,7 @@ class StudentAbsence extends AbstractBase
     /**
      * @var Student
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Student")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student")
      */
     private $student;
 

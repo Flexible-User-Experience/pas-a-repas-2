@@ -33,7 +33,7 @@ class City extends AbstractBase
     /**
      * @var Province
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Province")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Province")
      */
     private $province;
 

@@ -41,7 +41,7 @@ class Bank extends AbstractBase
     /**
      * @var Person
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person")
+     * @ORM\OneToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $parent;

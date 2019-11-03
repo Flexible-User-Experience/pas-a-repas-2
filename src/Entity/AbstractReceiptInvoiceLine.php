@@ -14,7 +14,7 @@ abstract class AbstractReceiptInvoiceLine extends AbstractBase
     /**
      * @var Student
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Student")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student")
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
     protected $student;
