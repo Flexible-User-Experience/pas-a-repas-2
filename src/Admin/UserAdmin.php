@@ -63,7 +63,7 @@ class UserAdmin extends ParentUserAdmin
     /**
      * @param FormMapper $formMapper
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         /* @var object $formMapper */
         $formMapper
@@ -132,7 +132,7 @@ class UserAdmin extends ParentUserAdmin
     /**
      * @param DatagridMapper $filterMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $filterMapper)
+    protected function configureDatagridFilters(DatagridMapper $filterMapper): void
     {
         $filterMapper
             ->add(
@@ -161,7 +161,7 @@ class UserAdmin extends ParentUserAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         unset($this->listModes['mosaic']);
         $listMapper
