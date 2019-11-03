@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use AncaRebeca\FullCalendarBundle\Model\Event;
+// TODO use AncaRebeca\FullCalendarBundle\Model\Event;
 
 /**
  * Class EventFullCalendar.
  *
  * @category Entity
  */
-class EventFullCalendar extends Event
+class EventFullCalendar // TODO extends Event from tattali/calendar-bundle
 {
 }
