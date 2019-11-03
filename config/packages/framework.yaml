@@ -1,5 +1,8 @@
 framework:
     secret: '%env(APP_SECRET)%'
+    translator: { fallbacks: ['%env(resolve:DEFAULT_LOCALE)%'] }
+    templating:
+        engines: ['twig']
     #csrf_protection: true
     #http_method_override: true
 
