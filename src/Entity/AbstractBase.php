@@ -9,8 +9,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Abstract entities base class.
  *
  * @category Entity
- *
- * @Gedmo\SoftDeleteable(fieldName="removedAt", timeAware=false)
  */
 abstract class AbstractBase
 {
@@ -38,13 +36,6 @@ abstract class AbstractBase
      * @Gedmo\Timestampable(on="update")
      */
     protected $updatedAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $removedAt;
 
     /**
      * @var bool
@@ -119,56 +110,6 @@ abstract class AbstractBase
     public function getUpdatedAtString()
     {
         return $this->getUpdatedAt()->format('d/m/Y');
-    }
-
-    /**
-     * @param \DateTime $removedAt
-     *
-     * @return $this
-     */
-    public function setRemovedAt(\DateTime $removedAt)
-    {
-        $this->removedAt = $removedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getRemovedAt()
-    {
-        return $this->removedAt;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRemovedAtString()
-    {
-        return $this->getRemovedAt()->format('d/m/Y');
-    }
-
-    /**
-     * Remove (soft delete).
-     *
-     * @return $this
-     */
-    public function remove()
-    {
-        $this->setRemovedAt(new \DateTime());
-
-        return $this;
-    }
-
-    /**
-     * Is deleted?
-     *
-     * @return bool
-     */
-    public function isDeleted()
-    {
-        return null !== $this->removedAt;
     }
 
     /**
