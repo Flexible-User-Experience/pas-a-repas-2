@@ -2,17 +2,27 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\ClassGroup;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class ClassGroupRepository.
  *
  * @category Repository
  */
-class ClassGroupRepository extends EntityRepository
+class ClassGroupRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, ClassGroup::class);
+    }
+
     /**
      * @return QueryBuilder
      */

@@ -2,17 +2,27 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Person;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class PersonRepository.
  *
  * @category Repository
  */
-class PersonRepository extends EntityRepository
+class PersonRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Person::class);
+    }
+
     /**
      * @return QueryBuilder
      */

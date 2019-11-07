@@ -2,17 +2,27 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\City;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class CityRepository.
  *
  * @category Repository
  */
-class CityRepository extends EntityRepository
+class CityRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, City::class);
+    }
+
     /**
      * @return QueryBuilder
      */

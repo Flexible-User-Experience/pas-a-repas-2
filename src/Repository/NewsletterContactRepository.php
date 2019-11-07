@@ -2,13 +2,22 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\NewsletterContact;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class NewsletterContactRepository.
  *
  * @category Repository
  */
-class NewsletterContactRepository extends EntityRepository
+class NewsletterContactRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, NewsletterContact::class);
+    }
 }

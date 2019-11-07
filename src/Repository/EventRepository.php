@@ -2,18 +2,28 @@
 
 namespace App\Repository;
 
+use App\Entity\Event;
 use App\Entity\Student;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class EventRepository.
  *
  * @category Repository
  */
-class EventRepository extends EntityRepository
+class EventRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Event::class);
+    }
+
     /**
      * @param \DateTime $startDate
      * @param \DateTime $endDate

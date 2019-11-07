@@ -3,17 +3,27 @@
 namespace App\Repository;
 
 use App\Entity\Student;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\StudentAbsence;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class StudentAbsenceRepository.
  *
  * @category Repository
  */
-class StudentAbsenceRepository extends EntityRepository
+class StudentAbsenceRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, StudentAbsence::class);
+    }
+
     /**
      * @param Student $student
      *

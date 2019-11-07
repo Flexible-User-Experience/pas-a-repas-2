@@ -2,18 +2,28 @@
 
 namespace App\Repository;
 
+use App\Entity\Bank;
 use App\Entity\Student;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class BankRepository.
  *
  * @category Repository
  */
-class BankRepository extends EntityRepository
+class BankRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Bank::class);
+    }
+
     /**
      * @param Student|null $student
      *
