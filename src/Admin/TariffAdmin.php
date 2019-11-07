@@ -132,7 +132,6 @@ class TariffAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'year',
@@ -147,7 +146,7 @@ class TariffAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.tariff.type',
-                    'template' => '::Admin/Cells/list__cell_tariff_type.html.twig',
+                    'template' => 'admin/cells/list__cell_tariff_type.html.twig',
                 )
             )
             ->add(
@@ -171,7 +170,7 @@ class TariffAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => '::Admin/Buttons/list__action_edit_button.html.twig'),
+                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
