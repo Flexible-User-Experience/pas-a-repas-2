@@ -1,17 +1,25 @@
 sonata_admin:
-    title: 'Sonata Admin'
+    title: 'Pas a Repàs'
+#    title_logo: 'build/vag_logo.png   /bundles/app/images/backend-favicon.png'
+    show_mosaic_button: false
     security:
         handler: sonata.admin.security.handler.role
+    options:
+        html5_validate: true
+        confirm_exit:   true
+        use_select2:    true
+        pager_links:    10
+    persist_filters: true
     dashboard:
         groups:
             Web:
-                icon: "<i class='fa fa-chrome'></i>"
+                icon: '<i class="fa fa-chrome"></i>'
             Facturació:
-                icon: "<i class='fa fa-file-text'></i>"
+                icon: '<i class="fa fa-file-text"></i>'
             Despesa:
-                icon: "<i class='fa fa-eur'></i>"
+                icon: '<i class="fa fa-eur"></i>'
             Administrador:
-                icon: "<i class='fa fa-cog'></i>"
+                icon: '<i class="fa fa-cog"></i>'
         blocks:
 #            -
 #                position: top
@@ -26,25 +34,25 @@ sonata_admin:
                 type: sonata.admin.block.admin_list
                 class: col-md-6
                 settings:
-                    groups: [ Web ]
-            -
-                position: top
-                type: sonata.admin.block.admin_list
-                class: col-md-6
-                settings:
-                    groups: [ Facturació ]
+                    groups: [ 'Web' ]
+#            -
+#                position: top
+#                type: sonata.admin.block.admin_list
+#                class: col-md-6
+#                settings:
+#                    groups: [ 'Facturació' ]
             -
                 position: left
                 type: sonata.admin.block.admin_list
                 class: col-md-6
                 settings:
-                    groups: [ Despesa ]
+                    groups: [ 'Despesa' ]
             -
                 position: right
                 type: sonata.admin.block.admin_list
                 class: col-md-6
                 settings:
-                    groups: [ Administrador ]
+                    groups: [ 'Administrador' ]
             -
                 position: bottom
                 type: sonata.block.service.text
