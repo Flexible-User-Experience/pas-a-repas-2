@@ -15,9 +15,21 @@ class TeacherColorEnum
     const GREEN = 3;
 
     /**
+     * Methods
+     */
+
+    /**
      * @return array
      */
     public static function getEnumArray()
+    {
+        return array_flip(self::getOldEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldEnumArray()
     {
         return array(
             self::MAGENTA => 'color.magenta',

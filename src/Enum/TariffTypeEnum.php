@@ -23,9 +23,21 @@ class TariffTypeEnum
     const TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR = 5;
 
     /**
+     * Methods
+     */
+
+    /**
      * @return array
      */
     public static function getEnumArray()
+    {
+        return array_flip(self::getOldEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldEnumArray()
     {
         return array(
             self::TARIFF_ONE_HOUR_PER_WEEK => 'backend.admin.tariff.tariff_1',
@@ -47,6 +59,14 @@ class TariffTypeEnum
      * @return array
      */
     public static function getTranslatedEnumArray()
+    {
+        return array_flip(self::getOldTranslatedEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldTranslatedEnumArray()
     {
         return array(
             self::TARIFF_ONE_HOUR_PER_WEEK => '1h /setmana',

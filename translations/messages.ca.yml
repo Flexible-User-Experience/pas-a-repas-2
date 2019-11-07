@@ -492,6 +492,7 @@ backend:
       title: Notificacions
       text: missatges pendents de llegir
       notext: no tens cap missatge pendent de llegir
+
 month:
   january: gener
   febraury: febrer

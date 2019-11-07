@@ -16,9 +16,21 @@ class UserRolesEnum
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
     /**
+     * Methods
+     */
+
+    /**
      * @return array
      */
     public static function getEnumArray()
+    {
+        return array_flip(self::getOldEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldEnumArray()
     {
         return array(
             self::ROLE_USER => 'backend.admin.user.user',

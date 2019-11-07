@@ -16,9 +16,21 @@ class EventClassroomTypeEnum
     const CLASSROOM_5 = 4;
 
     /**
+     * Methods
+     */
+
+    /**
      * @return array
      */
     public static function getEnumArray()
+    {
+        return array_flip(self::getOldEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldEnumArray()
     {
         return array(
             self::CLASSROOM_1 => 'backend.admin.event.classroom_1',
@@ -34,6 +46,14 @@ class EventClassroomTypeEnum
      */
     public static function getTranslatedEnumArray()
     {
+        return array_flip(self::getOldTranslatedEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldTranslatedEnumArray()
+    {
         return array(
             self::CLASSROOM_1 => 'Aula 1',
             self::CLASSROOM_2 => 'Aula 2',
@@ -47,6 +67,14 @@ class EventClassroomTypeEnum
      * @return array
      */
     public static function getShortTranslatedEnumArray()
+    {
+        return array_flip(self::getOldShortTranslatedEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldShortTranslatedEnumArray()
     {
         return array(
             self::CLASSROOM_1 => '1',

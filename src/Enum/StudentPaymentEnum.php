@@ -14,9 +14,21 @@ class StudentPaymentEnum
     const BANK_TRANSFER = 2;
 
     /**
+     * Methods
+     */
+
+    /**
      * @return array
      */
     public static function getEnumArray()
+    {
+        return array_flip(self::getOldEnumArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldEnumArray()
     {
         return array(
             self::BANK_ACCOUNT_NUMBER => 'backend.admin.student.bank',
@@ -29,6 +41,14 @@ class StudentPaymentEnum
      * @return array
      */
     public static function getEnumTranslatedArray()
+    {
+        return array_flip(self::getOldEnumTranslatedArray());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOldEnumTranslatedArray()
     {
         return array(
             self::BANK_ACCOUNT_NUMBER => 'gir bancari',
