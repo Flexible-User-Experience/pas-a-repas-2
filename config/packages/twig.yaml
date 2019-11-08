@@ -2,3 +2,12 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+#        google_analytics_enabled: "%google_analytics_enabled%"
+#        google_analytics_account: "%google_analytics_account%"
+#        google_maps_api_key:      "%google_maps_api_key%"
+#        facebook_pixel_enabled:   "%facebook_pixel_enabled%"
+#        facebook_pixel_id:        "%facebook_pixel_id%"
+        main_brand_title:         "Pas a Repàs"
+        main_webpage:             "%mailer_base_url%"
+        admin_tag_version:        "v0.0.01"

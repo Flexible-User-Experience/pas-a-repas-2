@@ -1,30 +1,35 @@
 
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
 
-###> symfony/phpunit-bridge ###
-.phpunit
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
+{# removes top search bar #}
+{% block sonata_sidebar_search %}{% endblock %}
 
-###> symfony/web-server-bundle ###
-/.web-server-pid
-###< symfony/web-server-bundle ###
+{# custom logo #}
+{% block logo %}
+    {% spaceless %}
+        <a class="logo" href="{{ path('sonata_admin_dashboard') }}" style="background-color:#2c3b41;border-right:none">
+            <img style="padding-bottom:1px;max-width:90px" src="{{ asset('build/vag_green.svg') }}" alt="VAG logo">
+        </a>
+    {% endspaceless %}
+{% endblock %}
 
-###> liip/imagine-bundle ###
-/public/media/cache/
-###< liip/imagine-bundle ###
+{# custom sidebar footer #}
+{% block side_bar_after_nav %}
+    <div class="btn-group" role="group" aria-label="languages selector" style="margin:50px 0 10px 20px">
+        <a href="{{ path('sonata_admin_dashboard', {_locale: 'ca'}) }}" class="btn btn-primary btn-xs{% if app.request.locale == 'ca' %} active{% endif %}">català</a>
+        <a href="{{ path('sonata_admin_dashboard', {_locale: 'es'}) }}" class="btn btn-primary btn-xs{% if app.request.locale == 'es' %} active{% endif %}">español</a>
+        <a href="{{ path('sonata_admin_dashboard', {_locale: 'en'}) }}" class="btn btn-primary btn-xs{% if app.request.locale == 'en' %} active{% endif %}">english</a>
+    </div>
+    <p class="text-left small" style="padding-left:20px;color:#EEE;">{{ admin_tag_version }}<br><i class="fa fa-code"></i> Desenvolupat per <a href="https://www.flux.cat" target="_blank">Flux</a><br><i class="fa fa-copyright"></i> {{ 'now' | date('Y') }} <a href="{{ path('front_homepage') }}" target="_blank">{{ main_brand_title }}</a></p>
+{% endblock %}
 
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
+{# custom top menu #}
+{% block sonata_top_nav_menu %}
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav navbar-right">
+            {{ show_unread_messages() | raw }}
+            <li><a href="{{ path('front_homepage') }}"><i class="fa fa-globe"></i></a></li>
+            <li><a>{{ app.user.username }}</a></li>
+            <li><a href="{{ path('sonata_user_admin_security_logout') }}"><i class="fa fa-power-off text-success"></i></a></li>
+        </ul>
+    </div>
+{% endblock %}

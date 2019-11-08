@@ -20,3 +20,6 @@ services:
     App\Menu\BackendInvoiceMenuBuilder:
         tags:
             - { name: knp_menu.menu_builder, method: createSideMenu, alias: backend_invoice_menu }
+    App\Menu\BackendTopNavMenuBuilder:
+        tags:
+            - { name: knp_menu.menu_builder, method: createTopNavMenu, alias: backend_top_nav_menu }

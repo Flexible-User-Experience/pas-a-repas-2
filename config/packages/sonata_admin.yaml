@@ -1,7 +1,8 @@
 sonata_admin:
-    title: 'Pas a Repàs'
-#    title_logo: 'build/vag_logo.png   /bundles/app/images/backend-favicon.png'
+    title:              'Pas a Repàs'
+    title_logo:         'build/backend-favicon.png'
     show_mosaic_button: false
+    persist_filters:    true
     security:
         handler: sonata.admin.security.handler.role
     options:
@@ -9,7 +10,12 @@ sonata_admin:
         confirm_exit:   true
         use_select2:    true
         pager_links:    10
-    persist_filters: true
+    templates:
+        layout:    'admin/layout.html.twig'
+        dashboard: 'admin/dashboard.html.twig'
+        list:      'admin/list.html.twig'
+        edit:      'admin/edit.html.twig'
+        show:      'admin/show.html.twig'
     dashboard:
         groups:
             Alumnes:
