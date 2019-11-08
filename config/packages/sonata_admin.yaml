@@ -12,14 +12,25 @@ sonata_admin:
     persist_filters: true
     dashboard:
         groups:
-            Web:
-                icon: '<i class="fa fa-chrome"></i>'
+            Alumnes:
+                icon: "<i class='fa fa-graduation-cap'></i>"
+            Professors:
+                icon: "<i class='fa fa-user'></i>"
+            Aules:
+                icon: "<i class='fa fa-window-maximize'></i>"
             Facturació:
-                icon: '<i class="fa fa-file-text"></i>'
-            Despesa:
-                icon: '<i class="fa fa-eur"></i>'
-            Administrador:
-                icon: '<i class="fa fa-cog"></i>'
+                icon:     "<i class='fa fa-eur'></i>"
+                provider: "backend_invoice_menu"
+                roles:    [ "ROLE_ADMIN" ]
+            Despeses:
+                icon:  "<i class='fa fa-eur'></i>"
+                roles: [ "ROLE_ADMIN" ]
+            Serveis:
+                icon: "<i class='fa fa-list-ul'></i>"
+            Contactes:
+                icon: "<i class='fa fa-envelope'></i>"
+            Configuració:
+                icon: "<i class='fa fa-cogs'></i>"
         blocks:
 #            -
 #                position: top
