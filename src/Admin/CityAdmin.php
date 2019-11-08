@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Entity\Province;
+use App\Repository\ProvinceRepository;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -66,7 +67,7 @@ class CityAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Province::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.province_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager')->getRepository(Province::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->add(

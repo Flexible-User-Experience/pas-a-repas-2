@@ -54,20 +54,6 @@ class BackendTopNavMenuBuilder
     {
         $menu = $this->factory->createItem('topnav');
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
-//        $menu
-//            ->addChild(
-//                'homepage',
-//                array(
-//                    'label' => '<i class="fa fa-globe"></i>',
-//                    'route' => 'app_homepage',
-//                )
-//            )
-//            ->setExtras(
-//                array(
-//                    'safe_label' => true,
-//                )
-//            )
-//        ;
         if ($this->cmr->getNotReadMessagesAmount() > 0) {
             $menu
                 ->addChild(
