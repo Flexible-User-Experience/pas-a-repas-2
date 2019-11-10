@@ -11,6 +11,9 @@
     "composer/ca-bundle": {
         "version": "1.2.4"
     },
+    "digitick/sepa-xml": {
+        "version": "1.6.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

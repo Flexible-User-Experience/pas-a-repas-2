@@ -2,12 +2,12 @@
 
 namespace App\Admin;
 
-use Fenrizbes\ColorPickerTypeBundle\Form\Type\ColorPickerType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 
 /**
  * Class ClassGroupAdmin.
@@ -69,7 +69,7 @@ class ClassGroupAdmin extends AbstractBaseAdmin
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'color',
-                ColorPickerType::class,
+                ColorType::class,
                 array(
                     'label' => 'backend.admin.teacher.color',
                     'required' => true,
@@ -223,7 +223,7 @@ class ClassGroupAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'code',
