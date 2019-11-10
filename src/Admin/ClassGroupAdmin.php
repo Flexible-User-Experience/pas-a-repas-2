@@ -73,20 +73,6 @@ class ClassGroupAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'backend.admin.teacher.color',
                     'required' => true,
-                    'picker_options' => array(
-                        'color' => false,
-                        'mode' => 'hsl',
-                        'hide' => false,
-                        'border' => true,
-                        'target' => false,
-                        'width' => 200,
-                        'palettes' => true,
-                        'controls' => array(
-                            'horiz' => 's',
-                            'vert' => 'l',
-                            'strip' => 'h',
-                        ),
-                    ),
                 )
             )
             ->add(
@@ -157,7 +143,6 @@ class ClassGroupAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'code',
