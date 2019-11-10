@@ -203,7 +203,7 @@ class UserAdmin extends ParentUserAdmin
                 array(
                     'label' => 'backend.admin.actions',
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+//                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
                         'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
                     ),
                 )
