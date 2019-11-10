@@ -32,4 +32,5 @@ return [
     Sonata\UserBundle\SonataUserBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
+    SaadTazi\GChartBundle\SaadTaziGChartBundle::class => ['all' => true],
 ];
