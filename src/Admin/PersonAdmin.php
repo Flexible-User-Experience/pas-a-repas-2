@@ -34,7 +34,7 @@ class PersonAdmin extends AbstractBaseAdmin
      * @var array
      */
     protected $formOptions = array(
-        'cascade_validation' => true,
+        'error_bubbling' => true,
     );
 
     /**
@@ -102,7 +102,7 @@ class PersonAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => City::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager')->getRepository(City::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->end()

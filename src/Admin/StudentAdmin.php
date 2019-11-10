@@ -37,7 +37,7 @@ class StudentAdmin extends AbstractBaseAdmin
      * @var array
      */
     protected $formOptions = array(
-        'cascade_validation' => true,
+        'error_bubbling' => true,
     );
 
     /**
