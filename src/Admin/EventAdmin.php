@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\Student;
 use App\Entity\Teacher;
 use App\Enum\EventClassroomTypeEnum;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -115,7 +116,7 @@ class EventAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Teacher::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.teacher_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Teacher::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -125,7 +126,7 @@ class EventAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.event.group',
                     'required' => true,
                     'class' => ClassGroup::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.class_group_repository')->getEnabledSortedByCodeQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(ClassGroup::class)->getEnabledSortedByCodeQB(),
                 )
             )
             ->end()
@@ -139,7 +140,7 @@ class EventAdmin extends AbstractBaseAdmin
                     'multiple' => true,
                     'class' => Student::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getAllSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Student::class)->getAllSortedBySurnameQB(),
                 )
             )
             ->end()
@@ -314,7 +315,7 @@ class EventAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'beginString',
@@ -337,6 +338,7 @@ class EventAdmin extends AbstractBaseAdmin
     public function postPersist($object)
     {
         if ($object->getDayFrequencyRepeat() && $object->getUntil()) {
+            /** @var EntityManager $em */
             $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
             $currentBegin = $object->getBegin();
             $currentEnd = $object->getEnd();
