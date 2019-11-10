@@ -12,4 +12,5 @@ twig:
         main_webpage:             "%mailer_base_url%"
         admin_tag_version:        "v0.0.02"
     form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
         - '@SonataCore/Form/datepicker.html.twig'

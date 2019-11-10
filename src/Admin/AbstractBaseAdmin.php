@@ -171,8 +171,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      */
     protected function getSmartHelper($attribute, $uploaderMapping)
     {
-        $fs = $this->getConfigurationPool()->getContainer()->get('app.file_service');
-        $tes = $this->getConfigurationPool()->getContainer()->get('templating');
+        $fs = $this->getConfigurationPool()->getContainer()->get('@App\Service\FileService');
+        $tes = $this->getConfigurationPool()->getContainer()->get('twig');
 
         if ($this->getSubject() && $this->getSubject()->$attribute()) {
             if ($fs->isPdf($this->getSubject(), $uploaderMapping)) {
