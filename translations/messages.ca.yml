@@ -1,25 +1,3 @@
-Contacte_list: Contactes
-Contacte_delete: Esborrar
-Categoria_list: Categories
-Categoria_delete: Esborrar
-Article_list: Articles
-Article_delete: Esborrar
-Alumne_list: Alumnes
-Alumne_delete: Esborrar
-Parte_list: Partes
-Parte_delete: Esborrar
-"Hora Particular_list": Hores particulars
-"Hora Particular_delete": Esborrar
-"Mes en grup_list": Mes en grup
-"Mes en grup_delete": Esborrar
-Rebut_list: Rebuts
-Rebut_delete: Esborrar
-Despesa_list: Despesa
-Despesa_delete: Esborrar
-"Categoria de Despesa_list": Categories de despesa
-"Categoria de Despesa_delete": Esborrar
-Usuari_list: Usuaris
-Usuari_delete: Esborrar
 frontend:
   layout:
     browser:
@@ -512,3 +490,71 @@ color:
   blue: blau
   yellow: groc
   green: verd
+
+Teacher List: Professors
+Teacher Create: Crear
+Absence List: Absències
+Absence Create: Crear
+Teacher Delete: Esborrar
+Student List: Alumnes
+Student Create: Crear
+Student Delete: Esborrar
+Grups List: Grups
+Grups Create: Crear
+Grups Delete: Esborrar
+Receipt List: Rebuts
+Receipt Create: Crear
+Receipt Generate: Generar rebuts mensual
+Receipt Delete: Esborrar
+Invoice List: Factures
+Invoice Create: Crear
+Invoice Generate: Generar facturació mensual
+Invoice Delete: Esborrar
+Tarriff List: Tarifes
+Tarriff Create: Crear
+Tarriff Delete: Esborrar
+Timetable List: Horaris
+Timetable Create: Crear
+Timetable Delete: Esborrar
+Person List: Pares
+Person Create: Crear
+Person Delete: Esborrar
+Service List: Serveis
+Service Create: Crear
+Service Delete: Esborrar
+Contact Message List: Missatges de contacte
+Contact Message Delete: Esborrar
+Newsletter Contact List: Butlletins de contacte
+Province List: Províncies
+Province Create: Crear
+Province Delete: Esborrar
+City List: Ciutats
+City Create: Crear
+City Delete: Esborrar
+User List: Usuaris
+User Create: Crear
+User Delete: Esborrar
+Provider List: Proveïdors
+Provider Create: Crear
+Provider Delete: Esborrar
+"Spending Category List": Tipus de Despeses
+"Spending Category Create": Crear
+"Spending Category Delete": Esborrar
+"Spending List": Despeses
+"Spending Create": Crear
+"Spending Delete": Esborrar
+
+IBAN: IBAN
+Client: Client
+Usuari: Usuari
+Alumne: Alumne
+Professor: Professor
+Grup: Grup
+Horari: Horari
+Servei: Servei
+Ciutat: Ciutat
+"Pare, mare o tutor": Pare, mare o tutor
+Absència: Absència
+"Missatge de contacte": Missatge de contacte
+"Butlletí de contacte": Butlletí de contacte
+Província: Província

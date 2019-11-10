@@ -97,13 +97,6 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Despesa", group: "Despeses" }
 
-    # Services
-    admin.service:
-        class: App\Admin\ServiceAdmin
-        arguments: [ ~, App\Entity\Service, ~, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Servei", group: "Serveis" }
-
     # Contacts
     admin.contactmessage:
         class: App\Admin\ContactMessageAdmin
