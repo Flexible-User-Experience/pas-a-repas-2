@@ -1,5 +1,5 @@
 sonata_admin:
-    title:              'Pas a Repàs'
+    title:              '%backoffice_title%'
     title_logo:         'build/backend-favicon.png'
     show_mosaic_button: false
     persist_filters:    true
@@ -38,47 +38,28 @@ sonata_admin:
             Configuració:
                 icon: "<i class='fa fa-cogs'></i>"
         blocks:
-#            -
-#                position: top
-#                type: admin.block.messages
-#                class: col-md-6
-#            -
-#                position: top
-#                type: admin.block.graphs
-#                class: col-md-6
             -
                 position: top
-                type: sonata.admin.block.admin_list
-                class: col-md-6
-                settings:
-                    groups: [ 'Web' ]
-#            -
-#                position: top
-#                type: sonata.admin.block.admin_list
-#                class: col-md-6
-#                settings:
-#                    groups: [ 'Facturació' ]
-            -
-                position: left
-                type: sonata.admin.block.admin_list
-                class: col-md-6
-                settings:
-                    groups: [ 'Despesa' ]
-            -
-                position: right
-                type: sonata.admin.block.admin_list
-                class: col-md-6
-                settings:
-                    groups: [ 'Administrador' ]
-            -
-                position: bottom
-                type: sonata.block.service.text
-                class: col-md-12
+                type:     sonata.block.service.text
+                class:    "col-xs-12"
+                roles:    [ "ROLE_CMS" ]
                 settings:
                     content: >
-                        <div><hr style="margin-top:40px;border-top:solid 1px #d2d6de"><p><i class="fa fa-info-circle"></i> Per rebre assistència tècnica envieu un missatge a <a href="mailto:suport@flux.cat?subject=Ajuda CMS v2" style="color:#000">suport@flux.cat</a></p></div>
+                        <h1 style="margin-top:0">%backoffice_title%</h1>
+            -
+                position: top
+                type:     app.block.event_calendar
+                class:    "col-xs-12"
+                roles:    [ "ROLE_MANAGER" ]
+            -
+                position: top
+                type:     app.block.charts
+                class:    "col-xs-12"
+                roles:    [ "ROLE_MANAGER" ]
 
 sonata_block:
     blocks:
-        sonata.admin.block.admin_list:
-            contexts: [admin]
+        sonata.admin.block.admin_list: ~
+        sonata.block.service.text:     ~
+        app.block.event_calendar:      ~
+        app.block.charts:              ~

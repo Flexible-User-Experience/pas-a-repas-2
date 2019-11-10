@@ -3,6 +3,7 @@ imports:
     - { resource: 'services/admin.yaml' }
 
 parameters:
+    backoffice_title: 'Pas a Repàs'
     mailer_base_url: '%env(MAILER_BASE_URL)%'
 
 services:
@@ -13,13 +14,28 @@ services:
             $mub: '%mailer_base_url%'
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude:  '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
     App\Controller\:
         resource: '../src/Controller'
-        tags: ['controller.service_arguments']
+        tags:     ['controller.service_arguments']
     App\Menu\BackendInvoiceMenuBuilder:
         tags:
             - { name: knp_menu.menu_builder, method: createSideMenu, alias: backend_invoice_menu }
     App\Menu\BackendTopNavMenuBuilder:
         tags:
             - { name: knp_menu.menu_builder, method: createTopNavMenu, alias: backend_top_nav_menu }
+    app.block.charts:
+        class: App\Block\ChartsBlock
+        arguments:
+            - 'charts_block'
+            - '@templating.engine.twig'
+            - '@App\Service\ChartsFactoryService'
+        tags:
+            - { name: sonata.block }
+    app.block.event_calendar:
+        class: App\Block\EventCalendarBlock
+        arguments:
+            - 'event_calendar_block'
+            - '@templating.engine.twig'
+        tags:
+            - { name: sonata.block }

@@ -8,7 +8,7 @@ twig:
 #        google_maps_api_key:      "%google_maps_api_key%"
 #        facebook_pixel_enabled:   "%facebook_pixel_enabled%"
 #        facebook_pixel_id:        "%facebook_pixel_id%"
-        main_brand_title:         "Pas a Repàs"
+        main_brand_title:         "%backoffice_title%"
         main_webpage:             "%mailer_base_url%"
         admin_tag_version:        "v0.0.02"
     form_themes:
