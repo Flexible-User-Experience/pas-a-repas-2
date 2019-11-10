@@ -11,7 +11,7 @@ use SaadTazi\GChartBundle\DataTable\DataCell;
 use SaadTazi\GChartBundle\DataTable\DataTable;
 use SaadTazi\GChartBundle\DataTable\DataColumn;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ChartsFactoryService.
@@ -100,7 +100,7 @@ class ChartsFactoryService
     private function buildResultsCellsRow($key, $sales, $expenses, $results)
     {
         return new DataRow(array(
-                new DataCell(ReceiptYearMonthEnum::getShortTranslatedMonthEnumArray()[intval($key->format('n'))].'. '.$key->format('y')),
+                new DataCell(ReceiptYearMonthEnum::getOldShortTranslatedMonthEnumArray()[intval($key->format('n'))].'. '.$key->format('y')),
                 new DataCell($sales, number_format($sales, 0, ',', '.').'€'),
                 new DataCell($expenses, number_format($sales, 0, ',', '.').'€'),
                 new DataCell($results, number_format($results, 0, ',', '.').'€'),
