@@ -10,7 +10,6 @@ use App\Repository\StudentRepository;
 use App\Repository\TeacherAbsenceRepository;
 use App\Service\EventTrasnformerFactoryService;
 use CalendarBundle\CalendarEvents;
-use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\RequestStack;

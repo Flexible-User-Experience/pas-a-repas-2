@@ -6,6 +6,8 @@ use App\Enum\ReceiptYearMonthEnum;
 use App\Repository\InvoiceRepository;
 use App\Repository\ReceiptRepository;
 use App\Repository\SpendingRepository;
+use DateTime;
+use Exception;
 use SaadTazi\GChartBundle\DataTable\DataRow;
 use SaadTazi\GChartBundle\DataTable\DataCell;
 use SaadTazi\GChartBundle\DataTable\DataTable;
@@ -64,7 +66,7 @@ class ChartsFactoryService
      * @return DataTable
      *
      * @throws \SaadTazi\GChartBundle\DataTable\Exception\InvalidColumnTypeException
-     * @throws \Exception
+     * @throws Exception
      */
     public function buildLastYearResultsChart()
     {
@@ -90,7 +92,7 @@ class ChartsFactoryService
     }
 
     /**
-     * @param \DateTime $key
+     * @param DateTime $key
      * @param float|int $sales
      * @param float|int $expenses
      * @param float|int $results

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Teacher;
 use App\Entity\TeacherAbsence;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
@@ -59,12 +60,12 @@ class TeacherAbsenceRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return QueryBuilder
      */
-    public function getFilteredByBeginAndEndQB(\DateTime $startDate, \DateTime $endDate)
+    public function getFilteredByBeginAndEndQB(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->createQueryBuilder('ta')
             ->where('ta.day BETWEEN :startDate AND :endDate')
@@ -73,23 +74,23 @@ class TeacherAbsenceRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return Query
      */
-    public function getFilteredByBeginAndEndQ(\DateTime $startDate, \DateTime $endDate)
+    public function getFilteredByBeginAndEndQ(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->getFilteredByBeginAndEndQB($startDate, $endDate)->getQuery();
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return array
      */
-    public function getFilteredByBeginAndEnd(\DateTime $startDate, \DateTime $endDate)
+    public function getFilteredByBeginAndEnd(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->getFilteredByBeginAndEndQ($startDate, $endDate)->getResult();
     }

@@ -5,8 +5,10 @@ namespace App\Repository;
 use App\Entity\Invoice;
 use App\Entity\Receipt;
 use App\Entity\Student;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -68,7 +70,7 @@ class ReceiptRepository extends ServiceEntityRepository
      *
      * @return Invoice|null
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOnePreviousReceiptByStudentYearAndMonthOrNull(Student $student, $year, $month)
     {
@@ -117,7 +119,7 @@ class ReceiptRepository extends ServiceEntityRepository
      *
      * @return Invoice|null
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOnePreviousReceiptByStudentIdYearAndMonthOrNull($studentId, $year, $month)
     {
@@ -161,7 +163,7 @@ class ReceiptRepository extends ServiceEntityRepository
      *
      * @return Invoice|null
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOnePreviousGroupLessonsReceiptByStudentYearAndMonthOrNull(Student $student, $year, $month)
     {
@@ -205,7 +207,7 @@ class ReceiptRepository extends ServiceEntityRepository
      *
      * @return Invoice|null
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOnePreviousGroupLessonsReceiptByStudentIdYearAndMonthOrNull($studentId, $year, $month)
     {
@@ -249,7 +251,7 @@ class ReceiptRepository extends ServiceEntityRepository
      *
      * @return Invoice|null
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOnePreviousPrivateLessonsReceiptByStudentYearAndMonthOrNull(Student $student, $year, $month)
     {
@@ -293,7 +295,7 @@ class ReceiptRepository extends ServiceEntityRepository
      *
      * @return Invoice|null
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOnePreviousPrivateLessonsReceiptByStudentIdYearAndMonthOrNull($studentId, $year, $month)
     {
@@ -366,13 +368,13 @@ class ReceiptRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $date
+     * @param DateTimeInterface $date
      *
      * @return int
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
-    public function getMonthlyIncomingsAmountForDate(\DateTime $date)
+    public function getMonthlyIncomingsAmountForDate(DateTimeInterface $date)
     {
         $begin = clone $date;
         $end = clone $date;
