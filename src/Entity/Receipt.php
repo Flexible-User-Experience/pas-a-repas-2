@@ -90,6 +90,8 @@ class Receipt extends AbstractReceiptInvoice
 
     /**
      * @return string
+     *
+     * @throws \Exception
      */
     public function getReceiptNumber()
     {
@@ -103,6 +105,8 @@ class Receipt extends AbstractReceiptInvoice
 
     /**
      * @return string
+     *
+     * @throws \Exception
      */
     public function getSluggedReceiptNumber()
     {
@@ -116,6 +120,8 @@ class Receipt extends AbstractReceiptInvoice
 
     /**
      * @return string
+     *
+     * @throws \Exception
      */
     public function getUnderscoredReceiptNumber()
     {
@@ -143,6 +149,8 @@ class Receipt extends AbstractReceiptInvoice
 
     /**
      * @return string
+     *
+     * @throws \Exception
      */
     public function __toString()
     {
