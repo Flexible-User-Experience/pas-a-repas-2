@@ -732,6 +732,9 @@
             "config/routes/calendar.yaml"
         ]
     },
+    "tecnickcom/tcpdf": {
+        "version": "6.3.2"
+    },
     "theofidry/alice-data-fixtures": {
         "version": "1.0",
         "recipe": {
