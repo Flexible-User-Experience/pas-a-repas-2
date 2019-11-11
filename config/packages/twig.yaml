@@ -5,7 +5,7 @@ twig:
     globals:
         main_brand_title:         "%backoffice_title%"
         main_webpage:             "%mailer_base_url%"
-        admin_tag_version:        "v1.0.01"
+        admin_tag_version:        "v1.0.02"
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
         - '@SonataCore/Form/datepicker.html.twig'
