@@ -37,6 +37,9 @@ services:
     app.notification:
         class: App\Service\NotificationService
         public: true
+    app.event_manager:
+        class: App\Manager\EventManager
+        public: true
 #    app.student_image_rights_pdf_builder:
 #        class: App\Pdf\StudentImageRightsBuilderPdf
 #        public: true
