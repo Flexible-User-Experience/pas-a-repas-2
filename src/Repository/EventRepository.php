@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use App\Entity\Student;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
@@ -25,12 +26,12 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return QueryBuilder
      */
-    public function getFilteredByBeginAndEndQB(\DateTime $startDate, \DateTime $endDate)
+    public function getFilteredByBeginAndEndQB(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->createQueryBuilder('e')
             ->where('e.begin BETWEEN :startDate AND :endDate')
@@ -39,34 +40,34 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return Query
      */
-    public function getFilteredByBeginAndEndQ(\DateTime $startDate, \DateTime $endDate)
+    public function getFilteredByBeginAndEndQ(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->getFilteredByBeginAndEndQB($startDate, $endDate)->getQuery();
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return array
      */
-    public function getFilteredByBeginAndEnd(\DateTime $startDate, \DateTime $endDate)
+    public function getFilteredByBeginAndEnd(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->getFilteredByBeginAndEndQ($startDate, $endDate)->getResult();
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return QueryBuilder
      */
-    public function getEnabledFilteredByBeginAndEndQB(\DateTime $startDate, \DateTime $endDate)
+    public function getEnabledFilteredByBeginAndEndQB(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->getFilteredByBeginAndEndQB($startDate, $endDate)
             ->andWhere('e.enabled = :enabled')
@@ -74,35 +75,35 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return Query
      */
-    public function getEnabledFilteredByBeginAndEndQ(\DateTime $startDate, \DateTime $endDate)
+    public function getEnabledFilteredByBeginAndEndQ(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->getEnabledFilteredByBeginAndEndQB($startDate, $endDate)->getQuery();
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      *
      * @return array
      */
-    public function getEnabledFilteredByBeginAndEnd(\DateTime $startDate, \DateTime $endDate)
+    public function getEnabledFilteredByBeginAndEnd(DateTimeInterface $startDate, DateTimeInterface $endDate)
     {
         return $this->getEnabledFilteredByBeginAndEndQ($startDate, $endDate)->getResult();
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      * @param Student   $student
      *
      * @return QueryBuilder
      */
-    public function getEnabledFilteredByBeginEndAndStudentQB(\DateTime $startDate, \DateTime $endDate, Student $student)
+    public function getEnabledFilteredByBeginEndAndStudentQB(DateTimeInterface $startDate, DateTimeInterface $endDate, Student $student)
     {
         return $this->getEnabledFilteredByBeginAndEndQB($startDate, $endDate)
             ->join('e.students', 's')
@@ -112,25 +113,25 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      * @param Student   $student
      *
      * @return Query
      */
-    public function getEnabledFilteredByBeginEndAndStudentQ(\DateTime $startDate, \DateTime $endDate, Student $student)
+    public function getEnabledFilteredByBeginEndAndStudentQ(DateTimeInterface $startDate, DateTimeInterface $endDate, Student $student)
     {
         return $this->getEnabledFilteredByBeginEndAndStudentQB($startDate, $endDate, $student)->getQuery();
     }
 
     /**
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
      * @param Student   $student
      *
      * @return array
      */
-    public function getEnabledFilteredByBeginEndAndStudent(\DateTime $startDate, \DateTime $endDate, Student $student)
+    public function getEnabledFilteredByBeginEndAndStudent(DateTimeInterface $startDate, DateTimeInterface $endDate, Student $student)
     {
         return $this->getEnabledFilteredByBeginEndAndStudentQ($startDate, $endDate, $student)->getResult();
     }

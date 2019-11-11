@@ -20,7 +20,8 @@ Encore
         {from: './node_modules/ckeditor/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './node_modules/ckeditor/lang', to: 'ckeditor/lang/[path][name].[ext]'},
         {from: './node_modules/ckeditor/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
-        {from: './node_modules/ckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]'}
+        {from: './node_modules/ckeditor/skins', to: 'ckeditor/skins/[path][name].[ext]'},
+        {from: './node_modules/google-charts/dist', to: 'google-charts/[path][name].[ext]'}
     ])
     // public path used by the web server to access the output path
     .setPublicPath('/build')
@@ -37,6 +38,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
+    .addEntry('calendar', './assets/js/calendar/index.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

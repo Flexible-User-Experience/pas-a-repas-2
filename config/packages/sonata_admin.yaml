@@ -19,43 +19,39 @@ sonata_admin:
     dashboard:
         groups:
             Alumnes:
-                icon: "<i class='fa fa-graduation-cap'></i>"
+                icon: '<i class="fa fa-graduation-cap"></i>'
             Professors:
-                icon: "<i class='fa fa-user'></i>"
+                icon: '<i class="fa fa-user"></i>'
             Aules:
-                icon: "<i class='fa fa-window-maximize'></i>"
+                icon: '<i class="fa fa-window-maximize"></i>'
             Facturació:
-                icon:     "<i class='fa fa-eur'></i>"
-                provider: "backend_invoice_menu"
-                roles:    [ "ROLE_ADMIN" ]
+                icon:     '<i class="fa fa-eur"></i>'
+                provider: 'backend_invoice_menu'
+                roles:    ['ROLE_ADMIN']
             Despeses:
-                icon:  "<i class='fa fa-eur'></i>"
-                roles: [ "ROLE_ADMIN" ]
-            Serveis:
-                icon: "<i class='fa fa-list-ul'></i>"
-            Contactes:
-                icon: "<i class='fa fa-envelope'></i>"
+                icon:  '<i class="fa fa-eur"></i>'
+                roles: ['ROLE_ADMIN']
             Configuració:
-                icon: "<i class='fa fa-cogs'></i>"
+                icon: '<i class="fa fa-cogs"></i>'
         blocks:
             -
                 position: top
                 type:     sonata.block.service.text
-                class:    "col-xs-12"
-                roles:    [ "ROLE_CMS" ]
+                class:    'col-xs-12'
+                roles:    ['ROLE_CMS']
                 settings:
                     content: >
                         <h1 style="margin-top:0">%backoffice_title%</h1>
             -
                 position: top
                 type:     app.block.event_calendar
-                class:    "col-xs-12"
-                roles:    [ "ROLE_MANAGER" ]
+                class:    'col-xs-12'
+                roles:    ['ROLE_MANAGER']
             -
                 position: top
                 type:     app.block.charts
-                class:    "col-xs-12"
-                roles:    [ "ROLE_MANAGER" ]
+                class:    'col-xs-12'
+                roles:    ['ROLE_MANAGER']
 
 sonata_block:
     blocks:

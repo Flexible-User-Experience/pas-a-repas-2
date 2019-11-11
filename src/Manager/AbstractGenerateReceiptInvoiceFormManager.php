@@ -7,7 +7,7 @@ use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Abstract class AbstractGenerateReceiptInvoiceFormManager.

@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Tariff;
 use App\Enum\TariffTypeEnum;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -75,14 +77,14 @@ class TariffRepository extends ServiceEntityRepository
     /**
      * @return Tariff
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findCurrentPrivateLessonTariff()
     {
         $result = $this->findCurrentPrivateLessonTariffQ()->getOneOrNullResult();
 
         if (is_null($result)) {
-            $today = new \DateTime();
+            $today = new DateTime();
             $result = new Tariff();
             $result
                 ->setName('default empty tariff')
@@ -119,7 +121,7 @@ class TariffRepository extends ServiceEntityRepository
     /**
      * @return Tariff
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findCurrentSharedPrivateLessonTariff()
     {
