@@ -286,7 +286,7 @@ abstract class AbstractPerson extends AbstractBase
      */
     public function getPaymentString()
     {
-        return StudentPaymentEnum::getEnumTranslatedArray()[$this->payment];
+        return StudentPaymentEnum::getOldEnumTranslatedArray()[$this->payment];
     }
 
     /**

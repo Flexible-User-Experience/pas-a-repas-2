@@ -34,7 +34,7 @@ class PersonAdmin extends AbstractBaseAdmin
      * @var array
      */
     protected $formOptions = array(
-        'cascade_validation' => true,
+        'error_bubbling' => true,
     );
 
     /**
@@ -102,7 +102,7 @@ class PersonAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => City::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(City::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->end()
@@ -236,7 +236,6 @@ class PersonAdmin extends AbstractBaseAdmin
                 ChoiceType::class,
                 array(
                     'choices' => StudentPaymentEnum::getEnumArray(),
-                    'choices_as_values' => false,
                     'expanded' => false,
                     'multiple' => false,
                 )
@@ -291,7 +290,6 @@ class PersonAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',
@@ -349,7 +347,7 @@ class PersonAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'dni',

@@ -3,13 +3,14 @@
 namespace App\Admin;
 
 use App\Enum\TeacherColorEnum;
-use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * Class TeacherAdmin.
@@ -48,7 +49,7 @@ class TeacherAdmin extends AbstractBaseAdmin
             ->with('backend.admin.image', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'imageFile',
-                'file',
+                FileType::class,
                 array(
                     'label' => 'backend.admin.image',
                     'help' => $this->getImageHelperFormMapperWithThumbnailAspectRatio(),
@@ -153,7 +154,6 @@ class TeacherAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'position',
@@ -222,7 +222,7 @@ class TeacherAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'name',

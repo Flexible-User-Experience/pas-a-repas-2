@@ -65,7 +65,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.spending.category',
                     'required' => false,
                     'class' => SpendingCategory::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.spending_category_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(SpendingCategory::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -75,7 +75,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.spending.provider',
                     'required' => false,
                     'class' => Provider::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.provider_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Provider::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -168,7 +168,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'expanded' => false,
                     'multiple' => false,
                     'class' => SpendingCategory::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.spending_category_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(SpendingCategory::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -182,7 +182,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'expanded' => false,
                     'multiple' => false,
                     'class' => Provider::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.provider_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Provider::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -241,7 +241,6 @@ class SpendingAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'date',
@@ -320,7 +319,7 @@ class SpendingAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'dateString',

@@ -72,7 +72,7 @@ class TeacherAbsenceAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Teacher::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.teacher_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Teacher::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->end()
@@ -127,7 +127,6 @@ class TeacherAbsenceAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'image',
@@ -182,7 +181,7 @@ class TeacherAbsenceAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'dayString',

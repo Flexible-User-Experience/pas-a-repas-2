@@ -2,3 +2,10 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        main_brand_title:         "%backoffice_title%"
+        main_webpage:             "%mailer_base_url%"
+        admin_tag_version:        "v1.0.01"
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+        - '@SonataCore/Form/datepicker.html.twig'

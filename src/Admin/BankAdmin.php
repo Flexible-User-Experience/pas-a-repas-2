@@ -22,6 +22,13 @@ class BankAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * @var array
+     */
+    protected $formOptions = array(
+        'error_bubbling' => true,
+    );
+
+    /**
      * Configure route collection.
      *
      * @param RouteCollection $collection
@@ -101,7 +108,6 @@ class BankAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',

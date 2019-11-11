@@ -66,7 +66,7 @@ class CityAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Province::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.province_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Province::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -123,7 +123,6 @@ class CityAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'postalCode',

@@ -193,7 +193,7 @@ class Event extends AbstractBase
      */
     public function getClassroomString()
     {
-        return EventClassroomTypeEnum::getTranslatedEnumArray()[$this->classroom];
+        return EventClassroomTypeEnum::getOldTranslatedEnumArray()[$this->classroom];
     }
 
     /**
@@ -201,7 +201,7 @@ class Event extends AbstractBase
      */
     public function getShortClassroomString()
     {
-        return EventClassroomTypeEnum::getShortTranslatedEnumArray()[$this->classroom];
+        return EventClassroomTypeEnum::getOldShortTranslatedEnumArray()[$this->classroom];
     }
 
     /**

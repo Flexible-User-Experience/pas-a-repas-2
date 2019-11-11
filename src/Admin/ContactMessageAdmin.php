@@ -173,7 +173,6 @@ class ContactMessageAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'checked',
@@ -234,7 +233,7 @@ class ContactMessageAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'checked',

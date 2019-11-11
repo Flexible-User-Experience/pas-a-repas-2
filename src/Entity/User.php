@@ -29,12 +29,18 @@ class User extends BaseUser
      */
 
     /**
-     * Get id.
-     *
      * @return int $id
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->getUsername();
     }
 }

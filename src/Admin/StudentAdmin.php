@@ -37,7 +37,7 @@ class StudentAdmin extends AbstractBaseAdmin
      * @var array
      */
     protected $formOptions = array(
-        'cascade_validation' => true,
+        'error_bubbling' => true,
     );
 
     /**
@@ -84,7 +84,7 @@ class StudentAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'class' => Person::class,
                     'choice_label' => 'fullcanonicalname',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.parent_repository')->getEnabledSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Person::class)->getEnabledSortedBySurnameQB(),
                 )
             )
             ->add(
@@ -132,7 +132,7 @@ class StudentAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => City::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(City::class)->getEnabledSortedByNameQB(),
                 )
             )
             ->end()
@@ -200,7 +200,7 @@ class StudentAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.student.tariff',
                     'required' => true,
                     'class' => Tariff::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.tariff_repository')->findAllSortedByYearAndPriceQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Tariff::class)->findAllSortedByYearAndPriceQB(),
                 )
             )
             ->add(
@@ -330,7 +330,6 @@ class StudentAdmin extends AbstractBaseAdmin
                 ChoiceType::class,
                 array(
                     'choices' => StudentPaymentEnum::getEnumArray(),
-                    'choices_as_values' => false,
                     'expanded' => false,
                     'multiple' => false,
                 )
@@ -441,7 +440,6 @@ class StudentAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',
@@ -530,7 +528,7 @@ class StudentAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'dni',

@@ -413,7 +413,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getMonthNameString()
     {
-        return InvoiceYearMonthEnum::getTranslatedMonthEnumArray()[$this->getMonth()];
+        return InvoiceYearMonthEnum::getOldTranslatedMonthEnumArray()[$this->getMonth()];
     }
 
     /**

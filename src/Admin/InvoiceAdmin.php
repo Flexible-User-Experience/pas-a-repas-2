@@ -126,7 +126,6 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.invoice.month',
                     'required' => true,
                     'choices' => InvoiceYearMonthEnum::getMonthEnumArray(),
-                    'choices_as_values' => false,
                 )
             )
             ->add(
@@ -137,7 +136,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Student::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getEnabledSortedBySurnameValidTariffQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Student::class)->getEnabledSortedBySurnameValidTariffQB(),
                 )
             )
             ->add(
@@ -148,7 +147,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'class' => Person::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.parent_repository')->getEnabledSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Person::class)->getEnabledSortedBySurnameQB(),
                     'disabled' => true,
                 )
             )
@@ -199,7 +198,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.invoice.receipt',
                     'required' => false,
                     'class' => Receipt::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.receipt_repository')->getAllSortedByNumberDescQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Receipt::class)->getAllSortedByNumberDescQB(),
                 )
             )
             ->add(
@@ -285,7 +284,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     array(
                         'label' => 'backend.admin.invoice.line',
                         'required' => true,
-                        'cascade_validation' => true,
+//                        'cascade_validation' => true,
                         'error_bubbling' => true,
                         'by_reference' => false,
                     ),
@@ -342,7 +341,6 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 ChoiceType::class,
                 array(
                     'choices' => InvoiceYearMonthEnum::getMonthEnumArray(),
-                    'choices_as_values' => false,
                     'expanded' => false,
                     'multiple' => false,
                 )
@@ -392,7 +390,6 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 ChoiceType::class,
                 array(
                     'choices' => StudentPaymentEnum::getEnumArray(),
-                    'choices_as_values' => false,
                     'expanded' => false,
                     'multiple' => false,
                 )
@@ -503,7 +500,6 @@ class InvoiceAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'id',
@@ -624,7 +620,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'invoiceNumber',

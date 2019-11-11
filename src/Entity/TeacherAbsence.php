@@ -75,7 +75,7 @@ class TeacherAbsence extends AbstractBase
      */
     public function getTypeString()
     {
-        return TeacherAbsenceTypeEnum::getEnumArray()[$this->type];
+        return TeacherAbsenceTypeEnum::getOldEnumArray()[$this->type];
     }
 
     /**
