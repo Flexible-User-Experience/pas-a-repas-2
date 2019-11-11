@@ -12,6 +12,8 @@ services:
         autoconfigure: true
         bind:
             $mub: '%mailer_base_url%'
+            $amd: '%mailer_base_url%'
+            $urlBase: '%mailer_base_url%'
     App\:
         resource: '../src/*'
         exclude:  '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
@@ -32,6 +34,9 @@ services:
             - '@App\Service\ChartsFactoryService'
         tags:
             - { name: sonata.block }
+    app.notification:
+        class: App\Service\NotificationService
+        public: true
 #    app.student_image_rights_pdf_builder:
 #        class: App\Pdf\StudentImageRightsBuilderPdf
 #        public: true
