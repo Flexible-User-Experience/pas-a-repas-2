@@ -65,12 +65,17 @@ security:
             logout:
                 path:   /admin/logout
                 target: /admin/login
+            guard:
+                provider: fos_userbundle
+                authenticators:
+                    - App\Security\FacebookAuthenticator
         main:
             anonymous: true
             pattern:   ^/(.*)
             context:   user
     access_control:
         # enabled private entry points
+        - { path: ^/admin/facebook$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_USER }
