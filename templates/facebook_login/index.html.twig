@@ -63,6 +63,14 @@
                 <h1 class="display-6 mb-5">Hello {{ controller_name }}! ✅</h1>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+                <div id="status">
+
+                </div>
+            </div>
+        </div>
     </div>
     {% block javascripts_bottom_body %}{% endblock %}
 {% endblock %}
