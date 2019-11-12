@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="author" content="www.flux.cat">
+    <title>{% block title %}Hello FacebookLoginController!{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+    {% block javascripts_head %}{{ encore_entry_script_tags('app') }}{% endblock %}
+</head>
+<body>
+{% block body %}
+    {% block javascripts_body %}
+        <script type="text/javascript">
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '{{ facebook_api_key }}',
+                    cookie     : true,
+                    xfbml      : true,
+                    version    : '5.0'
+                });
+                FB.AppEvents.logPageView();
+            };
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+    {% endblock %}
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="d-flex flex-grow-1">
+            <span class="w-100 d-lg-none d-block">{#<!-- hidden spacer to center brand on mobile -->#}</span>
+            <a class="navbar-brand" href="#">
+                <img class="navbar-logo" src="{{ asset('build/menu.png') }}" alt="Logo">
+            </a>
+            <div class="w-100 text-right">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top-navbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse flex-grow-1 text-right" id="top-navbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-6 text-white mb-5">Hello {{ controller_name }}! ✅</h1>
+            </div>
+        </div>
+    </div>
+    {% block javascripts_bottom_body %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                FB.getLoginStatus(function(response) {
+                    console.log('getLoginStatus');
+                    statusChangeCallback(response);
+                });
+            });
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback', response);
+            }
+        </script>
+    {% endblock %}
+{% endblock %}
+</body>

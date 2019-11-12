@@ -5,6 +5,7 @@ imports:
 parameters:
     backoffice_title: 'Pas a Repàs'
     mailer_base_url: '%env(MAILER_BASE_URL)%'
+    facebook_api_key: '%env(FACEBOOK_API_KEY)%'
 
 services:
     _defaults:
