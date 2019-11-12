@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <title>Hello FacebookLoginController!</title>
+</head>
+<body>
+{% block body %}
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '{{ facebook_api_key }}',
+                cookie     : true,
+                xfbml      : true,
+                version    : '5.0'
+            });
+            FB.AppEvents.logPageView();
+        };
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Hello {{ controller_name }}! ✅</h1>
+
+        This friendly message is coming from:
+        <ul>
+            <li>Your controller at <code><a href="{{ '/Users/david/Desenvolupament/Symfony/pas-a-repas-2/src/Controller/FacebookLoginController.php'|file_link(0) }}">src/Controller/FacebookLoginController.php</a></code></li>
+            <li>Your template at <code><a href="{{ '/Users/david/Desenvolupament/Symfony/pas-a-repas-2/templates/facebook_login/index.html.twig'|file_link(0) }}">templates/facebook_login/index.html.twig</a></code></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            FB.getLoginStatus(function(response) {
+                console.log('getLoginStatus');
+                statusChangeCallback(response);
+            });
+        });
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback', response);
+        }
+    </script>
+{% endblock %}
+</body>
