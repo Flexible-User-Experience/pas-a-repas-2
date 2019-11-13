@@ -2,14 +2,10 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\User;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Provider\FacebookUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -48,12 +44,9 @@ class FacebookLoginController extends AbstractController
      *
      * @Route("/connect/facebook/check", name="connect_facebook_check")
      *
-     * @param Request $request
-     * @param ClientRegistry $clientRegistry
-     *
-     * @return Response
+     * @return Response|RedirectResponse
      */
-    public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
+    public function connectCheckAction()
     {
         // ** if you want to *authenticate* the user, then
         // leave this method blank and create a Guard authenticator
@@ -86,6 +79,8 @@ class FacebookLoginController extends AbstractController
             ]);
         }
          * */
+
+        return $this->redirectToRoute('main_test_logins_homepage');
     }
 
     /**
