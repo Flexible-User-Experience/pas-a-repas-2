@@ -64,6 +64,22 @@ class LoginsTopNavMenuBuilder
             ;
             $item->setAttribute('class', 'nav-item');
             $item->setLinkAttribute('class', 'nav-link');
+            $item = $menu
+                ->addChild(
+                    'admin',
+                    array(
+                        'label' => '<i class="fa fa-cog text-warning"></i>',
+                        'route' => 'sonata_admin_dashboard',
+                    )
+                )
+                ->setExtras(
+                    array(
+                        'safe_label' => true,
+                    )
+                )
+            ;
+            $item->setAttribute('class', 'nav-item');
+            $item->setLinkAttribute('class', 'nav-link');
         }
         $item = $menu
             ->addChild(
