@@ -59,12 +59,12 @@ class FacebookLoginController extends AbstractController
         // leave this method blank and create a Guard authenticator
         // (read below)
 
-        /** @var FacebookClient $client */
+        /** @var FacebookClient $client *
         $client = $clientRegistry->getClient('facebook_main');
 
         try {
             // the exact class depends on which provider you're using
-            /** @var FacebookUser $user */
+            /** @var FacebookUser $user *
             $fbUser = $client->fetchUser();
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
                 'email' => $fbUser->getEmail(),
@@ -85,6 +85,7 @@ class FacebookLoginController extends AbstractController
                 'auth_error' => $e->getMessage(),
             ]);
         }
+         * */
     }
 
     /**
