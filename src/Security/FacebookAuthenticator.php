@@ -101,17 +101,11 @@ class FacebookAuthenticator extends SocialAuthenticator
             ]);
             if ($user) {
                 $user->setFacebookId($fbUser->getId());
+                $this->em->persist($user);
+                $this->em->flush();
             } else {
-                $user = new User();
-                $user
-                    ->setUsername(strtolower($fbUser->getLastName()).'_'.strtolower($fbUser->getFirstName()))
-                    ->setEmail($fbUser->getEmail())
-                    ->setPlainPassword('NO_PASSWORD')
-                    ->setFacebookId($fbUser->getId())
-                ;
+                return null;
             }
-            $this->em->persist($user);
-            $this->em->flush();
         }
 
         return $user;
