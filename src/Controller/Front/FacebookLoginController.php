@@ -11,13 +11,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class FacebookLoginController
+ *
+ * @Route("/test/logins")
  */
 class FacebookLoginController extends AbstractController
 {
     /**
      * Link to this controller to start the "connect" process
      *
-     * @Route("/admin/facebook/connect", name="connect_facebook_start")
+     * @Route("/facebook/connect", name="connect_facebook_start")
      *
      * @param ClientRegistry $clientRegistry
      *
@@ -36,7 +38,7 @@ class FacebookLoginController extends AbstractController
      * @param Request $request
      * @param ClientRegistry $clientRegistry
      *
-     * @Route("/admin/facebook/connect/check", name="connect_facebook_check")
+     * @Route("/facebook/connect/check", name="connect_facebook_check")
      *
      * @return RedirectResponse
      */
@@ -46,13 +48,13 @@ class FacebookLoginController extends AbstractController
     }
 
     /**
-     * @Route("/facebook/login", name="facebook_login")
+     * @Route("/facebook", name="facebook_login")
      *
      * @return Response
      */
     public function index()
     {
-        return $this->render('facebook_login/index.html.twig', [
+        return $this->render('logins/knp_facebook_login.html.twig', [
             'controller_name' => 'FacebookLoginController',
         ]);
     }
