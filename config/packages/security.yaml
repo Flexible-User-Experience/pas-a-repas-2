@@ -3,7 +3,7 @@ security:
         fos_userbundle:
             id: fos_user.user_provider.username_email
         oauth:
-            id: knpu.oauth2.client.facebook_main
+            id: knpu.oauth2.user_provider
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
     access_decision_manager:
@@ -71,28 +71,6 @@ security:
             anonymous: ~
             pattern:   ^/test(.*)
             context:   user
-#            oauth:
-#                resource_owners:
-#                    facebook: "/test/logins/check-facebook"
-#                login_path:        /test/logins/main
-#                check_path:        /test/logins/check-facebook
-#                use_forward:       false
-#                failure_path:      /test/logins/main
-#                oauth_user_provider:
-#                    service: hwi_oauth.user.provider
-
-#            form_login:
-#                provider:                       fos_userbundle
-#                login_path:                     /test/logins/facebook/connect
-#                use_forward:                    false
-#                check_path:                     /test/logins/facebook/connect/check
-#                failure_path:                   /test/logins/main
-#                default_target_path:            /test/logins/main
-#                always_use_default_target_path: true
-#                use_referer:                    true
-#            logout:
-#                path:   /test/logins/logout
-#                target: /test/logins/main
             guard:
                 provider: oauth
                 authenticators:
