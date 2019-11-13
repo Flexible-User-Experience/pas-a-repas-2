@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\User;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -50,6 +51,7 @@ class FacebookLoginController extends AbstractController
      * @param Request $request
      * @param ClientRegistry $clientRegistry
      *
+     * @return Response
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
     {
@@ -63,18 +65,25 @@ class FacebookLoginController extends AbstractController
         try {
             // the exact class depends on which provider you're using
             /** @var FacebookUser $user */
-            $user = $client->fetchUser();
-
-            // do something with all this new power!
-            // e.g. $name = $user->getFirstName();
-            var_dump($user);
-            die;
-            // ...
+            $fbUser = $client->fetchUser();
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+                'email' => $fbUser->getEmail(),
+            ]);
+            if ($user) {
+                return $this->render('logins/knp_facebook_login.html.twig', [
+                    'controller_name' => 'FacebookLoginController',
+                ]);
+            } else {
+                return $this->render('logins/main_test_login.html.twig', [
+                    'controller_name' => 'MainLoginController · connectCheckAction',
+                    'auth_error' => 'No user found with email '.$fbUser->getEmail(),
+                ]);
+            }
         } catch (IdentityProviderException $e) {
-            // something went wrong!
-            // probably you should return the reason to the user
-            var_dump($e->getMessage());
-            die;
+            return $this->render('logins/main_test_login.html.twig', [
+                'controller_name' => 'MainLoginController · connectCheckAction',
+                'auth_error' => $e->getMessage(),
+            ]);
         }
     }
 
@@ -101,6 +110,5 @@ class FacebookLoginController extends AbstractController
             'controller_name' => 'MainLoginController',
             'auth_error' => 'facebook_login_error',
         ]);
-
     }
 }
