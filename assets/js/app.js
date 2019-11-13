@@ -34,3 +34,12 @@ console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 //         statusChangeCallback(response);
 //     });
 // }
+
+
+
+/*.configureBabel(() => {}, {
+    useBuiltIns: 'usage',
+    corejs: 3
+})*/
+
+// .addEntry('calendar', './assets/js/calendar/index.js')

@@ -5,8 +5,11 @@
     <meta name="author" content="www.flux.cat">
     <title>{% block title %}Hello!{% endblock %}</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
-    {% block javascripts_head %}{{ encore_entry_script_tags('app') }}{% endblock %}
+    {% block stylesheets %}<link rel="stylesheet" href="{{ asset('build/app.css') }}">{% endblock %}
+    {% block javascripts_head %}
+        {{ encore_entry_script_tags('app') }}
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    {% endblock %}
 </head>
 <body>
     <div class="container mb-5">

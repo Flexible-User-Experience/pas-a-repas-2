@@ -15,3 +15,11 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts_body %}
+    <script>
+        jQuery(document).ready(function() {
+            console.log('templates/logins/main_test_login.html.twig on Ready trigger');
+        });
+    </script>
+{% endblock %}
