@@ -69,15 +69,15 @@ security:
             anonymous: ~
             pattern:   ^/test(.*)
             context:   user
-            oauth:
-                resource_owners:
-                    facebook: "/test/logins/check-facebook"
-                login_path:        /test/logins/main
-                check_path:        /test/logins/check-facebook
-                use_forward:       false
-                failure_path:      /test/logins/main
-                oauth_user_provider:
-                    service: hwi_oauth.user.provider
+#            oauth:
+#                resource_owners:
+#                    facebook: "/test/logins/check-facebook"
+#                login_path:        /test/logins/main
+#                check_path:        /test/logins/check-facebook
+#                use_forward:       false
+#                failure_path:      /test/logins/main
+#                oauth_user_provider:
+#                    service: hwi_oauth.user.provider
 
 #            form_login:
 #                provider:                       fos_userbundle
