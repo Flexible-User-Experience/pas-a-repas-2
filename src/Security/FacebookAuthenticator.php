@@ -88,26 +88,31 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        /** @var FacebookUser $facebookUser */
+        /** @var FacebookUser $fbUser */
         $fbUser = $this->getFacebookClient()->fetchUserFromToken($credentials);
         $user = $this->em->getRepository(User::class)->findOneBy([
-            'email' => $fbUser->getEmail(),
             'facebookId' => $fbUser->getId(),
         ]);
         if ($user) {
             return $user;
+        } else {
+            $user = $this->em->getRepository(User::class)->findOneBy([
+                'email' => $fbUser->getEmail(),
+            ]);
+            if ($user) {
+                $user->setFacebookId($fbUser->getId());
+            } else {
+                $user = new User();
+                $user
+                    ->setUsername(strtolower($fbUser->getLastName()).'_'.strtolower($fbUser->getFirstName()))
+                    ->setEmail($fbUser->getEmail())
+                    ->setPlainPassword('NO_PASSWORD')
+                    ->setFacebookId($fbUser->getId())
+                ;
+            }
+            $this->em->persist($user);
+            $this->em->flush();
         }
-
-        $user = new User();
-        $user
-            ->setUsername(strtolower($facebookUser->getLastName()).'_'.strtolower($facebookUser->getFirstName()))
-            ->setEmail($facebookUser->getEmail())
-            ->setPlainPassword('NO_PASSWORD')
-            ->setFacebookId($facebookUser->getId())
-        ;
-
-        $this->em->persist($user);
-        $this->em->flush();
 
         return $user;
     }
