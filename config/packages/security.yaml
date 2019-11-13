@@ -55,9 +55,9 @@ security:
             context:   user
             form_login:
                 provider:                       fos_userbundle
-                login_path:                     /admin/facebook/connect # login
+                login_path:                     /admin/login
                 use_forward:                    false
-                check_path:                     /admin/facebook/connect/check # login_check
+                check_path:                     /admin/login_check
                 failure_path:                   /admin/login
                 default_target_path:            /admin/dashboard
                 always_use_default_target_path: true
@@ -65,6 +65,22 @@ security:
             logout:
                 path:   /admin/logout
                 target: /admin/login
+        facebook:
+            anonymous: true
+            pattern:   ^/test(.*)
+            context:   user
+            form_login:
+                provider:                       fos_userbundle
+                login_path:                     /test/logins/facebook/connect
+                use_forward:                    false
+                check_path:                     /test/logins/facebook/connect/check
+                failure_path:                   /test/logins/main
+                default_target_path:            /test/logins/main
+                always_use_default_target_path: true
+                use_referer:                    true
+            logout:
+                path:   /test/logins/logout
+                target: /test/logins/main
             guard:
                 provider: fos_userbundle
                 authenticators:
@@ -75,9 +91,10 @@ security:
             context:   user
     access_control:
         # enabled private entry points
-        - { path: ^/admin/facebook$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/test/logins/main, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/test/, role: ROLE_USER }
         - { path: ^/admin/, role: ROLE_USER }
         # enabled public entry points
         - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -25,6 +25,13 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $facebookId;
+
+    /**
      * Methods.
      */
 
@@ -42,5 +49,25 @@ class User extends BaseUser
     public function getFullName()
     {
         return $this->getUsername();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId(): string
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string $facebookId
+     *
+     * @return $this
+     */
+    public function setFacebookId(string $facebookId): User
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
     }
 }

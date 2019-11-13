@@ -90,9 +90,11 @@ class FacebookAuthenticator extends SocialAuthenticator
 
         if ($existingUser) {
             // 1) have they logged in with Facebook before? Easy!
+            /** @var User $user */
             $user = $existingUser;
         } else {
             // 2) do we have a matching user by email?
+            /** @var User $user */
             $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
 
             if (!$user) {
