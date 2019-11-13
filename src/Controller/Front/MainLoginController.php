@@ -22,6 +22,7 @@ class MainLoginController extends AbstractController
     {
         return $this->render('logins/main_test_login.html.twig', [
             'controller_name' => 'MainLoginController',
+            'auth_error' => null,
         ]);
     }
 }

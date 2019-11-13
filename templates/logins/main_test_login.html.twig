@@ -13,6 +13,15 @@
                 <h1 class="display-6 mb-5">✅ {{ controller_name }}!</h1>
             </div>
         </div>
+        {% if auth_error is not null %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-primary" role="alert">
+                        <i class="fas fa-warning"></i> {{ auth_error}}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 

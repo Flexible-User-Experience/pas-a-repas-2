@@ -66,25 +66,35 @@ security:
                 path:   /admin/logout
                 target: /admin/login
         facebook:
-            anonymous: true
+            anonymous: ~
             pattern:   ^/test(.*)
             context:   user
-            form_login:
-                provider:                       fos_userbundle
-                login_path:                     /test/logins/facebook/connect
-                use_forward:                    false
-                check_path:                     /test/logins/facebook/connect/check
-                failure_path:                   /test/logins/main
-                default_target_path:            /test/logins/main
-                always_use_default_target_path: true
-                use_referer:                    true
-            logout:
-                path:   /test/logins/logout
-                target: /test/logins/main
-            guard:
-                provider: fos_userbundle
-                authenticators:
-                    - App\Security\FacebookAuthenticator
+            oauth:
+                resource_owners:
+                    facebook: "/test/logins/check-facebook"
+                login_path:        /test/logins/main
+                check_path:        /test/logins/check-facebook
+                use_forward:       false
+                failure_path:      /test/logins/main
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider
+
+#            form_login:
+#                provider:                       fos_userbundle
+#                login_path:                     /test/logins/facebook/connect
+#                use_forward:                    false
+#                check_path:                     /test/logins/facebook/connect/check
+#                failure_path:                   /test/logins/main
+#                default_target_path:            /test/logins/main
+#                always_use_default_target_path: true
+#                use_referer:                    true
+#            logout:
+#                path:   /test/logins/logout
+#                target: /test/logins/main
+#            guard:
+#                provider: fos_userbundle
+#                authenticators:
+#                    - App\Security\FacebookAuthenticator
         main:
             anonymous: true
             pattern:   ^/(.*)
@@ -93,9 +103,10 @@ security:
         # enabled private entry points
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/test/logins/main, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/test/logins/facebook, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/test/, role: ROLE_USER }
+#        - { path: ^/test/logins/main, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/test/logins/facebook$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/test/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_USER }
         # enabled public entry points
         - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
