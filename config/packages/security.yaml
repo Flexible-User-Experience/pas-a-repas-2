@@ -91,10 +91,10 @@ security:
 #            logout:
 #                path:   /test/logins/logout
 #                target: /test/logins/main
-#            guard:
-#                provider: fos_userbundle
-#                authenticators:
-#                    - App\Security\FacebookAuthenticator
+            guard:
+                provider: fos_userbundle
+                authenticators:
+                    - App\Security\FacebookAuthenticator
         main:
             anonymous: true
             pattern:   ^/(.*)

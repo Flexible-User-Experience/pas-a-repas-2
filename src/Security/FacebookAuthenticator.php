@@ -131,10 +131,10 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return new RedirectResponse($this->router->generate('main_test_logins_homepage'));
+//        return new RedirectResponse($this->router->generate('main_test_logins_homepage'));
 
         // or, on success, let the request continue to be handled by the controller
-        //return null;
+        return null;
     }
 
     /**
