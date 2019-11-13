@@ -2,6 +2,8 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username_email
+        oauth:
+            id: knpu.oauth2.client.facebook_main
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
     access_decision_manager:
@@ -92,7 +94,7 @@ security:
 #                path:   /test/logins/logout
 #                target: /test/logins/main
             guard:
-                provider: fos_userbundle
+                provider: oauth
                 authenticators:
                     - App\Security\FacebookAuthenticator
         main:
