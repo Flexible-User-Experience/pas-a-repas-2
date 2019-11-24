@@ -44,12 +44,15 @@ class EventTrasnformerFactoryService
     public function build(AppEvent $appEvent)
     {
         $eventFullCalendar = new EventFullCalendar($appEvent->getCalendarTitle(), $appEvent->getBegin());
-        $eventFullCalendar->setEndDate($appEvent->getEnd());
-        $eventFullCalendar->setBackgroundColor($appEvent->getGroup()->getColor());
-        $eventFullCalendar->setTextColor('#FFFFFF');
-        $eventFullCalendar->setColor($appEvent->getGroup()->getColor());
+        $eventFullCalendar->setEnd($appEvent->getEnd());
+        $eventFullCalendar->setOptions([
+            'eventColor' => $appEvent->getGroup()->getColor(),
+            'eventTextColor' => '#FFFFFF',
+            'eventBackgroundColor' => $appEvent->getGroup()->getColor(),
+//            'eventClick' => $appEvent->getGroup()->getColor(),
+        ]);
         $eventFullCalendar->setAllDay(false);
-        $eventFullCalendar->setUrl($this->router->generate('admin_app_event_edit', array('id' => $appEvent->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
+//        $eventFullCalendar->setUrl($this->router->generate('admin_app_event_edit', array('id' => $appEvent->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
 
         return $eventFullCalendar;
     }
@@ -64,12 +67,15 @@ class EventTrasnformerFactoryService
     public function buildTeacherAbsence(TeacherAbsence $teacherAbsence)
     {
         $eventFullCalendar = new EventFullCalendar($teacherAbsence->getCalendarTitle(), $teacherAbsence->getDay());
-        $eventFullCalendar->setEndDate($teacherAbsence->getDay());
-        $eventFullCalendar->setBackgroundColor('#FA141B');
-        $eventFullCalendar->setTextColor('#FFFFFF');
-        $eventFullCalendar->setColor('#FA141B');
+        $eventFullCalendar->setEnd($teacherAbsence->getDay());
+        $eventFullCalendar->setOptions([
+            'eventColor' => '#FA141B',
+            'eventTextColor' => '#FFFFFF',
+            'eventBackgroundColor' => '#FA141B',
+//            'eventClick' => $appEvent->getGroup()->getColor(),
+        ]);
         $eventFullCalendar->setAllDay(true);
-        $eventFullCalendar->setUrl($this->router->generate('admin_app_teacherabsence_edit', array('id' => $teacherAbsence->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
+//        $eventFullCalendar->setUrl($this->router->generate('admin_app_teacherabsence_edit', array('id' => $teacherAbsence->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
 
         return $eventFullCalendar;
     }
