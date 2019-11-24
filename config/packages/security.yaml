@@ -2,6 +2,8 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username_email
+        oauth:
+            id: knpu.oauth2.user_provider
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
     access_decision_manager:
@@ -65,6 +67,14 @@ security:
             logout:
                 path:   /admin/logout
                 target: /admin/login
+        facebook:
+            anonymous: ~
+            pattern:   ^/test(.*)
+            context:   user
+            guard:
+                provider: oauth
+                authenticators:
+                    - App\Security\FacebookAuthenticator
         main:
             anonymous: true
             pattern:   ^/(.*)
@@ -73,6 +83,10 @@ security:
         # enabled private entry points
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/test/logins/main, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/test/logins/facebook$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/test/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_USER }
         # enabled public entry points
         - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }

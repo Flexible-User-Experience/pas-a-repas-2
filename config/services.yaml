@@ -27,6 +27,9 @@ services:
     App\Menu\BackendTopNavMenuBuilder:
         tags:
             - { name: knp_menu.menu_builder, method: createTopNavMenu, alias: backend_top_nav_menu }
+    App\Menu\LoginsTopNavMenuBuilder:
+        tags:
+            - { name: knp_menu.menu_builder, method: createTopNavMenu, alias: logins_top_nav_menu }
     app.block.charts:
         class: App\Block\ChartsBlock
         arguments:
