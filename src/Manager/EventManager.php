@@ -182,6 +182,16 @@ class EventManager
     }
 
     /**
+     * @param Event $event
+     *
+     * @return array
+     */
+    public function getInclusiveRangeChoicesArrayFlip(Event $event)
+    {
+        return array_flip($this->getInclusiveRangeChoices($event));
+    }
+
+    /**
      * @param Event[]|array $events
      *
      * @return bool true if there is at least one event with only one student in class, false elsewhere because is a shared private class
