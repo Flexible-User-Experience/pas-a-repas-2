@@ -52,14 +52,6 @@ class TariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'name',
-                null,
-                array(
-                    'label' => 'backend.admin.tariff.name',
-                    'required' => false,
-                )
-            )
-            ->add(
                 'price',
                 null,
                 array(
@@ -111,13 +103,6 @@ class TariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'name',
-                null,
-                array(
-                    'label' => 'backend.admin.tariff.name',
-                )
-            )
-            ->add(
                 'price',
                 null,
                 array(
@@ -150,14 +135,6 @@ class TariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'name',
-                null,
-                array(
-                    'label' => 'backend.admin.tariff.name',
-                    'editable' => true,
-                )
-            )
-            ->add(
                 'price',
                 'decimal',
                 array(
@@ -185,7 +162,6 @@ class TariffAdmin extends AbstractBaseAdmin
     {
         return array(
             'year',
-            'name',
             'price',
             'typeString',
         );
