@@ -55,6 +55,7 @@ security:
             anonymous: true
             pattern:   ^/admin(.*)
             context:   user
+            provider:  fos_userbundle
             form_login:
                 provider:                       fos_userbundle
                 login_path:                     /admin/login
@@ -71,6 +72,7 @@ security:
             anonymous: ~
             pattern:   ^/test(.*)
             context:   user
+            provider:  oauth
             guard:
                 provider: oauth
                 authenticators:
@@ -79,6 +81,7 @@ security:
             anonymous: true
             pattern:   ^/(.*)
             context:   user
+            provider:  fos_userbundle
     access_control:
         # enabled private entry points
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
