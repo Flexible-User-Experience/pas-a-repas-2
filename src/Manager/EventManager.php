@@ -156,6 +156,16 @@ class EventManager
      *
      * @return array
      */
+    public function getRangeChoicesArrayFlip(Event $event)
+    {
+        return array_flip($this->getRangeChoices($event));
+    }
+
+    /**
+     * @param Event $event
+     *
+     * @return array
+     */
     public function getInclusiveRangeChoices(Event $event)
     {
         $result = array();
@@ -169,6 +179,16 @@ class EventManager
         }
 
         return $result;
+    }
+
+    /**
+     * @param Event $event
+     *
+     * @return array
+     */
+    public function getInclusiveRangeChoicesArrayFlip(Event $event)
+    {
+        return array_flip($this->getInclusiveRangeChoices($event));
     }
 
     /**
