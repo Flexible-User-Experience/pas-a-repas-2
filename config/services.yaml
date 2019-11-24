@@ -15,6 +15,7 @@ services:
             $mub: '%mailer_base_url%'
             $amd: '%mailer_base_url%'
             $urlBase: '%mailer_base_url%'
+            $krb: '%kernel.root_dir%'
     App\:
         resource: '../src/*'
         exclude:  '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
@@ -41,6 +42,12 @@ services:
     app.notification:
         class: App\Service\NotificationService
         public: true
+    app.file_service:
+        class: App\Service\FileService
+        public: true
+        arguments:
+            - '@vich_uploader.templating.helper.uploader_helper'
+            - '%kernel.root_dir%'
     app.event_manager:
         class: App\Manager\EventManager
         public: true
