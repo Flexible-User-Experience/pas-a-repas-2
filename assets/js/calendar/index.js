@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     var calendar = new Calendar(calendarEl, {
         defaultView: "dayGridMonth",
         editable: true,
+        locale: "ca",
+        firstDay: 1,
         eventSources: [
             {
                 url: eventsUrl,
