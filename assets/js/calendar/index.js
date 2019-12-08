@@ -47,10 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 color: "#FED3D7"
             }
         ],
-        eventClick: function(info) {
-            info.jsEvent.preventDefault();
-            console.log("Url", info.event.url);
-        },
         header: {
             left: "prev,next today",
             center: "title",
