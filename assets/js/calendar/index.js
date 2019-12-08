@@ -3,6 +3,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import bootstrapPlugin from "@fullcalendar/bootstrap";
+import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
@@ -19,9 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     var calendar = new Calendar(calendarEl, {
         themeSystem: "bootstrap",
         defaultView: "dayGridMonth",
+        nowIndicator: true,
         editable: true,
         locale: "ca",
         firstDay: 1,
+        googleCalendarApiKey: "AIzaSyB332MhD5g142kIo79ZagVcXUidQwHbWwk",
         buttonText: {
             today: "avui",
             month: "mes",
@@ -35,19 +38,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST",
                 extraParams: {
                     filters: JSON.stringify({})
-                },
-                failure: () => {
-                    // alert("There was an error while fetching FullCalendar!");
-                },
+                }
             },
+            {
+                googleCalendarId: "es.spain#holiday@group.v.calendar.google.com",
+                backgroundColor: "#FED3D7",
+                textColor: "#FF0000",
+                color: "#FED3D7"
+            }
         ],
         header: {
             left: "prev,next today",
             center: "title",
             right: "dayGridMonth,timeGridWeek,timeGridDay,",
         },
-        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, bootstrapPlugin], // https://fullcalendar.io/docs/plugin-index
-        timeZone: "UTC",
+        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, bootstrapPlugin, googleCalendarPlugin], // https://fullcalendar.io/docs/plugin-index
+        timeZone: "UTC"
     });
     calendar.render();
 });
