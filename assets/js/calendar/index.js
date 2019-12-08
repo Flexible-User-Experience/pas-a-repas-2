@@ -3,6 +3,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import bootstrapPlugin from "@fullcalendar/bootstrap";
+import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         editable: true,
         locale: "ca",
         firstDay: 1,
+        googleCalendarApiKey: "AIzaSyCZZYZV-LqX2qDtggiEo1GmeNhxe3SAhfI",
         buttonText: {
             today: "avui",
             month: "mes",
@@ -36,16 +38,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST",
                 extraParams: {
                     filters: JSON.stringify({})
-                },
-                failure: () => {
-                    // alert("There was an error while fetching FullCalendar!");
-                },
+                }
             },
+            {
+                googleCalendarId: "es.spain#holiday@group.v.calendar.google.com",
+                backgroundColor: "#FED3D7",
+                textColor: "#FF0000",
+                color: "#FED3D7"
+            }
         ],
         eventClick: function(info) {
             info.jsEvent.preventDefault();
-            console.log("Info", info);
-            console.log("Event", info.event);
             console.log("Url", info.event.url);
         },
         header: {
@@ -53,8 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
             center: "title",
             right: "dayGridMonth,timeGridWeek,timeGridDay,",
         },
-        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, bootstrapPlugin], // https://fullcalendar.io/docs/plugin-index
-        timeZone: "UTC",
+        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, bootstrapPlugin, googleCalendarPlugin], // https://fullcalendar.io/docs/plugin-index
+        timeZone: "UTC"
     });
     calendar.render();
 });
