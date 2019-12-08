@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         editable: true,
         locale: "ca",
         firstDay: 1,
-        googleCalendarApiKey: "AIzaSyCZZYZV-LqX2qDtggiEo1GmeNhxe3SAhfI",
+        googleCalendarApiKey: "AIzaSyB332MhD5g142kIo79ZagVcXUidQwHbWwk",
         buttonText: {
             today: "avui",
             month: "mes",
