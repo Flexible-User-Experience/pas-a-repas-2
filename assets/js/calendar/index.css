@@ -6,7 +6,8 @@
     margin: 0 auto;
 }
 
-.fc-toolbar h2,
-.fc th {
+.fc-toolbar h2, .fc th {
     font-weight: inherit;
 }
+
+.fc-sun { background-color: lightgoldenrodyellow; }

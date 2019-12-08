@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var calendar = new Calendar(calendarEl, {
         themeSystem: "bootstrap",
         defaultView: "dayGridMonth",
+        nowIndicator: true,
         editable: true,
         locale: "ca",
         firstDay: 1,
@@ -41,6 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
             },
         ],
+        eventClick: function(info) {
+            info.jsEvent.preventDefault();
+            console.log("Info", info);
+            console.log("Event", info.event);
+            console.log("Url", info.event.url);
+        },
         header: {
             left: "prev,next today",
             center: "title",
