@@ -43,7 +43,7 @@ class EventTrasnformerFactoryService
      */
     public function build(AppEvent $appEvent)
     {
-        $eventFullCalendar = new EventFullCalendar($appEvent->getCalendarTitle(), $appEvent->getBegin());
+        $eventFullCalendar = new EventFullCalendar($appEvent->getShortCalendarTitle(), $appEvent->getBegin());
         $eventFullCalendar->setEnd($appEvent->getEnd());
         $eventFullCalendar->setOptions([
             'textColor' => '#FFFFFF',

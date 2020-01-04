@@ -81,6 +81,20 @@ class Teacher extends AbstractBase
     }
 
     /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        $result = $this->getName();
+        $firstBlankPosition = strpos($result, ' ');
+        if ($firstBlankPosition > 0) {
+            $result = substr($result, 0, $firstBlankPosition);
+        }
+
+        return $result;
+    }
+
+    /**
      * @param string $name
      *
      * @return $this

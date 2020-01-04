@@ -427,6 +427,14 @@ class Event extends AbstractBase
     /**
      * @return string
      */
+    public function getShortCalendarTitle()
+    {
+        return $this->getGroup()->getCode().' '.$this->getTeacher()->getFirstName();
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->id ? $this->getBeginString().' · '.$this->getClassroomString().' · '.$this->getTeacher()->getName().' · '.$this->getGroup()->getCode() : '---';
