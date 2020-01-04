@@ -175,6 +175,7 @@ class StudentAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'backend.admin.student.birthDate',
                     'format' => 'd/M/y',
+                    'required' => false,
                 )
             )
             ->add(
