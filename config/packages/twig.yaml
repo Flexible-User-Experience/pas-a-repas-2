@@ -6,7 +6,7 @@ twig:
         main_brand_title:  '%backoffice_title%'
         main_webpage:      '%mailer_base_url%'
         facebook_api_key:  '%facebook_api_key%'
-        admin_tag_version: 'v1.0.05'
+        admin_tag_version: 'v1.0.06'
         default_locale:    '%locale%'
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
