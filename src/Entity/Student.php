@@ -22,7 +22,7 @@ class Student extends AbstractPerson
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $birthDate;
 

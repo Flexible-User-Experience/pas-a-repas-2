@@ -49,10 +49,9 @@ class EventTrasnformerFactoryService
             'eventColor' => $appEvent->getGroup()->getColor(),
             'eventTextColor' => '#FFFFFF',
             'eventBackgroundColor' => $appEvent->getGroup()->getColor(),
-//            'eventClick' => $appEvent->getGroup()->getColor(),
+            'url' => $this->router->generate('admin_app_event_edit', array('id' => $appEvent->getId()), UrlGeneratorInterface::ABSOLUTE_PATH),
         ]);
         $eventFullCalendar->setAllDay(false);
-//        $eventFullCalendar->setUrl($this->router->generate('admin_app_event_edit', array('id' => $appEvent->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
 
         return $eventFullCalendar;
     }
@@ -72,10 +71,9 @@ class EventTrasnformerFactoryService
             'eventColor' => '#FA141B',
             'eventTextColor' => '#FFFFFF',
             'eventBackgroundColor' => '#FA141B',
-//            'eventClick' => $appEvent->getGroup()->getColor(),
+            'url' => $this->router->generate('admin_app_teacherabsence_edit', array('id' => $teacherAbsence->getId()), UrlGeneratorInterface::ABSOLUTE_PATH),
         ]);
         $eventFullCalendar->setAllDay(true);
-//        $eventFullCalendar->setUrl($this->router->generate('admin_app_teacherabsence_edit', array('id' => $teacherAbsence->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
 
         return $eventFullCalendar;
     }

@@ -111,9 +111,6 @@
     "egulias/email-validator": {
         "version": "2.1.11"
     },
-    "fig/link-util": {
-        "version": "1.0.0"
-    },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.0",
         "recipe": {
@@ -243,6 +240,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
+    },
+    "php": {
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"

@@ -175,6 +175,7 @@ class StudentAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'backend.admin.student.birthDate',
                     'format' => 'd/M/y',
+                    'required' => false,
                 )
             )
             ->add(
@@ -184,13 +185,6 @@ class StudentAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.student.dischargeDate',
                     'format' => 'd/M/y',
                     'required' => false,
-                )
-            )
-            ->add(
-                'schedule',
-                null,
-                array(
-                    'label' => 'backend.admin.student.schedule',
                 )
             )
             ->add(
@@ -384,13 +378,6 @@ class StudentAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'schedule',
-                null,
-                array(
-                    'label' => 'backend.admin.student.schedule',
-                )
-            )
-            ->add(
                 'tariff',
                 null,
                 array(
@@ -546,7 +533,6 @@ class StudentAdmin extends AbstractBaseAdmin
             'bank.accountNumber',
             'birthDateString',
             'dischargeDateString',
-            'schedule',
             'tariff',
             'hasImageRightsAccepted',
             'hasSepaAgreementAccepted',
