@@ -46,9 +46,9 @@ class EventTrasnformerFactoryService
         $eventFullCalendar = new EventFullCalendar($appEvent->getCalendarTitle(), $appEvent->getBegin());
         $eventFullCalendar->setEnd($appEvent->getEnd());
         $eventFullCalendar->setOptions([
-            'eventColor' => $appEvent->getGroup()->getColor(),
-            'eventTextColor' => '#FFFFFF',
-            'eventBackgroundColor' => $appEvent->getGroup()->getColor(),
+            'textColor' => '#FFFFFF',
+            'borderColor' => $appEvent->getGroup()->getColor(),
+            'backgroundColor' => $appEvent->getGroup()->getColor(),
             'url' => $this->router->generate('admin_app_event_edit', array('id' => $appEvent->getId()), UrlGeneratorInterface::ABSOLUTE_PATH),
         ]);
         $eventFullCalendar->setAllDay(false);
@@ -68,9 +68,9 @@ class EventTrasnformerFactoryService
         $eventFullCalendar = new EventFullCalendar($teacherAbsence->getCalendarTitle(), $teacherAbsence->getDay());
         $eventFullCalendar->setEnd($teacherAbsence->getDay());
         $eventFullCalendar->setOptions([
-            'eventColor' => '#FA141B',
-            'eventTextColor' => '#FFFFFF',
-            'eventBackgroundColor' => '#FA141B',
+            'textColor' => '#FFFFFF',
+            'borderColor' => '#FA141B',
+            'backgroundColor' => '#FA141B',
             'url' => $this->router->generate('admin_app_teacherabsence_edit', array('id' => $teacherAbsence->getId()), UrlGeneratorInterface::ABSOLUTE_PATH),
         ]);
         $eventFullCalendar->setAllDay(true);
