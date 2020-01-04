@@ -187,13 +187,6 @@ class StudentAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'schedule',
-                null,
-                array(
-                    'label' => 'backend.admin.student.schedule',
-                )
-            )
-            ->add(
                 'tariff',
                 EntityType::class,
                 array(
@@ -384,13 +377,6 @@ class StudentAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'schedule',
-                null,
-                array(
-                    'label' => 'backend.admin.student.schedule',
-                )
-            )
-            ->add(
                 'tariff',
                 null,
                 array(
@@ -546,7 +532,6 @@ class StudentAdmin extends AbstractBaseAdmin
             'bank.accountNumber',
             'birthDateString',
             'dischargeDateString',
-            'schedule',
             'tariff',
             'hasImageRightsAccepted',
             'hasSepaAgreementAccepted',
