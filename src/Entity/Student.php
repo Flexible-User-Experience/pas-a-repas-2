@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,7 +21,7 @@ class Student extends AbstractPerson
     const DISCOUNT_PER_EXTRA_SON = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="date", nullable=true)
      */
@@ -110,7 +111,7 @@ class Student extends AbstractPerson
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getBirthDate()
     {
@@ -126,11 +127,11 @@ class Student extends AbstractPerson
     }
 
     /**
-     * @param \DateTime $birthDate
+     * @param DateTime $birthDate
      *
      * @return Student
      */
-    public function setBirthDate(\DateTime $birthDate)
+    public function setBirthDate(?DateTime $birthDate)
     {
         $this->birthDate = $birthDate;
 
@@ -144,7 +145,7 @@ class Student extends AbstractPerson
      */
     public function getYearsOld()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         $interval = $today->diff($this->birthDate);
 
         return $interval->y;
