@@ -49,7 +49,7 @@ services:
         arguments:
             - '@vich_uploader.templating.helper.uploader_helper'
             - '%kernel.root_dir%'
-    app.app.generate_receipt_form_manager:
+    app.generate_receipt_form_manager:
         class: App\Form\Type\GenerateReceiptType
         public: true
         arguments:
