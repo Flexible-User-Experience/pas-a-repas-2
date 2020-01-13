@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\DefaultController;
 use App\Entity\Invoice;
 use App\Entity\Receipt;
 use App\Enum\StudentPaymentEnum;
@@ -337,7 +336,7 @@ class ReceiptAdminController extends BaseAdminController
         $em = $this->container->get('doctrine')->getManager();
         $em->flush();
 
-        if (DefaultController::ENV_DEV == $this->getParameter('kernel.environment')) {
+        if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
             return new Response($xml, 200, array('Content-type' => 'application/xml'));
         }
 
@@ -418,7 +417,7 @@ class ReceiptAdminController extends BaseAdminController
             }
             $em->flush();
 
-            if (DefaultController::ENV_DEV == $this->getParameter('kernel.environment')) {
+            if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
                 return new Response($xmls, 200, array('Content-type' => 'application/xml'));
             }
 
