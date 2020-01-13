@@ -13,8 +13,8 @@ use App\Repository\InvoiceRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class GenerateInvoiceFormManager.
@@ -26,7 +26,7 @@ class GenerateInvoiceFormManager extends AbstractGenerateReceiptInvoiceFormManag
     /**
      * @var InvoiceRepository
      */
-    private $ir;
+    private InvoiceRepository $ir;
 
     /**
      * Methods.
@@ -155,6 +155,7 @@ class GenerateInvoiceFormManager extends AbstractGenerateReceiptInvoiceFormManag
      * @return int
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function persistFullModelForm(GenerateInvoiceModel $generateInvoiceModel)

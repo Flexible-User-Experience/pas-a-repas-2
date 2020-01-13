@@ -13,9 +13,9 @@ use App\Repository\ReceiptRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Process\Process;
 
 /**
@@ -28,12 +28,12 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
     /**
      * @var ReceiptRepository
      */
-    private $rr;
+    private ReceiptRepository $rr;
 
     /**
      * @var EventManager
      */
-    private $eem;
+    private EventManager $eem;
 
     /**
      * Methods.

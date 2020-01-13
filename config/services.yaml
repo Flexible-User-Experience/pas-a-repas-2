@@ -50,7 +50,7 @@ services:
             - '@vich_uploader.templating.helper.uploader_helper'
             - '%kernel.root_dir%'
     app.generate_receipt_form_manager:
-        class: App\Form\Type\GenerateReceiptType
+        class: App\Manager\GenerateReceiptFormManager
         public: true
         arguments:
             - '@router'
