@@ -11,7 +11,6 @@ use App\Repository\TeacherAbsenceRepository;
 use App\Service\EventTrasnformerFactoryService;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Event\CalendarEvent;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -26,32 +25,32 @@ class FullCalendarSubscriber implements EventSubscriberInterface
     /**
      * @var EventRepository
      */
-    private $ers;
+    private EventRepository $ers;
 
     /**
      * @var TeacherAbsenceRepository
      */
-    private $tars;
+    private TeacherAbsenceRepository $tars;
 
     /**
      * @var StudentRepository
      */
-    private $srs;
+    private StudentRepository $srs;
 
     /**
      * @var EventTrasnformerFactoryService
      */
-    private $etfs;
+    private EventTrasnformerFactoryService $etfs;
 
     /**
      * @var RequestStack
      */
-    private $rss;
+    private RequestStack $rss;
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
-    private $router;
+    private RouterInterface $router;
 
     /**
      * Methods.
