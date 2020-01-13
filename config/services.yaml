@@ -1,12 +1,20 @@
 # Imports
 imports:
     - { resource: 'services/admin.yaml' }
+    - { resource: 'services/repositories.yaml' }
 
 parameters:
     backoffice_title: 'Pas a Repàs'
     mailer_base_url: '%env(MAILER_BASE_URL)%'
+    mailer_destination: '%env(MAILER_DESTINATION)%'
     facebook_api_key: '%env(FACEBOOK_API_KEY)%'
     locale: '%env(DEFAULT_LOCALE)%'
+    boss_name: '%env(BOSS_NAME)%'
+    boss_dni: '%env(BOSS_DNI)%'
+    boss_address: '%env(BOSS_ADDRESS)%'
+    boss_city: '%env(BOSS_CITY)%'
+    iban_business: '%env(IBAN_BUSINESS)%'
+    bic_number: '%env(BIC_NUMBER))%'
 
 services:
     _defaults:
@@ -32,6 +40,14 @@ services:
     App\Menu\LoginsTopNavMenuBuilder:
         tags:
             - { name: knp_menu.menu_builder, method: createTopNavMenu, alias: logins_top_nav_menu }
+    # Template Blocks
+    app.block.event_calendar:
+        class: App\Block\EventCalendarBlock
+        arguments:
+            - 'event_calendar_block'
+            - '@templating.engine.twig'
+        tags:
+            - { name: sonata.block }
     app.block.charts:
         class: App\Block\ChartsBlock
         arguments:
@@ -40,30 +56,196 @@ services:
             - '@App\Service\ChartsFactoryService'
         tags:
             - { name: sonata.block }
+    # Messaging
+    app.courier:
+        class: App\Service\CourierService
+        arguments:
+            - '@swiftmailer.mailer'
     app.notification:
-        class: App\Service\NotificationService
         public: true
+        class: App\Service\NotificationService
+        arguments:
+            - '@app.courier'
+            - '@twig'
+            - '%mailer_destination%'
+            - '%mailer_base_url%'
+    # Factories
+    app.event_transformer_factory:
+        class: App\Service\EventTrasnformerFactoryService
+        arguments:
+            - '@router'
+    app.charts_factory_service:
+        class: App\Service\ChartsFactoryService
+        arguments:
+            - '@translator'
+            - '@app.receipt_repository'
+            - '@app.invoice_repository'
+            - '@app.spending_repository'
+    # Listeners
+    app.event_fullcalendar:
+        class: App\EventSubscriber\FullCalendarSubscriber
+        arguments:
+            - '@app.event_repository'
+            - '@app.teacher_absence_repository'
+            - '@app.student_repository'
+            - '@app.event_transformer_factory'
+            - '@request_stack'
+            - '@router'
+        tags:
+            - { name: 'kernel.event_listener', event: 'fullcalendar.set_data' }
+    # Twig Extensions
+    app.twig_extension:
+        class: App\Twig\AppExtension
+        public: false
+        arguments:
+            - '@app.smart_assets_helper'
+            - '@app.receipt_manager'
+            - '@translator'
+        tags:
+            - { name: twig.extension }
+    # Managers
+    app.smart_assets_helper:
+        class: App\Service\SmartAssetsHelperService
+        arguments:
+            - '@kernel'
+            - '%mailer_base_url%'
+    app.mailchimp_manager:
+        class: App\Manager\MailchimpManager
+        arguments:
+            - '@app.notification'
+            - '%mailchimp_api_key%'
+    app.receipt_manager:
+        class: App\Manager\ReceiptManager
+        arguments:
+            - '@app.invoice_repository'
+    app.event_manager:
+        public: true
+        class: App\Manager\EventManager
+        arguments:
+            - '@app.tariff_repository'
+    app.generate_receipt_form_manager:
+        public: true
+        class: App\Manager\GenerateReceiptFormManager
+        arguments:
+            - '@monolog.logger.email'
+            - '@kernel'
+            - '@doctrine.orm.entity_manager'
+            - '@translator.default'
+            - '@app.student_repository'
+            - '@app.event_repository'
+            - '@app.receipt_repository'
+            - '@app.event_manager'
+    app.generate_invoice_form_manager:
+        class: App\Manager\GenerateInvoiceFormManager
+        arguments:
+            - '@monolog.logger.email'
+            - '@kernel'
+            - '@doctrine.orm.entity_manager'
+            - '@translator.default'
+            - '@app.student_repository'
+            - '@app.event_repository'
+            - '@app.invoice_repository'
+    # PDF Builders
+    app.base_tcpdf:
+        class: App\Pdf\BaseTcpdf
+        arguments:
+            - '@app.smart_assets_helper'
+    app.student_image_rights_pdf_builder:
+        class: App\Pdf\StudentImageRightsBuilderPdf
+        arguments:
+            - '@white_october.tcpdf'
+            - '@app.smart_assets_helper'
+            - '@translator.default'
+            - '%backoffice_title%'
+    app.sepa_agreement_pdf_builder:
+        class: App\Pdf\SepaAgreementBuilderPdf
+        arguments:
+            - '@white_october.tcpdf'
+            - '@app.smart_assets_helper'
+            - '@translator.default'
+            - '%backoffice_title%'
+            - '%boss_name%'
+    app.receipt_reminder_pdf_builder:
+        class: App\Pdf\ReceiptReminderBuilderPdf
+        arguments:
+            - '@white_october.tcpdf'
+            - '@app.smart_assets_helper'
+            - '@translator.default'
+            - '%backoffice_title%'
+            - '%boss_name%'
+            - '%boss_dni%'
+            - '%boss_address%'
+            - '%boss_city%'
+            - '%iban_business%'
+            - '%locale%'
+    app.receipt_pdf_builder:
+        class: App\Pdf\ReceiptBuilderPdf
+        arguments:
+            - '@white_october.tcpdf'
+            - '@app.smart_assets_helper'
+            - '@translator.default'
+            - '%backoffice_title%'
+            - '%boss_name%'
+            - '%boss_dni%'
+            - '%boss_address%'
+            - '%boss_city%'
+            - '%iban_business%'
+            - '%locale%'
+    app.invoice_pdf_builder:
+        class: App\Pdf\InvoiceBuilderPdf
+        arguments:
+            - '@white_october.tcpdf'
+            - '@app.smart_assets_helper'
+            - '@translator.default'
+            - '%backoffice_title%'
+            - '%boss_name%'
+            - '%boss_dni%'
+            - '%boss_address%'
+            - '%boss_city%'
+            - '%iban_business%'
+            - '%locale%'
+    # SEPA
+    app.xml_sepa_builder:
+        class: App\Service\XmlSepaBuilderService
+        arguments:
+            - '@app.spanish_sepa_helper'
+            - '%boss_name%'
+            - '%boss_dni%'
+            - '%iban_business%'
+            - '%bic_number%'
+    app.spanish_sepa_helper:
+        class: App\Service\SpanishSepaHelperService
+    # File
     app.file_service:
         class: App\Service\FileService
-        public: true
         arguments:
             - '@vich_uploader.templating.helper.uploader_helper'
             - '%kernel.root_dir%'
-    app.generate_receipt_form_manager:
-        class: App\Manager\GenerateReceiptFormManager
-        public: true
+    # Forms
+    app.form.type.generate_receipt:
+        class: App\Form\Type\GenerateReceiptType
         arguments:
-            - '@router'
-    app.event_manager:
-        class: App\Manager\EventManager
-        public: true
-#    app.student_image_rights_pdf_builder:
-#        class: App\Pdf\StudentImageRightsBuilderPdf
-#        public: true
-    app.block.event_calendar:
-        class: App\Block\EventCalendarBlock
-        arguments:
-            - 'event_calendar_block'
-            - '@templating.engine.twig'
+            - '@router.default'
         tags:
-            - { name: sonata.block }
+            - { name: form.type }
+    app.form.type.generate_invoice:
+        class: App\Form\Type\GenerateInvoiceType
+        arguments:
+            - '@router.default'
+        tags:
+            - { name: form.type }
+    app.form.type.event:
+        class: App\Form\Type\EventType
+        arguments:
+            - '@app.teacher_repository'
+            - '@app.class_group_repository'
+            - '@app.student_repository'
+            - '@app.event_manager'
+        tags:
+            - { name: form.type }
+    app.form.type.event_batch_remove:
+        class: App\Form\Type\EventBatchRemoveType
+        arguments:
+            - '@app.event_manager'
+        tags:
+            - { name: form.type }
