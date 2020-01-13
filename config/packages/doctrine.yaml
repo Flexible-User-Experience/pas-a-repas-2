@@ -1,11 +1,7 @@
 doctrine:
     dbal:
-        # configure these for your database server
-        # use postgresql for PostgreSQL
-        # use sqlite for SQLite
         driver: 'mysql'
         server_version: '%env(resolve:DATABASE_SERVER_VERSION)%'
-        # only needed for MySQL
         charset: utf8mb4
         default_table_options:
             charset: utf8mb4
@@ -25,3 +21,7 @@ doctrine:
                 prefix: 'App\Entity'
             FOSUserBundle:    ~
             SonataUserBundle: ~
+        dql:
+            datetime_functions:
+                year:        DoctrineExtensions\Query\Mysql\Year
+                month:       DoctrineExtensions\Query\Mysql\Month
