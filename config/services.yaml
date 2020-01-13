@@ -14,7 +14,7 @@ parameters:
     boss_address: '%env(BOSS_ADDRESS)%'
     boss_city: '%env(BOSS_CITY)%'
     iban_business: '%env(IBAN_BUSINESS)%'
-    bic_number: '%env(BIC_NUMBER))%'
+    bic_number: '%env(BIC_NUMBER)%'
 
 services:
     _defaults:
@@ -94,26 +94,26 @@ services:
         tags:
             - { name: 'kernel.event_listener', event: 'fullcalendar.set_data' }
     # Twig Extensions
-    app.twig_extension:
-        class: App\Twig\AppExtension
-        public: false
-        arguments:
-            - '@app.smart_assets_helper'
-            - '@app.receipt_manager'
-            - '@translator'
-        tags:
-            - { name: twig.extension }
+#    app.twig_extension:
+#        class: App\Twig\AppExtension
+#        public: true
+#        arguments:
+#            - '@app.smart_assets_helper'
+#            - '@app.receipt_manager'
+#            - '@translator'
+#        tags:
+#            - { name: twig.extension }
     # Managers
     app.smart_assets_helper:
         class: App\Service\SmartAssetsHelperService
         arguments:
             - '@kernel'
             - '%mailer_base_url%'
-    app.mailchimp_manager:
-        class: App\Manager\MailchimpManager
-        arguments:
-            - '@app.notification'
-            - '%mailchimp_api_key%'
+#    app.mailchimp_manager:
+#        class: App\Manager\MailchimpManager
+#        arguments:
+#            - '@app.notification'
+#            - '%mailchimp_api_key%'
     app.receipt_manager:
         class: App\Manager\ReceiptManager
         arguments:
@@ -127,7 +127,7 @@ services:
         public: true
         class: App\Manager\GenerateReceiptFormManager
         arguments:
-            - '@monolog.logger.email'
+            - '@monolog.logger'
             - '@kernel'
             - '@doctrine.orm.entity_manager'
             - '@translator.default'
@@ -138,7 +138,7 @@ services:
     app.generate_invoice_form_manager:
         class: App\Manager\GenerateInvoiceFormManager
         arguments:
-            - '@monolog.logger.email'
+            - '@monolog.logger'
             - '@kernel'
             - '@doctrine.orm.entity_manager'
             - '@translator.default'

@@ -3,7 +3,7 @@
 namespace App\Pdf;
 
 use App\Service\SmartAssetsHelperService;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\TCPDFBundle\Controller\TCPDFController;
 
 /**
@@ -16,59 +16,59 @@ abstract class AbstractReceiptInvoiceBuilderPdf
     /**
      * @var TCPDFController
      */
-    protected $tcpdf;
+    protected TCPDFController $tcpdf;
 
     /**
      * @var SmartAssetsHelperService
      */
-    protected $sahs;
+    protected SmartAssetsHelperService $sahs;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
-    protected $ts;
+    protected TranslatorInterface $ts;
 
     /**
      * @var string project web title
      */
-    protected $pwt;
+    protected string $pwt;
 
     /**
      * @var string boss name
      */
-    protected $bn;
+    protected string $bn;
 
     /**
      * @var string boss DNI
      */
-    protected $bd;
+    protected string $bd;
 
     /**
      * @var string boss address
      */
-    protected $ba;
+    protected string $ba;
 
     /**
      * @var string boss city
      */
-    protected $bc;
+    protected string $bc;
 
     /**
      * @var string IBAN bussines
      */
-    protected $ib;
+    protected string $ib;
 
     /**
      * @var string default locale useful in CLI
      */
-    protected $locale;
+    protected string $locale;
 
     /**
      * AbstractReceiptInvoiceBuilderPdf constructor.
      *
      * @param TCPDFController          $tcpdf
      * @param SmartAssetsHelperService $sahs
-     * @param Translator               $ts
+     * @param TranslatorInterface      $ts
      * @param string                   $pwt
      * @param string                   $bn
      * @param string                   $bd
@@ -77,7 +77,7 @@ abstract class AbstractReceiptInvoiceBuilderPdf
      * @param string                   $ib
      * @param string                   $locale
      */
-    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, Translator $ts, $pwt, $bn, $bd, $ba, $bc, $ib, $locale)
+    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, TranslatorInterface $ts, $pwt, $bn, $bd, $ba, $bc, $ib, $locale)
     {
         $this->tcpdf = $tcpdf;
         $this->sahs = $sahs;

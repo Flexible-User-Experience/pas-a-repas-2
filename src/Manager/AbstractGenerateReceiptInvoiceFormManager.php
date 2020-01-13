@@ -24,12 +24,12 @@ abstract class AbstractGenerateReceiptInvoiceFormManager
     /**
      * @var KernelInterface
      */
-    protected $kernel;
+    protected KernelInterface $kernel;
 
     /**
-     * @var KernelInterface EntityManager
+     * @var EntityManager
      */
-    protected $em;
+    protected EntityManager $em;
 
     /**
      * @var TranslatorInterface

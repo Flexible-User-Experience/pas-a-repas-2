@@ -157,8 +157,7 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return Response
      *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws AccessDeniedException If access is not granted
+     * @throws \Exception
      */
     public function reminderAction(Request $request)
     {
@@ -188,10 +187,9 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function sendReminderAction(Request $request)
     {
@@ -235,6 +233,7 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
+     * @throws \Exception
      */
     public function pdfAction(Request $request)
     {
@@ -261,10 +260,9 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function sendAction(Request $request)
     {

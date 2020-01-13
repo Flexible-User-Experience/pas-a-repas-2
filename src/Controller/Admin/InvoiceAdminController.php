@@ -88,10 +88,9 @@ class InvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws NotFoundHttpException                 If the object does not exist
-     * @throws AccessDeniedException                 If access is not granted
      * @throws NonUniqueResultException
      * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
      */
     public function creatorAction(Request $request)
     {
@@ -150,6 +149,7 @@ class InvoiceAdminController extends BaseAdminController
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
+     * @throws \Exception
      */
     public function sendAction(Request $request)
     {
