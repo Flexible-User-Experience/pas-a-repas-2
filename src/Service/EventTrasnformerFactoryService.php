@@ -18,7 +18,7 @@ class EventTrasnformerFactoryService
     /**
      * @var RouterInterface
      */
-    private $router;
+    private RouterInterface $router;
 
     /**
      * Methods.
@@ -43,7 +43,11 @@ class EventTrasnformerFactoryService
      */
     public function build(AppEvent $appEvent)
     {
-        $eventFullCalendar = new EventFullCalendar($appEvent->getShortCalendarTitle(), $appEvent->getBegin());
+        if ($appEvent->getGroup()->isForPrivateLessons()) {
+            $eventFullCalendar = new EventFullCalendar($appEvent->getShortCalendarTitleForPrivateLessons(), $appEvent->getBegin());
+        } else {
+            $eventFullCalendar = new EventFullCalendar($appEvent->getShortCalendarTitle(), $appEvent->getBegin());
+        }
         $eventFullCalendar->setEnd($appEvent->getEnd());
         $eventFullCalendar->setOptions([
             'textColor' => '#FFFFFF',

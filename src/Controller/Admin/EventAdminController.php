@@ -6,9 +6,12 @@ use App\Entity\Event;
 use App\Form\Type\EventBatchRemoveType;
 use App\Form\Type\EventType;
 use App\Manager\EventManager;
+use DateInterval;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -23,7 +26,7 @@ class EventAdminController extends BaseAdminController
     /**
      * @param null|int|string $id
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function editAction($id = null)
     {
@@ -53,26 +56,14 @@ class EventAdminController extends BaseAdminController
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
-     * @throws \Exception
+     * @throws Exception
      */
     public function batcheditAction(Request $request)
     {
-        $request = $this->resolveRequest($request);
-        $id = $request->get($this->admin->getIdParameter());
-
-        /** @var Event $object */
-        $object = $this->admin->getObject($id);
-
-        if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
-        }
-
-        if (!$object->getEnabled()) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
-        }
-
         /** @var EventManager $eventsManager */
         $eventsManager = $this->container->get('app.event_manager');
+        /** @var Event $object */
+        $object = $this->getEnabledObject($request);
         $firstEvent = $eventsManager->getFirstEventOf($object);
         if (is_null($firstEvent)) {
             $firstEvent = $object;
@@ -94,8 +85,8 @@ class EventAdminController extends BaseAdminController
                 while (!is_null($iteratedEvent->getNext())) {
                     $currentBegin = $iteratedEvent->getBegin();
                     $currentEnd = $iteratedEvent->getEnd();
-                    $currentBegin->add(new \DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
-                    $currentEnd->add(new \DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
+                    $currentBegin->add(new DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
+                    $currentEnd->add(new DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
                     $iteratedEvent = $iteratedEvent->getNext();
                     if ($iteratedEvent->getId() <= $eventIdStopRangeIterator) {
                         $iteratedEvent
@@ -140,26 +131,14 @@ class EventAdminController extends BaseAdminController
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
-     * @throws \Exception
+     * @throws Exception
      */
     public function batchdeleteAction(Request $request)
     {
-        $request = $this->resolveRequest($request);
-        $id = $request->get($this->admin->getIdParameter());
-
-        /** @var Event $object */
-        $object = $this->admin->getObject($id);
-
-        if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
-        }
-
-        if (!$object->getEnabled()) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
-        }
-
         /** @var EventManager $eventsManager */
         $eventsManager = $this->container->get('app.event_manager');
+        /** @var Event $object */
+        $object = $this->getEnabledObject($request);
         $firstEvent = $eventsManager->getFirstEventOf($object);
         $lastEvent = $eventsManager->getLastEventOf($object);
 
@@ -271,5 +250,26 @@ class EventAdminController extends BaseAdminController
                 'form' => $form->createView(),
             )
         );
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Event
+     */
+    private function getEnabledObject(Request $request)
+    {
+        $request = $this->resolveRequest($request);
+        $id = $request->get($this->admin->getIdParameter());
+        /** @var Event $object */
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
+        }
+        if (!$object->getEnabled()) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        return $object;
     }
 }

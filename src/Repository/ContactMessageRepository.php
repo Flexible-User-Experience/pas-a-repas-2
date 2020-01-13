@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ContactMessage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class ContactMessageRepository.
@@ -14,9 +14,9 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class ContactMessageRepository extends ServiceEntityRepository
 {
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ContactMessage::class);
     }

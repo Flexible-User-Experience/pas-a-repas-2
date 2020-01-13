@@ -17,8 +17,7 @@ use App\Enum\TeacherColorEnum;
 use App\Enum\UserRolesEnum;
 use App\Manager\ReceiptManager;
 use App\Service\SmartAssetsHelperService;
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\TwigFilter;
@@ -33,17 +32,17 @@ class AppExtension extends AbstractExtension
     /**
      * @var SmartAssetsHelperService
      */
-    private $sahs;
+    private SmartAssetsHelperService $sahs;
 
     /**
      * @var ReceiptManager
      */
-    private $rm;
+    private ReceiptManager $rm;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
-    private $ts;
+    private TranslatorInterface $ts;
 
     /**
      * Methods.

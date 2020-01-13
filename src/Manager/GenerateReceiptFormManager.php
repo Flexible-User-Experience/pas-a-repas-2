@@ -13,9 +13,9 @@ use App\Repository\ReceiptRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Process\Process;
 
 /**
@@ -28,12 +28,12 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
     /**
      * @var ReceiptRepository
      */
-    private $rr;
+    private ReceiptRepository $rr;
 
     /**
      * @var EventManager
      */
-    private $eem;
+    private EventManager $eem;
 
     /**
      * Methods.
@@ -404,7 +404,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     // group lessons
                     /** @var Receipt $previousReceipt */
                     $previousReceipt = $this->rr->findOnePreviousGroupLessonsReceiptByStudentIdYearAndMonthOrNull($generateReceiptItemModel->getStudentId(), $generateReceiptModel->getYear(), $generateReceiptModel->getMonth());
-                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.group_lessons_line', array('%month%' => ReceiptYearMonthEnum::getTranslatedMonthEnumArray()[$generateReceiptModel->getMonth()], '%year%' => $generateReceiptModel->getYear()), 'messages');
+                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.group_lessons_line', array('%month%' => ReceiptYearMonthEnum::getOldMonthEnumArray()[$generateReceiptModel->getMonth()], '%year%' => $generateReceiptModel->getYear()), 'messages');
                     $isForPrivateLessons = false;
                 } else {
                     // private lessons
@@ -416,7 +416,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     }
                     /** @var Receipt $previousReceipt */
                     $previousReceipt = $this->rr->findOnePreviousPrivateLessonsReceiptByStudentIdYearAndMonthOrNull($generateReceiptItemModel->getStudentId(), $generateReceiptModel->getYear(), $generateReceiptModel->getMonth());
-                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.private_lessons_line', array('%month%' => ReceiptYearMonthEnum::getTranslatedMonthEnumArray()[$month], '%year%' => $year), 'messages');
+                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.private_lessons_line', array('%month%' => ReceiptYearMonthEnum::getOldMonthEnumArray()[$month], '%year%' => $year), 'messages');
                     $isForPrivateLessons = true;
                 }
                 ++$recordsParsed;

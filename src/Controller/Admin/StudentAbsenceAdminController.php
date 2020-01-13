@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\StudentAbsence;
+use DateTime;
+use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -23,7 +25,7 @@ class StudentAbsenceAdminController extends BaseAdminController
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
-     * @throws \Exception
+     * @throws Exception
      */
     public function notificationAction($id = null)
     {
@@ -39,7 +41,7 @@ class StudentAbsenceAdminController extends BaseAdminController
         $this->admin->checkAccess('show', $object);
         $object
             ->setHasBeenNotified(true)
-            ->setNotificationDate(new \DateTime())
+            ->setNotificationDate(new DateTime())
         ;
 
         $em = $this->container->get('doctrine')->getManager();

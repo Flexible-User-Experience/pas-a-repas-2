@@ -6,8 +6,9 @@ twig:
         main_brand_title:  '%backoffice_title%'
         main_webpage:      '%mailer_base_url%'
         facebook_api_key:  '%facebook_api_key%'
-        admin_tag_version: 'v1.0.08'
+        admin_tag_version: 'v1.0.09'
         default_locale:    '%locale%'
     form_themes:
+        - 'bootstrap_3_layout.html.twig'
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
         - '@SonataCore/Form/datepicker.html.twig'

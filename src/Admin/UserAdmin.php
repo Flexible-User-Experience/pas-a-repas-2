@@ -3,12 +3,16 @@
 namespace App\Admin;
 
 use App\Enum\UserRolesEnum;
+use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\UserBundle\Admin\Model\UserAdmin as ParentUserAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class UserAdmin.
@@ -29,6 +33,18 @@ class UserAdmin extends ParentUserAdmin
         '_sort_order' => 'asc',
     );
 
+    /**
+     * Methods
+     */
+
+    /**
+     * UserAdmin constructor.
+     *
+     * @param $code
+     * @param $class
+     * @param $baseControllerName
+     * @param $userManager
+     */
     public function __construct($code, $class, $baseControllerName, $userManager)
     {
         parent::__construct($code, $class, $baseControllerName);
@@ -70,7 +86,7 @@ class UserAdmin extends ParentUserAdmin
             ->with('backend.admin.general', array('class' => 'col-md-3'))
             ->add(
                 'firstname',
-                null,
+                TextType::class,
                 array(
                     'label' => 'backend.admin.user.firstname',
                     'required' => false,
@@ -78,7 +94,7 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'lastname',
-                null,
+                TextType::class,
                 array(
                     'label' => 'backend.admin.user.lastname',
                     'required' => false,
@@ -86,21 +102,21 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'username',
-                null,
+                TextType::class,
                 array(
                     'label' => 'backend.admin.user.username',
                 )
             )
             ->add(
                 'email',
-                null,
+                EmailType::class,
                 array(
                     'label' => 'backend.admin.user.email',
                 )
             )
             ->add(
                 'plainPassword',
-                'text',
+                TextType::class,
                 array(
                     'label' => 'backend.admin.user.plain_password',
                     'required' => (!$this->getSubject() || is_null($this->getSubject()->getId())),
@@ -110,7 +126,7 @@ class UserAdmin extends ParentUserAdmin
             ->with('backend.admin.controls', array('class' => 'col-md-3'))
             ->add(
                 'enabled',
-                'checkbox',
+                CheckboxType::class,
                 array(
                     'label' => 'backend.admin.enabled',
                     'required' => false,
@@ -118,7 +134,7 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'roles',
-                'choice',
+                ChoiceType::class,
                 array(
                     'label' => 'backend.admin.user.roles',
                     'choices' => UserRolesEnum::getEnumArray(),

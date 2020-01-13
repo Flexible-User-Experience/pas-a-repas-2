@@ -27,7 +27,7 @@ class BaseTcpdf extends TCPDF
     /**
      * @var SmartAssetsHelperService
      */
-    private $sahs;
+    private SmartAssetsHelperService $sahs;
 
     /**
      * Methods.

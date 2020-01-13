@@ -18,12 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
     var eventsUrl = calendarEl.dataset.eventsUrl;
 
     var calendar = new Calendar(calendarEl, {
-        themeSystem: "bootstrap",
-        defaultView: "dayGridMonth",
+        themeSystem: "standard",
+        defaultView: "timeGridWeek",
         nowIndicator: true,
         editable: true,
         locale: "ca",
         firstDay: 1,
+        height: "auto",
+        minTime: "08:00:00",
         googleCalendarApiKey: "AIzaSyB332MhD5g142kIo79ZagVcXUidQwHbWwk",
         buttonText: {
             today: "avui",
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         header: {
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay,",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
         },
         plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, bootstrapPlugin, googleCalendarPlugin], // https://fullcalendar.io/docs/plugin-index
         timeZone: "UTC"

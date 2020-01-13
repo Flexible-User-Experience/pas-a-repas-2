@@ -19,32 +19,32 @@ abstract class AbstractGenerateReceiptInvoiceFormManager
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * @var KernelInterface
      */
-    protected $kernel;
+    protected KernelInterface $kernel;
 
     /**
      * @var EntityManager
      */
-    protected $em;
+    protected EntityManager $em;
 
     /**
      * @var TranslatorInterface
      */
-    protected $ts;
+    protected TranslatorInterface $ts;
 
     /**
      * @var StudentRepository
      */
-    protected $sr;
+    protected StudentRepository $sr;
 
     /**
      * @var EventRepository
      */
-    protected $er;
+    protected EventRepository $er;
 
     /**
      * Methods.

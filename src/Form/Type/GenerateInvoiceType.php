@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use Exception;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,7 +18,7 @@ class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
     /**
      * @var RouterInterface
      */
-    private $rs;
+    private RouterInterface $rs;
 
     /**
      * Methods.
@@ -36,6 +37,8 @@ class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
+     *
+     * @throws Exception
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -48,7 +51,6 @@ class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
                 array(
                     'label' => 'backend.admin.invoice.items',
                     'allow_extra_fields' => true,
-                    'cascade_validation' => true,
                     'required' => false,
                     'entry_type' => GenerateInvoiceItemType::class,
                     'by_reference' => false,

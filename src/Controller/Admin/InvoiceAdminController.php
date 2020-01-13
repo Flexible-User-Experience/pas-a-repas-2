@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\DefaultController;
 use App\Entity\Invoice;
 use App\Enum\StudentPaymentEnum;
 use App\Form\Model\GenerateInvoiceModel;
@@ -13,6 +12,8 @@ use App\Pdf\InvoiceBuilderPdf;
 use App\Service\NotificationService;
 use App\Service\XmlSepaBuilderService;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Exception;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
@@ -87,15 +88,14 @@ class InvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws NotFoundHttpException                 If the object does not exist
-     * @throws AccessDeniedException                 If access is not granted
      * @throws NonUniqueResultException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
      */
     public function creatorAction(Request $request)
     {
         /** @var Translator $translator */
-        $translator = $this->container->get('translator.default');
+        $translator = $this->container->get('translator');
         /** @var GenerateInvoiceFormManager $gifm */
         $gifm = $this->container->get('app.generate_invoice_form_manager');
         $generateInvoice = $gifm->transformRequestArrayToModel($request->get('generate_invoice'));
@@ -119,6 +119,7 @@ class InvoiceAdminController extends BaseAdminController
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
+     * @throws Exception
      */
     public function pdfAction(Request $request)
     {
@@ -145,10 +146,10 @@ class InvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Exception
      */
     public function sendAction(Request $request)
     {
@@ -220,7 +221,7 @@ class InvoiceAdminController extends BaseAdminController
         $em = $this->container->get('doctrine')->getManager();
         $em->flush();
 
-        if (DefaultController::ENV_DEV == $this->getParameter('kernel.environment')) {
+        if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
             return new Response($xml, 200, array('Content-type' => 'application/xml'));
         }
 
@@ -264,7 +265,7 @@ class InvoiceAdminController extends BaseAdminController
             }
             $em->flush();
 
-            if (DefaultController::ENV_DEV == $this->getParameter('kernel.environment')) {
+            if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
                 return new Response($xmls, 200, array('Content-type' => 'application/xml'));
             }
 

@@ -435,6 +435,21 @@ class Event extends AbstractBase
     /**
      * @return string
      */
+    public function getShortCalendarTitleForPrivateLessons()
+    {
+        $result = '???';
+        if ($this->getStudentsAmount() > 0) {
+            /** @var Student $firstStudent */
+            $firstStudent = $this->getStudents()[0];
+            $result = /*$this->getGroup()->getCode().' '.*/$firstStudent->getFullName();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->id ? $this->getBeginString().' · '.$this->getClassroomString().' · '.$this->getTeacher()->getName().' · '.$this->getGroup()->getCode() : '---';
