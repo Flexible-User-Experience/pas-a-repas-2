@@ -6,7 +6,7 @@ use App\Entity\Provider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class ProviderRepository.
@@ -16,9 +16,9 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class ProviderRepository extends ServiceEntityRepository
 {
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Provider::class);
     }
