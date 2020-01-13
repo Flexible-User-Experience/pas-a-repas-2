@@ -175,7 +175,7 @@ class GenerateInvoiceFormManager extends AbstractGenerateReceiptInvoiceFormManag
                         $invoiceLine = $previousInvoice->getLines()[0];
                         $invoiceLine
                             ->setStudent($student)
-                            ->setDescription($this->ts->trans('backend.admin.invoiceLine.generator.line', array('%month%' => InvoiceYearMonthEnum::getTranslatedMonthEnumArray()[$generateInvoiceModel->getMonth()], '%year%' => $generateInvoiceModel->getYear()), 'messages'))
+                            ->setDescription($this->ts->trans('backend.admin.invoiceLine.generator.line', array('%month%' => InvoiceYearMonthEnum::getOldMonthEnumArray()[$generateInvoiceModel->getMonth()], '%year%' => $generateInvoiceModel->getYear()), 'messages'))
                             ->setUnits($generateInvoiceItemModel->getUnits())
                             ->setPriceUnit($generateInvoiceItemModel->getUnitPrice())
                             ->setDiscount($generateInvoiceItemModel->getDiscount())
@@ -194,7 +194,7 @@ class GenerateInvoiceFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     $invoiceLine = new InvoiceLine();
                     $invoiceLine
                         ->setStudent($student)
-                        ->setDescription($this->ts->trans('backend.admin.invoiceLine.generator.line', array('%month%' => InvoiceYearMonthEnum::getTranslatedMonthEnumArray()[$generateInvoiceModel->getMonth()], '%year%' => $generateInvoiceModel->getYear()), 'messages'))
+                        ->setDescription($this->ts->trans('backend.admin.invoiceLine.generator.line', array('%month%' => InvoiceYearMonthEnum::getOldMonthEnumArray()[$generateInvoiceModel->getMonth()], '%year%' => $generateInvoiceModel->getYear()), 'messages'))
                         ->setUnits($generateInvoiceItemModel->getUnits())
                         ->setPriceUnit($generateInvoiceItemModel->getUnitPrice())
                         ->setDiscount($generateInvoiceItemModel->getDiscount())

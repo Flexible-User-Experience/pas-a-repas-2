@@ -95,7 +95,7 @@ class InvoiceAdminController extends BaseAdminController
     public function creatorAction(Request $request)
     {
         /** @var Translator $translator */
-        $translator = $this->container->get('translator.default');
+        $translator = $this->container->get('translator');
         /** @var GenerateInvoiceFormManager $gifm */
         $gifm = $this->container->get('app.generate_invoice_form_manager');
         $generateInvoice = $gifm->transformRequestArrayToModel($request->get('generate_invoice'));

@@ -404,7 +404,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     // group lessons
                     /** @var Receipt $previousReceipt */
                     $previousReceipt = $this->rr->findOnePreviousGroupLessonsReceiptByStudentIdYearAndMonthOrNull($generateReceiptItemModel->getStudentId(), $generateReceiptModel->getYear(), $generateReceiptModel->getMonth());
-                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.group_lessons_line', array('%month%' => ReceiptYearMonthEnum::getTranslatedMonthEnumArray()[$generateReceiptModel->getMonth()], '%year%' => $generateReceiptModel->getYear()), 'messages');
+                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.group_lessons_line', array('%month%' => ReceiptYearMonthEnum::getOldMonthEnumArray()[$generateReceiptModel->getMonth()], '%year%' => $generateReceiptModel->getYear()), 'messages');
                     $isForPrivateLessons = false;
                 } else {
                     // private lessons
@@ -416,7 +416,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     }
                     /** @var Receipt $previousReceipt */
                     $previousReceipt = $this->rr->findOnePreviousPrivateLessonsReceiptByStudentIdYearAndMonthOrNull($generateReceiptItemModel->getStudentId(), $generateReceiptModel->getYear(), $generateReceiptModel->getMonth());
-                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.private_lessons_line', array('%month%' => ReceiptYearMonthEnum::getTranslatedMonthEnumArray()[$month], '%year%' => $year), 'messages');
+                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.private_lessons_line', array('%month%' => ReceiptYearMonthEnum::getOldMonthEnumArray()[$month], '%year%' => $year), 'messages');
                     $isForPrivateLessons = true;
                 }
                 ++$recordsParsed;

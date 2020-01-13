@@ -9,5 +9,6 @@ twig:
         admin_tag_version: 'v1.0.08'
         default_locale:    '%locale%'
     form_themes:
+        - 'bootstrap_3_layout.html.twig'
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
         - '@SonataCore/Form/datepicker.html.twig'

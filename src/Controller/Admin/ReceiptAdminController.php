@@ -95,7 +95,7 @@ class ReceiptAdminController extends BaseAdminController
     public function creatorAction(Request $request)
     {
         /** @var Translator $translator */
-        $translator = $this->container->get('translator.default');
+        $translator = $this->container->get('translator');
         /** @var GenerateReceiptFormManager $grfm */
         $grfm = $this->container->get('app.generate_receipt_form_manager');
         $generateReceipt = $grfm->transformRequestArrayToModel($request->get('generate_receipt'));
