@@ -177,7 +177,7 @@ class ReceiptAdminController extends BaseAdminController
         $rps = $this->container->get('app.receipt_reminder_pdf_builder');
         $pdf = $rps->build($object);
 
-        return new Response($pdf->Output('box_idiomes_receipt_reminder_'.$object->getSluggedReceiptNumber().'.pdf', 'I'), 200, array('Content-type' => 'application/pdf'));
+        return new Response($pdf->Output('pas_a_repas_receipt_reminder_'.$object->getSluggedReceiptNumber().'.pdf', 'I'), 200, array('Content-type' => 'application/pdf'));
     }
 
     /**
@@ -250,7 +250,7 @@ class ReceiptAdminController extends BaseAdminController
         $rps = $this->container->get('app.receipt_pdf_builder');
         $pdf = $rps->build($object);
 
-        return new Response($pdf->Output('box_idiomes_receipt_'.$object->getSluggedReceiptNumber().'.pdf', 'I'), 200, array('Content-type' => 'application/pdf'));
+        return new Response($pdf->Output('pas_a_repas_receipt_'.$object->getSluggedReceiptNumber().'.pdf', 'I'), 200, array('Content-type' => 'application/pdf'));
     }
 
     /**
@@ -374,7 +374,7 @@ class ReceiptAdminController extends BaseAdminController
                 }
             }
 
-            return new Response($pdf->Output('box_idiomes_receipt_reminders.pdf', 'I'), 200, array('Content-type' => 'application/pdf'));
+            return new Response($pdf->Output('pas_a_repas_receipt_reminders.pdf', 'I'), 200, array('Content-type' => 'application/pdf'));
         } catch (\Exception $e) {
             $this->addFlash('error', 'S\'ha produït un error al generar l\'arxiu de recordatoris de pagaments de rebut amb format PDF. Revisa els rebuts seleccionats.');
             $this->addFlash('error', $e->getMessage());

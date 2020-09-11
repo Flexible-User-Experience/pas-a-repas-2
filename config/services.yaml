@@ -59,16 +59,17 @@ services:
     # Messaging
     app.courier:
         class: App\Service\CourierService
-        arguments:
-            - '@swiftmailer.mailer'
-    app.notification:
         public: true
+        arguments:
+            - '@mailer'
+    app.notification:
         class: App\Service\NotificationService
+        public: true
         arguments:
             - '@app.courier'
             - '@twig'
             - '%mailer_destination%'
-            - '%mailer_base_url%'
+            - '%project_url_base%'
     # Factories
     app.event_transformer_factory:
         class: App\Service\EventTrasnformerFactoryService
