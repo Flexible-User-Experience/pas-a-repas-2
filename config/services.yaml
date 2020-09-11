@@ -15,6 +15,7 @@ parameters:
     boss_city: '%env(BOSS_CITY)%'
     iban_business: '%env(IBAN_BUSINESS)%'
     bic_number: '%env(BIC_NUMBER)%'
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 
 services:
     _defaults:
@@ -51,8 +52,7 @@ services:
     app.block.charts:
         class: App\Block\ChartsBlock
         arguments:
-            - 'charts_block'
-            - '@templating.engine.twig'
+            - '@twig'
             - '@App\Service\ChartsFactoryService'
         tags:
             - { name: sonata.block }
