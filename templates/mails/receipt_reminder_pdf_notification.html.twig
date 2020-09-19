@@ -1,4 +1,4 @@
-{% extends 'mails/base.html.twig' %}
+{% extends "Mails/base.html.twig" %}
 
 {% block subject %}{{ 'backend.admin.receipt_reminder.list_button' | trans }} Rebut núm. {{ receipt.receiptNumber }}{% endblock %}
 
@@ -20,7 +20,7 @@
                                 <strong>Import total: {{ receipt.baseAmountString }}</strong>
                             </p>
                             <p class="blue-color text-center normal-m-top">
-                                Moltes gràcies per confiar amb Pas a Repàs.
+                                Moltes gràcies per confiar amb Box Idiomes.
                             </p>
                         </th>
                         <th class="expander"></th>
