@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\NewsletterContact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 
 /**
  * Class NewsletterContactRepository.
@@ -14,9 +14,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class NewsletterContactRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param RegistryInterface $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, NewsletterContact::class);
     }
