@@ -19,11 +19,6 @@ class BackendInvoiceMenuBuilder
     private $factory;
 
     /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
      * Methods.
      */
 
@@ -31,20 +26,20 @@ class BackendInvoiceMenuBuilder
      * Constructor.
      *
      * @param FactoryInterface $factory
-     * @param RequestStack     $requestStack
      */
-    public function __construct(FactoryInterface $factory, RequestStack $requestStack)
+    public function __construct(FactoryInterface $factory)
     {
         $this->factory = $factory;
-        $this->requestStack = $requestStack;
     }
 
     /**
+     * @param RequestStack $requestStack
+     *
      * @return ItemInterface
      */
-    public function createSideMenu()
+    public function createSideMenu(RequestStack $requestStack)
     {
-        $route = $this->requestStack->getCurrentRequest()->get('_route');
+        $route = $requestStack->getCurrentRequest()->get('_route');
         $menu = $this->factory->createItem('Facturació');
         $menu
             ->addChild(
