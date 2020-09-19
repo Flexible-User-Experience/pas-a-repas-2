@@ -2,58 +2,32 @@
 
 namespace App\Enum;
 
-/**
- * Class StudentPaymentEnum.
- *
- * @category Enum
- */
 class StudentPaymentEnum
 {
-    const BANK_ACCOUNT_NUMBER = 0;
-    const CASH = 1;
-    const BANK_TRANSFER = 2;
+    public const BANK_ACCOUNT_NUMBER = 0;
+    public const CASH = 1;
+    public const BANK_TRANSFER = 2;
 
-    /**
-     * Methods
-     */
-
-    /**
-     * @return array
-     */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
-        return array_flip(self::getOldEnumArray());
+        return array_flip(self::getReversedEnumArray());
     }
 
-    /**
-     * @return array
-     */
-    public static function getOldEnumArray()
+    public static function getReversedEnumArray(): array
     {
-        return array(
+        return [
             self::BANK_ACCOUNT_NUMBER => 'backend.admin.student.bank',
             self::CASH => 'backend.admin.student.cash',
             self::BANK_TRANSFER => 'backend.admin.student.transfer',
-        );
+        ];
     }
 
-    /**
-     * @return array
-     */
-    public static function getEnumTranslatedArray()
+    public static function getEnumTranslatedArray(): array
     {
-        return array_flip(self::getOldEnumTranslatedArray());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getOldEnumTranslatedArray()
-    {
-        return array(
+        return [
             self::BANK_ACCOUNT_NUMBER => 'gir bancari',
             self::CASH => 'efectiu',
             self::BANK_TRANSFER => 'transferencia',
-        );
+        ];
     }
 }

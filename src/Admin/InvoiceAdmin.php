@@ -8,6 +8,8 @@ use App\Entity\Receipt;
 use App\Entity\Student;
 use App\Enum\InvoiceYearMonthEnum;
 use App\Enum\StudentPaymentEnum;
+use DateTime;
+use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -90,11 +92,11 @@ class InvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param FormMapper $formMapper
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         $currentYear = $now->format('Y');
 
         $formMapper
@@ -136,7 +138,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Student::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Student::class)->getEnabledSortedBySurnameValidTariffQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getEnabledSortedBySurnameValidTariffQB(),
                 )
             )
             ->add(
@@ -147,7 +149,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'class' => Person::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Person::class)->getEnabledSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.parent_repository')->getEnabledSortedBySurnameQB(),
                     'disabled' => true,
                 )
             )
@@ -198,7 +200,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.invoice.receipt',
                     'required' => false,
                     'class' => Receipt::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Receipt::class)->getAllSortedByNumberDescQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.receipt_repository')->getAllSortedByNumberDescQB(),
                 )
             )
             ->add(
@@ -300,7 +302,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -497,15 +499,16 @@ class InvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'id',
                 null,
                 array(
                     'label' => 'backend.admin.invoice.id',
-                    'template' => 'admin/cells/list__cell_invoice_number.html.twig',
+                    'template' => 'Admin/Cells/list__cell_invoice_number.html.twig',
                 )
             )
             ->add(
@@ -513,7 +516,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.receipt.date',
-                    'template' => 'admin/cells/list__cell_receipt_date.html.twig',
+                    'template' => 'Admin/Cells/list__cell_receipt_date.html.twig',
                     'editable' => false,
                 )
             )
@@ -522,7 +525,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.year',
-                    'template' => 'admin/cells/list__cell_event_year.html.twig',
+                    'template' => 'Admin/Cells/list__cell_event_year.html.twig',
                     'editable' => false,
                 )
             )
@@ -531,7 +534,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.month',
-                    'template' => 'admin/cells/list__cell_event_month.html.twig',
+                    'template' => 'Admin/Cells/list__cell_event_month.html.twig',
                 )
             )
             ->add(
@@ -563,7 +566,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.baseAmount',
-                    'template' => 'admin/cells/list__cell_invoice_base_amount.html.twig',
+                    'template' => 'Admin/Cells/list__cell_invoice_base_amount.html.twig',
                     'editable' => false,
                 )
             )
@@ -572,7 +575,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.totalAmount',
-                    'template' => 'admin/cells/list__cell_invoice_total_amount.html.twig',
+                    'template' => 'Admin/Cells/list__cell_invoice_total_amount.html.twig',
                     'editable' => false,
                 )
             )
@@ -605,11 +608,11 @@ class InvoiceAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'invoice' => array('template' => 'admin/buttons/list__action_invoice_pdf_button.html.twig'),
-                        'send' => array('template' => 'admin/buttons/list__action_invoice_send_button.html.twig'),
-                        'generateDirectDebit' => array('template' => 'admin/buttons/list__action_generate_direct_debit_xml_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_superadmin_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'invoice' => array('template' => 'Admin/Buttons/list__action_invoice_pdf_button.html.twig'),
+                        'send' => array('template' => 'Admin/Buttons/list__action_invoice_send_button.html.twig'),
+                        'generateDirectDebit' => array('template' => 'Admin/Buttons/list__action_generate_direct_debit_xml_button.html.twig'),
+                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_superadmin_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -619,7 +622,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'invoiceNumber',

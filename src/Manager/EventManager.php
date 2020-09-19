@@ -17,7 +17,7 @@ class EventManager
     /**
      * @var TariffRepository
      */
-    private TariffRepository $tr;
+    private $tr;
 
     /**
      * Methods.
@@ -149,17 +149,7 @@ class EventManager
             }
         }
 
-        return $result;
-    }
-
-    /**
-     * @param Event $event
-     *
-     * @return array
-     */
-    public function getRangeChoicesArrayFlip(Event $event)
-    {
-        return array_flip($this->getRangeChoices($event));
+        return array_flip($result);
     }
 
     /**
@@ -179,17 +169,7 @@ class EventManager
             }
         }
 
-        return $result;
-    }
-
-    /**
-     * @param Event $event
-     *
-     * @return array
-     */
-    public function getInclusiveRangeChoicesArrayFlip(Event $event)
-    {
-        return array_flip($this->getInclusiveRangeChoices($event));
+        return array_flip($result);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\InvoiceYearMonthEnum;
+use App\Enum\StudentPaymentEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -169,7 +170,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getDateString()
     {
-        return $this->getDate() ? $this->getDate()->format('d/m/Y') : '--/--/----';
+        return $this->getDate() ? $this->getDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
@@ -225,7 +226,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getPaymentDateString()
     {
-        return $this->getPaymentDate() ? $this->getPaymentDate()->format('d/m/Y') : '--/--/----';
+        return $this->getPaymentDate() ? $this->getPaymentDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
@@ -281,7 +282,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getSendDateString()
     {
-        return $this->getSendDate() ? $this->getSendDate()->format('d/m/Y') : '--/--/----';
+        return $this->getSendDate() ? $this->getSendDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
@@ -294,6 +295,21 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         $this->sendDate = $sendDate;
 
         return $this;
+    }
+
+    public function isReadyToGenerateSepa(): bool
+    {
+        $result = true;
+        /** @var Student|Person $subject */
+        $subject = $this->getMainSubject();
+        if (StudentPaymentEnum::BANK_ACCOUNT_NUMBER !== $subject->getPayment()) {
+            $result = false;
+        }
+        if (!$subject->getBank()->getAccountNumber()) {
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
@@ -337,7 +353,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getSepaXmlGeneratedDateString()
     {
-        return $this->getSepaXmlGeneratedDate() ? $this->getSepaXmlGeneratedDate()->format('d/m/Y') : '--/--/----';
+        return $this->getSepaXmlGeneratedDate() ? $this->getSepaXmlGeneratedDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
@@ -413,7 +429,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getMonthNameString()
     {
-        return InvoiceYearMonthEnum::getOldTranslatedMonthEnumArray()[$this->getMonth()];
+        return InvoiceYearMonthEnum::getTranslatedMonthEnumArray()[$this->getMonth()];
     }
 
     /**

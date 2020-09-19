@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -9,9 +10,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Abstract entities base class.
  *
  * @category Entity
+ *
+ * @Gedmo\SoftDeleteable(fieldName="removedAt", timeAware=false)
  */
 abstract class AbstractBase
 {
+    const DEFAULT_NULL_DATE_STRING = '--/--/----';
+
     /**
      * @var int
      *
@@ -22,7 +27,7 @@ abstract class AbstractBase
     protected $id;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
@@ -30,12 +35,19 @@ abstract class AbstractBase
     protected $createdAt;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update")
      */
     protected $updatedAt;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $removedAt;
 
     /**
      * @var bool
@@ -57,11 +69,11 @@ abstract class AbstractBase
     }
 
     /**
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      *
      * @return $this
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -69,7 +81,7 @@ abstract class AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedAt()
     {
@@ -81,15 +93,15 @@ abstract class AbstractBase
      */
     public function getCreatedAtString()
     {
-        return $this->getCreatedAt()->format('d/m/Y');
+        return $this->getCreatedAt() ? $this->getCreatedAt()->format('d/m/Y') : self::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
-     * @param \DateTime $updatedAt
+     * @param DateTime $updatedAt
      *
      * @return $this
      */
-    public function setUpdatedAt(\DateTime $updatedAt)
+    public function setUpdatedAt(DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
 
@@ -97,7 +109,7 @@ abstract class AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getUpdatedAt()
     {
@@ -109,7 +121,57 @@ abstract class AbstractBase
      */
     public function getUpdatedAtString()
     {
-        return $this->getUpdatedAt()->format('d/m/Y');
+        return $this->getUpdatedAt() ? $this->getUpdatedAt()->format('d/m/Y') : self::DEFAULT_NULL_DATE_STRING;
+    }
+
+    /**
+     * @param DateTime $removedAt
+     *
+     * @return $this
+     */
+    public function setRemovedAt(DateTime $removedAt)
+    {
+        $this->removedAt = $removedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getRemovedAt()
+    {
+        return $this->removedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemovedAtString()
+    {
+        return $this->getRemovedAt() ? $this->getRemovedAt()->format('d/m/Y') : self::DEFAULT_NULL_DATE_STRING;
+    }
+
+    /**
+     * Remove (soft delete).
+     *
+     * @return $this
+     */
+    public function remove()
+    {
+        $this->setRemovedAt(new DateTime());
+
+        return $this;
+    }
+
+    /**
+     * Is deleted?
+     *
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return null !== $this->removedAt;
     }
 
     /**
@@ -147,6 +209,6 @@ abstract class AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getId().' · '.$this->getCreatedAt()->format('d/m/Y') : '---';
+        return $this->id ? $this->getId().' · '.$this->getCreatedAtString() : '---';
     }
 }

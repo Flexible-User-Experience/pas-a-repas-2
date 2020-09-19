@@ -87,7 +87,7 @@ class ReceiptLineAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -145,8 +145,9 @@ class ReceiptLineAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'receipt',
@@ -209,9 +210,9 @@ class ReceiptLineAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
+                        'show' => array('template' => 'Admin/Buttons/list__action_show_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )

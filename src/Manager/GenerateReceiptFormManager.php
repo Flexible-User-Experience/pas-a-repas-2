@@ -12,11 +12,14 @@ use App\Repository\EventRepository;
 use App\Repository\ReceiptRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Exception;
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class GenerateReceiptFormManager.
@@ -28,12 +31,12 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
     /**
      * @var ReceiptRepository
      */
-    private ReceiptRepository $rr;
+    private $rr;
 
     /**
      * @var EventManager
      */
-    private EventManager $eem;
+    private $eem;
 
     /**
      * Methods.
@@ -65,9 +68,9 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
      *
      * @return int
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws NonUniqueResultException
+     * @throws OptimisticLockException
+     * @throws Exception
      */
     private function commonFastGenerateReciptsForYearAndMonth($year, $month, $enableEmailDelivery = false)
     {
@@ -186,9 +189,9 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                 $this->em->flush();
                 $phpBinaryFinder = new PhpExecutableFinder();
                 $phpBinaryPath = $phpBinaryFinder->find();
-                $command = 'nohup '.$phpBinaryPath.' '.$this->kernel->getRootDir().DIRECTORY_SEPARATOR.'console app:deliver:receipts:batch '.implode(' ', $ids).' --force --env='.$this->kernel->getEnvironment().' 2>&1 > /dev/null &';
+                $command = 'nohup '.$phpBinaryPath.' '.$this->kernel->getProjectDir().DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'console app:deliver:receipts:batch '.implode(' ', $ids).' --force --env='.$this->kernel->getEnvironment().' 2>&1 > /dev/null &';
                 $this->logger->info('[GRFM] '.$command);
-                $process = new Process($command);
+                $process = new Process([$command]);
                 $process->setTimeout(null);
                 $process->run();
             } else {
@@ -206,8 +209,8 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
      *
      * @return int
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws NonUniqueResultException
+     * @throws OptimisticLockException
      */
     public function fastGenerateReciptsForYearAndMonth($year, $month)
     {
@@ -220,8 +223,8 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
      *
      * @return int
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws NonUniqueResultException
+     * @throws OptimisticLockException
      */
     public function fastGenerateReciptsForYearAndMonthAndDeliverEmail($year, $month)
     {
@@ -234,7 +237,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
      *
      * @return GenerateReceiptModel
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function buildFullModelForm($year, $month)
     {
@@ -390,9 +393,9 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
      *
      * @return int
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws NonUniqueResultException
+     * @throws OptimisticLockException
+     * @throws Exception
      */
     public function persistFullModelForm(GenerateReceiptModel $generateReceiptModel, $markReceiptAsSended = false)
     {
@@ -404,7 +407,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     // group lessons
                     /** @var Receipt $previousReceipt */
                     $previousReceipt = $this->rr->findOnePreviousGroupLessonsReceiptByStudentIdYearAndMonthOrNull($generateReceiptItemModel->getStudentId(), $generateReceiptModel->getYear(), $generateReceiptModel->getMonth());
-                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.group_lessons_line', array('%month%' => ReceiptYearMonthEnum::getOldMonthEnumArray()[$generateReceiptModel->getMonth()], '%year%' => $generateReceiptModel->getYear()), 'messages');
+                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.group_lessons_line', array('%month%' => ReceiptYearMonthEnum::getTranslatedMonthEnumArray()[$generateReceiptModel->getMonth()], '%year%' => $generateReceiptModel->getYear()), 'messages');
                     $isForPrivateLessons = false;
                 } else {
                     // private lessons
@@ -416,7 +419,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     }
                     /** @var Receipt $previousReceipt */
                     $previousReceipt = $this->rr->findOnePreviousPrivateLessonsReceiptByStudentIdYearAndMonthOrNull($generateReceiptItemModel->getStudentId(), $generateReceiptModel->getYear(), $generateReceiptModel->getMonth());
-                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.private_lessons_line', array('%month%' => ReceiptYearMonthEnum::getOldMonthEnumArray()[$month], '%year%' => $year), 'messages');
+                    $description = $this->ts->trans('backend.admin.invoiceLine.generator.private_lessons_line', array('%month%' => ReceiptYearMonthEnum::getTranslatedMonthEnumArray()[$month], '%year%' => $year), 'messages');
                     $isForPrivateLessons = true;
                 }
                 ++$recordsParsed;
@@ -492,8 +495,8 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
      *
      * @return int
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws NonUniqueResultException
+     * @throws OptimisticLockException
      */
     public function persistAndDeliverFullModelForm(GenerateReceiptModel $generateReceiptModel)
     {
@@ -521,9 +524,9 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                 }
             }
             if (count($ids) > 0) {
-                $command = 'nohup '.$phpBinaryPath.' '.$this->kernel->getRootDir().DIRECTORY_SEPARATOR.'console app:deliver:receipts:batch '.implode(' ', $ids).' --force --env='.$this->kernel->getEnvironment().' 2>&1 > /dev/null &';
+                $command = 'nohup '.$phpBinaryPath.' '.$this->kernel->getProjectDir().DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'console app:deliver:receipts:batch '.implode(' ', $ids).' --force --env='.$this->kernel->getEnvironment().' 2>&1 > /dev/null &';
                 $this->logger->info('[GRFM] '.$command);
-                $process = new Process($command);
+                $process = new Process([$command]);
                 $process->setTimeout(null);
                 $process->run();
             }

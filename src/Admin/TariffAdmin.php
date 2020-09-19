@@ -52,6 +52,14 @@ class TariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'name',
+                null,
+                array(
+                    'label' => 'backend.admin.tariff.name',
+                    'required' => false,
+                )
+            )
+            ->add(
                 'price',
                 null,
                 array(
@@ -79,7 +87,7 @@ class TariffAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -103,6 +111,13 @@ class TariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'name',
+                null,
+                array(
+                    'label' => 'backend.admin.tariff.name',
+                )
+            )
+            ->add(
                 'price',
                 null,
                 array(
@@ -115,8 +130,9 @@ class TariffAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'year',
@@ -131,7 +147,15 @@ class TariffAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.tariff.type',
-                    'template' => 'admin/cells/list__cell_tariff_type.html.twig',
+                    'template' => 'Admin/Cells/list__cell_tariff_type.html.twig',
+                )
+            )
+            ->add(
+                'name',
+                null,
+                array(
+                    'label' => 'backend.admin.tariff.name',
+                    'editable' => true,
                 )
             )
             ->add(
@@ -147,7 +171,7 @@ class TariffAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -158,10 +182,11 @@ class TariffAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'year',
+            'name',
             'price',
             'typeString',
         );

@@ -16,21 +16,17 @@ class TeacherAbsenceTypeEnum
     const SICK_LEAVE = 4;
 
     /**
-     * Methods
-     */
-
-    /**
      * @return array
      */
     public static function getEnumArray()
     {
-        return array_flip(self::getOldEnumArray());
+        return array_flip(self::getReversedEnumArray());
     }
 
     /**
      * @return array
      */
-    public static function getOldEnumArray()
+    public static function getReversedEnumArray()
     {
         return array(
             self::PERSONAL_ISSUES => 'Assumptes personals',

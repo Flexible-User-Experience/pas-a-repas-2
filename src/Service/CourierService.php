@@ -2,99 +2,58 @@
 
 namespace App\Service;
 
-/**
- * Class CourierService.
- *
- * @category Service
- */
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use TCPDF;
+
 class CourierService
 {
-    /**
-     * @var \Swift_Mailer
-     */
-    private $mailer;
+    private MailerInterface $mailer;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * CourierService constructor.
-     *
-     * @param \Swift_Mailer $mailer
-     */
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
     }
 
     /**
-     * Build an email.
-     *
-     * @param string      $from
-     * @param string      $toEmail
-     * @param string      $subject
-     * @param string      $body
-     * @param string|null $replyAddress
-     * @param string|null $toName
-     *
-     * @return \Swift_Message
-     */
-    private function buildSwiftMesage($from, $toEmail, $subject, $body, $replyAddress = null, $toName = null)
-    {
-        $message = new \Swift_Message();
-        $message
-            ->setSubject($subject)
-            ->setFrom($from)
-            ->setTo($toEmail, $toName)
-            ->setBody($body)
-            ->setCharset('UTF-8')
-            ->setContentType('text/html');
-        if (!is_null($replyAddress)) {
-            $message->setReplyTo($replyAddress);
-        }
-
-        return $message;
-    }
-
-    /**
      * Send an email.
-     *
-     * @param string      $from
-     * @param string      $toEmail
-     * @param string      $subject
-     * @param string      $body
-     * @param string|null $replyAddress
-     * @param string|null $toName
-     *
-     * @return int
      */
     public function sendEmail($from, $toEmail, $subject, $body, $replyAddress = null, $toName = null)
     {
-        $message = $this->buildSwiftMesage($from, $toEmail, $subject, $body, $replyAddress, $toName);
+        $message = $this->buildEmail($from, $toEmail, $subject, $body, $replyAddress, $toName);
 
-        return $this->mailer->send($message);
+        $this->mailer->send($message);
     }
 
     /**
      * Send an email with an attatchment PDF.
-     *
-     * @param string $from
-     * @param string $toEmail
-     * @param string $toName
-     * @param string $subject
-     * @param string $body
-     * @param string $pdfFilename
-     * @param \TCPDF $pdf
-     *
-     * @return int
      */
-    public function sendEmailWithPdfAttached($from, $toEmail, $toName, $subject, $body, $pdfFilename, \TCPDF $pdf)
+    public function sendEmailWithPdfAttached($from, $toEmail, $toName, $subject, $body, $pdfFilename, TCPDF $pdf)
     {
-        $swiftAttatchment = new \Swift_Attachment($pdf->Output($pdfFilename, 'S'), $pdfFilename, 'application/pdf');
-        $message = $this->buildSwiftMesage($from, $toEmail, $subject, $body, null, $toName);
-        $message->attach($swiftAttatchment);
+        $message = $this->buildEmail($from, $toEmail, $subject, $body, null, $toName);
+        $pathToTemporaryStoredPdfFile = DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.$pdfFilename;
+        $pdf->Output($pathToTemporaryStoredPdfFile, 'F');
+        $message->attachFromPath($pathToTemporaryStoredPdfFile, $pdfFilename, 'application/pdf');
 
-        return $this->mailer->send($message);
+        $this->mailer->send($message);
+    }
+
+    /**
+     * Build an email.
+     */
+    private function buildEmail($from, $toEmail, $subject, $body, $replyAddress = null, $toName = null)
+    {
+        $message = new Email();
+        $message
+            ->subject($subject)
+            ->from(new Address($from))
+            ->to(new Address($toEmail, is_null($toName) ? '' : $toName))
+            ->html($body);
+        if (!is_null($replyAddress)) {
+            $message->replyTo(new Address($replyAddress));
+        }
+
+        return $message;
     }
 }

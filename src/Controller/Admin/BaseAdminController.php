@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class BaseAdminController extends Controller
 {
-    const ENV_DEV = 'dev';
-
     /**
      * @param Request|null $request
      *

@@ -63,7 +63,7 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Student::class,
                     'choice_label' => 'getFullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Student::class)->getEnabledSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getEnabledSortedBySurnameQB(),
                 )
             )
             ->end()
@@ -94,7 +94,7 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -146,8 +146,9 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'student',
@@ -192,8 +193,8 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'notification' => array('template' => 'admin/buttons/list__action_student_absence_notification_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'notification' => array('template' => 'Admin/Buttons/list__action_student_absence_notification_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -204,7 +205,7 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'dayString',

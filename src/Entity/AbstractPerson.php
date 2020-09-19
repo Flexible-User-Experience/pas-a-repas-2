@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\StudentPaymentEnum;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 abstract class AbstractPerson extends AbstractBase
 {
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -90,7 +91,7 @@ abstract class AbstractPerson extends AbstractBase
      */
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDischargeDate()
     {
@@ -102,11 +103,11 @@ abstract class AbstractPerson extends AbstractBase
      */
     public function getDischargeDateString()
     {
-        return $this->getDischargeDate()->format('d/m/Y');
+        return $this->getDischargeDate() ? $this->getDischargeDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
-     * @param \DateTime $dischargeDate
+     * @param DateTime $dischargeDate
      *
      * @return $this
      */
@@ -286,7 +287,7 @@ abstract class AbstractPerson extends AbstractBase
      */
     public function getPaymentString()
     {
-        return StudentPaymentEnum::getOldEnumTranslatedArray()[$this->payment];
+        return StudentPaymentEnum::getEnumTranslatedArray()[$this->payment];
     }
 
     /**

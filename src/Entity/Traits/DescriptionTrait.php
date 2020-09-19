@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Description trait
  *
  * @category Trait
- * @package  AppBundle\Entity\Traits
+ * @package  App\Entity\Traits
  * @author   David Romaní <david@flux.cat>
  */
 Trait DescriptionTrait

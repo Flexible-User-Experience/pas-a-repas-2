@@ -5,12 +5,6 @@
     "behat/transliterator": {
         "version": "v1.2.0"
     },
-    "cocur/slugify": {
-        "version": "v3.2"
-    },
-    "composer/ca-bundle": {
-        "version": "1.2.4"
-    },
     "digitick/sepa-xml": {
         "version": "1.6.1"
     },
@@ -93,20 +87,27 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
-    "easycorp/easy-log-handler": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
-        },
-        "files": [
-            "config/packages/dev/easy_log_handler.yaml"
-        ]
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
+    },
+    "drewm/mailchimp-api": {
+        "version": "v2.5.4"
     },
     "egulias/email-validator": {
         "version": "2.1.11"
+    },
+    "excelwebzone/recaptcha-bundle": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "fd4da7bc71749db65bc83abf5d164bfa9c839cf4"
+        },
+        "files": [
+            "config/packages/dev/ewz_recaptcha.yaml",
+            "config/packages/ewz_recaptcha.yaml"
+        ]
     },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.0",
@@ -141,6 +142,21 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
+    "google/recaptcha": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "d087df3e087f50da3955f2def05079380da5894b"
+        },
+        "files": [
+            "config/packages/google_recaptcha.yaml"
+        ]
+    },
+    "gremo/zurb-ink-bundle": {
+        "version": "v4.1.0"
+    },
     "hautelook/alice-bundle": {
         "version": "2.1",
         "recipe": {
@@ -158,17 +174,26 @@
     "imagine/imagine": {
         "version": "1.2.2"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
-    },
     "jms/metadata": {
         "version": "2.1.0"
+    },
+    "jms/serializer": {
+        "version": "3.9.0"
+    },
+    "knplabs/knp-components": {
+        "version": "v1.3.10"
     },
     "knplabs/knp-menu": {
         "version": "2.6.0"
     },
     "knplabs/knp-menu-bundle": {
         "version": "v2.3.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v3.0.0"
+    },
+    "kunicmarko/color-picker-bundle": {
+        "version": "1.1.0"
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.1"
@@ -185,6 +210,9 @@
             "config/packages/liip_imagine.yaml",
             "config/routes/liip_imagine.yaml"
         ]
+    },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
     },
     "monolog/monolog": {
         "version": "1.25.1"
@@ -205,9 +233,6 @@
             "config/packages/test/nelmio_alice.yaml"
         ]
     },
-    "nikic/php-parser": {
-        "version": "v4.2.5"
-    },
     "ocramius/package-versions": {
         "version": "1.4.0"
     },
@@ -226,6 +251,9 @@
     "phpdocumentor/type-resolver": {
         "version": "1.0.1"
     },
+    "presta/sitemap-bundle": {
+        "version": "v2.3.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -237,6 +265,9 @@
     },
     "psr/log": {
         "version": "1.1.2"
+    },
+    "qipsius/tcpdf-bundle": {
+        "version": "2.0.1"
     },
     "saad-tazi/g-chart-bundle": {
         "version": "v3.1.1"
@@ -297,18 +328,6 @@
     "sonata-project/cache": {
         "version": "2.0.1"
     },
-    "sonata-project/core-bundle": {
-        "version": "3.9",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.9",
-            "ref": "2f69bd1995730b73a5211a9707622fb25a925df7"
-        },
-        "files": [
-            "config/packages/sonata_core.yaml"
-        ]
-    },
     "sonata-project/datagrid-bundle": {
         "version": "2.5.0"
     },
@@ -318,11 +337,23 @@
     "sonata-project/doctrine-orm-admin-bundle": {
         "version": "3.10.0"
     },
-    "sonata-project/easy-extends-bundle": {
-        "version": "2.5.0"
-    },
     "sonata-project/exporter": {
         "version": "2.0.1"
+    },
+    "sonata-project/form-extensions": {
+        "version": "1.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.4",
+            "ref": "bfc222606aea5418345af70104d974a25dc7c441"
+        },
+        "files": [
+            "config/packages/sonata_form.yaml"
+        ]
+    },
+    "sonata-project/twig-extensions": {
+        "version": "1.4.1"
     },
     "sonata-project/user-bundle": {
         "version": "4.5.1"
@@ -473,14 +504,17 @@
     "symfony/intl": {
         "version": "v4.3.6"
     },
-    "symfony/maker-bundle": {
-        "version": "1.0",
+    "symfony/mailer": {
+        "version": "4.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "1.0",
-            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
-        }
+            "version": "4.3",
+            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
     },
     "symfony/mime": {
         "version": "v4.3.6"
@@ -524,11 +558,17 @@
             "tests/.gitignore"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.14.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.12.0"
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.14.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.12.0"
@@ -538,6 +578,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.18.1"
     },
     "symfony/process": {
         "version": "v4.3.6"
@@ -604,19 +647,8 @@
     "symfony/stopwatch": {
         "version": "v4.3.6"
     },
-    "symfony/swiftmailer-bundle": {
-        "version": "2.5",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.5",
-            "ref": "429afc6c6778a1fdddb52a4f708cd94ff2c9960f"
-        },
-        "files": [
-            "config/packages/dev/swiftmailer.yaml",
-            "config/packages/swiftmailer.yaml",
-            "config/packages/test/swiftmailer.yaml"
-        ]
+    "symfony/string": {
+        "version": "v5.0.4"
     },
     "symfony/templating": {
         "version": "v4.3.6"
@@ -657,6 +689,9 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/twig-pack": {
+        "version": "v1.0.0"
+    },
     "symfony/validator": {
         "version": "4.3",
         "recipe": {
@@ -692,15 +727,6 @@
             "config/packages/test/web_profiler.yaml",
             "config/routes/dev/web_profiler.yaml"
         ]
-    },
-    "symfony/web-server-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
     },
     "symfony/webpack-encore-bundle": {
         "version": "1.0",
@@ -747,17 +773,23 @@
             "ref": "fe5a50faf580eb58f08ada2abe8afbd2d4941e05"
         }
     },
-    "twig/extensions": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a86723ee8d8b2f9437c8ce60a5546a1c267da5ed"
-        },
-        "files": [
-            "config/packages/twig_extensions.yaml"
-        ]
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.3"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.0.5"
+    },
+    "twig/extra-bundle": {
+        "version": "v3.0.5"
+    },
+    "twig/inky-extra": {
+        "version": "v3.0.5"
+    },
+    "twig/markdown-extra": {
+        "version": "v3.0.5"
+    },
+    "twig/string-extra": {
+        "version": "v3.0.5"
     },
     "twig/twig": {
         "version": "v2.12.1"
@@ -779,9 +811,6 @@
     },
     "webmozart/assert": {
         "version": "1.5.0"
-    },
-    "whiteoctober/tcpdf-bundle": {
-        "version": "1.1.2"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"

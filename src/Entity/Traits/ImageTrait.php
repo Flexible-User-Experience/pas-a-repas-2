@@ -3,8 +3,6 @@
 namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -12,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * Image trait
  *
  * @category Trait
- * @package  AppBundle\Entity\Traits
+ * @package  App\Entity\Traits
  * @author   David Romaní <david@flux.cat>
  */
 Trait ImageTrait

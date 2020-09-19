@@ -7,9 +7,9 @@ use App\Entity\InvoiceLine;
 use App\Enum\StudentPaymentEnum;
 use App\Service\SmartAssetsHelperService;
 use Exception;
+use Qipsius\TCPDFBundle\Controller\TCPDFController;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use TCPDF;
-use WhiteOctober\TCPDFBundle\Controller\TCPDFController;
 
 /**
  * Class InvoiceBuilderPdf.

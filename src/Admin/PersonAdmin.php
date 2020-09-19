@@ -31,13 +31,6 @@ class PersonAdmin extends AbstractBaseAdmin
     );
 
     /**
-     * @var array
-     */
-    protected $formOptions = array(
-        'error_bubbling' => true,
-    );
-
-    /**
      * Configure route collection.
      *
      * @param RouteCollection $collection
@@ -102,7 +95,7 @@ class PersonAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => City::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(City::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
                 )
             )
             ->end()
@@ -170,7 +163,7 @@ class PersonAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -288,8 +281,9 @@ class PersonAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',
@@ -336,7 +330,7 @@ class PersonAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
                     ),
                     'label' => 'Accions',
                 )
@@ -347,7 +341,7 @@ class PersonAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'dni',

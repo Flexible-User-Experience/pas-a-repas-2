@@ -1,5 +1,5 @@
 sonata_admin:
-    title:              '%backoffice_title%'
+    title:              '%project_backend_title%'
     title_logo:         'build/backend-favicon.png'
     show_mosaic_button: false
     persist_filters:    true
@@ -19,20 +19,20 @@ sonata_admin:
     dashboard:
         groups:
             Alumnes:
-                icon: '<i class="fa fa-graduation-cap"></i>'
+                icon:     '<i class="fa fa-graduation-cap"></i>'
             Professors:
-                icon: '<i class="fa fa-user"></i>'
+                icon:     '<i class="fa fa-user"></i>'
             Aules:
-                icon: '<i class="fa fa-window-maximize"></i>'
+                icon:     '<i class="fa fa-window-maximize"></i>'
             Facturació:
                 icon:     '<i class="fa fa-eur"></i>'
                 provider: 'backend_invoice_menu'
                 roles:    ['ROLE_ADMIN']
             Despeses:
-                icon:  '<i class="fa fa-eur"></i>'
-                roles: ['ROLE_ADMIN']
+                icon:     '<i class="fa fa-eur"></i>'
+                roles:    ['ROLE_ADMIN']
             Configuració:
-                icon: '<i class="fa fa-cogs"></i>'
+                icon:     '<i class="fa fa-cogs"></i>'
         blocks:
             -
                 position: top
@@ -41,7 +41,7 @@ sonata_admin:
                 roles:    ['ROLE_CMS']
                 settings:
                     content: >
-                        <h1 style="margin-top:0">%backoffice_title%</h1>
+                        <h1 style="margin-top:0">%project_backend_title%</h1>
             -
                 position: top
                 type:     app.block.event_calendar

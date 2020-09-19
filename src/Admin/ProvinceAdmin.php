@@ -2,12 +2,12 @@
 
 namespace App\Admin;
 
+use App\Entity\Province;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 
 /**
  * Class ProvinceAdmin.
@@ -55,14 +55,6 @@ class ProvinceAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.province.name',
                 )
             )
-            ->add(
-                'country',
-                CountryType::class,
-                array(
-                    'label' => 'backend.admin.province.country',
-                    'preferred_choices' => array('ES'),
-                )
-            )
             ->end()
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -80,7 +72,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -117,8 +109,9 @@ class ProvinceAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'code',
@@ -157,11 +150,19 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
                     ),
                     'label' => 'Accions',
                 )
             )
         ;
+    }
+
+    /**
+     * @param Province $object
+     */
+    public function prePersist($object)
+    {
+        $object->setCountry('ES');
     }
 }

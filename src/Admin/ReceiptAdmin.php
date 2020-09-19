@@ -61,7 +61,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
      *
      * @return array
      */
-    public function configureBatchActions($actions)
+    public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generatereminderspdf'] = array(
@@ -136,7 +136,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Student::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Student::class)->getEnabledSortedBySurnameValidTariffQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getEnabledSortedBySurnameValidTariffQB(),
                 )
             )
             ->add(
@@ -147,7 +147,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'class' => Person::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Person::class)->getEnabledSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.parent_repository')->getEnabledSortedBySurnameQB(),
                     'disabled' => true,
                 )
             )
@@ -278,7 +278,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -442,15 +442,16 @@ class ReceiptAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'id',
                 null,
                 array(
                     'label' => 'backend.admin.receipt.id',
-                    'template' => 'admin/cells/list__cell_receipt_number.html.twig',
+                    'template' => 'Admin/Cells/list__cell_receipt_number.html.twig',
                 )
             )
             ->add(
@@ -458,7 +459,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.receipt.date',
-                    'template' => 'admin/cells/list__cell_receipt_date.html.twig',
+                    'template' => 'Admin/Cells/list__cell_receipt_date.html.twig',
                     'editable' => false,
                 )
             )
@@ -467,7 +468,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.year',
-                    'template' => 'admin/cells/list__cell_event_year.html.twig',
+                    'template' => 'Admin/Cells/list__cell_event_year.html.twig',
                     'editable' => false,
                 )
             )
@@ -476,7 +477,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.month',
-                    'template' => 'admin/cells/list__cell_event_month.html.twig',
+                    'template' => 'Admin/Cells/list__cell_event_month.html.twig',
                 )
             )
             ->add(
@@ -496,7 +497,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.baseAmount',
-                    'template' => 'admin/cells/list__cell_receipt_amount.html.twig',
+                    'template' => 'Admin/Cells/list__cell_receipt_amount.html.twig',
                     'editable' => false,
                 )
             )
@@ -537,14 +538,14 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'reminder' => array('template' => 'admin/buttons/list__action_receipt_reminder_button.html.twig'),
-                        'sendReminder' => array('template' => 'admin/buttons/list__action_receipt_reminder_send_button.html.twig'),
-                        'pdf' => array('template' => 'admin/buttons/list__action_receipt_pdf_button.html.twig'),
-                        'send' => array('template' => 'admin/buttons/list__action_receipt_send_button.html.twig'),
-                        'createInvoice' => array('template' => 'admin/buttons/list__action_receipt_create_invoice_button.html.twig'),
-                        'generateDirectDebit' => array('template' => 'admin/buttons/list__action_generate_direct_debit_xml_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_superadmin_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'reminder' => array('template' => 'Admin/Buttons/list__action_receipt_reminder_button.html.twig'),
+                        'sendReminder' => array('template' => 'Admin/Buttons/list__action_receipt_reminder_send_button.html.twig'),
+                        'pdf' => array('template' => 'Admin/Buttons/list__action_receipt_pdf_button.html.twig'),
+                        'send' => array('template' => 'Admin/Buttons/list__action_receipt_send_button.html.twig'),
+                        'createInvoice' => array('template' => 'Admin/Buttons/list__action_receipt_create_invoice_button.html.twig'),
+                        'generateDirectDebit' => array('template' => 'Admin/Buttons/list__action_generate_direct_debit_xml_button.html.twig'),
+                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_superadmin_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -554,7 +555,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'receiptNumber',

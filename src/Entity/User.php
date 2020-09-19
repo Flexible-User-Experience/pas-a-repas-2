@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
+use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 
 /**
  * Class User.
@@ -25,49 +25,16 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $facebookId;
-
-    /**
      * Methods.
      */
 
     /**
+     * Get id.
+     *
      * @return int $id
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFullName()
-    {
-        return $this->getUsername();
-    }
-
-    /**
-     * @return string
-     */
-    public function getFacebookId(): string
-    {
-        return $this->facebookId;
-    }
-
-    /**
-     * @param string $facebookId
-     *
-     * @return $this
-     */
-    public function setFacebookId(string $facebookId): User
-    {
-        $this->facebookId = $facebookId;
-
-        return $this;
     }
 }

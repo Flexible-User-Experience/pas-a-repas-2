@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace App\Listener;
 
 use App\Entity\Event as AppEvent;
 use App\Entity\Student;
@@ -11,46 +11,47 @@ use App\Repository\TeacherAbsenceRepository;
 use App\Service\EventTrasnformerFactoryService;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Event\CalendarEvent;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class FullCalendarSubscriber.
+ * Class FullCalendarListener.
  *
  * @category Listener
  */
-class FullCalendarSubscriber implements EventSubscriberInterface
+class FullCalendarListener implements EventSubscriberInterface
 {
     /**
      * @var EventRepository
      */
-    private EventRepository $ers;
+    private $ers;
 
     /**
      * @var TeacherAbsenceRepository
      */
-    private TeacherAbsenceRepository $tars;
+    private $tars;
 
     /**
      * @var StudentRepository
      */
-    private StudentRepository $srs;
+    private $srs;
 
     /**
      * @var EventTrasnformerFactoryService
      */
-    private EventTrasnformerFactoryService $etfs;
+    private $etfs;
 
     /**
      * @var RequestStack
      */
-    private RequestStack $rss;
+    private $rss;
 
     /**
-     * @var RouterInterface
+     * @var Router
      */
-    private RouterInterface $router;
+    private $router;
 
     /**
      * Methods.
@@ -77,9 +78,19 @@ class FullCalendarSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @return array|string[]
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            CalendarEvents::SET_DATA => 'loadData',
+        ];
+    }
+
+    /**
      * @param CalendarEvent $calendarEvent
      */
-    public function onCalendarSetData(CalendarEvent $calendarEvent)
+    public function loadData(CalendarEvent $calendarEvent)
     {
         $startDate = $calendarEvent->getStart();
         $endDate = $calendarEvent->getEnd();
@@ -124,15 +135,5 @@ class FullCalendarSubscriber implements EventSubscriberInterface
                 $calendarEvent->addEvent($this->etfs->build($event));
             }
         }
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            CalendarEvents::SET_DATA => 'onCalendarSetData',
-        ];
     }
 }

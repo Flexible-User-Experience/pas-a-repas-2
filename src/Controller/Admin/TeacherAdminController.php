@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Teacher;
-use App\Entity\TeacherAbsence;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,13 +34,13 @@ class TeacherAdminController extends BaseAdminController
         $object = $this->admin->getObject($id);
 
         if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
-        $absences = $this->container->get('doctrine')->getRepository(TeacherAbsence::class)->getTeacherAbsencesSortedByDate($object);
+        $absences = $this->container->get('app.teacher_absence_repository')->getTeacherAbsencesSortedByDate($object);
 
         return $this->renderWithExtraParams(
-            'admin/teacher/detail.html.twig',
+            'Admin/Teacher/detail.html.twig',
             array(
                 'action' => 'show',
                 'object' => $object,

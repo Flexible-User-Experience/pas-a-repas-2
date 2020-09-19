@@ -6,8 +6,6 @@ use App\Entity\Invoice;
 use App\Entity\InvoiceLine;
 use App\Entity\Receipt;
 use App\Repository\InvoiceRepository;
-use DateTime;
-use Exception;
 
 /**
  * Class ReceiptManager.
@@ -19,7 +17,7 @@ class ReceiptManager
     /**
      * @var InvoiceRepository
      */
-    private InvoiceRepository $ir;
+    private $ir;
 
     /**
      * Methods.
@@ -39,7 +37,6 @@ class ReceiptManager
      * @param Receipt $receipt
      *
      * @return Invoice
-     * @throws Exception
      */
     public function createInvoiceFromReceipt(Receipt $receipt)
     {
@@ -48,7 +45,7 @@ class ReceiptManager
             ->setReceipt($receipt)
             ->setStudent($receipt->getStudent())
             ->setPerson($receipt->getPerson())
-            ->setDate(new DateTime())
+            ->setDate(new \DateTime())
             ->setIrpfPercentage(Invoice::TAX_IRPF)
             ->setTaxPercentage(Invoice::TAX_IVA)
             ->setIsPayed($receipt->getIsPayed())

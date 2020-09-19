@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\EventClassroomTypeEnum;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,14 +20,14 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Event extends AbstractBase
 {
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime")
      */
     private $begin;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime")
      */
@@ -86,7 +87,7 @@ class Event extends AbstractBase
     private $dayFrequencyRepeat;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -105,7 +106,7 @@ class Event extends AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getBegin()
     {
@@ -117,15 +118,15 @@ class Event extends AbstractBase
      */
     public function getBeginString()
     {
-        return $this->getBegin()->format('d/m/Y H:i');
+        return $this->getBegin() ? $this->getBegin()->format('d/m/Y H:i') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
-     * @param \DateTime $begin
+     * @param DateTime $begin
      *
      * @return Event
      */
-    public function setBegin(\DateTime $begin)
+    public function setBegin(DateTime $begin)
     {
         $this->begin = $begin;
 
@@ -133,7 +134,7 @@ class Event extends AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEnd()
     {
@@ -145,15 +146,15 @@ class Event extends AbstractBase
      */
     public function getEndString()
     {
-        return $this->getEnd()->format('d/m/Y H:i');
+        return $this->getEnd() ? $this->getEnd()->format('d/m/Y H:i') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
-     * @param \DateTime $end
+     * @param DateTime $end
      *
      * @return Event
      */
-    public function setEnd(\DateTime $end)
+    public function setEnd(DateTime $end)
     {
         $this->end = $end;
 
@@ -193,7 +194,7 @@ class Event extends AbstractBase
      */
     public function getClassroomString()
     {
-        return EventClassroomTypeEnum::getOldTranslatedEnumArray()[$this->classroom];
+        return EventClassroomTypeEnum::getTranslatedEnumArray()[$this->classroom];
     }
 
     /**
@@ -201,7 +202,7 @@ class Event extends AbstractBase
      */
     public function getShortClassroomString()
     {
-        return EventClassroomTypeEnum::getOldShortTranslatedEnumArray()[$this->classroom];
+        return EventClassroomTypeEnum::getShortTranslatedEnumArray()[$this->classroom];
     }
 
     /**
@@ -253,7 +254,7 @@ class Event extends AbstractBase
     }
 
     /**
-     * @return ArrayCollection
+     * @return string
      */
     public function getStudentsString()
     {
@@ -367,7 +368,7 @@ class Event extends AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getUntil()
     {
@@ -375,7 +376,7 @@ class Event extends AbstractBase
     }
 
     /**
-     * @param \DateTime|null $until
+     * @param DateTime|null $until
      *
      * @return Event
      */
@@ -422,29 +423,6 @@ class Event extends AbstractBase
     public function getCalendarTitle()
     {
         return '['.$this->getShortClassroomString().'] '.$this->getGroup()->getCode().' '.$this->getTeacher()->getName();
-    }
-
-    /**
-     * @return string
-     */
-    public function getShortCalendarTitle()
-    {
-        return $this->getGroup()->getCode().' '.$this->getTeacher()->getFirstName();
-    }
-
-    /**
-     * @return string
-     */
-    public function getShortCalendarTitleForPrivateLessons()
-    {
-        $result = '???';
-        if ($this->getStudentsAmount() > 0) {
-            /** @var Student $firstStudent */
-            $firstStudent = $this->getStudents()[0];
-            $result = /*$this->getGroup()->getCode().' '.*/$firstStudent->getFullName();
-        }
-
-        return $result;
     }
 
     /**

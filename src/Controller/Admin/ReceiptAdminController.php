@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\DefaultController;
 use App\Entity\Invoice;
 use App\Entity\Receipt;
 use App\Enum\StudentPaymentEnum;
@@ -13,10 +14,13 @@ use App\Pdf\ReceiptReminderBuilderPdf;
 use App\Service\NotificationService;
 use App\Pdf\ReceiptBuilderPdf;
 use App\Service\XmlSepaBuilderService;
+use Digitick\Sepa\Exception\InvalidArgumentException;
+use Digitick\Sepa\Exception\InvalidPaymentMethodException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Exception;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -25,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ReceiptAdminController.
@@ -71,7 +76,7 @@ class ReceiptAdminController extends BaseAdminController
         }
 
         return $this->renderWithExtraParams(
-            'admin/receipt/generate_receipt_form.html.twig',
+            'Admin/Receipt/generate_receipt_form.html.twig',
             array(
                 'action' => 'generate',
                 'year_month_form' => $yearMonthForm->createView(),
@@ -90,11 +95,11 @@ class ReceiptAdminController extends BaseAdminController
      * @throws NotFoundHttpException                 If the object does not exist
      * @throws AccessDeniedException                 If access is not granted
      * @throws NonUniqueResultException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      */
     public function creatorAction(Request $request)
     {
-        /** @var Translator $translator */
+        /** @var TranslatorInterface $translator */
         $translator = $this->container->get('translator');
         /** @var GenerateReceiptFormManager $grfm */
         $grfm = $this->container->get('app.generate_receipt_form_manager');
@@ -126,7 +131,7 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
-     * @throws \Exception
+     * @throws Exception
      */
     public function createInvoiceAction(Request $request)
     {
@@ -157,7 +162,8 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return Response
      *
-     * @throws \Exception
+     * @throws NotFoundHttpException If the object does not exist
+     * @throws AccessDeniedException If access is not granted
      */
     public function reminderAction(Request $request)
     {
@@ -187,9 +193,7 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws NotFoundHttpException If the object does not exist
      */
     public function sendReminderAction(Request $request)
     {
@@ -233,7 +237,6 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
-     * @throws \Exception
      */
     public function pdfAction(Request $request)
     {
@@ -260,9 +263,7 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws NotFoundHttpException If the object does not exist
      */
     public function sendAction(Request $request)
     {
@@ -308,8 +309,8 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return Response|BinaryFileResponse
      *
-     * @throws \Digitick\Sepa\Exception\InvalidArgumentException
-     * @throws \Digitick\Sepa\Exception\InvalidPaymentMethodException
+     * @throws InvalidArgumentException
+     * @throws InvalidPaymentMethodException
      */
     public function generateDirectDebitAction(Request $request)
     {
@@ -319,12 +320,12 @@ class ReceiptAdminController extends BaseAdminController
         /** @var Receipt $object */
         $object = $this->admin->getObject($id);
         if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
         /** @var XmlSepaBuilderService $xsbs */
         $xsbs = $this->container->get('app.xml_sepa_builder');
-        $paymentUniqueId = uniqid();
+        $paymentUniqueId = uniqid('', true);
         $xml = $xsbs->buildDirectDebitSingleReceiptXml($paymentUniqueId, new \DateTime('now + 3 days'), $object);
 
         $object
@@ -334,7 +335,7 @@ class ReceiptAdminController extends BaseAdminController
         $em = $this->container->get('doctrine')->getManager();
         $em->flush();
 
-        if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
+        if (DefaultController::ENV_DEV == $this->getParameter('kernel.environment')) {
             return new Response($xml, 200, array('Content-type' => 'application/xml'));
         }
 
@@ -401,12 +402,12 @@ class ReceiptAdminController extends BaseAdminController
         try {
             /** @var XmlSepaBuilderService $xsbs */
             $xsbs = $this->container->get('app.xml_sepa_builder');
-            $paymentUniqueId = uniqid();
+            $paymentUniqueId = uniqid('', true);
             $xmls = $xsbs->buildDirectDebitReceiptsXml($paymentUniqueId, new \DateTime('now + 3 days'), $selectedModels);
 
             /** @var Receipt $selectedModel */
             foreach ($selectedModels as $selectedModel) {
-                if (StudentPaymentEnum::BANK_ACCOUNT_NUMBER == $selectedModel->getMainSubject()->getPayment() && !$selectedModel->getStudent()->getIsPaymentExempt()) {
+                if ($selectedModel->isReadyToGenerateSepa() && !$selectedModel->getStudent()->getIsPaymentExempt()) {
                     $selectedModel
                         ->setIsSepaXmlGenerated(true)
                         ->setSepaXmlGeneratedDate(new \DateTime())
@@ -415,7 +416,7 @@ class ReceiptAdminController extends BaseAdminController
             }
             $em->flush();
 
-            if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
+            if (DefaultController::ENV_DEV === $this->getParameter('kernel.environment')) {
                 return new Response($xmls, 200, array('Content-type' => 'application/xml'));
             }
 

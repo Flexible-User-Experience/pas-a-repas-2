@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -24,7 +25,7 @@ class StudentAbsence extends AbstractBase
     private $student;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="date", nullable=false)
      */
@@ -38,7 +39,7 @@ class StudentAbsence extends AbstractBase
     private $hasBeenNotified = false;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -52,7 +53,7 @@ class StudentAbsence extends AbstractBase
     private $hasBeenAccepted = false;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -83,7 +84,7 @@ class StudentAbsence extends AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDay()
     {
@@ -95,15 +96,15 @@ class StudentAbsence extends AbstractBase
      */
     public function getDayString()
     {
-        return $this->getDay()->format('d/m/Y');
+        return $this->getDay() ? $this->getDay()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
-     * @param \DateTime $day
+     * @param DateTime $day
      *
      * @return $this
      */
-    public function setDay(\DateTime $day)
+    public function setDay(DateTime $day)
     {
         $this->day = $day;
 
@@ -155,7 +156,7 @@ class StudentAbsence extends AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getNotificationDate()
     {
@@ -163,7 +164,7 @@ class StudentAbsence extends AbstractBase
     }
 
     /**
-     * @param \DateTime $notificationDate
+     * @param DateTime $notificationDate
      *
      * @return $this
      */
@@ -211,7 +212,7 @@ class StudentAbsence extends AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getAcceptedDate()
     {
@@ -219,7 +220,7 @@ class StudentAbsence extends AbstractBase
     }
 
     /**
-     * @param \DateTime $acceptedDate
+     * @param DateTime $acceptedDate
      *
      * @return $this
      */
@@ -235,6 +236,6 @@ class StudentAbsence extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getDay()->format('d/m/Y').' · '.$this->getStudent() : '---';
+        return $this->id ? $this->getDayString().' · '.$this->getStudent() : '---';
     }
 }

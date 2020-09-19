@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\DefaultController;
 use App\Entity\Invoice;
 use App\Enum\StudentPaymentEnum;
 use App\Form\Model\GenerateInvoiceModel;
@@ -11,12 +12,13 @@ use App\Manager\GenerateInvoiceFormManager;
 use App\Pdf\InvoiceBuilderPdf;
 use App\Service\NotificationService;
 use App\Service\XmlSepaBuilderService;
+use Digitick\Sepa\Exception\InvalidArgumentException;
+use Digitick\Sepa\Exception\InvalidPaymentMethodException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -25,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class InvoiceAdminController.
@@ -71,7 +74,7 @@ class InvoiceAdminController extends BaseAdminController
         }
 
         return $this->renderWithExtraParams(
-            'admin/invoice/generate_invoice_form.html.twig',
+            'Admin/Invoice/generate_invoice_form.html.twig',
             array(
                 'action' => 'generate',
                 'year_month_form' => $yearMonthForm->createView(),
@@ -88,13 +91,14 @@ class InvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
+     * @throws NotFoundHttpException                 If the object does not exist
+     * @throws AccessDeniedException                 If access is not granted
      * @throws NonUniqueResultException
      * @throws OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function creatorAction(Request $request)
     {
-        /** @var Translator $translator */
+        /** @var TranslatorInterface $translator */
         $translator = $this->container->get('translator');
         /** @var GenerateInvoiceFormManager $gifm */
         $gifm = $this->container->get('app.generate_invoice_form_manager');
@@ -146,10 +150,8 @@ class InvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     * @throws \Exception
+     * @throws NotFoundHttpException If the object does not exist
+     * @throws Exception
      */
     public function sendAction(Request $request)
     {
@@ -195,8 +197,8 @@ class InvoiceAdminController extends BaseAdminController
      *
      * @return Response|BinaryFileResponse
      *
-     * @throws \Digitick\Sepa\Exception\InvalidArgumentException
-     * @throws \Digitick\Sepa\Exception\InvalidPaymentMethodException
+     * @throws InvalidArgumentException
+     * @throws InvalidPaymentMethodException
      */
     public function generateDirectDebitAction(Request $request)
     {
@@ -211,7 +213,7 @@ class InvoiceAdminController extends BaseAdminController
 
         /** @var XmlSepaBuilderService $xsbs */
         $xsbs = $this->container->get('app.xml_sepa_builder');
-        $paymentUniqueId = uniqid();
+        $paymentUniqueId = uniqid('', true);
         $xml = $xsbs->buildDirectDebitSingleInvoiceXml($paymentUniqueId, new \DateTime('now + 3 days'), $object);
 
         $object
@@ -221,7 +223,7 @@ class InvoiceAdminController extends BaseAdminController
         $em = $this->container->get('doctrine')->getManager();
         $em->flush();
 
-        if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
+        if (DefaultController::ENV_DEV == $this->getParameter('kernel.environment')) {
             return new Response($xml, 200, array('Content-type' => 'application/xml'));
         }
 
@@ -251,7 +253,7 @@ class InvoiceAdminController extends BaseAdminController
         try {
             /** @var XmlSepaBuilderService $xsbs */
             $xsbs = $this->container->get('app.xml_sepa_builder');
-            $paymentUniqueId = uniqid();
+            $paymentUniqueId = uniqid('', true);
             $xmls = $xsbs->buildDirectDebitInvoicesXml($paymentUniqueId, new \DateTime('now + 3 days'), $selectedModels);
 
             /** @var Invoice $selectedModel */
@@ -265,7 +267,7 @@ class InvoiceAdminController extends BaseAdminController
             }
             $em->flush();
 
-            if (BaseAdminController::ENV_DEV == $this->getParameter('kernel.environment')) {
+            if (DefaultController::ENV_DEV == $this->getParameter('kernel.environment')) {
                 return new Response($xmls, 200, array('Content-type' => 'application/xml'));
             }
 

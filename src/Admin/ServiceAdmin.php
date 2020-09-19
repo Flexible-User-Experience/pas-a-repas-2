@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
@@ -76,7 +77,7 @@ class ServiceAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'enabled',
-                'checkbox',
+                CheckboxType::class,
                 array(
                     'label' => 'backend.admin.enabled',
                     'required' => false,
@@ -88,7 +89,7 @@ class ServiceAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -124,8 +125,9 @@ class ServiceAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'position',
@@ -140,7 +142,7 @@ class ServiceAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.image',
-                    'template' => 'admin/cells/list__cell_image_field.html.twig',
+                    'template' => 'Admin/Cells/list__cell_image_field.html.twig',
                 )
             )
             ->add(
@@ -164,8 +166,8 @@ class ServiceAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -176,7 +178,7 @@ class ServiceAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'position',

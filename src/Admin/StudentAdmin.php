@@ -34,13 +34,6 @@ class StudentAdmin extends AbstractBaseAdmin
     );
 
     /**
-     * @var array
-     */
-    protected $formOptions = array(
-        'error_bubbling' => true,
-    );
-
-    /**
      * Configure route collection.
      *
      * @param RouteCollection $collection
@@ -50,7 +43,6 @@ class StudentAdmin extends AbstractBaseAdmin
         $collection
             ->add('imagerights', $this->getRouterIdParameter().'/image-rights')
             ->add('sepaagreement', $this->getRouterIdParameter().'/sepa-agreement')
-            ->remove('delete')
             ->remove('batch')
         ;
     }
@@ -84,7 +76,7 @@ class StudentAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'class' => Person::class,
                     'choice_label' => 'fullcanonicalname',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Person::class)->getEnabledSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.parent_repository')->getEnabledSortedBySurnameQB(),
                 )
             )
             ->add(
@@ -132,7 +124,7 @@ class StudentAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => City::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(City::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
                 )
             )
             ->end()
@@ -175,7 +167,6 @@ class StudentAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'backend.admin.student.birthDate',
                     'format' => 'd/M/y',
-                    'required' => false,
                 )
             )
             ->add(
@@ -188,13 +179,20 @@ class StudentAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'schedule',
+                null,
+                array(
+                    'label' => 'backend.admin.student.schedule',
+                )
+            )
+            ->add(
                 'tariff',
                 EntityType::class,
                 array(
                     'label' => 'backend.admin.student.tariff',
                     'required' => true,
                     'class' => Tariff::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Tariff::class)->findAllSortedByYearAndPriceQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.tariff_repository')->findAllSortedByYearAndPriceQB(),
                 )
             )
             ->add(
@@ -244,7 +242,7 @@ class StudentAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -378,6 +376,13 @@ class StudentAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'schedule',
+                null,
+                array(
+                    'label' => 'backend.admin.student.schedule',
+                )
+            )
+            ->add(
                 'tariff',
                 null,
                 array(
@@ -425,8 +430,9 @@ class StudentAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',
@@ -497,14 +503,11 @@ class StudentAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'imagerights' => array(
-                            'template' => 'admin/cells/list__action_image_rights.html.twig',
-                        ),
-                        'sepaagreement' => array(
-                            'template' => 'admin/cells/list__action_sepa_agreement.html.twig',
-                        ),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'show' => array('template' => 'Admin/Buttons/list__action_show_button.html.twig'),
+                        'imagerights' => array('template' => 'Admin/Cells/list__action_image_rights.html.twig'),
+                        'sepaagreement' => array('template' => 'Admin/Cells/list__action_sepa_agreement.html.twig'),
+                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_student_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -515,7 +518,7 @@ class StudentAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'dni',
@@ -533,6 +536,7 @@ class StudentAdmin extends AbstractBaseAdmin
             'bank.accountNumber',
             'birthDateString',
             'dischargeDateString',
+            'schedule',
             'tariff',
             'hasImageRightsAccepted',
             'hasSepaAgreementAccepted',

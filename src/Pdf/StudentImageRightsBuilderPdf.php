@@ -5,6 +5,7 @@ namespace App\Pdf;
 use App\Entity\Student;
 use App\Service\SmartAssetsHelperService;
 use IntlDateFormatter;
+use Qipsius\TCPDFBundle\Controller\TCPDFController;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use TCPDF;
 use Exception;
@@ -48,7 +49,7 @@ class StudentImageRightsBuilderPdf
      * @param Translator               $ts
      * @param string                   $pwt
      */
-    public function __construct(TCPDF $tcpdf, SmartAssetsHelperService $sahs, Translator $ts, $pwt)
+    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, Translator $ts, $pwt)
     {
         $this->tcpdf = $tcpdf;
         $this->sahs = $sahs;

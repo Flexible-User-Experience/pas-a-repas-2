@@ -6,40 +6,18 @@ use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-/**
- * Class SmartAssetsHelperService.
- *
- * @category Service
- */
 class SmartAssetsHelperService
 {
     const HTTP_PROTOCOL = 'https://';
     const PHP_SERVER_API_CLI_CONTEXT = 'cli';
 
-    /**
-     * @var KernelInterface
-     */
-    private $kernel;
+    private KernelInterface $kernel;
+    private string $pub;
 
-    /**
-     * @var string mailer URL base
-     */
-    private $mub;
-
-    /**
-     * Methods.
-     */
-
-    /**
-     * SmartAssetsHelperService constructor.
-     *
-     * @param KernelInterface $kernel
-     * @param string          $mub
-     */
-    public function __construct(KernelInterface $kernel, $mub)
+    public function __construct(KernelInterface $kernel, $pub)
     {
         $this->kernel = $kernel;
-        $this->mub = $mub;
+        $this->pub = $pub;
     }
 
     /**
@@ -61,7 +39,7 @@ class SmartAssetsHelperService
      */
     public function getAbsoluteAssetPathContextIndependent($assetPath)
     {
-        $package = new UrlPackage(self::HTTP_PROTOCOL.$this->mub.'/', new EmptyVersionStrategy());
+        $package = new UrlPackage(self::HTTP_PROTOCOL.$this->pub.'/', new EmptyVersionStrategy());
 
         return $package->getUrl($assetPath);
     }
@@ -76,9 +54,8 @@ class SmartAssetsHelperService
     public function getAbsoluteAssetPathByContext($assetPath)
     {
         $result = $this->getAbsoluteAssetPathContextIndependent($assetPath);
-
         if ($this->isCliContext()) {
-            $result = $this->kernel->getRootDir().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web'.$assetPath;
+            $result = $this->kernel->getProjectDir().DIRECTORY_SEPARATOR.'public'.$assetPath;
         }
 
         return $result;
@@ -108,9 +85,8 @@ class SmartAssetsHelperService
     public function getRelativeAssetPathByContext($assetPath)
     {
         $result = $this->getRelativeAssetPathContextIndependent($assetPath);
-
         if ($this->isCliContext()) {
-            $result = $this->kernel->getRootDir().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web'.$assetPath;
+            $result = $this->kernel->getProjectDir().DIRECTORY_SEPARATOR.'public'.$assetPath;
         }
 
         return $result;
@@ -125,8 +101,6 @@ class SmartAssetsHelperService
      */
     public function getAbsoluteAssetFilePath($assetPath)
     {
-        $result = $this->kernel->getRootDir().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web'.$assetPath;
-
-        return $result;
+        return $this->kernel->getProjectDir().DIRECTORY_SEPARATOR.'public'.$assetPath;
     }
 }

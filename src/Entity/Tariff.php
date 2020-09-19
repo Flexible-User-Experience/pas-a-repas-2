@@ -110,7 +110,7 @@ class Tariff extends AbstractBase
      */
     public function getTypeString()
     {
-        return TariffTypeEnum::getOldTranslatedEnumArray()[$this->type];
+        return TariffTypeEnum::getTranslatedEnumArray()[$this->type];
     }
 
     /**
