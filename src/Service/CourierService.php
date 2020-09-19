@@ -2,15 +2,33 @@
 
 namespace App\Service;
 
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use TCPDF;
 
+/**
+ * Class CourierService.
+ *
+ * @category Service
+ */
 class CourierService
 {
-    private MailerInterface $mailer;
+    /**
+     * @var MailerInterface
+     */
+    private $mailer;
 
+    /**
+     * Methods.
+     */
+
+    /**
+     * CourierService constructor.
+     *
+     * @param MailerInterface $mailer
+     */
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
@@ -18,6 +36,17 @@ class CourierService
 
     /**
      * Send an email.
+     *
+     * @param string $from
+     * @param string $toEmail
+     * @param string $subject
+     * @param string $body
+     * @param string|null $replyAddress
+     * @param string|null $toName
+     *
+     * @return void
+     *
+     * @throws TransportExceptionInterface
      */
     public function sendEmail($from, $toEmail, $subject, $body, $replyAddress = null, $toName = null)
     {
@@ -28,6 +57,18 @@ class CourierService
 
     /**
      * Send an email with an attatchment PDF.
+     *
+     * @param string $from
+     * @param string $toEmail
+     * @param string $toName
+     * @param string $subject
+     * @param string $body
+     * @param string $pdfFilename
+     * @param TCPDF  $pdf
+     *
+     * @return void
+     *
+     * @throws TransportExceptionInterface
      */
     public function sendEmailWithPdfAttached($from, $toEmail, $toName, $subject, $body, $pdfFilename, TCPDF $pdf)
     {
@@ -41,6 +82,15 @@ class CourierService
 
     /**
      * Build an email.
+     *
+     * @param string      $from
+     * @param string      $toEmail
+     * @param string      $subject
+     * @param string      $body
+     * @param string|null $replyAddress
+     * @param string|null $toName
+     *
+     * @return Email
      */
     private function buildEmail($from, $toEmail, $subject, $body, $replyAddress = null, $toName = null)
     {
