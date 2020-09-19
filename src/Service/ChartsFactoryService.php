@@ -6,8 +6,6 @@ use App\Enum\ReceiptYearMonthEnum;
 use App\Repository\InvoiceRepository;
 use App\Repository\ReceiptRepository;
 use App\Repository\SpendingRepository;
-use DateTime;
-use Exception;
 use SaadTazi\GChartBundle\DataTable\DataRow;
 use SaadTazi\GChartBundle\DataTable\DataCell;
 use SaadTazi\GChartBundle\DataTable\DataTable;
@@ -66,7 +64,7 @@ class ChartsFactoryService
      * @return DataTable
      *
      * @throws \SaadTazi\GChartBundle\DataTable\Exception\InvalidColumnTypeException
-     * @throws Exception
+     * @throws \Exception
      */
     public function buildLastYearResultsChart()
     {
@@ -92,7 +90,7 @@ class ChartsFactoryService
     }
 
     /**
-     * @param DateTime $key
+     * @param \DateTime $key
      * @param float|int $sales
      * @param float|int $expenses
      * @param float|int $results
@@ -102,7 +100,7 @@ class ChartsFactoryService
     private function buildResultsCellsRow($key, $sales, $expenses, $results)
     {
         return new DataRow(array(
-                new DataCell(ReceiptYearMonthEnum::getOldShortTranslatedMonthEnumArray()[intval($key->format('n'))].'. '.$key->format('y')),
+                new DataCell(ReceiptYearMonthEnum::getShortTranslatedMonthEnumArray()[intval($key->format('n'))].'. '.$key->format('y')),
                 new DataCell($sales, number_format($sales, 0, ',', '.').'€'),
                 new DataCell($expenses, number_format($sales, 0, ',', '.').'€'),
                 new DataCell($results, number_format($results, 0, ',', '.').'€'),

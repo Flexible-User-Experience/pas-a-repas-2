@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\ContactMessage;
 use App\Entity\Invoice;
 use App\Entity\NewsletterContact;
+use App\Entity\PreRegister;
 use App\Entity\Receipt;
 use App\Entity\StudentAbsence;
 use Exception;
@@ -12,13 +13,45 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use TCPDF;
 use Twig\Environment;
 
+/**
+ * Class NotificationService.
+ *
+ * @category Service
+ */
 class NotificationService
 {
-    private CourierService $messenger;
-    private Environment $twig;
-    private string $amd;
-    private string $pub;
+    /**
+     * @var CourierService
+     */
+    private $messenger;
 
+    /**
+     * @var Environment
+     */
+    private $twig;
+
+    /**
+     * @var string system's App Mail Destionation
+     */
+    private $amd;
+
+    /**
+     * @var string Project URL Base
+     */
+    private $pub;
+
+    /**
+     * Methods.
+     */
+
+    /**
+     * NotificationService constructor.
+     *
+     * @param CourierService $messenger
+     * @param Environment    $twig
+     * @param string         $amd
+     * @param string         $pub
+     */
     public function __construct(CourierService $messenger, Environment $twig, $amd, $pub)
     {
         $this->messenger = $messenger;
@@ -29,6 +62,12 @@ class NotificationService
 
     /**
      * Send a common notification mail to frontend user.
+     *
+     * @param ContactMessage $contactMessage
+     *
+     * @return int If is 0 failure otherwise amount of recipients
+     *
+     * @return int
      */
     public function sendCommonUserNotification(ContactMessage $contactMessage)
     {
@@ -53,6 +92,10 @@ class NotificationService
 
     /**
      * Send a contact form notification to administrator.
+     *
+     * @param ContactMessage $contactMessage
+     *
+     * @return int
      */
     public function sendAdminNotification(ContactMessage $contactMessage)
     {
@@ -77,6 +120,10 @@ class NotificationService
 
     /**
      * Send a contact form notification to admin user.
+     *
+     * @param ContactMessage $contactMessage
+     *
+     * @return int
      */
     public function sendContactAdminNotification(ContactMessage $contactMessage)
     {
@@ -101,6 +148,10 @@ class NotificationService
 
     /**
      * Send backend answer notification to web user.
+     *
+     * @param ContactMessage $contactMessage
+     *
+     * @return int
      */
     public function sendUserBackendNotification(ContactMessage $contactMessage)
     {
@@ -125,6 +176,10 @@ class NotificationService
 
     /**
      * Send a newsletter subscription form notification to admin user.
+     *
+     * @param NewsletterContact $newsletterContact
+     *
+     * @return int
      */
     public function sendNewsletterSubscriptionAdminNotification(NewsletterContact $newsletterContact)
     {
@@ -150,6 +205,10 @@ class NotificationService
 
     /**
      * Send a newsletter subscription form notification to admin user on Mailchimp failure.
+     *
+     * @param NewsletterContact $newsletterContact
+     *
+     * @return int
      */
     public function sendFailureNewsletterSubscriptionAdminNotification(NewsletterContact $newsletterContact)
     {
@@ -175,6 +234,10 @@ class NotificationService
 
     /**
      * Send a common notification mail to frontend user.
+     *
+     * @param NewsletterContact $newsletterContact
+     *
+     * @return int If is 0 failure otherwise amount of recipients
      */
     public function sendCommonNewsletterUserNotification(NewsletterContact $newsletterContact)
     {
@@ -199,6 +262,11 @@ class NotificationService
 
     /**
      * Send attached remainder receipt PDF to customer.
+     *
+     * @param Receipt $receipt
+     * @param TCPDF   $pdf
+     *
+     * @return int If is 0 failure otherwise amount of recipients
      */
     public function sendReceiptReminderPdfNotification(Receipt $receipt, TCPDF $pdf)
     {
@@ -208,7 +276,7 @@ class NotificationService
                 $this->amd,
                 $receipt->getMainEmail(),
                 $receipt->getMainEmailName(),
-                'Recordatori de pagament rebut Pas a Repàs núm. '.$receipt->getReceiptNumber(),
+                'Recordatori de pagament rebut Box Idiomes núm. '.$receipt->getReceiptNumber(),
                 $this->twig->render('Mails/receipt_reminder_pdf_notification.html.twig', array(
                     'receipt' => $receipt,
                 )),
@@ -226,6 +294,11 @@ class NotificationService
 
     /**
      * Send attached receipt PDF to customer.
+     *
+     * @param Receipt $receipt
+     * @param TCPDF   $pdf
+     *
+     * @return int If is 0 failure otherwise amount of recipients
      */
     public function sendReceiptPdfNotification(Receipt $receipt, TCPDF $pdf)
     {
@@ -235,7 +308,7 @@ class NotificationService
                 $this->amd,
                 $receipt->getMainEmail(),
                 $receipt->getMainEmailName(),
-                'Rebut Pas a Repàs núm. '.$receipt->getReceiptNumber(),
+                'Rebut Box Idiomes núm. '.$receipt->getReceiptNumber(),
                 $this->twig->render('Mails/receipt_pdf_notification.html.twig', array(
                     'receipt' => $receipt,
                 )),
@@ -253,6 +326,11 @@ class NotificationService
 
     /**
      * Send attached invoice PDF to customer.
+     *
+     * @param Invoice $invoice
+     * @param TCPDF   $pdf
+     *
+     * @return int If is 0 failure otherwise amount of recipients
      */
     public function sendInvoicePdfNotification(Invoice $invoice, TCPDF $pdf)
     {
@@ -262,7 +340,7 @@ class NotificationService
                 $this->amd,
                 $invoice->getMainEmail(),
                 $invoice->getMainEmailName(),
-                'Factura Pas a Repàs núm. '.$invoice->getInvoiceNumber(),
+                'Factura Box Idiomes núm. '.$invoice->getInvoiceNumber(),
                 $this->twig->render('Mails/invoice_pdf_notification.html.twig', array(
                     'invoice' => $invoice,
                 )),
@@ -280,6 +358,10 @@ class NotificationService
 
     /**
      * Send a student absence notification mail to student or parent email.
+     *
+     * @param StudentAbsence $studentAbsence
+     *
+     * @return int If is 0 failure otherwise amount of recipients
      */
     public function sendStudentAbsenceNotification(StudentAbsence $studentAbsence)
     {
@@ -292,6 +374,35 @@ class NotificationService
                 $this->twig->render('Mails/student_absence_notification.html.twig', array(
                     'studentAbsence' => $studentAbsence,
                 ))
+            );
+        } catch (TransportExceptionInterface $exception) {
+            $result = 0;
+        } catch (Exception $e) {
+            $result = 0;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Send a preregister form notification to admin user.
+     *
+     * @param PreRegister $preRegister
+     *
+     * @return int
+     */
+    public function sendPreRegisterAdminNotification(PreRegister $preRegister)
+    {
+        $result = 1;
+        try {
+            $this->messenger->sendEmail(
+                $this->amd,
+                $this->amd,
+                'Registre formulari preinscripció pàgina web '.$this->pub,
+                $this->twig->render('Mails/pre_register_form_admin_notification.html.twig', array(
+                    'preRegister' => $preRegister,
+                )),
+                $preRegister->getEmail()
             );
         } catch (TransportExceptionInterface $exception) {
             $result = 0;

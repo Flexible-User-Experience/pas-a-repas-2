@@ -4,12 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Tariff;
 use App\Enum\TariffTypeEnum;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class TariffRepository.
@@ -19,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class TariffRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param RegistryInterface $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Tariff::class);
     }
@@ -77,14 +77,14 @@ class TariffRepository extends ServiceEntityRepository
     /**
      * @return Tariff
      *
-     * @throws NonUniqueResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findCurrentPrivateLessonTariff()
     {
         $result = $this->findCurrentPrivateLessonTariffQ()->getOneOrNullResult();
 
         if (is_null($result)) {
-            $today = new DateTime();
+            $today = new \DateTime();
             $result = new Tariff();
             $result
                 ->setName('default empty tariff')
@@ -121,7 +121,7 @@ class TariffRepository extends ServiceEntityRepository
     /**
      * @return Tariff
      *
-     * @throws NonUniqueResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findCurrentSharedPrivateLessonTariff()
     {

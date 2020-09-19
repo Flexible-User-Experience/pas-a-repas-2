@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Spending;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class SpendingRepository.
@@ -17,21 +17,23 @@ use Doctrine\Persistence\ManagerRegistry;
 class SpendingRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param RegistryInterface $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Spending::class);
     }
 
     /**
-     * @param DateTime $date
+     * @param DateTimeInterface $date
      *
      * @return int
      *
      * @throws NonUniqueResultException
      */
-    public function getMonthlyExpensesAmountForDate(DateTime $date)
+    public function getMonthlyExpensesAmountForDate(DateTimeInterface $date)
     {
         $begin = clone $date;
         $end = clone $date;

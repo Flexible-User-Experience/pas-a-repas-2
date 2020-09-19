@@ -6,9 +6,9 @@ use App\Entity\Student;
 use App\Entity\StudentAbsence;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class StudentAbsenceRepository.
@@ -18,9 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class StudentAbsenceRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param RegistryInterface $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, StudentAbsence::class);
     }

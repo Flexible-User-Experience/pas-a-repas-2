@@ -6,14 +6,36 @@ use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+/**
+ * Class SmartAssetsHelperService.
+ *
+ * @category Service
+ */
 class SmartAssetsHelperService
 {
     const HTTP_PROTOCOL = 'https://';
     const PHP_SERVER_API_CLI_CONTEXT = 'cli';
 
-    private KernelInterface $kernel;
-    private string $pub;
+    /**
+     * @var KernelInterface
+     */
+    private $kernel;
 
+    /**
+     * @var string Project URL base
+     */
+    private $pub;
+
+    /**
+     * Methods.
+     */
+
+    /**
+     * SmartAssetsHelperService constructor.
+     *
+     * @param KernelInterface $kernel
+     * @param string          $pub
+     */
     public function __construct(KernelInterface $kernel, $pub)
     {
         $this->kernel = $kernel;

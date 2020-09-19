@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\ClassGroup;
+use App\Entity\Group;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 
 /**
  * Class GroupRepository.
@@ -14,10 +14,12 @@ use Doctrine\Persistence\ManagerRegistry;
 class GroupRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param RegistryInterface $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, ClassGroup::class);
+        parent::__construct($registry, Group::class);
     }
 }

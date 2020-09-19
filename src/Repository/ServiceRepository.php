@@ -4,9 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class ServiceRepository.
@@ -16,9 +16,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class ServiceRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param RegistryInterface $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Service::class);
     }
@@ -28,13 +30,10 @@ class ServiceRepository extends ServiceEntityRepository
      */
     public function findAllEnabledSortedByPositionQB()
     {
-        $query = $this
-            ->createQueryBuilder('s')
+        return $this->createQueryBuilder('s')
             ->where('s.enabled = :enabled')
             ->setParameter('enabled', true)
             ->orderBy('s.position', 'ASC');
-
-        return $query;
     }
 
     /**

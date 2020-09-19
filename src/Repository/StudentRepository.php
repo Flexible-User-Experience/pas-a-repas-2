@@ -2,11 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\ClassGroup;
+use App\Entity\PreRegister;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class StudentRepository.
@@ -16,9 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class StudentRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * Constructor.
+     *
+     * @param RegistryInterface $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Student::class);
     }
@@ -340,5 +344,105 @@ class StudentRepository extends ServiceEntityRepository
     public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month)
     {
         return $this->getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)->getResult();
+    }
+
+    /**
+     * @param ClassGroup $classGroup
+     *
+     * @return QueryBuilder
+     */
+    public function getStudentsInClassGroupQB(ClassGroup $classGroup)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.events', 'e')
+            ->join('e.group', 'cg')
+            ->where('cg.id = :id')
+            ->setParameter('id', $classGroup->getId());
+    }
+
+    /**
+     * @param ClassGroup $classGroup
+     *
+     * @return Query
+     */
+    public function getStudentsInClassGroupQ(ClassGroup $classGroup)
+    {
+        return $this->getStudentsInClassGroupQB($classGroup)->getQuery();
+    }
+
+    /**
+     * @param ClassGroup $classGroup
+     *
+     * @return array
+     */
+    public function getStudentsInClassGroup(ClassGroup $classGroup)
+    {
+        return $this->getStudentsInClassGroupQ($classGroup)->getResult();
+    }
+
+    /**
+     * @param ClassGroup $classGroup
+     *
+     * @return QueryBuilder
+     */
+    public function getStudentsInClassGroupSortedByNameQB(ClassGroup $classGroup)
+    {
+        return $this->getStudentsInClassGroupQB($classGroup)
+            ->orderBy('s.surname')
+            ->addOrderBy('s.name');
+    }
+
+    /**
+     * @param ClassGroup $classGroup
+     *
+     * @return Query
+     */
+    public function getStudentsInClassGroupSortedByNameQ(ClassGroup $classGroup)
+    {
+        return $this->getStudentsInClassGroupSortedByNameQB($classGroup)->getQuery();
+    }
+
+    /**
+     * @param ClassGroup $classGroup
+     *
+     * @return array
+     */
+    public function getStudentsInClassGroupSortedByName(ClassGroup $classGroup)
+    {
+        return $this->getStudentsInClassGroupSortedByNameQ($classGroup)->getResult();
+    }
+
+    /**
+     * @param PreRegister $preRegister
+     *
+     * @return QueryBuilder
+     */
+    public function getPreviouslyStoredStudentsFromPreRegisterQB(PreRegister $preRegister)
+    {
+        return $this->getAllSortedBySurnameQB()
+            ->where('s.name = :name')
+            ->andWhere('s.surname = :surname')
+            ->setParameter('name', $preRegister->getName())
+            ->setParameter('surname', $preRegister->getSurname());
+    }
+
+    /**
+     * @param PreRegister $preRegister
+     *
+     * @return Query
+     */
+    public function getPreviouslyStoredStudentsFromPreRegisterQ(PreRegister $preRegister)
+    {
+        return $this->getPreviouslyStoredStudentsFromPreRegisterQB($preRegister)->getQuery();
+    }
+
+    /**
+     * @param PreRegister $preRegister
+     *
+     * @return array
+     */
+    public function getPreviouslyStoredStudentsFromPreRegister(PreRegister $preRegister)
+    {
+        return $this->getPreviouslyStoredStudentsFromPreRegisterQ($preRegister)->getResult();
     }
 }
