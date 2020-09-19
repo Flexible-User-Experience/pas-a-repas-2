@@ -3,14 +3,13 @@
 namespace App\Pdf;
 
 use App\Service\SmartAssetsHelperService;
-use TCPDF;
 
 /**
  * Class BaseTcpdf.
  *
  * @category Pdf
  */
-class BaseTcpdf extends TCPDF
+class BaseTcpdf extends \TCPDF
 {
     const PDF_WIDTH = 210;
     const PDF_MARGIN_LEFT = 30;
@@ -27,7 +26,7 @@ class BaseTcpdf extends TCPDF
     /**
      * @var SmartAssetsHelperService
      */
-    private SmartAssetsHelperService $sahs;
+    private $sahs;
 
     /**
      * Methods.
@@ -50,7 +49,7 @@ class BaseTcpdf extends TCPDF
     public function header()
     {
         // logo
-        $this->Image($this->sahs->getAbsoluteAssetFilePath('/bundles/app/img/logo-pdf.png'), 75, 20, 60);
+        $this->Image($this->sahs->getAbsoluteAssetFilePath('/build/img/logo-pdf.png'), 75, 20, 60);
         $this->SetXY(self::PDF_MARGIN_LEFT, 11);
         $this->setFontStyle(null, 'I', 8);
     }
@@ -64,9 +63,9 @@ class BaseTcpdf extends TCPDF
         $this->SetXY(self::PDF_MARGIN_LEFT, 297 - self::PDF_MARGIN_BOTTOM + self::MARGIN_VERTICAL_BIG);
         $this->SetTextColor(128, 128, 128);
         $this->setFontStyle(null, '', 8);
-        $this->Write(0, 'C. Sebastià Joan Arbó, 6 · 43870 Amposta', '', false, 'C', true);
-        $this->Write(0, 'info@pasarepas.cat', '', false, 'C', true);
-        $this->Write(0, '6-- --- ---', '', false, 'C', false);
+        $this->Write(0, 'C. Góngora, 40 · 43870 Amposta', '', false, 'C', true);
+        $this->Write(0, 'info@boxidiomes.cat', '', false, 'C', true);
+        $this->Write(0, '650 539 324', '', false, 'C', false);
     }
 
     /**

@@ -7,8 +7,6 @@ use App\Service\SmartAssetsHelperService;
 use IntlDateFormatter;
 use Qipsius\TCPDFBundle\Controller\TCPDFController;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-use TCPDF;
-use Exception;
 
 /**
  * Class StudentImageRightsBuilderPdf.
@@ -18,7 +16,7 @@ use Exception;
 class StudentImageRightsBuilderPdf
 {
     /**
-     * @var TCPDF
+     * @var TCPDFController
      */
     private $tcpdf;
 
@@ -44,7 +42,7 @@ class StudentImageRightsBuilderPdf
     /**
      * StudentImageRightsBuilderPdf constructor.
      *
-     * @param TCPDF                    $tcpdf
+     * @param TCPDFController          $tcpdf
      * @param SmartAssetsHelperService $sahs
      * @param Translator               $ts
      * @param string                   $pwt
@@ -60,9 +58,9 @@ class StudentImageRightsBuilderPdf
     /**
      * @param Student $student
      *
-     * @return TCPDF
+     * @return \TCPDF
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function build(Student $student)
     {
