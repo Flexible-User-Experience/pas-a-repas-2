@@ -6,8 +6,8 @@ use App\Entity\Receipt;
 use App\Entity\ReceiptLine;
 use App\Enum\StudentPaymentEnum;
 use App\Service\SmartAssetsHelperService;
+use Qipsius\TCPDFBundle\Controller\TCPDFController;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-use WhiteOctober\TCPDFBundle\Controller\TCPDFController;
 
 /**
  * Class ReceiptBuilderPdf.
