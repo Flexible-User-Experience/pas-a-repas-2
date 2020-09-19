@@ -1,0 +1,12 @@
+{% extends "Admin/edit.html.twig" %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/colorpicker/js/jqColorPicker.min.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery('.colorpicker').colorPicker();
+        });
+    </script>
+{% endblock %}

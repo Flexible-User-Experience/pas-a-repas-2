@@ -3,17 +3,16 @@
 {# override css includes #}
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('calendar') }}
+    {{ encore_entry_link_tags('fullcalendardefaultsettings') }}
 {% endblock %}
 
 {# override javascript includes #}
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script type="text/javascript" src="{{ path('fos_js_routing_js', {callback: 'fos.Router.setData'}) }}"></script>
-    {{ encore_entry_script_tags('calendar') }}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ asset('build/google-charts/googleCharts.min.js') }}"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        google.charts.load('current', {packages: ['corechart'], 'language': '{{ app.request.locale }}'});
+        google.load('visualization', '1', {packages:['corechart'], 'language': '{{ app.request.locale }}'});
     </script>
+    {{ encore_entry_script_tags('fullcalendardefaultsettings') }}
 {% endblock %}

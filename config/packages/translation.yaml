@@ -1,6 +1,7 @@
 framework:
-    default_locale: '%env(resolve:DEFAULT_LOCALE)%'
+    default_locale: '%default_locale%'
     translator:
         default_path: '%kernel.project_dir%/translations'
         fallbacks:
+            - es
             - en

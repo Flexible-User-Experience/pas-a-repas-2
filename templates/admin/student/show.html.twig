@@ -1,9 +1,9 @@
-{% extends "admin/show.html.twig" %}
+{% extends "Admin/show.html.twig" %}
 
 {# override css includes #}
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('calendar') }}
+    {{ encore_entry_link_tags('fullcalendarstudentsettings') }}
 {% endblock %}
 
 {% block show %}
@@ -37,7 +37,7 @@
                                     <td>{{ object.phone }}</td>
                                 </tr>
                             {% endif %}
-                            {% include "admin/helpers/common_student_parent_show_include.html.twig" with {object: object} %}
+                            {% include "Admin/Helpers/common_student_parent_show_include.html.twig" with {object: object} %}
                             {% if object.parent is null %}
                                 <tr class="sonata-ba-view-container">
                                     <th>{{ 'backend.admin.student.payment' | trans }}</th>
@@ -112,7 +112,7 @@
                                     <th>{{ 'backend.admin.student.name' | trans }}</th>
                                     <td>{{ object.parent }}</td>
                                 </tr>
-                                {% include "admin/helpers/common_student_parent_show_include.html.twig" with {object: object.parent} %}
+                                {% include "Admin/Helpers/common_student_parent_show_include.html.twig" with {object: object.parent} %}
                                 <tr class="sonata-ba-view-container">
                                     <th>{{ 'backend.admin.student.payment' | trans }}</th>
                                     <td>{{ object.parent.paymentString }}</td>
@@ -137,7 +137,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-xs-12 margin-bottom">
-                                {# TODO {% include "@FullCalendar/Calendar/calendar.html.twig" %}#}
+                                <div id="calendar-holder"></div>
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,5 @@
 {# override javascript includes #}
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script type="text/javascript" src="{{ path('fos_js_routing_js', {callback: 'fos.Router.setData'}) }}"></script>
-    {{ encore_entry_script_tags('calendar') }}
+    {{ encore_entry_script_tags('fullcalendarstudentsettings') }}
 {% endblock %}
