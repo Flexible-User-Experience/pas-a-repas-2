@@ -25,21 +25,17 @@ class ReceiptYearMonthEnum
     const DECEMBER = 12;
 
     /**
-     * Methods
-     */
-
-    /**
      * @return array
      */
     public static function getMonthEnumArray()
     {
-        return array_flip(self::getOldMonthEnumArray());
+        return array_flip(self::getReversedMonthEnumArray());
     }
 
     /**
      * @return array
      */
-    public static function getOldMonthEnumArray()
+    public static function getReversedMonthEnumArray()
     {
         return array(
             self::JANUARY => 'month.january',
@@ -62,14 +58,6 @@ class ReceiptYearMonthEnum
      */
     public static function getTranslatedMonthEnumArray()
     {
-        return array_flip(self::getOldTranslatedMonthEnumArray());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getOldTranslatedMonthEnumArray()
-    {
         return array(
             self::JANUARY => 'gener',
             self::FEBRAURY => 'febrer',
@@ -90,14 +78,6 @@ class ReceiptYearMonthEnum
      * @return array
      */
     public static function getShortTranslatedMonthEnumArray()
-    {
-        return array_flip(self::getOldShortTranslatedMonthEnumArray());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getOldShortTranslatedMonthEnumArray()
     {
         return array(
             self::JANUARY => 'gen',
@@ -121,6 +101,16 @@ class ReceiptYearMonthEnum
      * @throws \Exception
      */
     public static function getYearEnumArray()
+    {
+        return array_flip(self::getReversedYearEnumArray());
+    }
+
+    /**
+     * @return array
+     *
+     * @throws \Exception
+     */
+    public static function getReversedYearEnumArray()
     {
         $result = array();
         $now = new \DateTime();

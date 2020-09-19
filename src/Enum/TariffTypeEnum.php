@@ -21,25 +21,19 @@ class TariffTypeEnum
     const TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK = 10;
     const TARIFF_PRIVATE_LESSON_PER_HOUR = 4;
     const TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR = 5;
-    const TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR = 13;
-    const TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR = 14;
-
-    /**
-     * Methods
-     */
 
     /**
      * @return array
      */
     public static function getEnumArray()
     {
-        return array_flip(self::getOldEnumArray());
+        return array_flip(self::getReversedEnumArray());
     }
 
     /**
      * @return array
      */
-    public static function getOldEnumArray()
+    public static function getReversedEnumArray()
     {
         return array(
             self::TARIFF_ONE_HOUR_PER_WEEK => 'backend.admin.tariff.tariff_1',
@@ -54,8 +48,6 @@ class TariffTypeEnum
             self::TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK => 'backend.admin.tariff.tariff_11',
             self::TARIFF_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_5',
             self::TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_6',
-            self::TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_13',
-            self::TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_14',
         );
     }
 
@@ -63,14 +55,6 @@ class TariffTypeEnum
      * @return array
      */
     public static function getTranslatedEnumArray()
-    {
-        return array_flip(self::getOldTranslatedEnumArray());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getOldTranslatedEnumArray()
     {
         return array(
             self::TARIFF_ONE_HOUR_PER_WEEK => '1h /setmana',
@@ -84,9 +68,7 @@ class TariffTypeEnum
             self::TARIFF_FIVE_HOUR_PER_WEEK => '5h / setmana',
             self::TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK => '5,5h / setmana',
             self::TARIFF_PRIVATE_LESSON_PER_HOUR => 'hora particular',
-            self::TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR => 'hora particular festiu',
-            self::TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR => 'hora particular familiar',
-            self::TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR => 'hora particular festiu familiar',
+            self::TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR => 'hora particular compartida',
         );
     }
 }
