@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\TeacherAbsenceTypeEnum;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -32,7 +33,7 @@ class TeacherAbsence extends AbstractBase
     private $type = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="date")
      */
@@ -75,7 +76,7 @@ class TeacherAbsence extends AbstractBase
      */
     public function getTypeString()
     {
-        return TeacherAbsenceTypeEnum::getOldEnumArray()[$this->type];
+        return TeacherAbsenceTypeEnum::getReversedEnumArray()[$this->type];
     }
 
     /**
@@ -91,7 +92,7 @@ class TeacherAbsence extends AbstractBase
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDay()
     {
@@ -103,15 +104,15 @@ class TeacherAbsence extends AbstractBase
      */
     public function getDayString()
     {
-        return $this->getDay()->format('d/m/Y');
+        return $this->getDay() ? $this->getDay()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
-     * @param \DateTime $day
+     * @param DateTime $day
      *
      * @return TeacherAbsence
      */
-    public function setDay(\DateTime $day)
+    public function setDay(DateTime $day)
     {
         $this->day = $day;
 
@@ -131,6 +132,6 @@ class TeacherAbsence extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getDay()->format('d/m/Y').' · '.$this->getTypeString().' · '.$this->getTeacher() : '---';
+        return $this->id ? $this->getDayString().' · '.$this->getTypeString().' · '.$this->getTeacher() : '---';
     }
 }

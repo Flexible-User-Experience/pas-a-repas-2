@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -18,12 +17,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Student extends AbstractPerson
 {
-    const DISCOUNT_PER_EXTRA_SON = 0;
+    const DISCOUNT_PER_EXTRA_SON = 5;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      *
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="date")
      */
     private $birthDate;
 
@@ -111,7 +110,7 @@ class Student extends AbstractPerson
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getBirthDate()
     {
@@ -123,15 +122,15 @@ class Student extends AbstractPerson
      */
     public function getBirthDateString()
     {
-        return $this->getBirthDate()->format('d/m/Y');
+        return $this->getBirthDate() ? $this->getBirthDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     /**
-     * @param DateTime $birthDate
+     * @param \DateTime $birthDate
      *
      * @return Student
      */
-    public function setBirthDate(?DateTime $birthDate)
+    public function setBirthDate(\DateTime $birthDate)
     {
         $this->birthDate = $birthDate;
 
@@ -145,7 +144,7 @@ class Student extends AbstractPerson
      */
     public function getYearsOld()
     {
-        $today = new DateTime();
+        $today = new \DateTime();
         $interval = $today->diff($this->birthDate);
 
         return $interval->y;
@@ -443,5 +442,15 @@ class Student extends AbstractPerson
         }
 
         return $email;
+    }
+
+    public function canBeDeletedSafely()
+    {
+        $result = false;
+        if (is_null($this->getParent()) && count($this->getEvents()) === 0) {
+            $result = true;
+        }
+
+        return $result;
     }
 }

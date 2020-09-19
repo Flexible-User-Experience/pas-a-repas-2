@@ -81,20 +81,6 @@ class Teacher extends AbstractBase
     }
 
     /**
-     * @return string
-     */
-    public function getFirstName()
-    {
-        $result = $this->getName();
-        $firstBlankPosition = strpos($result, ' ');
-        if ($firstBlankPosition > 0) {
-            $result = substr($result, 0, $firstBlankPosition);
-        }
-
-        return $result;
-    }
-
-    /**
      * @param string $name
      *
      * @return $this
@@ -119,7 +105,7 @@ class Teacher extends AbstractBase
      */
     public function getCssColor()
     {
-        return 'c-'.TeacherColorEnum::getOldEnumArray()[$this->getColor()];
+        return 'c-'.TeacherColorEnum::getReversedEnumArray()[$this->getColor()];
     }
 
     /**

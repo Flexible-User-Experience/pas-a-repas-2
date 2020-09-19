@@ -3,17 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Sonata\UserBundle\Entity\BaseUser as BaseUser;
+use Sonata\UserBundle\Entity\BaseGroup as BaseGroup;
 
 /**
- * Class User.
+ * Class Group.
  *
  * @category Entity
  *
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="admin_user")
+ * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
+ * @ORM\Table(name="admin_group")
  */
-class User extends BaseUser
+class Group extends BaseGroup
 {
     /**
      * @var int
@@ -31,7 +31,7 @@ class User extends BaseUser
     /**
      * Get id.
      *
-     * @return int $id
+     * @return int
      */
     public function getId()
     {
