@@ -1,38 +1,34 @@
 var Encore = require('@symfony/webpack-encore');
 
+if (!Encore.isRuntimeEnvironmentConfigured()) {
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+}
+
 Encore
-// directory where compiled assets will be stored
+    // directory where compiled assets will be stored
     .setOutputPath('public/build/')
-    .copyFiles({
-        from: './assets/images'
-    })
-    .copyFiles({
-        from: './assets/svg'
-    })
     .copyFiles([
-        {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
-        {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
-        {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
-        {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
-        {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'}
+        {from: './assets/img', to: 'img/[path][name].[ext]'},
+        {from: './assets/svg', to: 'svg/[path][name].[ext]'},
+        {from: './assets/fonts', to: 'fonts/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/', to: 'ckeditor4/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
+        {from: './node_modules/ckeditor4/adapters', to: 'ckeditor4/adapters/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/lang', to: 'ckeditor4/lang/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/plugins', to: 'ckeditor4/plugins/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/skins', to: 'ckeditor4/skins/[path][name].[ext]'},
+        {from: './node_modules/google-charts/dist', to: 'google-charts/[path][name].[ext]'},
+        {from: './node_modules/pdfjs-dist/build', to: 'pdfjs/[path][name].[ext]'}
     ])
     // public path used by the web server to access the output path
     .setPublicPath('/build')
-    // only needed for CDN's or sub-directory deploy
-    //.setManifestKeyPrefix('build/')
 
     /*
      * ENTRY CONFIG
-     *
-     * Add 1 entry for each "page" of your app
-     * (including one that's included on every page - e.g. "app")
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
-    .addEntry('app', './assets/js/app.js')
-    //.addEntry('page1', './assets/js/page1.js')
-    //.addEntry('page2', './assets/js/page2.js')
+    .addEntry('frontend', './assets/js/frontend.js')
+    .addEntry('backend', './assets/js/backend.js')
+    .addEntry('fullcalendardefaultsettings', './assets/js/fullcalendar.default-settings.js')
+    .addEntry('fullcalendarstudentsettings', './assets/js/fullcalendar.student-settings.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -43,35 +39,21 @@ Encore
 
     /*
      * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
      */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
+    .configureBabelPresetEnv((config) => {
+        config.useBuiltIns = 'usage';
+        config.corejs = 3;
+    })
 
-    // enables Sass/SCSS support
-    .enableSassLoader()
-
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+    // enables LESS support
+    .enableLessLoader()
 
     // uncomment if you're having problems with a jQuery plugin
-    // .autoProvidejQuery()
-
-// uncomment if you use API Platform Admin (composer req api-admin)
-//.enableReactPreset()
-//.addEntry('admin', './assets/js/admin.js')
-
-    .configureBabel(() => {}, {
-        useBuiltIns: 'usage',
-        corejs: 3
-    })
-    .addEntry('calendar', './assets/js/calendar/index.js')
+    .autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();
