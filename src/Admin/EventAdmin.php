@@ -7,7 +7,6 @@ use App\Entity\Event;
 use App\Entity\Student;
 use App\Entity\Teacher;
 use App\Enum\EventClassroomTypeEnum;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -116,7 +115,7 @@ class EventAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Teacher::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Teacher::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.teacher_repository')->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -126,7 +125,7 @@ class EventAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.event.group',
                     'required' => true,
                     'class' => ClassGroup::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(ClassGroup::class)->getEnabledSortedByCodeQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.class_group_repository')->getEnabledSortedByCodeQB(),
                 )
             )
             ->end()
@@ -140,7 +139,7 @@ class EventAdmin extends AbstractBaseAdmin
                     'multiple' => true,
                     'class' => Student::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Student::class)->getAllSortedBySurnameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getAllSortedBySurnameQB(),
                 )
             )
             ->end()
@@ -150,7 +149,7 @@ class EventAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -238,8 +237,9 @@ class EventAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'begin',
@@ -264,7 +264,7 @@ class EventAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.event.classroom',
-                    'template' => 'admin/cells/list__cell_classroom_type.html.twig',
+                    'template' => 'Admin/Cells/list__cell_classroom_type.html.twig',
                 )
             )
             ->add(
@@ -295,7 +295,7 @@ class EventAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.event.students',
-                    'template' => 'admin/cells/list__cell_classroom_students_amount.html.twig',
+                    'template' => 'Admin/Cells/list__cell_classroom_students_amount.html.twig',
                 )
             )
             ->add(
@@ -303,9 +303,9 @@ class EventAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'batchedit' => array('template' => 'admin/buttons/list__action_event_batch_edit_button.html.twig'),
-                        'batchdelete' => array('template' => 'admin/buttons/list__action_batch_delete_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'batchedit' => array('template' => 'Admin/Buttons/list__action_event_batch_edit_button.html.twig'),
+                        'batchdelete' => array('template' => 'Admin/Buttons/list__action_batch_delete_button.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -315,7 +315,7 @@ class EventAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'beginString',
@@ -338,7 +338,6 @@ class EventAdmin extends AbstractBaseAdmin
     public function postPersist($object)
     {
         if ($object->getDayFrequencyRepeat() && $object->getUntil()) {
-            /** @var EntityManager $em */
             $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
             $currentBegin = $object->getBegin();
             $currentEnd = $object->getEnd();

@@ -8,7 +8,7 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
- * Class AbstractBaseAdmin.
+ * Class BaseAdmin.
  *
  * @category Admin
  */
@@ -177,14 +177,14 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         if ($this->getSubject() && $this->getSubject()->$attribute()) {
             if ($fs->isPdf($this->getSubject(), $uploaderMapping)) {
                 // PDF case
-                return $tes->render('admin/helpers/pdf.html.twig', [
+                return $tes->render('Admin/Helpers/pdf.html.twig', [
                     'attribute' => $this->getSubject()->$attribute(),
                     'subject' => $this->getSubject(),
                     'uploaderMapping' => $uploaderMapping,
                 ]);
             } else {
                 // Image case
-                return $tes->render('admin/helpers/image.html.twig', [
+                return $tes->render('Admin/Helpers/image.html.twig', [
                     'attribute' => $this->getSubject()->$attribute(),
                     'subject' => $this->getSubject(),
                     'uploaderMapping' => $uploaderMapping,

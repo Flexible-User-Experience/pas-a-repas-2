@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-use App\Entity\City;
 use App\Enum\StudentPaymentEnum;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -79,7 +78,7 @@ class ProviderAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.customer.city',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(City::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
                     'required' => true,
                 )
             )
@@ -133,7 +132,7 @@ class ProviderAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -212,8 +211,9 @@ class ProviderAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'tic',
@@ -269,7 +269,7 @@ class ProviderAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'backend.admin.actions',
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
                     ),
                 )
             )
@@ -279,7 +279,7 @@ class ProviderAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'tic',

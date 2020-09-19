@@ -94,6 +94,14 @@ class TeacherAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'showInHomepage',
+                CheckboxType::class,
+                array(
+                    'label' => 'backend.admin.teacher.showInHomepage',
+                    'required' => false,
+                )
+            )
+            ->add(
                 'enabled',
                 CheckboxType::class,
                 array(
@@ -107,7 +115,7 @@ class TeacherAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -125,6 +133,13 @@ class TeacherAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'showInHomepage',
+                null,
+                array(
+                    'label' => 'backend.admin.teacher.showInHomepage',
+                )
+            )
+            ->add(
                 'enabled',
                 null,
                 array(
@@ -137,8 +152,9 @@ class TeacherAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'position',
@@ -153,7 +169,7 @@ class TeacherAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.image',
-                    'template' => 'admin/cells/list__cell_image_field.html.twig',
+                    'template' => 'Admin/Cells/list__cell_image_field.html.twig',
                 )
             )
             ->add(
@@ -169,7 +185,15 @@ class TeacherAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.teacher.color',
-                    'template' => 'admin/cells/list__cell_teacher_color.html.twig',
+                    'template' => 'Admin/Cells/list__cell_teacher_color.html.twig',
+                )
+            )
+            ->add(
+                'showInHomepage',
+                null,
+                array(
+                    'label' => 'backend.admin.teacher.showInHomepage',
+                    'editable' => true,
                 )
             )
             ->add(
@@ -185,9 +209,9 @@ class TeacherAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
                         'detail' => array(
-                            'template' => 'admin/cells/list__action_teacher_detail.html.twig',
+                            'template' => 'Admin/Cells/list__action_teacher_detail.html.twig',
                         ),
                     ),
                     'label' => 'backend.admin.actions',
@@ -199,13 +223,14 @@ class TeacherAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'name',
             'position',
             'color',
             'description',
+            'showInHomepage',
             'enabled',
         );
     }

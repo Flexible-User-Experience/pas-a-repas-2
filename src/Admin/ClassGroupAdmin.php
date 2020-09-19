@@ -2,12 +2,12 @@
 
 namespace App\Admin;
 
+use KunicMarko\ColorPickerBundle\Form\Type\ColorPickerType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ColorType;
 
 /**
  * Class ClassGroupAdmin.
@@ -31,7 +31,10 @@ class ClassGroupAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->add('emails', $this->getRouterIdParameter().'/get-group-emails')
+            ->remove('delete')
+        ;
     }
 
     /**
@@ -69,7 +72,7 @@ class ClassGroupAdmin extends AbstractBaseAdmin
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'color',
-                ColorType::class,
+                ColorPickerType::class,
                 array(
                     'label' => 'backend.admin.teacher.color',
                     'required' => true,
@@ -97,7 +100,7 @@ class ClassGroupAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -141,8 +144,9 @@ class ClassGroupAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'code',
@@ -173,7 +177,7 @@ class ClassGroupAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.class_group.color',
-                    'template' => 'admin/cells/list__cell_class_group_color.html.twig',
+                    'template' => 'Admin/Cells/list__cell_class_group_color.html.twig',
                 )
             )
             ->add(
@@ -197,7 +201,8 @@ class ClassGroupAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'emails' => array('template' => 'Admin/Cells/list__action_group_emails.html.twig'),
                     ),
                     'label' => 'backend.admin.actions',
                 )
@@ -208,7 +213,7 @@ class ClassGroupAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'code',

@@ -3,7 +3,6 @@
 namespace App\Admin;
 
 use App\Enum\UserRolesEnum;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\UserBundle\Admin\Model\UserAdmin as ParentUserAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -11,7 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
@@ -32,24 +31,6 @@ class UserAdmin extends ParentUserAdmin
         '_sort_by' => 'username',
         '_sort_order' => 'asc',
     );
-
-    /**
-     * Methods
-     */
-
-    /**
-     * UserAdmin constructor.
-     *
-     * @param $code
-     * @param $class
-     * @param $baseControllerName
-     * @param $userManager
-     */
-    public function __construct($code, $class, $baseControllerName, $userManager)
-    {
-        parent::__construct($code, $class, $baseControllerName);
-        $this->userManager = $userManager;
-    }
 
     /**
      * Available routes.
@@ -86,7 +67,7 @@ class UserAdmin extends ParentUserAdmin
             ->with('backend.admin.general', array('class' => 'col-md-3'))
             ->add(
                 'firstname',
-                TextType::class,
+                null,
                 array(
                     'label' => 'backend.admin.user.firstname',
                     'required' => false,
@@ -94,7 +75,7 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'lastname',
-                TextType::class,
+                null,
                 array(
                     'label' => 'backend.admin.user.lastname',
                     'required' => false,
@@ -102,14 +83,14 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'username',
-                TextType::class,
+                null,
                 array(
                     'label' => 'backend.admin.user.username',
                 )
             )
             ->add(
                 'email',
-                EmailType::class,
+                null,
                 array(
                     'label' => 'backend.admin.user.email',
                 )
@@ -179,6 +160,7 @@ class UserAdmin extends ParentUserAdmin
      */
     protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'username',
@@ -201,7 +183,7 @@ class UserAdmin extends ParentUserAdmin
                 null,
                 array(
                     'label' => 'backend.admin.user.roles',
-                    'template' => 'admin/cells/list__cell_user_roles.html.twig',
+                    'template' => 'Admin/Cells/list__cell_user_roles.html.twig',
                 )
             )
             ->add(
@@ -218,8 +200,8 @@ class UserAdmin extends ParentUserAdmin
                 array(
                     'label' => 'backend.admin.actions',
                     'actions' => array(
-//                       TODO 'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
                     ),
                 )
             );

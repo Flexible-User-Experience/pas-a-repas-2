@@ -65,7 +65,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.spending.category',
                     'required' => false,
                     'class' => SpendingCategory::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(SpendingCategory::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.spending_category_repository')->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -75,7 +75,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.spending.provider',
                     'required' => false,
                     'class' => Provider::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Provider::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.provider_repository')->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -140,7 +140,7 @@ class SpendingAdmin extends AbstractBaseAdmin
     /**
      * @param DatagridMapper $datagridMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -168,7 +168,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'expanded' => false,
                     'multiple' => false,
                     'class' => SpendingCategory::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(SpendingCategory::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.spending_category_repository')->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -182,7 +182,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                     'expanded' => false,
                     'multiple' => false,
                     'class' => Provider::class,
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Provider::class)->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.provider_repository')->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -239,8 +239,9 @@ class SpendingAdmin extends AbstractBaseAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
+        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'date',
@@ -288,7 +289,7 @@ class SpendingAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'backend.admin.invoice.baseAmount',
-                    'template' => 'admin/cells/list__cell_invoice_base_amount.html.twig',
+                    'template' => 'Admin/Cells/list__cell_invoice_base_amount.html.twig',
                     'editable' => false,
                 )
             )
@@ -306,10 +307,10 @@ class SpendingAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'backend.admin.actions',
                     'actions' => array(
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'document' => array('template' => 'admin/buttons/list__action_spending_document_button.html.twig'),
-                        'duplicate' => array('template' => 'admin/buttons/list__action_invoice_duplicate_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
+                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
+                        'document' => array('template' => 'Admin/Buttons/list__action_spending_document_button.html.twig'),
+                        'duplicate' => array('template' => 'Admin/Buttons/list__action_invoice_duplicate_button.html.twig'),
+                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
                     ),
                 )
             )
@@ -319,7 +320,7 @@ class SpendingAdmin extends AbstractBaseAdmin
     /**
      * @return array
      */
-    public function getExportFields(): array
+    public function getExportFields()
     {
         return array(
             'dateString',
