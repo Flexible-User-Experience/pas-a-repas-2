@@ -3,8 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Spending;
-use DateTime;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -24,7 +22,7 @@ class SpendingAdminController extends BaseAdminController
      * @return Response
      *
      * @throws NotFoundHttpException If the object does not exist
-     * @throws Exception
+     * @throws \Exception
      */
     public function duplicateAction(Request $request)
     {
@@ -40,7 +38,7 @@ class SpendingAdminController extends BaseAdminController
         // new spending
         $newSpending = new Spending();
         $newSpending
-            ->setDate(new DateTime())
+            ->setDate(new \DateTime())
             ->setCategory($object->getCategory())
             ->setProvider($object->getProvider())
             ->setDescription($object->getDescription())
