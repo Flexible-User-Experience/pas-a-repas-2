@@ -1,11 +1,10 @@
 framework:
     secret: '%env(APP_SECRET)%'
-    translator: { fallbacks: ['%env(resolve:DEFAULT_LOCALE)%'] }
     templating:
-        engines: ['twig']
+        engines: [ 'twig' ]
     session:
-        handler_id:      null
-        cookie_secure:   auto
+        handler_id: null
+        cookie_secure: auto
         cookie_samesite: lax
     php_errors:
         log: true

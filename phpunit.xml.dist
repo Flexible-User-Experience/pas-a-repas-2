@@ -5,7 +5,7 @@
          xsi:noNamespaceSchemaLocation="bin/.phpunit/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="config/bootstrap.php"
+         bootstrap="tests/bootstrap.php"
 >
     <php>
         <ini name="error_reporting" value="-1" />
@@ -13,22 +13,7 @@
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="7.5" />
-
-        <!-- ###+ google/recaptcha ### -->
-        <!-- To use Google Recaptcha, you must register a site on Recaptcha's admin panel: -->
-        <!-- https://www.google.com/recaptcha/admin -->
-        <env name="GOOGLE_RECAPTCHA_SITE_KEY" value=""/>
-        <env name="GOOGLE_RECAPTCHA_SECRET" value=""/>
-        <!-- ###- google/recaptcha ### -->
-
-        <!-- ###+ excelwebzone/recaptcha-bundle ### -->
-        <env name="EWZ_RECAPTCHA_SITE_KEY" value=""/>
-        <env name="EWZ_RECAPTCHA_SECRET" value=""/>
-        <!-- ###- excelwebzone/recaptcha-bundle ### -->
-
-        <!-- ###+ symfony/mailer ### -->
-        <!-- MAILER_DSN=smtp://localhost -->
-        <!-- ###- symfony/mailer ### -->
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
     <testsuites>
@@ -38,8 +23,8 @@
     </testsuites>
 
     <filter>
-        <whitelist>
-            <directory>src</directory>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 
