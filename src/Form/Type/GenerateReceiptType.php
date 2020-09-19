@@ -20,7 +20,7 @@ class GenerateReceiptType extends GenerateReceiptYearMonthChooserType
     /**
      * @var RouterInterface
      */
-    private RouterInterface $rs;
+    private $rs;
 
     /**
      * Methods.
@@ -38,7 +38,7 @@ class GenerateReceiptType extends GenerateReceiptYearMonthChooserType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      *
      * @throws Exception
      */
@@ -47,6 +47,7 @@ class GenerateReceiptType extends GenerateReceiptYearMonthChooserType
         parent::buildForm($builder, $options);
         $builder
             ->remove('preview')
+            // warning: this collection can produce a large input form fields, consider to increase max_input_vars PHP config
             ->add(
                 'items',
                 CollectionType::class,
@@ -83,13 +84,5 @@ class GenerateReceiptType extends GenerateReceiptYearMonthChooserType
             )
             ->setAction($this->rs->generate('admin_app_receipt_creator'))
         ;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return self::NAME;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Form\Type;
 
-use Exception;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +17,7 @@ class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
     /**
      * @var RouterInterface
      */
-    private RouterInterface $rs;
+    private $rs;
 
     /**
      * Methods.
@@ -37,8 +36,6 @@ class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
-     *
-     * @throws Exception
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -71,13 +68,5 @@ class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
             )
             ->setAction($this->rs->generate('admin_app_invoice_creator'))
         ;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBlockPrefix()
-    {
-        return 'generate_invoice';
     }
 }
