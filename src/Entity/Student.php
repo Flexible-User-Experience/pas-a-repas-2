@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Student extends AbstractPerson
 {
-    const DISCOUNT_PER_EXTRA_SON = 5;
+    const DISCOUNT_PER_EXTRA_SON = 0;
 
     /**
      * @var \DateTime
