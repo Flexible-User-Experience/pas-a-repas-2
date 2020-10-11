@@ -71,7 +71,7 @@ class BaseTcpdf extends \TCPDF
                 'cap' => 'butt',
                 'join' => 'miter',
                 'dash' => 0,
-                'color' => array(179, 110, 171),
+                'color' => array(89, 56, 137),
             )
         );
     }
