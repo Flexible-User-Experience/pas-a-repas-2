@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Student.
@@ -17,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Student extends AbstractPerson
 {
-    const DISCOUNT_PER_EXTRA_SON = 5;
+    const DISCOUNT_PER_EXTRA_SON = 0;
 
     /**
      * @var \DateTime
@@ -51,6 +52,7 @@ class Student extends AbstractPerson
      * @var Bank
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Bank", cascade={"persist"})
+     * @Assert\Valid
      */
     protected $bank;
 
