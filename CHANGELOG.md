@@ -1,8 +1,12 @@
 Changelog
 =========
 
-##### Version 4.3.02 (WIP)
+##### Version 4.4.01 (WIP)
  * fix minor bugs
+
+##### Version 4.4.00 (2020-10-17)
+ * add BlogCategory admin
+ * add BlogPost admin
 
 ##### Version 4.3.01 (2020-10-11)
  * remove removeAt default attr in all entities
