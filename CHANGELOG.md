@@ -3,6 +3,7 @@ Changelog
 
 ##### Version 4.4.01 (WIP)
  * fix minor bugs
+ * add frontend blog post page tests
 
 ##### Version 4.4.00 (WIP)
  * add BlogCategory admin

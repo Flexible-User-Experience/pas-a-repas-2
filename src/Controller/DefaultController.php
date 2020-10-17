@@ -2,15 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\ContactMessage;
 use App\Entity\Invoice;
 use App\Entity\NewsletterContact;
-use App\Entity\PreRegister;
-use App\Entity\Service;
 use App\Entity\Teacher;
 use App\Form\Type\ContactHomepageType;
-use App\Form\Type\ContactMessageType;
-use App\Form\Type\PreRegisterType;
 use App\Manager\MailchimpManager;
 use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,118 +90,6 @@ class DefaultController extends AbstractController
             );
         }
         $messenger->sendNewsletterSubscriptionAdminNotification($newsletterContact);
-    }
-
-    /**
-     * @Route("/serveis", name="app_services")
-     *
-     * @return Response
-     */
-    public function servicesAction()
-    {
-        $services = $this->getDoctrine()->getRepository(Service::class)->findAllEnabledSortedByPosition();
-
-        return $this->render(
-            'Front/services.html.twig',
-            ['services' => $services]
-        );
-    }
-
-    /**
-     * @Route("/academia", name="app_academy")
-     *
-     * @return Response
-     */
-    public function academyAction()
-    {
-        return $this->render('Front/academy.html.twig');
-    }
-
-    /**
-     * @Route("/contacte", name="app_contact")
-     *
-     * @param Request             $request
-     * @param NotificationService $messenger
-     *
-     * @return Response
-     */
-    public function contactAction(Request $request, NotificationService $messenger)
-    {
-        $contactMessage = new ContactMessage();
-        $contactMessageForm = $this->createForm(ContactMessageType::class, $contactMessage);
-        $contactMessageForm->handleRequest($request);
-
-        if ($contactMessageForm->isSubmitted() && $contactMessageForm->isValid()) {
-            // Persist new contact message into DB
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contactMessage);
-            $em->flush();
-            // Send email notifications
-            if (0 != $messenger->sendCommonUserNotification($contactMessage)) {
-                // Set frontend flash message
-                $this->addFlash(
-                    'notice',
-                    'El teu missatge s\'ha enviat correctament'
-                );
-            } else {
-                $this->addFlash(
-                    'danger',
-                    'El teu missatge no s\'ha enviat'
-                );
-            }
-            $messenger->sendContactAdminNotification($contactMessage);
-            // Clean up new form
-            $contactMessage = new ContactMessage();
-            $contactMessageForm = $this->createForm(ContactMessageType::class, $contactMessage);
-        }
-
-        return $this->render(
-            'Front/contact.html.twig',
-            ['contactMessageForm' => $contactMessageForm->createView()]
-        );
-    }
-
-    /**
-     * @Route("/preinscripcions", name="app_pre_register")
-     *
-     * @param Request             $request
-     * @param NotificationService $messenger
-     *
-     * @return Response
-     */
-    public function preRegistersAction(Request $request, NotificationService $messenger)
-    {
-        $preRegister = new PreRegister();
-        $preRegisterForm = $this->createForm(PreRegisterType::class, $preRegister);
-        $preRegisterForm->handleRequest($request);
-
-        if ($preRegisterForm->isSubmitted() && $preRegisterForm->isValid()) {
-            // Persist new pre-register record into DB
-            $em = $this->getDoctrine()->getManager();
-            $preRegister->setEnabled(false);
-            $em->persist($preRegister);
-            $em->flush();
-            if (0 != $messenger->sendPreRegisterAdminNotification($preRegister)) {
-                // Set frontend flash message
-                $this->addFlash(
-                    'notice',
-                    'La teva preinscripció s\'ha enviat correctament. Ens posarem en contacte amb tu tan aviat com ens sigui possible.'
-                );
-            } else {
-                $this->addFlash(
-                    'danger',
-                    'S\'ha produït un error inesperat durant el registre de la teva preinscripció. Si us plau, contacta directament amb nosaltres a través del telèfon que apareix al peu d\'aquesta pàgina. Gràcies.'
-                );
-            }
-            // Clean up new form
-            $preRegister = new PreRegister();
-            $preRegisterForm = $this->createForm(PreRegisterType::class, $preRegister);
-        }
-
-        return $this->render(
-            'Front/pre_register.html.twig',
-            ['preRegisterForm' => $preRegisterForm->createView()]
-        );
     }
 
     /**
