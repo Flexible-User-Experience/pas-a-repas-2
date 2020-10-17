@@ -8,8 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
  * Position trait
  *
  * @category Trait
- * @package  App\Entity\Traits
- * @author   Anton Serra <aserratorta@gmail.com>
  */
 Trait PositionTrait
 {

@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * Image trait
  *
  * @category Trait
- * @package  App\Entity\Traits
- * @author   David Romaní <david@flux.cat>
  */
 Trait ImageTrait
 {
