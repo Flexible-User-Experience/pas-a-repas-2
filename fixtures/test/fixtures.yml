@@ -1,3 +1,39 @@
+# Categories
+App\Entity\BlogCategory:
+  category{1..5}:
+    title: <current()> <word()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: <boolean(70)>
+  category6:
+    title: hitme
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: <boolean(70)>
+
+# Posts
+App\Entity\BlogPost:
+  post{1..10}:
+    publishedAt: <dateTimeThisMonth()>
+    title: <sentence()>
+    description: <paragraph()>
+    metaKeywords: <word()>
+    metaDescription: <sentence()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: <boolean(70)>
+    categories: [ '@category1', '@category2', '@category3' ]
+  post{11..15}:
+    publishedAt: <dateTimeThisMonth()>
+    title: <sentence()>
+    description: <paragraph()>
+    metaKeywords: <word()>
+    metaDescription: <sentence()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: <boolean(70)>
+    categories: [ ]
+
 # Contact messages
 App\Entity\ContactMessage:
   contactmessage{1..5}:

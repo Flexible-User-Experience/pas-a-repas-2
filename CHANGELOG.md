@@ -4,7 +4,7 @@ Changelog
 ##### Version 4.4.01 (WIP)
  * fix minor bugs
 
-##### Version 4.4.00 (2020-10-17)
+##### Version 4.4.00 (WIP)
  * add BlogCategory admin
  * add BlogPost admin
 

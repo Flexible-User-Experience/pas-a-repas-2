@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 class BlogCategoryAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Categoria';
-    protected $baseRoutePattern = 'web/categoria';
+    protected $baseRoutePattern = 'web/blog-category';
     protected $datagridValues = array(
         '_sort_by' => 'title',
         '_sort_order' => 'asc',

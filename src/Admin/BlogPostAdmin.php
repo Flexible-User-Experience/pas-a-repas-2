@@ -8,7 +8,6 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -21,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 class BlogPostAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Article';
-    protected $baseRoutePattern = 'web/article';
+    protected $baseRoutePattern = 'web/blog-post';
     protected $datagridValues = array(
         '_sort_by' => 'publishedAt',
         '_sort_order' => 'desc',
