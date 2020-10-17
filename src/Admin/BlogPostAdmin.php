@@ -28,16 +28,6 @@ class BlogPostAdmin extends AbstractBaseAdmin
     );
 
     /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->remove('batch');
-    }
-
-    /**
      * Override query list to reduce queries amount on list view (apply join strategy).
      *
      * @param string $context context

@@ -38,6 +38,12 @@ Province Delete: Esborrar
 City List: Ciutats
 City Create: Crear
 City Delete: Esborrar
+Categoria List: Categories
+Categoria Create: Crear
+Categoria Delete: Esborrar
+Article List: Articles
+Article Create: Crear
+Article Delete: Esborrar
 User List: Usuaris
 User Create: Crear
 User Delete: Esborrar
@@ -112,6 +118,17 @@ frontend:
 
 backend:
     admin:
+        title: Títol
+        metakeywords: Paraules clau
+        metakeywordshelp: Separades per coma
+        metadescription: Metadescripció
+        category: Categoria
+        categories: Categories
+        post: Article
+        posts: Articles
+        posts_amount: Articles vinculats
+        categories_amount: Categories vinculades
+        content: Contingut
         yes: Sí
         no: No
         actions: Accions
