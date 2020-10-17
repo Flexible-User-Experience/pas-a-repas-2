@@ -103,6 +103,12 @@ services:
         arguments: [ ~, App\Entity\Service, ~, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Servei", group: "Serveis" }
+    # Blog
+    admin.blog_category:
+        class: App\Admin\BlogCategoryAdmin
+        arguments: [ ~, App\Entity\BlogCategory, ~, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Categoria", group: "Blog" }
     # Contacts
     admin.contactmessage:
         class: App\Admin\ContactMessageAdmin

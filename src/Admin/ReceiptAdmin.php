@@ -444,7 +444,6 @@ class ReceiptAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper): void
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'id',

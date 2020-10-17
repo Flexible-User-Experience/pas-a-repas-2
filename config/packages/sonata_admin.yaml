@@ -1,7 +1,8 @@
 sonata_admin:
     title:           '%project_backend_title%'
     title_logo:      '/build/img/login-logo.png'
-    persist_filters: true
+    persist_filters:    true
+    show_mosaic_button: false
     options:
         html5_validate: true
         confirm_exit:   true
@@ -9,7 +10,7 @@ sonata_admin:
         use_icheck:     true
         pager_links:    10
     security:
-        handler: sonata.admin.security.handler.role
+        handler:          sonata.admin.security.handler.role
         role_admin:       ROLE_ADMIN
         role_super_admin: ROLE_ADMIN
     templates:
@@ -40,6 +41,8 @@ sonata_admin:
                 icon:     '<i class="fa fa-file"></i>'
                 provider: 'backend_files_manager_menu'
                 roles:    [ 'ROLE_MANAGER' ]
+            Blog:
+                icon:     '<i class="fa fa-globe"></i>'
             Contactes:
                 icon:     '<i class="fa fa-envelope"></i>'
             Configuració:
