@@ -101,7 +101,7 @@ class XmlSepaBuilderService
             'creditorName' => strtoupper(StringHelper::sanitizeString($this->bn)),
             'creditorAccountIBAN' => $this->ib,
             'creditorAgentBIC' => $this->bic,
-            'seqType' => PaymentInformation::S_ONEOFF,
+            'seqType' => PaymentInformation::S_RECURRING,
             'creditorId' => $this->sshs->getSpanishCreditorIdFromNif($this->bd),
             'localInstrumentCode' => self::DIRECT_DEBIT_LI_CODE,
         ]);
