@@ -8,6 +8,7 @@ Changelog
 ##### Version 4.4.00 (WIP)
  * add BlogCategory admin
  * add BlogPost admin
+ * set recurring direct debit in a number of direct debits RCUR
 
 ##### Version 4.3.01 (2020-10-11)
  * remove removeAt default attr in all entities
