@@ -127,6 +127,15 @@ class BackendControllerTest extends WebTestCase
             array('/admin/purchases/spending/create'),
             array('/admin/purchases/spending/1/edit'),
             array('/admin/purchases/spending/1/delete'),
+            array('/admin/web/blog-category/list'),
+            array('/admin/web/blog-category/create'),
+            array('/admin/web/blog-category/1/edit'),
+            array('/admin/web/blog-category/1/delete'),
+            array('/admin/web/blog-category/1/show'),
+            array('/admin/web/blog-post/list'),
+            array('/admin/web/blog-post/create'),
+            array('/admin/web/blog-post/1/edit'),
+            array('/admin/web/blog-post/1/delete'),
             array('/admin/users/list'),
             array('/admin/users/create'),
             array('/admin/users/1/edit'),
@@ -188,6 +197,9 @@ class BackendControllerTest extends WebTestCase
             array('/admin/purchases/spending-category/1/show'),
             array('/admin/purchases/spending/batch'),
             array('/admin/purchases/spending/1/show'),
+            array('/admin/web/blog-category/batch'),
+            array('/admin/web/blog-post/batch'),
+            array('/admin/web/blog-post/1/show'),
         );
     }
 

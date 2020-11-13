@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta name="description" content="{% block metadescription %}Acadèmia escolar i classes de repàs a Amposta per a tots els nivells: primària, ESO, batxillerat, universitat i proves d'accés.{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="author" content="www.flux.cat">
+    <meta charset="UTF-8">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+    <title>{% block title %}{{ main_brand_title }}{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('frontend') }}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}"/>
+    {% if facebook_pixel_enabled %}
+        <script type="text/javascript">
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+                n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                document,'script','https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '{{ facebook_pixel_id }}', {em: 'insert_email_variable,'});
+            fbq('track', 'PageView');
+        </script>
+        <noscript>
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ facebook_pixel_id }}&ev=PageView&noscript=1"/>
+        </noscript>
+    {% endif %}
+</head>
+<body class="my-body" data-spy="scroll" data-target="#navbar" data-offset="200">
+    {#<!-- Fixed top menu -->#}
+    <nav class="navbar navbar-default navbar-fixed-top my-nav" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" data-aria-expanded="false" data-aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {% block head %}
+                    <a class="navbar-brand" href="{{ path('app_homepage') }}"><img src="{{ asset('build/images/menu.png') }}" alt="{{ 'frontend.layout.main.title' | trans | capitalize }}"/></a>
+                {% endblock %}
+                <h1 class="text-hide">{{ 'frontend.layout.main.title' | trans | capitalize }}. Acadèmia escolar i classes de repàs a Amposta.</h1>
+            </div>
+            {% block menu %}
+                <div id="navbar" class="navbar-collapse collapse float-right">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#classes-de-repas">{{ 'frontend.layout.menu.courses' | trans | upper }}</a></li>
+                        <li><a href="#sobre-mi">{{ 'frontend.layout.menu.about' | trans | upper }}</a></li>
+                        <li><a href="#contacte">{{ 'frontend.layout.menu.contact' | trans | upper }}</a></li>
+{#                        <li><a href="{{ path('blog') }}">{{ 'frontend.layout.menu.blog' | trans | upper }}</a></li>#}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li><a href="{{ path('sonata_admin_dashboard') }}"><i class="fa fa-cog"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endblock %}
+        </div>
+    </nav>
+    {#<!-- Main content -->#}
+    {% block main %}{% endblock %}
+    {#<!-- Scroll-Top effect -->#}
+    <div class="scroll-top-wrapper"><span class="scroll-top-inner"><i class="fa fa-2x fa-arrow-circle-up"></i></span></div>
+    {#<!-- Footer -->#}
+    {% block footer %}
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="list-unstyled">
+                            <li class="col-sm-3 hidden-xs"></li>
+                            <li class="col-sm-3 col-xs-12">
+                                <h5>{{ 'frontend.layout.footer.contact' | trans | upper }}:</h5>
+                                <address>
+                                    <span>ISABEL PORRES ESTRADA</span><br>
+                                    <i class="fa fa-envelope"></i> <a href="mailto:isabel@pasarepas.cat">isabel@pasarepas.cat</a><br>
+                                    <i class="fa fa-phone-square"></i> {{ main_brand_phone_1 }}
+                                </address>
+                            </li>
+                            <li class="col-sm-3 col-xs-12">
+                                <h5>{{ 'frontend.layout.footer.address' | trans | upper }}:</h5>
+                                <address>
+                                    <span>{{ main_brand_address }}</span><br>
+                                    43870 Amposta<br>
+                                    (Tarragona)
+                                </address>
+                            </li>
+                            <li class="col-sm-3 hidden-xs text-right">
+                                <a target="_blank" href="https://www.facebook.com/pasarepas"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;<a target="_blank" href="https://www.instagram.com/pasarepas"><i class="fa fa-instagram fa-2x"></i></a><br><br>
+                                <a href="{{ path('app_credits') }}">crèdits</a><br>
+                                <a href="{{ path('app_privacy_policy') }}">política de privacitat</a><br>
+                                <i class="fa fa-copyright"></i> {{ 'now' | date('Y') }}
+                            </li>
+                            <li class="visible-xs text-right">
+                                <a target="_blank" href="https://www.facebook.com/pasarepas"><i class="fa fa-facebook-official fa-2x"></i></a><br><br>
+                                <a href="{{ path('app_credits') }}">crèdits</a><br>
+                                <a href="{{ path('app_privacy_policy') }}">política de privacitat</a><br>
+                                <i class="fa fa-copyright"></i> {{ 'now' | date('Y') }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
+    {#<!-- Javascripts -->#}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('frontend') }}
+        <script type="text/javascript">
+            jQuery(document).ready(function() {
+                {% block inside_on_ready_javascripts_node %}
+                    jQuery('div#navbar li a').click(function(event) {
+                        if (event.target.innerHTML != 'BLOG') {
+                            event.preventDefault();
+                            jQuery('html,body').animate({scrollTop: jQuery(event.target.hash).offset().top - 90}, "slow");
+                        }
+                    });
+                {% endblock %}
+                let errorNode = jQuery(".has-error");
+                let envelopeNode = jQuery(".fa-paper-plane-o");
+                if (errorNode.length > 0) {
+                    jQuery('html,body').animate({scrollTop: errorNode.offset().top - 200}, "slow");
+                }
+                if (envelopeNode.length > 0) {
+                    jQuery('html,body').animate({scrollTop: envelopeNode.offset().top - 200}, "slow");
+                }
+            });
+            jQuery(document).on('scroll', function() {
+                if (jQuery(window).scrollTop() > 100) {
+                    jQuery('.scroll-top-wrapper').addClass('show');
+                } else {
+                    jQuery('.scroll-top-wrapper').removeClass('show');
+                }
+            });
+            jQuery('.scroll-top-wrapper').on('click', scrollToTop);
+            function scrollToTop() {
+                jQuery('html, body').animate({scrollTop: 0}, 1000, 'swing');
+            }
+            {#<!-- Google Analytics -->#}
+            {% if google_analytics_enabled %}
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+                ga('create', '{{ google_analytics_account }}', 'auto'); ga('send', 'pageview');
+            {% endif %}
+        </script>
+    {% endblock %}
+</body>
+</html>

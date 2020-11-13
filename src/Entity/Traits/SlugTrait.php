@@ -6,8 +6,6 @@ namespace App\Entity\Traits;
  * Slug trait
  *
  * @category Trait
- * @package  App\Entity\Traits
- * @author   David Romaní <david@flux.cat>
  */
 Trait SlugTrait
 {

@@ -8,6 +8,7 @@ Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     .copyFiles([
+        {from: './assets/images', to: 'images/[path][name].[ext]'},
         {from: './assets/img', to: 'img/[path][name].[ext]'},
         {from: './assets/svg', to: 'svg/[path][name].[ext]'},
         {from: './assets/fonts', to: 'fonts/[path][name].[ext]'},

@@ -107,3 +107,15 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - 'App:ContactMessage'
+    app.blog_category_repository:
+        class: App\Repository\BlogCategoryRepository
+        public: true
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - 'App:BlogCategory'
+    app.blog_post_repository:
+        class: App\Repository\BlogPostRepository
+        public: true
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - 'App:BlogPost'
