@@ -5,10 +5,11 @@ Changelog
  * fix minor bugs
  * add frontend blog post page tests
 
-##### Version 4.4.00 (WIP)
+##### Version 4.4.00 (2020-11-13)
  * add BlogCategory admin
  * add BlogPost admin
  * set recurring direct debit in a number of direct debits RCUR
+ * remove Student name from Invoice PDF
 
 ##### Version 4.3.01 (2020-10-11)
  * remove removeAt default attr in all entities
