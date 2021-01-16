@@ -44,10 +44,10 @@ class XmlSepaBuilderService
         return $directDebit->asXML();
     }
 
-    public function buildDirectDebitReceiptsXml(string $paymentId, DateTimeInterface $dueDate, $receipts): string
+    public function buildDirectDebitReceiptsXml(string $paymentId, DateTimeInterface $dueDate, $receipts, ?bool $isFristDebit = false): string
     {
         $directDebit = $this->buildDirectDebit($paymentId);
-        $this->addPaymentInfo($directDebit, $paymentId, $dueDate);
+        $this->addPaymentInfo($directDebit, $paymentId, $dueDate, $isFristDebit);
         /** @var Receipt $receipt */
         foreach ($receipts as $receipt) {
             if ($receipt->isReadyToGenerateSepa() && !$receipt->getStudent()->getIsPaymentExempt()) {
@@ -93,7 +93,7 @@ class XmlSepaBuilderService
         return TransferFileFacadeFactory::createDirectDebitWithGroupHeader($header, self::DIRECT_DEBIT_PAIN_CODE);
     }
 
-    private function addPaymentInfo(CustomerDirectDebitFacade $directDebit, string $paymentId, DateTimeInterface $dueDate): void
+    private function addPaymentInfo(CustomerDirectDebitFacade $directDebit, string $paymentId, DateTimeInterface $dueDate, ?bool $isFristDebit = false): void
     {
         $directDebit->addPaymentInfo($paymentId, [
             'id' => StringHelper::sanitizeString($paymentId),
@@ -101,7 +101,7 @@ class XmlSepaBuilderService
             'creditorName' => strtoupper(StringHelper::sanitizeString($this->bn)),
             'creditorAccountIBAN' => $this->ib,
             'creditorAgentBIC' => $this->bic,
-            'seqType' => PaymentInformation::S_RECURRING,
+            'seqType' => $isFristDebit ? PaymentInformation::S_FIRST : PaymentInformation::S_RECURRING,
             'creditorId' => $this->sshs->getSpanishCreditorIdFromNif($this->bd),
             'localInstrumentCode' => self::DIRECT_DEBIT_LI_CODE,
         ]);

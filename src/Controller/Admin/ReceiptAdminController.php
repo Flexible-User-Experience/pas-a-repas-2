@@ -393,7 +393,7 @@ class ReceiptAdminController extends BaseAdminController
      *
      * @return Response|RedirectResponse
      */
-    public function batchActionGeneratesepaxmls(ProxyQueryInterface $selectedModelQuery)
+    public function batchActionGeneratefirstsepaxmls(ProxyQueryInterface $selectedModelQuery)
     {
         $this->admin->checkAccess('edit');
         $em = $this->container->get('doctrine')->getManager();
@@ -403,7 +403,7 @@ class ReceiptAdminController extends BaseAdminController
             /** @var XmlSepaBuilderService $xsbs */
             $xsbs = $this->container->get('app.xml_sepa_builder');
             $paymentUniqueId = uniqid('', true);
-            $xmls = $xsbs->buildDirectDebitReceiptsXml($paymentUniqueId, new \DateTime('now + 3 days'), $selectedModels);
+            $xmls = $xsbs->buildDirectDebitReceiptsXml($paymentUniqueId, new \DateTime('now + 3 days'), $selectedModels, true);
 
             /** @var Receipt $selectedModel */
             foreach ($selectedModels as $selectedModel) {
@@ -422,7 +422,61 @@ class ReceiptAdminController extends BaseAdminController
 
             $now = new \DateTime();
             $fileSystem = new Filesystem();
-            $fileNamePath = sys_get_temp_dir().DIRECTORY_SEPARATOR.'SEPA_receipts_'.$now->format('Y-m-d_H-i').'.xml';
+            $fileNamePath = sys_get_temp_dir().DIRECTORY_SEPARATOR.'SEPA_FRST_receipts_'.$now->format('Y-m-d_H-i').'.xml';
+            $fileSystem->touch($fileNamePath);
+            $fileSystem->dumpFile($fileNamePath, $xmls);
+
+            $response = new BinaryFileResponse($fileNamePath, 200, array('Content-type' => 'application/xml'));
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+
+            return $response;
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'S\'ha produït un error al generar l\'arxiu SEPA amb format XML. Revisa els rebuts seleccionats.');
+            $this->addFlash('error', $e->getMessage());
+
+            return new RedirectResponse(
+                $this->admin->generateUrl('list', [
+                    'filter' => $this->admin->getFilterParameters(),
+                ])
+            );
+        }
+    }
+
+    /**
+     * @param ProxyQueryInterface $selectedModelQuery
+     *
+     * @return Response|RedirectResponse
+     */
+    public function batchActionGeneratesepaxmls(ProxyQueryInterface $selectedModelQuery)
+    {
+        $this->admin->checkAccess('edit');
+        $em = $this->container->get('doctrine')->getManager();
+        $selectedModels = $selectedModelQuery->execute();
+
+        try {
+            /** @var XmlSepaBuilderService $xsbs */
+            $xsbs = $this->container->get('app.xml_sepa_builder');
+            $paymentUniqueId = uniqid('', true);
+            $xmls = $xsbs->buildDirectDebitReceiptsXml($paymentUniqueId, new \DateTime('now + 3 days'), $selectedModels, false);
+
+            /** @var Receipt $selectedModel */
+            foreach ($selectedModels as $selectedModel) {
+                if ($selectedModel->isReadyToGenerateSepa() && !$selectedModel->getStudent()->getIsPaymentExempt()) {
+                    $selectedModel
+                        ->setIsSepaXmlGenerated(true)
+                        ->setSepaXmlGeneratedDate(new \DateTime())
+                    ;
+                }
+            }
+            $em->flush();
+
+            if (DefaultController::ENV_DEV === $this->getParameter('kernel.environment')) {
+                return new Response($xmls, 200, array('Content-type' => 'application/xml'));
+            }
+
+            $now = new \DateTime();
+            $fileSystem = new Filesystem();
+            $fileNamePath = sys_get_temp_dir().DIRECTORY_SEPARATOR.'SEPA_RCUR_receipts_'.$now->format('Y-m-d_H-i').'.xml';
             $fileSystem->touch($fileNamePath);
             $fileSystem->dumpFile($fileNamePath, $xmls);
 
