@@ -118,6 +118,9 @@
     "fakerphp/faker": {
         "version": "v1.10.1"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
+    },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.0",
         "recipe": {
@@ -259,6 +262,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.0.1"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "0.4.10"
     },
     "presta/sitemap-bundle": {
         "version": "v2.3.0"
@@ -602,6 +608,9 @@
     },
     "symfony/property-info": {
         "version": "v4.3.6"
+    },
+    "symfony/proxy-manager-bridge": {
+        "version": "v4.4.18"
     },
     "symfony/routing": {
         "version": "4.2",
