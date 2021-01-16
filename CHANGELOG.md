@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.4.01 (WIP)
+##### Version 4.5.01 (WIP)
  * fix minor bugs
+
+##### Version 4.5.00 (WIP)
+ * add new duplicate Invoice admin action
  * add frontend blog post page tests
 
 ##### Version 4.4.00 (2020-11-13)
