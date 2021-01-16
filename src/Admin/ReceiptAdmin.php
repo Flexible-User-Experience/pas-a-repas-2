@@ -69,8 +69,13 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 'translation_domain' => 'messages',
                 'ask_confirmation' => false,
             );
+            $actions['generatefirstsepaxmls'] = array(
+                'label' => 'backend.admin.receipt.generate_first_sepa_xmls_batch_action',
+                'translation_domain' => 'messages',
+                'ask_confirmation' => false,
+            );
             $actions['generatesepaxmls'] = array(
-                'label' => 'backend.admin.invoice.batch_action',
+                'label' => 'backend.admin.receipt.generate_recurrent_sepa_xmls_batch_action',
                 'translation_domain' => 'messages',
                 'ask_confirmation' => false,
             );

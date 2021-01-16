@@ -446,6 +446,8 @@ backend:
             generate_and_send: Generar rebuts marcats i enviar per email
             fast_generate_and_send: Generar tots i enviar per email
             generate_batch: Generar rebuts mensuals
+            generate_first_sepa_xmls_batch_action: "Generar primer gir bancari SEPA del elements seleccionats (FRST)"
+            generate_recurrent_sepa_xmls_batch_action: "Generar gir bancari SEPA recurrent del elements seleccionats (RCUR)"
             preview_invoice: Mostrar rebuts a generar
             list: Llistat de rebuts disponibles a generar
             group_lessons_list: Classes en grup
