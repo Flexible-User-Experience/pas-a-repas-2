@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
 use App\Entity\Invoice;
+use App\Entity\InvoiceLine;
 use App\Enum\StudentPaymentEnum;
 use App\Form\Model\GenerateInvoiceModel;
 use App\Form\Type\GenerateInvoiceType;
@@ -12,6 +13,7 @@ use App\Manager\GenerateInvoiceFormManager;
 use App\Pdf\InvoiceBuilderPdf;
 use App\Service\NotificationService;
 use App\Service\XmlSepaBuilderService;
+use DateTime;
 use Digitick\Sepa\Exception\InvalidArgumentException;
 use Digitick\Sepa\Exception\InvalidPaymentMethodException;
 use Doctrine\ORM\NonUniqueResultException;
@@ -237,6 +239,63 @@ class InvoiceAdminController extends BaseAdminController
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
 
         return $response;
+    }
+
+    /**
+     * Generate a duplicated invoice
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function duplicateAction(Request $request)
+    {
+        $request = $this->resolveRequest($request);
+        $id = $request->get($this->admin->getIdParameter());
+
+        /** @var Invoice $object */
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        // new invoice
+        $today = new DateTime();
+        $newInvoice = new Invoice();
+        $newInvoice
+            ->setDate($today)
+            ->setStudent($object->getStudent())
+            ->setPerson($object->getPerson())
+            ->setBaseAmount($object->getBaseAmount())
+            ->setTotalAmount($object->getTotalAmount())
+            ->setDiscountApplied($object->isDiscountApplied())
+            ->setMonth((int) $today->format('m'))
+            ->setYear((int) $today->format('Y'))
+            ->setIsForPrivateLessons($object->getIsForPrivateLessons())
+            ->setTaxPercentage($object->getTaxPercentage())
+            ->setIrpfPercentage($object->getIrpfPercentage())
+            ->setIsPayed(false)
+        ;
+        $em = $this->container->get('doctrine')->getManager();
+        $em->persist($newInvoice);
+        $em->flush();
+        /** @var InvoiceLine $line */
+        foreach ($object->getLines() as $line) {
+            $newInvoiceLine = new InvoiceLine();
+            $newInvoiceLine
+                ->setInvoice($newInvoice)
+                ->setDescription($line->getDescription())
+                ->setUnits($line->getUnits())
+                ->setPriceUnit($line->getPriceUnit())
+                ->setDiscount($line->getDiscount())
+                ->setTotal($line->getTotal())
+            ;
+            $em->persist($newInvoiceLine);
+        }
+        $em->flush();
+
+        $this->addFlash('success', 'S\'ha duplicat la factura núm. '.$object->getId().' amb la factura núm. '.$newInvoice->getId().' correctament.');
+
+        return $this->redirectToList();
     }
 
     /**
