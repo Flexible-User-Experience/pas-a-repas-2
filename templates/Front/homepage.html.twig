@@ -12,59 +12,133 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container">
-        <div class="row extra-m-bottom">
-            <div class="col-xs-12">
-                <h2 class="hidden">Acadèmia escolar i classes de repàs a Amposta per a tots els nivells: primària, ESO, batxillerat, universitat i proves d'accés.</h2>
-                <div class="text-center">
-                    <img src="{{ asset('build/img/homepage_def.png') }}"
-                         class="img-responsive center-block" alt="imatge portada">
+    <div class="container-fluid">
+        <div class="row bc-brown">
+            <div class="text-center">
+{#                <h2 class="hidden">Acadèmia escolar i classes de repàs a Amposta per a tots els nivells: primària, ESO, batxillerat, universitat i proves d'accés.</h2>#}
+{#                <div class="text-center">#}
+                    <img src="{{ asset('build/images/head.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
+{#                </div>#}
+            </div>
+        </div>
+        <div class="container">
+            <div id="classes-de-repas" class="row">
+                <div class="col-xs-12">
+                    <h2 class="my-h2 text-center">{{ 'frontend.layout.menu.courses' | trans | upper }}</h2>
+                    {#<!-- Nav tabs -->#}
+                    <div class="navbar no-m-bottom">
+                        <ul class="nav nav-justified" role="tablist">
+                            <li role="presentation" class="active"><a href="#primaria" class="c-magenta" aria-controls="primaria" role="tab" data-toggle="tab"><i class="icon-pencil fa-4x"></i>{{ 'frontend.index.courses.primary' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                            <li role="presentation"><a href="#eso" class="c-wine" aria-controls="eso" role="tab" data-toggle="tab"><i class="icon-ruler fa-4x"></i>{{ 'frontend.index.courses.eso' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                            <li role="presentation"><a href="#batxillerat" class="c-violet" aria-controls="batxillerat" role="tab" data-toggle="tab"><i class="icon-book fa-4x"></i>{{ 'frontend.index.courses.school' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                            <li role="presentation"><a href="#selectivitat" class="c-lviolet" aria-controls="selectivitat" role="tab" data-toggle="tab"><i class="icon-check fa-4x"></i>{{ 'frontend.index.courses.selectivity' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                            <li role="presentation"><a href="#universitat" class="c-cyan" aria-controls="universitat" role="tab" data-toggle="tab"><i class="icon-hat fa-4x"></i>{{ 'frontend.index.courses.university' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        {# Teachers section #}
-        <div class="row">
-            {% if teachers | length is divisible by(2) %}
-                {# two columns #}
-                {% for teacher in teachers %}
-                    <div class="col-sm-6 col-xs-12 bottom-margin-responsive">
-                        {% if teacher.imageName is not null %}
-                            <img src="{{ vich_uploader_asset(teacher, 'imageFile') | imagine_filter('585x756_teacher_mask') }}"
-                                 class="img-responsive" alt="{{ teacher.imageName }}">
-                        {% else %}
-                            <img src="{{ asset('build/img/1teacher.jpeg') | imagine_filter('585x756_teacher_mask') }}"
-                                 class="img-responsive" alt="1teacher">
-                        {% endif %}
-                        <h4 class="{{ teacher.cssColor }} normal-m-top">{{ teacher.name }}</h4>
-                        <p>{{ teacher.description | raw }}</p>
-                    </div>
-                    {% if loop.index is divisible by(2) %}
+        <div class="container-fluid">
+            <div class="row">
+                {#<!-- Tab panes -->#}
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in bc-magenta active" id="primaria">
+                        <div class="row no-m-right">
+                            <div class="col-md-5 col-sm-6 no-p-right">
+                                <img class="img-responsive" src="{{ asset('build/images/c1-primary.jpg') | imagine_filter('1050xY') }}" alt="heart shape lovely girls and colors zenit"/>
+                            </div>
+                            <div class="col-md-7 col-sm-6 c-white no-p-right">
+                                <div class="banner-service">
+                                    <h3 class="no-m-top">{{ 'frontend.index.courses.primary' | trans | upper }}</h3>
+                                    {{ 'frontend.index.primary_txt' | trans | raw }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="row extra-big-m-top">
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                {# three columns #}
-                {% for teacher in teachers %}
-                    <div class="col-sm-4 col-xs-8 col-sm-offset-0 col-xs-offset-2 bottom-margin-responsive">
-                        {% if teacher.imageName is not null %}
-                            <img src="{{ vich_uploader_asset(teacher, 'imageFile') | imagine_filter('480x620_teacher_mask') }}"
-                                 class="img-responsive" alt="{{ teacher.imageName }}">
-                        {% else %}
-                            <img src="{{ asset('build/img/1teacher.jpeg') | imagine_filter('480x620_teacher_mask') }}"
-                                 class="img-responsive" alt="1teacher">
-                        {% endif %}
-                        <h4 class="{{ teacher.cssColor }} normal-m-top">{{ teacher.name }}</h4>
-                        <p>{{ teacher.description | raw }}</p>
                     </div>
-                    {% if loop.index is divisible by(3) %}
+                    <div role="tabpanel" class="tab-pane fade bc-wine" id="eso">
+                        <div class="row no-m-right">
+                            <div class="col-md-7 col-sm-6 c-white no-p-right">
+                                <div class="banner-service">
+                                    <h3 class="no-m-top">{{ 'frontend.index.courses.eso' | trans | upper }}</h3>
+                                    {{ 'frontend.index.eso_txt' | trans | raw }}
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-6 no-p-right">
+                                <img class="img-responsive" src="{{ asset('build/images/c2-eso.jpg') | imagine_filter('1050xY') }}" alt="teacher and student boys on a colorful background"/>
+                            </div>
                         </div>
-                        <div class="row extra-big-m-top">
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade bc-violet" id="batxillerat">
+                        <div class="row no-m-right">
+                            <div class="col-md-5 col-sm-6 no-p-right">
+                                <img class="img-responsive" src="{{ asset('build/images/c3-school.jpg') | imagine_filter('1050xY') }}" alt="student making maths on chalkboard"/>
+                            </div>
+                            <div class="col-md-7 col-sm-6 c-white no-p-right">
+                                <div class="banner-service">
+                                    <h3 class="no-m-top">{{ 'frontend.index.courses.school' | trans | upper }}</h3>
+                                    {{ 'frontend.index.sc_school' | trans | raw  }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade bc-lviolet" id="selectivitat">
+                        <div class="row no-m-right">
+                            <div class="col-md-7 col-sm-6 c-white no-p-right">
+                                <div class="banner-service">
+                                    <h3 class="no-m-top">{{ 'frontend.index.courses.selectivity' | trans | upper }}</h3>
+                                    <p>{{ 'frontend.index.selectivity_txt' | trans | raw }}</p>
+                                    <ul>
+                                        <li>{{ 'frontend.index.selectivity_list.pau' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.pacfs' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.pacfm' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.pau25' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.cc' | trans }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-6 no-p-right">
+                                <img class="img-responsive" src="{{ asset('build/images/c4-selectivity.jpg') | imagine_filter('1050xY') }}" alt="a shiny maths book over a dark background"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade bc-cyan" id="universitat">
+                        <div class="row no-m-right">
+                            <div class="col-md-5 col-sm-6 no-p-right">
+                                <img class="img-responsive" src="{{ asset('build/images/c5-university.jpg') | imagine_filter('1050xY') }}" alt="pretty girl smiling with laptop in a classroom"/>
+                            </div>
+                            <div class="col-md-7 col-sm-6 c-white no-p-right">
+                                <div class="banner-service">
+                                    <h3 class="no-m-top">{{ 'frontend.index.courses.university' | trans | upper }}</h3>
+                                    {{ 'frontend.index.university_txt' | trans | raw }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="container-fluid">
+            <div id="sobre-mi" class="row bc-lbrown">
+                <div class="col-xs-12 no-h-padding">
+                    <img src="{{ asset('build/images/about.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
+                    <div class="my-carousel-caption">
+                        <h2 class="my-h2 c-white text-center">{{ 'frontend.layout.menu.about' | trans | upper }}</h2>
+                        <p class="text-center banner-service sobre-mi hidden-xs">{{ 'frontend.index.about_mi' | trans | raw }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="visible-xs container-fluid">
+            <div class="row bc-grey">
+                <div class="col-xs-12">
+                    <p class="c-white banner-service">{{ 'frontend.index.about_mi' | trans | raw }}</p>
+                </div>
+            </div>
+        </div>
+
+
+
+
     {# Flash message#}
     {% include 'Front/includes/notice_flash.html.twig' %}
     {# Newsletter section #}
