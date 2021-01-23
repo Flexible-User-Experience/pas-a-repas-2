@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.01 (WIP)
+##### Version 4.5.02 (WIP)
  * fix minor bugs
+
+##### Version 4.5.01 (2021-01-23)
+ * fix expenses calculation in dashboard graph
 
 ##### Version 4.5.00 (2021-01-15)
  * add genereta first SEPA payment info
