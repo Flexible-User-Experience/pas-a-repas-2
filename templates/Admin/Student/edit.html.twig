@@ -9,22 +9,18 @@
                 {# Handler for .ready() called. #}
                 let paymentNode = jQuery('#{{ form.payment.vars.id }}');
                 let bankNode = jQuery('#sonata-ba-field-container-{{ form.bank.vars.id }}');
-                let bankCreditorSepaNode = jQuery('#sonata-ba-field-container-{{ form.bankCreditorSepa.vars.id }}');
                 {# on init #}
                 if (parseInt(paymentNode.val()) !== {{ constant('App\\Enum\\StudentPaymentEnum::BANK_ACCOUNT_NUMBER') }}) {
                     bankNode.addClass("hidden");
-                    bankCreditorSepaNode.addClass("hidden");
                 }
                 {# on change #}
                 paymentNode.change(function() {
                     if (parseInt(jQuery(this).val()) === {{ constant('App\\Enum\\StudentPaymentEnum::BANK_ACCOUNT_NUMBER') }}) {
                         {# bank account #}
                         bankNode.removeClass("hidden");
-                        bankCreditorSepaNode.removeClass("hidden");
                     } else {
                         {# cash #}
                         bankNode.addClass("hidden");
-                        bankCreditorSepaNode.addClass("hidden");
                     }
                 });
             });

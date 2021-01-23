@@ -18,20 +18,14 @@ class SitemapListener implements EventSubscriberInterface
         $this->router = $router;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SitemapPopulateEvent::ON_SITEMAP_POPULATE => 'populateSitemap',
         ];
     }
 
-    /**
-     * @param SitemapPopulateEvent $event
-     */
-    public function populateSitemap(SitemapPopulateEvent $event)
+    public function populateSitemap(SitemapPopulateEvent $event): void
     {
         $section = $event->getSection();
         if (is_null($section) || $section === 'default') {
@@ -53,11 +47,6 @@ class SitemapListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param string $routeName
-     *
-     * @return string
-     */
     private function makeUrl(string $routeName): string
     {
         return $this->router->generate(
@@ -65,13 +54,6 @@ class SitemapListener implements EventSubscriberInterface
         );
     }
 
-    /**
-     * @param string $url
-     * @param int $priority
-     * @param DateTimeInterface|null $date
-     *
-     * @return UrlConcrete
-     */
     private function makeUrlConcrete(string $url, int $priority = 1, ?DateTimeInterface $date = null): UrlConcrete
     {
         return new UrlConcrete(
