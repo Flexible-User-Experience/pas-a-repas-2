@@ -2,46 +2,20 @@
 
 namespace App\Listener;
 
-use Doctrine\ORM\EntityManagerInterface;
+use DateTimeInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * Class SitemapListener
- *
- * @category Listener
- * @package  App\Listener
- * @author   Anton Serra <aserratorta@gmail.com>
- */
 class SitemapListener implements EventSubscriberInterface
 {
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private RouterInterface $router;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * Methods
-     */
-
-    /**
-     * SitemapListener constructor
-     *
-     * @param RouterInterface $router
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(RouterInterface $router, EntityManagerInterface $em)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
-        $this->em = $em;
     }
 
     /**
@@ -60,27 +34,12 @@ class SitemapListener implements EventSubscriberInterface
     public function populateSitemap(SitemapPopulateEvent $event)
     {
         $section = $event->getSection();
-        if (is_null($section) || $section == 'default') {
+        if (is_null($section) || $section === 'default') {
             // Homepage
             $url = $this->makeUrl('app_homepage');
             $event
                 ->getUrlContainer()
                 ->addUrl($this->makeUrlConcrete($url), 'default');
-            // Services view
-            $url = $this->makeUrl('app_services');
-            $event
-                ->getUrlContainer()
-                ->addUrl($this->makeUrlConcrete($url, 1), 'default');
-            // About us view
-            $url = $this->makeUrl('app_academy');
-            $event
-                ->getUrlContainer()
-                ->addUrl($this->makeUrlConcrete($url, 1), 'default');
-            // Contact view
-            $url = $this->makeUrl('app_contact');
-            $event
-                ->getUrlContainer()
-                ->addUrl($this->makeUrlConcrete($url, 0.5), 'default');
             // Privacy Policy view
             $url = $this->makeUrl('app_privacy_policy');
             $event
@@ -99,7 +58,7 @@ class SitemapListener implements EventSubscriberInterface
      *
      * @return string
      */
-    private function makeUrl($routeName)
+    private function makeUrl(string $routeName): string
     {
         return $this->router->generate(
             $routeName, array(), UrlGeneratorInterface::ABSOLUTE_URL
@@ -107,17 +66,17 @@ class SitemapListener implements EventSubscriberInterface
     }
 
     /**
-     * @param string         $url
-     * @param int            $priority
-     * @param \DateTime|null $date
+     * @param string $url
+     * @param int $priority
+     * @param DateTimeInterface|null $date
      *
      * @return UrlConcrete
      */
-    private function makeUrlConcrete($url, $priority = 1, $date = null)
+    private function makeUrlConcrete(string $url, int $priority = 1, ?DateTimeInterface $date = null): UrlConcrete
     {
         return new UrlConcrete(
             $url,
-            $date === null ? new \DateTime() : $date,
+            $date ?? new \DateTime(),
             UrlConcrete::CHANGEFREQ_WEEKLY,
             $priority
         );

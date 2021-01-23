@@ -29,10 +29,6 @@ class FrontendControllerTest extends WebTestCase
     {
         return array(
             array('/'),
-            array('/serveis'),
-            array('/academia'),
-            array('/contacte'),
-            array('/preinscripcions'),
             array('/politica-de-privacitat'),
             array('/credits'),
             array('/sitemap/sitemap.default.xml'),
@@ -61,9 +57,9 @@ class FrontendControllerTest extends WebTestCase
     public function provideNotFoundUrls()
     {
         return array(
-            array('/ca/pagina-trenacada'),
-            array('/es/pagina-rota'),
-            array('/en/broken-page'),
+            array('/pagina-trenacada'),
+            array('/pagina-rota'),
+            array('/broken-page'),
         );
     }
 }
