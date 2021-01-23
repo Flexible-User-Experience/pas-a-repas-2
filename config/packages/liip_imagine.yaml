@@ -9,46 +9,42 @@ liip_imagine:
             web_path: ~
     filter_sets:
         cache: ~
-        585x756_teacher_mask:
-            filters:
-                thumbnail: { size: [ 585, 756 ], mode: outbound }
-                watermark:
-                    image:    '../assets/watermark/teacher-mask-big.png'
-                    position: center
-        480x620_teacher_mask:
-            filters:
-                thumbnail: { size: [ 480, 620 ], mode: outbound }
-                watermark:
-                    image:    '../assets/watermark/teacher-mask.png'
-                    position: center
         2400xY:
             quality: 75
             filters:
                 thumbnail: { size: [ 2400, null ], mode: outbound }
-        585xY:
-            quality: 100
+        1200xY:
+            quality: 75
             filters:
-                thumbnail: { size: [ 585, null ], mode: outbound }
-        480xY:
-            quality: 100
-            filters:
-                thumbnail: { size: [ 480, null ], mode: outbound }
-        480x620:
-            quality: 100
-            filters:
-                thumbnail: { size: [ 480, 620 ], mode: outbound }
-        231x50:
+                thumbnail: { size: [ 1200, null ], mode: outbound }
+        1050xY:
             quality: 80
             filters:
-                thumbnail: { size: [ 231, 50 ], mode: outbound }
-        200xY:
-            quality: 90
+                thumbnail: { size: [ 1050, null ], mode: outbound }
+        750xY:
+            quality: 80
             filters:
-                thumbnail: { size: [ 200, null ], mode: outbound }
-        132x50:
+                thumbnail: { size: [ 750, null ], mode: outbound }
+        750x250:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 750, 250 ], mode: outbound }
+        700x200:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 700, 200 ], mode: outbound }
+        480xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 480, null ], mode: outbound }
+        256xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 256, null ], mode: outbound }
+        128x128:
             quality: 85
             filters:
-                thumbnail: { size: [ 132, 50 ], mode: outbound }
+                thumbnail: { size: [ 128, 128 ], mode: outbound }
         60x60:
             quality: 95
             filters:
