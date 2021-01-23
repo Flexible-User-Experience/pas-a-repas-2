@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.02 (WIP)
+##### Version 4.5.03 (WIP)
  * fix minor bugs
+
+##### Version 4.5.02 (2021-01-23)
+ * fix broken testing suite
 
 ##### Version 4.5.01 (2021-01-23)
  * fix expenses calculation in dashboard graph
