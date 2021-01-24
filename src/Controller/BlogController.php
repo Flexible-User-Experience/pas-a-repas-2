@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BlogController extends AbstractController
 {
-    const PAGE_LIMIT = 5;
+    public const PAGE_LIMIT = 5;
 
     /**
      * @Route("/blog/{pagina}", name="app_blog")

@@ -29,6 +29,7 @@ class FrontendControllerTest extends WebTestCase
     {
         return array(
             array('/'),
+//            array('/blog'),
             array('/politica-de-privacitat'),
             array('/credits'),
             array('/sitemap/sitemap.default.xml'),

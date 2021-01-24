@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DefaultController extends AbstractController
 {
-    const ENV_DEV = 'dev';
+    public const ENV_DEV = 'dev';
 
     /**
      * @Route("/", name="app_homepage")
