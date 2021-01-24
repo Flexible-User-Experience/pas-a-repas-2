@@ -7,6 +7,7 @@ use App\Entity\BlogPost;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\ORM\Query;
 
 /**
  * Class PostRepository
@@ -57,13 +58,11 @@ class BlogPostRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @return array
-     */
-    public function getAllEnabledSortedByPublishedDateWithJoinUntilNow()
+    public function getAllEnabledSortedByPublishedDateWithJoinUntilNowQ(): Query
     {
         $now = new DateTimeImmutable();
-        $query = $this->createQueryBuilder('p')
+
+        return $this->createQueryBuilder('p')
             ->select('p, c')
             ->join('p.categories', 'c')
             ->where('p.enabled = :enabled')
@@ -73,8 +72,11 @@ class BlogPostRepository extends ServiceEntityRepository
             ->orderBy('p.publishedAt', 'DESC')
             ->addOrderBy('p.title', 'ASC')
             ->getQuery();
+    }
 
-        return $query->getResult();
+    public function getAllEnabledSortedByPublishedDateWithJoinUntilNow(): array
+    {
+        return $this->getAllEnabledSortedByPublishedDateWithJoinUntilNowQ()->getResult();
     }
 
     /**

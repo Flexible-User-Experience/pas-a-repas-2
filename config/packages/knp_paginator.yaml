@@ -3,4 +3,4 @@ knp_paginator:
     default_options:
         page_name: pagina
     template:
-        pagination: '@KnpPaginator/Pagination/sliding.html.twig'
+        pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v3_pagination.html.twig'
