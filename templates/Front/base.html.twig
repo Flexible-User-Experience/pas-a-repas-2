@@ -75,7 +75,7 @@
                                 <address>
                                     <span>{{ boss_name | upper }}</span><br>
                                     <i class="fa fa-envelope"></i> <a href="mailto:{{ mailer_destination }}">{{ mailer_destination }}</a><br>
-                                    <i class="fa fa-phone-square"></i> {{ main_brand_phone_1 }}
+                                    <i class="fa fa-phone-square"></i> <a href="callto:{{ main_brand_phone_1 | replace({' ': ''}) }}">{{ main_brand_phone_1 }}</a>
                                 </address>
                             </li>
                             <li class="col-sm-3 col-xs-12">
