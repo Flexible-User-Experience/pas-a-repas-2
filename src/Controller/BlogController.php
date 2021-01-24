@@ -24,7 +24,7 @@ class BlogController extends AbstractController
      */
     public function postsListAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, PaginatorInterface $paginator, $pagina = 1): Response
     {
-        $posts = $bpr->getAllEnabledSortedByPublishedDateWithJoinUntilNow();
+        $posts = $bpr->getAllEnabledSortedByPublishedDateWithJoinUntilNowQ();
         $postsPaginator = $paginator->paginate($posts, $pagina, self::PAGE_LIMIT);
         $categories = $bcr->getAllEnabledSortedByTitleWithJoin();
 
