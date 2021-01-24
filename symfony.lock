@@ -183,6 +183,15 @@
     "imagine/imagine": {
         "version": "1.2.2"
     },
+    "ivory/google-map": {
+        "version": "3.0.4"
+    },
+    "ivory/google-map-bundle": {
+        "version": "3.0.4"
+    },
+    "ivory/json-builder": {
+        "version": "3.0.2"
+    },
     "jms/metadata": {
         "version": "2.1.0"
     },

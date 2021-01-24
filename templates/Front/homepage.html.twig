@@ -1,6 +1,21 @@
 {% extends 'Front/base.html.twig' %}
 
-{% form_theme newsletterForm _self %}
+{% form_theme contactForm _self %}
+
+{% block _contact_send_widget %}
+    {% set attr = attr | merge({class: (attr.class | default('btn-default') ~ ' btn') | trim}) %}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format | replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name | humanize %}
+        {%- endif -%}
+    {%- endif -%}
+    <button type="submit" {{ block('button_attributes') }}><span class="hack">{{ label | trans({}, translation_domain) }}</span> <i class="fa icon-arrow-right" style="float:right;margin: 3px 0 0 7px;"></i></button>
+{% endblock %}
 
 {% block _contact_homepage_privacy_widget %}
     <div class="checkbox">
@@ -15,151 +30,170 @@
     <div class="container-fluid">
         <div class="row bc-brown">
             <div class="text-center">
-{#                <h2 class="hidden">Acadèmia escolar i classes de repàs a Amposta per a tots els nivells: primària, ESO, batxillerat, universitat i proves d'accés.</h2>#}
-{#                <div class="text-center">#}
-                    <img src="{{ asset('build/images/head.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
-{#                </div>#}
+                <img src="{{ asset('build/images/head.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
             </div>
         </div>
-        <div class="container">
-            <div id="classes-de-repas" class="row">
-                <div class="col-xs-12">
-                    <h2 class="my-h2 text-center">{{ 'frontend.layout.menu.courses' | trans | upper }}</h2>
-                    {#<!-- Nav tabs -->#}
-                    <div class="navbar no-m-bottom">
-                        <ul class="nav nav-justified" role="tablist">
-                            <li role="presentation" class="active"><a href="#primaria" class="c-magenta" aria-controls="primaria" role="tab" data-toggle="tab"><i class="icon-pencil fa-4x"></i>{{ 'frontend.index.courses.primary' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                            <li role="presentation"><a href="#eso" class="c-wine" aria-controls="eso" role="tab" data-toggle="tab"><i class="icon-ruler fa-4x"></i>{{ 'frontend.index.courses.eso' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                            <li role="presentation"><a href="#batxillerat" class="c-violet" aria-controls="batxillerat" role="tab" data-toggle="tab"><i class="icon-book fa-4x"></i>{{ 'frontend.index.courses.school' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                            <li role="presentation"><a href="#selectivitat" class="c-lviolet" aria-controls="selectivitat" role="tab" data-toggle="tab"><i class="icon-check fa-4x"></i>{{ 'frontend.index.courses.selectivity' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                            <li role="presentation"><a href="#universitat" class="c-cyan" aria-controls="universitat" role="tab" data-toggle="tab"><i class="icon-hat fa-4x"></i>{{ 'frontend.index.courses.university' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                        </ul>
-                    </div>
+    </div>
+    <div class="container">
+        <div id="classes-de-repas" class="row">
+            <div class="col-xs-12">
+                <h2 class="my-h2 text-center">{{ 'frontend.layout.menu.courses' | trans | upper }}</h2>
+                {#<!-- Nav tabs -->#}
+                <div class="navbar no-m-bottom">
+                    <ul class="nav nav-justified" role="tablist">
+                        <li role="presentation" class="active"><a href="#primaria" class="c-magenta" aria-controls="primaria" role="tab" data-toggle="tab"><i class="icon-pencil fa-4x"></i>{{ 'frontend.index.courses.primary' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                        <li role="presentation"><a href="#eso" class="c-wine" aria-controls="eso" role="tab" data-toggle="tab"><i class="icon-ruler fa-4x"></i>{{ 'frontend.index.courses.eso' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                        <li role="presentation"><a href="#batxillerat" class="c-violet" aria-controls="batxillerat" role="tab" data-toggle="tab"><i class="icon-book fa-4x"></i>{{ 'frontend.index.courses.school' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                        <li role="presentation"><a href="#selectivitat" class="c-lviolet" aria-controls="selectivitat" role="tab" data-toggle="tab"><i class="icon-check fa-4x"></i>{{ 'frontend.index.courses.selectivity' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                        <li role="presentation"><a href="#universitat" class="c-cyan" aria-controls="universitat" role="tab" data-toggle="tab"><i class="icon-hat fa-4x"></i>{{ 'frontend.index.courses.university' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                {#<!-- Tab panes -->#}
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in bc-magenta active" id="primaria">
-                        <div class="row no-m-right">
-                            <div class="col-md-5 col-sm-6 no-p-right">
-                                <img class="img-responsive" src="{{ asset('build/images/c1-primary.jpg') | imagine_filter('1050xY') }}" alt="heart shape lovely girls and colors zenit"/>
-                            </div>
-                            <div class="col-md-7 col-sm-6 c-white no-p-right">
-                                <div class="banner-service">
-                                    <h3 class="no-m-top">{{ 'frontend.index.courses.primary' | trans | upper }}</h3>
-                                    {{ 'frontend.index.primary_txt' | trans | raw }}
-                                </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            {#<!-- Tab panes -->#}
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in bc-magenta active" id="primaria">
+                    <div class="row no-m-right">
+                        <div class="col-md-5 col-sm-6 no-p-right">
+                            <img class="img-responsive" src="{{ asset('build/images/c1-primary.jpg') | imagine_filter('1050xY') }}" alt="heart shape lovely girls and colors zenit"/>
+                        </div>
+                        <div class="col-md-7 col-sm-6 c-white no-p-right">
+                            <div class="banner-service">
+                                <h3 class="no-m-top">{{ 'frontend.index.courses.primary' | trans | upper }}</h3>
+                                {{ 'frontend.index.primary_txt' | trans | raw }}
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade bc-wine" id="eso">
-                        <div class="row no-m-right">
-                            <div class="col-md-7 col-sm-6 c-white no-p-right">
-                                <div class="banner-service">
-                                    <h3 class="no-m-top">{{ 'frontend.index.courses.eso' | trans | upper }}</h3>
-                                    {{ 'frontend.index.eso_txt' | trans | raw }}
-                                </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade bc-wine" id="eso">
+                    <div class="row no-m-right">
+                        <div class="col-md-7 col-sm-6 c-white no-p-right">
+                            <div class="banner-service">
+                                <h3 class="no-m-top">{{ 'frontend.index.courses.eso' | trans | upper }}</h3>
+                                {{ 'frontend.index.eso_txt' | trans | raw }}
                             </div>
-                            <div class="col-md-5 col-sm-6 no-p-right">
-                                <img class="img-responsive" src="{{ asset('build/images/c2-eso.jpg') | imagine_filter('1050xY') }}" alt="teacher and student boys on a colorful background"/>
+                        </div>
+                        <div class="col-md-5 col-sm-6 no-p-right">
+                            <img class="img-responsive" src="{{ asset('build/images/c2-eso.jpg') | imagine_filter('1050xY') }}" alt="teacher and student boys on a colorful background"/>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade bc-violet" id="batxillerat">
+                    <div class="row no-m-right">
+                        <div class="col-md-5 col-sm-6 no-p-right">
+                            <img class="img-responsive" src="{{ asset('build/images/c3-school.jpg') | imagine_filter('1050xY') }}" alt="student making maths on chalkboard"/>
+                        </div>
+                        <div class="col-md-7 col-sm-6 c-white no-p-right">
+                            <div class="banner-service">
+                                <h3 class="no-m-top">{{ 'frontend.index.courses.school' | trans | upper }}</h3>
+                                {{ 'frontend.index.sc_school' | trans | raw  }}
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade bc-violet" id="batxillerat">
-                        <div class="row no-m-right">
-                            <div class="col-md-5 col-sm-6 no-p-right">
-                                <img class="img-responsive" src="{{ asset('build/images/c3-school.jpg') | imagine_filter('1050xY') }}" alt="student making maths on chalkboard"/>
-                            </div>
-                            <div class="col-md-7 col-sm-6 c-white no-p-right">
-                                <div class="banner-service">
-                                    <h3 class="no-m-top">{{ 'frontend.index.courses.school' | trans | upper }}</h3>
-                                    {{ 'frontend.index.sc_school' | trans | raw  }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade bc-lviolet" id="selectivitat">
-                        <div class="row no-m-right">
-                            <div class="col-md-7 col-sm-6 c-white no-p-right">
-                                <div class="banner-service">
-                                    <h3 class="no-m-top">{{ 'frontend.index.courses.selectivity' | trans | upper }}</h3>
-                                    <p>{{ 'frontend.index.selectivity_txt' | trans | raw }}</p>
-                                    <ul>
-                                        <li>{{ 'frontend.index.selectivity_list.pau' | trans }}</li>
-                                        <li>{{ 'frontend.index.selectivity_list.pacfs' | trans }}</li>
-                                        <li>{{ 'frontend.index.selectivity_list.pacfm' | trans }}</li>
-                                        <li>{{ 'frontend.index.selectivity_list.pau25' | trans }}</li>
-                                        <li>{{ 'frontend.index.selectivity_list.cc' | trans }}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-5 col-sm-6 no-p-right">
-                                <img class="img-responsive" src="{{ asset('build/images/c4-selectivity.jpg') | imagine_filter('1050xY') }}" alt="a shiny maths book over a dark background"/>
+                </div>
+                <div role="tabpanel" class="tab-pane fade bc-lviolet" id="selectivitat">
+                    <div class="row no-m-right">
+                        <div class="col-md-7 col-sm-6 c-white no-p-right">
+                            <div class="banner-service">
+                                <h3 class="no-m-top">{{ 'frontend.index.courses.selectivity' | trans | upper }}</h3>
+                                <p>{{ 'frontend.index.selectivity_txt' | trans | raw }}</p>
+                                <ul>
+                                    <li>{{ 'frontend.index.selectivity_list.pau' | trans }}</li>
+                                    <li>{{ 'frontend.index.selectivity_list.pacfs' | trans }}</li>
+                                    <li>{{ 'frontend.index.selectivity_list.pacfm' | trans }}</li>
+                                    <li>{{ 'frontend.index.selectivity_list.pau25' | trans }}</li>
+                                    <li>{{ 'frontend.index.selectivity_list.cc' | trans }}</li>
+                                </ul>
                             </div>
                         </div>
+                        <div class="col-md-5 col-sm-6 no-p-right">
+                            <img class="img-responsive" src="{{ asset('build/images/c4-selectivity.jpg') | imagine_filter('1050xY') }}" alt="a shiny maths book over a dark background"/>
+                        </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade bc-cyan" id="universitat">
-                        <div class="row no-m-right">
-                            <div class="col-md-5 col-sm-6 no-p-right">
-                                <img class="img-responsive" src="{{ asset('build/images/c5-university.jpg') | imagine_filter('1050xY') }}" alt="pretty girl smiling with laptop in a classroom"/>
-                            </div>
-                            <div class="col-md-7 col-sm-6 c-white no-p-right">
-                                <div class="banner-service">
-                                    <h3 class="no-m-top">{{ 'frontend.index.courses.university' | trans | upper }}</h3>
-                                    {{ 'frontend.index.university_txt' | trans | raw }}
-                                </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade bc-cyan" id="universitat">
+                    <div class="row no-m-right">
+                        <div class="col-md-5 col-sm-6 no-p-right">
+                            <img class="img-responsive" src="{{ asset('build/images/c5-university.jpg') | imagine_filter('1050xY') }}" alt="pretty girl smiling with laptop in a classroom"/>
+                        </div>
+                        <div class="col-md-7 col-sm-6 c-white no-p-right">
+                            <div class="banner-service">
+                                <h3 class="no-m-top">{{ 'frontend.index.courses.university' | trans | upper }}</h3>
+                                {{ 'frontend.index.university_txt' | trans | raw }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div id="sobre-mi" class="row bc-lbrown">
-                <div class="col-xs-12 no-h-padding">
-                    <img src="{{ asset('build/images/about.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
-                    <div class="my-carousel-caption">
-                        <h2 class="my-h2 c-white text-center">{{ 'frontend.layout.menu.about' | trans | upper }}</h2>
-                        <p class="text-center banner-service sobre-mi hidden-xs">{{ 'frontend.index.about_mi' | trans | raw }}</p>
+    </div>
+    <div class="container-fluid">
+        <div id="sobre-mi" class="row bc-lbrown">
+            <div class="col-xs-12 no-h-padding">
+                <img src="{{ asset('build/images/about.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
+                <div class="my-carousel-caption">
+                    <h2 class="my-h2 c-white text-center">{{ 'frontend.layout.menu.about' | trans | upper }}</h2>
+                    <p class="text-center banner-service sobre-mi hidden-xs">{{ 'frontend.index.about_mi' | trans | raw }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="visible-xs container-fluid">
+        <div class="row bc-grey">
+            <div class="col-xs-12">
+                <p class="c-white banner-service">{{ 'frontend.index.about_mi' | trans | raw }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="contacte" class="row extra-m-bottom">
+            <div class="col-md-12">
+                <h2 class="my-h2 text-center">{{ 'frontend.layout.menu.contact' | trans | upper }}</h2>
+                <p class="text-center contacte">
+                    {{ 'frontend.index.contact.msg1' | trans }}<br>
+                    {{ 'frontend.index.contact.msg2' | trans }}
+                </p>
+                {% if flash is not null %}
+                    <div class="row">
+                        <div class="col-sm-2 col-xs-1"></div>
+                        <div class="col-sm-8 col-xs-10">
+                            <div class="alert alert-success" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <i class="fa fa-paper-plane-o"></i> {{ flash | trans }}
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-1"></div>
                     </div>
+                {% endif %}
+                {{ form_start(contactForm) }}
+                <div class="row">
+                    <div class="col-sm-2 hidden-xs"></div>
+                    <div class="col-sm-4 col-xs-6">
+                        {{ form_errors(contactForm) }}
+                        {{ form_row(contactForm.name) }}
+                        {{ form_row(contactForm.email) }}
+                        {{ form_row(contactForm.phone) }}
+                        {{ form_row(contactForm.send) }}
+                    </div>
+                    <div class="col-sm-4 col-xs-6">
+                        {{ form_row(contactForm.message) }}
+                        {{ form_row(contactForm.captcha) }}
+                        {{ form_rest(contactForm) }}
+                    </div>
+                    <div class="col-sm-2 hidden-xs"></div>
                 </div>
+                {{ form_end(contactForm) }}
             </div>
         </div>
-        <div class="visible-xs container-fluid">
-            <div class="row bc-grey">
-                <div class="col-xs-12">
-                    <p class="c-white banner-service">{{ 'frontend.index.about_mi' | trans | raw }}</p>
-                </div>
-            </div>
-        </div>
-
-
-
-
-    {# Flash message#}
-    {% include 'Front/includes/notice_flash.html.twig' %}
-    {# Newsletter section #}
-    <div class="p-vertical violet-background">
-        <div class="container">
-            <div class="row normal-m-top">
-                <div class="col-sm-4">
-                    <h4 class="c-white no-m-top">Newsletter</h4>
-                    <p class="c-white no-m-top">Subscriu-te! Et mantindrem informat de totes les novetats.</p>
-                </div>
-                {{ form_start(newsletterForm) }}
-                <div class="col-sm-4">
-                    {{ form_widget(newsletterForm.email) }}
-                    {{ form_errors(newsletterForm.email) }}
-                    {{ form_widget(newsletterForm.privacy) }}
-                    {{ form_errors(newsletterForm.privacy) }}
-                </div>
-                <div class="col-sm-4 text-center top-margin-responsive">
-                    {{ form_rest(newsletterForm) }}
-                </div>
-                {{ form_end(newsletterForm) }}
+    </div>
+    <div class="container-fluid">
+        <div id="localitzacio" class="row">
+            <div class="google-maps-container">
+                {{ ivory_google_map(mapView) }}
+                {{ ivory_google_api([mapView]) }}
             </div>
         </div>
     </div>

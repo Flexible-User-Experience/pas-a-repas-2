@@ -13,6 +13,7 @@
         "doctrine/common": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^2.1",
         "drewm/mailchimp-api": "^2.5",
+        "ivory/google-map-bundle": "^3.0",
         "egulias/email-validator": "^2.1",
         "excelwebzone/recaptcha-bundle": "^1.5",
         "friendsofsymfony/ckeditor-bundle": "^2.2",
