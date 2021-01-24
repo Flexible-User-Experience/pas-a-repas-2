@@ -24,14 +24,8 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/", name="app_homepage")
-     *
-     * @param Request             $request
-     * @param MailchimpManager    $mailchimpManager
-     * @param NotificationService $messenger
-     *
-     * @return Response
      */
-    public function indexAction(Request $request, MailchimpManager $mailchimpManager, NotificationService $messenger)
+    public function indexAction(Request $request, MailchimpManager $mailchimpManager, NotificationService $messenger): Response
     {
         $teachers = $this->getDoctrine()->getRepository(Teacher::class)->findAllEnabledSortedByPosition();
 
@@ -74,10 +68,10 @@ class DefaultController extends AbstractController
      * @param NotificationService $messenger
      * @param NewsletterContact   $newsletterContact
      */
-    private function setFlashMessageAndEmailNotifications(NotificationService $messenger, NewsletterContact $newsletterContact)
+    private function setFlashMessageAndEmailNotifications(NotificationService $messenger, NewsletterContact $newsletterContact): void
     {
         // Send email notifications
-        if (0 != $messenger->sendCommonNewsletterUserNotification($newsletterContact)) {
+        if (0 !== $messenger->sendCommonNewsletterUserNotification($newsletterContact)) {
             // Set frontend flash message
             $this->addFlash(
                 'notice',
@@ -94,32 +88,24 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/politica-de-privacitat", name="app_privacy_policy")
-     *
-     * @return Response
      */
-    public function privacyPolicyAction()
+    public function privacyPolicyAction(): Response
     {
         return $this->render('Front/privacy_policy.html.twig', array());
     }
 
     /**
      * @Route("/credits", name="app_credits")
-     *
-     * @return Response
      */
-    public function creditsAction()
+    public function creditsAction(): Response
     {
         return $this->render('Front/credits.html.twig');
     }
 
     /**
      * @Route("/test-email", name="app_test_email")
-     *
-     * @param KernelInterface $kernel
-     *
-     * @return Response
      */
-    public function testEmailAction(KernelInterface $kernel)
+    public function testEmailAction(KernelInterface $kernel): Response
     {
         if ($kernel->getEnvironment() === 'prod') {
             throw new AccessDeniedHttpException();
