@@ -22,7 +22,6 @@ class DefaultController extends AbstractController
 {
     const ENV_DEV = 'dev';
 
-
     /**
      * @Route("/", name="app_homepage")
      */
@@ -56,45 +55,6 @@ class DefaultController extends AbstractController
                 'flash' => $flash,
             ]
         );
-
-//
-//
-//
-//        $teachers = $this->getDoctrine()->getRepository(Teacher::class)->findAllEnabledSortedByPosition();
-//
-//        $contact = new NewsletterContact();
-//        $newsletterForm = $this->createForm(ContactHomepageType::class, $contact);
-//        $newsletterForm->handleRequest($request);
-//
-//        if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
-//            // Persist new contact message into DB
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($contact);
-//            $em->flush();
-//            // Subscribe contact to mailchimp list
-//            $result = $mailchimpManager->subscribeContactToList($contact, $this->getParameter('mailchimp_list_id'));
-//
-//            if (is_array($result) && MailchimpManager::SUBSCRIBED === $result['status']) {
-//                // Send notification and OK flash
-//                $this->setFlashMessageAndEmailNotifications($messenger, $contact);
-//                // Clean up new form
-//                $contact = new NewsletterContact();
-//                $newsletterForm = $this->createForm(ContactHomepageType::class, $contact);
-//            } else {
-//                // Mailchimp error
-//                $this->addFlash(
-//                    'danger',
-//                    'S\'ha produït un error durant el procés de registre al newsletter. Torna a provar-ho més tard o contacta a través del formulari web.'
-//                );
-//            }
-//        }
-//
-//        return $this->render('Front/homepage.html.twig',
-//            [
-//                'teachers' => $teachers,
-//                'newsletterForm' => $newsletterForm->createView(),
-//            ]
-//        );
     }
 
     /**
