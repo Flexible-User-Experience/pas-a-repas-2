@@ -49,7 +49,7 @@
                         <li><a href="#classes-de-repas">{{ 'frontend.layout.menu.courses' | trans | upper }}</a></li>
                         <li><a href="#sobre-mi">{{ 'frontend.layout.menu.about' | trans | upper }}</a></li>
                         <li><a href="#contacte">{{ 'frontend.layout.menu.contact' | trans | upper }}</a></li>
-                        <li><a href="{{ path('blog') }}">{{ 'frontend.layout.menu.blog' | trans | upper }}</a></li>
+                        <li><a href="{{ path('app_blog') }}">{{ 'frontend.layout.menu.blog' | trans | upper }}</a></li>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li><a href="{{ path('sonata_admin_dashboard') }}"><i class="fa fa-cog"></i></a></li>
                         {% endif %}
@@ -73,9 +73,9 @@
                             <li class="col-sm-3 col-xs-12">
                                 <h5>{{ 'frontend.layout.footer.contact' | trans | upper }}:</h5>
                                 <address>
-                                    <span>ISABEL PORRES ESTRADA</span><br>
+                                    <span>{{ boss_name | upper }}</span><br>
                                     <i class="fa fa-envelope"></i> <a href="mailto:{{ mailer_destination }}">{{ mailer_destination }}</a><br>
-                                    <i class="fa fa-phone-square"></i> {{ main_brand_phone_1 }}
+                                    <i class="fa fa-phone-square"></i> <a href="callto:{{ main_brand_phone_1 | replace({' ': ''}) }}">{{ main_brand_phone_1 }}</a>
                                 </address>
                             </li>
                             <li class="col-sm-3 col-xs-12">

@@ -7,6 +7,7 @@ use App\Entity\BlogPost;
 use App\Enum\UserRolesEnum;
 use App\Repository\BlogCategoryRepository;
 use App\Repository\BlogPostRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,11 +20,10 @@ class BlogController extends AbstractController
     const PAGE_LIMIT = 5;
 
     /**
-     * @Route("/blog/{pagina}", name="blog")
+     * @Route("/blog/{pagina}", name="app_blog")
      */
-    public function postsListAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, $pagina = 1): Response
+    public function postsListAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, PaginatorInterface $paginator, $pagina = 1): Response
     {
-        $paginator = $this->get('knp_paginator');
         $posts = $bpr->getAllEnabledSortedByPublishedDateWithJoinUntilNow();
         $postsPaginator = $paginator->paginate($posts, $pagina, self::PAGE_LIMIT);
         $categories = $bcr->getAllEnabledSortedByTitleWithJoin();
@@ -35,7 +35,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/blog/{year}/{month}/{day}/{slug}", name="blog_detail")
+     * @Route("/blog/{year}/{month}/{day}/{slug}", name="app_blog_detail")
      */
     public function postDetailAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, $year, $month, $day, $slug)
     {
@@ -59,7 +59,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/blog/categoria/{slug}/{pagina}", name="category_detail")
+     * @Route("/blog/categoria/{slug}/{pagina}", name="app_blog_category_detail")
      */
     public function categoryDetailAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, $slug, $pagina = 1)
     {
