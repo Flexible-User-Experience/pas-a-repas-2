@@ -2,7 +2,7 @@
 
 {% form_theme contactForm _self %}
 
-{% block _contact_send_widget %}
+{% block _contact_message_send_widget %}
     {% set attr = attr | merge({class: (attr.class | default('btn-default') ~ ' btn') | trim}) %}
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
