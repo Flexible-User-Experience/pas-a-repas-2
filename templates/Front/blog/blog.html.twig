@@ -3,17 +3,7 @@
 {% block title %}{{ 'frontend.layout.menu.blog' | trans | title }} · {{ parent() }}{% endblock %}
 
 {% block menu %}
-    <div id="navbar" class="navbar-collapse collapse float-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ path('app_homepage') }}#classes-de-repas">{{ 'frontend.layout.menu.courses' | trans | upper }}</a></li>
-            <li><a href="{{ path('app_homepage') }}#sobre-mi">{{ 'frontend.layout.menu.about' | trans | upper }}</a></li>
-            <li><a href="{{ path('app_homepage') }}#contacte">{{ 'frontend.layout.menu.contact' | trans | upper }}</a></li>
-            <li class="active"><a href="{{ path('app_blog') }}">{{ 'frontend.layout.menu.blog' | trans | upper }}</a></li>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li><a href="{{ path('sonata_admin_dashboard') }}"><i class="fa fa-cog"></i></a></li>
-            {% endif %}
-        </ul>
-    </div>
+    {% include "Front/includes/full_link_menu_navbar.html.twig" %}
 {% endblock %}
 
 {% block main %}

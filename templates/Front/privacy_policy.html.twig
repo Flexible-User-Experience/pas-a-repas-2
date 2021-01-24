@@ -2,6 +2,10 @@
 
 {% block title %}Política de privacitat · {{ parent() }}{% endblock %}
 
+{% block menu %}
+    {% include "Front/includes/full_link_menu_navbar.html.twig" %}
+{% endblock %}
+
 {% block main %}
     <div class="container container-main">
         <div class="row extra-d-top extra-d-bottom">
@@ -114,3 +118,5 @@
         </div>
     </div>
 {% endblock %}
+
+{% block inside_on_ready_javascripts_node %}{% endblock %}
