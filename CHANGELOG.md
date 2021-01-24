@@ -3,6 +3,9 @@ Changelog
 
 ##### Version 4.5.03 (WIP)
  * fix minor bugs
+ * final styles version
+ * final dynamic sitemap builder version
+ * show Blog posts
 
 ##### Version 4.5.02 (2021-01-23)
  * fix broken testing suite
