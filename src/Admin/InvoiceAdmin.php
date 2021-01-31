@@ -109,7 +109,7 @@ class InvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.receipt.date',
                     'format' => 'd/M/y',
                     'required' => $this->id($this->getSubject()) ? false : true,
-                    'disabled' => $this->id($this->getSubject()) ? true : false,
+                    'disabled' => false,
                 )
             )
             ->add(
