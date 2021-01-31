@@ -1,11 +1,16 @@
 Changelog
 =========
 
-##### Version 4.5.03 (WIP)
+##### Version 4.5.04 (WIP)
  * fix minor bugs
  * final styles version
  * final dynamic sitemap builder version
  * show Blog posts
+
+##### Version 4.5.03 (2021-01-31)
+ * Symfony 4.4.19 update
+ * fix not editable invoice date admin
+ * fix missing translations
 
 ##### Version 4.5.02 (2021-01-23)
  * fix broken testing suite
