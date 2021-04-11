@@ -5,13 +5,9 @@ namespace App\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter;
 use Sonata\Form\Type\DateTimePickerType;
 
-/**
- * Class NewsletterContactAdmin.
- *
- * @category Admin
- */
 class NewsletterContactAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Newsletter Contact';
@@ -21,12 +17,7 @@ class NewsletterContactAdmin extends AbstractBaseAdmin
         '_sort_order' => 'desc',
     );
 
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         $collection
             ->remove('create')
@@ -37,15 +28,12 @@ class NewsletterContactAdmin extends AbstractBaseAdmin
             ->remove('batch');
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'createdAt',
-                'doctrine_orm_datetime',
+                DateTimeFilter::class,
                 array(
                     'label' => 'backend.admin.date',
                     'field_type' => DateTimePickerType::class,
@@ -67,12 +55,9 @@ class NewsletterContactAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'createdAt',
                 'date',

@@ -7,20 +7,18 @@ use App\Entity\Event;
 use App\Entity\Student;
 use App\Entity\Teacher;
 use App\Enum\EventClassroomTypeEnum;
+use DateInterval;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter;
 use Sonata\Form\Type\DateTimePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-/**
- * Class EventAdmin.
- *
- * @category Admin
- */
 class EventAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Timetable';
@@ -32,12 +30,7 @@ class EventAdmin extends AbstractBaseAdmin
         '_per_page' => 400,
     );
 
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -47,12 +40,9 @@ class EventAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('backend.admin.dates', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'begin',
@@ -72,8 +62,8 @@ class EventAdmin extends AbstractBaseAdmin
                     'required' => true,
                 )
             );
-        if (is_null($this->getSubject()->getId())) {
-            $formMapper
+        if (is_null($this->getSubject() && $this->getSubject()->getId())) {
+            $form
                 ->add(
                     'dayFrequencyRepeat',
                     null,
@@ -93,7 +83,7 @@ class EventAdmin extends AbstractBaseAdmin
                     )
                 );
         }
-        $formMapper
+        $form
             ->end()
             ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -146,15 +136,12 @@ class EventAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'begin',
-                'doctrine_orm_datetime',
+                DateTimeFilter::class,
                 array(
                     'label' => 'backend.admin.event.begin',
                     'field_type' => DateTimePickerType::class,
@@ -168,7 +155,7 @@ class EventAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'end',
-                'doctrine_orm_datetime',
+                DateTimeFilter::class,
                 array(
                     'label' => 'backend.admin.event.end',
                     'field_type' => DateTimePickerType::class,
@@ -217,12 +204,7 @@ class EventAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function createQuery($context = 'list'): QueryBuilder
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = parent::createQuery($context);
@@ -234,12 +216,9 @@ class EventAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'begin',
                 'date',
@@ -311,10 +290,7 @@ class EventAdmin extends AbstractBaseAdmin
             );
     }
 
-    /**
-     * @return array
-     */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'beginString',
@@ -332,16 +308,16 @@ class EventAdmin extends AbstractBaseAdmin
      *
      * @param Event $object
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function postPersist($object)
+    public function postPersist($object): void
     {
         if ($object->getDayFrequencyRepeat() && $object->getUntil()) {
             $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
             $currentBegin = $object->getBegin();
             $currentEnd = $object->getEnd();
-            $currentBegin->add(new \DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
-            $currentEnd->add(new \DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
+            $currentBegin->add(new DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
+            $currentEnd->add(new DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
             $previousEvent = $object;
             $found = false;
 

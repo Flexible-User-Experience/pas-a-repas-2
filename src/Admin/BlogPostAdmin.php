@@ -8,6 +8,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -133,7 +134,7 @@ class BlogPostAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'publishedAt',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'backend.admin.published_date',
                     'field_type' => DatePickerType::class,

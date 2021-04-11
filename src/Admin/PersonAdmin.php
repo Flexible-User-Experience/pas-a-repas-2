@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,11 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-/**
- * Class PersonAdmin.
- *
- * @category Admin
- */
 class PersonAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Person';
@@ -30,23 +26,15 @@ class PersonAdmin extends AbstractBaseAdmin
         '_sort_order' => 'asc',
     );
 
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
         $collection->remove('delete');
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'name',
@@ -160,12 +148,9 @@ class PersonAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'dni',
                 null,
@@ -256,7 +241,7 @@ class PersonAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'dischargeDate',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'backend.admin.student.dischargeDate',
                     'field_type' => DatePickerType::class,
@@ -278,12 +263,9 @@ class PersonAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'name',
                 null,
@@ -337,10 +319,7 @@ class PersonAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @return array
-     */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'dni',
@@ -362,7 +341,7 @@ class PersonAdmin extends AbstractBaseAdmin
     /**
      * @param Person $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->commonPreActions($object);
     }
@@ -370,7 +349,7 @@ class PersonAdmin extends AbstractBaseAdmin
     /**
      * @param Person $object
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->commonPreActions($object);
     }
@@ -378,7 +357,7 @@ class PersonAdmin extends AbstractBaseAdmin
     /**
      * @param Person $object
      */
-    private function commonPreActions($object)
+    private function commonPreActions($object): void
     {
         if ($object->getBank()->getAccountNumber()) {
             $object->getBank()->setAccountNumber(strtoupper($object->getBank()->getAccountNumber()));
