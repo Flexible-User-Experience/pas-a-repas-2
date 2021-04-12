@@ -8,10 +8,10 @@ use App\Entity\Student;
 use App\Entity\Teacher;
 use App\Enum\EventClassroomTypeEnum;
 use DateInterval;
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter;
@@ -62,7 +62,7 @@ class EventAdmin extends AbstractBaseAdmin
                     'required' => true,
                 )
             );
-        if (is_null($this->getSubject() && $this->getSubject()->getId())) {
+        if (!$this->id($this->getSubject())) {
             $form
                 ->add(
                     'dayFrequencyRepeat',
@@ -204,9 +204,8 @@ class EventAdmin extends AbstractBaseAdmin
         ;
     }
 
-    public function createQuery($context = 'list'): QueryBuilder
+    public function createQuery($context = 'list'): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = parent::createQuery($context);
         $queryBuilder
             ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
@@ -336,8 +335,8 @@ class EventAdmin extends AbstractBaseAdmin
                 $em->persist($event);
                 $em->flush();
 
-                $currentBegin->add(new \DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
-                $currentEnd->add(new \DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
+                $currentBegin->add(new DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
+                $currentEnd->add(new DateInterval('P'.$object->getDayFrequencyRepeat().'D'));
                 $previousEvent = $event;
                 $found = true;
             }

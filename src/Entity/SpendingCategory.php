@@ -5,48 +5,27 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class SpendingCategory.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\SpendingCategoryRepository")
  */
 class SpendingCategory extends AbstractBase
 {
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=false)
      */
-    private $name;
+    private string $name;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return $this->id ? $this->getName() : '---';

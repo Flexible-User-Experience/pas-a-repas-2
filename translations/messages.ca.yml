@@ -361,6 +361,7 @@ backend:
                 special_timelapse_remove_action: "Esborrar totes les dates seleccionades"
                 cancel: "Cancel·lar l'acció i tornar al llistat"
                 add: "Afegir horari"
+                export_pdf_list: "Exportar llistat PDF"
             timelapse: "Lot de dates afectades amb l'edició"
             batch_delete:
                 button: "Mode esborrar amb lot"
