@@ -24,11 +24,11 @@ class EventAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Timetable';
     protected $baseRoutePattern = 'classrooms/timetable';
     protected $maxPerPage = 400;
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'begin',
         '_sort_order' => 'desc',
         '_per_page' => 400,
-    );
+    ];
 
     protected function configureRoutes(RouteCollection $collection): void
     {
@@ -47,40 +47,40 @@ class EventAdmin extends AbstractBaseAdmin
             ->add(
                 'begin',
                 DateTimePickerType::class,
-                array(
+                [
                     'label' => 'backend.admin.event.begin',
                     'format' => 'd/M/y H:mm',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'end',
                 DateTimePickerType::class,
-                array(
+                [
                     'label' => 'backend.admin.event.end',
                     'format' => 'd/M/y H:mm',
                     'required' => true,
-                )
+                ]
             );
         if (!$this->id($this->getSubject())) {
             $form
                 ->add(
                     'dayFrequencyRepeat',
                     null,
-                    array(
+                    [
                         'label' => 'backend.admin.event.dayFrequencyRepeat',
                         'required' => false,
                         'help' => 'backend.admin.event.dayFrequencyRepeat_help',
-                    )
+                    ]
                 )
                 ->add(
                     'until',
                     DateTimePickerType::class,
-                    array(
+                    [
                         'label' => 'backend.admin.event.until',
                         'format' => 'd/M/y H:mm',
                         'required' => false,
-                    )
+                    ]
                 );
         }
         $form
@@ -89,48 +89,48 @@ class EventAdmin extends AbstractBaseAdmin
             ->add(
                 'classroom',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'backend.admin.event.classroom',
                     'choices' => EventClassroomTypeEnum::getEnumArray(),
                     'multiple' => false,
                     'expanded' => false,
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'teacher',
                 EntityType::class,
-                array(
+                [
                     'label' => 'backend.admin.event.teacher',
                     'required' => true,
                     'class' => Teacher::class,
                     'choice_label' => 'name',
                     'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.teacher_repository')->getEnabledSortedByNameQB(),
-                )
+                ]
             )
             ->add(
                 'group',
                 EntityType::class,
-                array(
+                [
                     'label' => 'backend.admin.event.group',
                     'required' => true,
                     'class' => ClassGroup::class,
                     'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.class_group_repository')->getEnabledSortedByCodeQB(),
-                )
+                ]
             )
             ->end()
             ->with('backend.admin.event.students', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'students',
                 EntityType::class,
-                array(
+                [
                     'label' => 'backend.admin.event.students',
                     'required' => false,
                     'multiple' => true,
                     'class' => Student::class,
                     'choice_label' => 'fullCanonicalName',
                     'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getAllSortedBySurnameQB(),
-                )
+                ]
             )
             ->end()
         ;
@@ -142,64 +142,64 @@ class EventAdmin extends AbstractBaseAdmin
             ->add(
                 'begin',
                 DateTimeFilter::class,
-                array(
+                [
                     'label' => 'backend.admin.event.begin',
                     'field_type' => DateTimePickerType::class,
                     'format' => 'd-m-Y H:i',
-                ),
+                ],
                 null,
-                array(
+                [
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy HH:mm',
-                )
+                ]
             )
             ->add(
                 'end',
                 DateTimeFilter::class,
-                array(
+                [
                     'label' => 'backend.admin.event.end',
                     'field_type' => DateTimePickerType::class,
                     'format' => 'd-m-Y H:i',
-                ),
+                ],
                 null,
-                array(
+                [
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy HH:mm',
-                )
+                ]
             )
             ->add(
                 'classroom',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.classroom',
-                ),
+                ],
                 ChoiceType::class,
-                array(
+                [
                     'expanded' => false,
                     'multiple' => false,
                     'choices' => EventClassroomTypeEnum::getEnumArray(),
-                )
+                ]
             )
             ->add(
                 'teacher',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.teacher',
-                )
+                ]
             )
             ->add(
                 'group',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.group',
-                )
+                ]
             )
             ->add(
                 'students',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.students',
-                )
+                ]
             )
         ;
     }
@@ -221,77 +221,83 @@ class EventAdmin extends AbstractBaseAdmin
             ->add(
                 'begin',
                 'date',
-                array(
+                [
                     'label' => 'backend.admin.event.begin',
                     'format' => 'd/m/Y H:i',
                     'editable' => false,
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 'end',
                 'date',
-                array(
+                [
                     'label' => 'backend.admin.event.end',
                     'format' => 'd/m/Y H:i',
                     'editable' => false,
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 'classroom',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.classroom',
                     'template' => 'Admin/Cells/list__cell_classroom_type.html.twig',
-                )
+                ]
             )
             ->add(
                 'teacher',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.teacher',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'name'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'teacher')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'teacher']],
+                ]
             )
             ->add(
                 'group',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.group',
                     'editable' => true,
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'code'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'group')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'code'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'group']],
+                ]
             )
             ->add(
                 'studentsAmount',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.event.students',
                     'template' => 'Admin/Cells/list__cell_classroom_students_amount.html.twig',
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
-                        'batchedit' => array('template' => 'Admin/Buttons/list__action_event_batch_edit_button.html.twig'),
-                        'batchdelete' => array('template' => 'Admin/Buttons/list__action_batch_delete_button.html.twig'),
-                    ),
+                [
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
+                    'actions' => [
+                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
+                        'batchedit' => ['template' => 'Admin/Buttons/list__action_event_batch_edit_button.html.twig'],
+                        'batchdelete' => ['template' => 'Admin/Buttons/list__action_batch_delete_button.html.twig'],
+                    ],
                     'label' => 'backend.admin.actions',
-                )
+                ]
             );
     }
 
     public function getExportFields(): array
     {
-        return array(
+        return [
             'beginString',
             'endString',
             'classroomString',
@@ -299,7 +305,7 @@ class EventAdmin extends AbstractBaseAdmin
             'group',
             'studentsAmount',
             'studentsString',
-        );
+        ];
     }
 
     /**
