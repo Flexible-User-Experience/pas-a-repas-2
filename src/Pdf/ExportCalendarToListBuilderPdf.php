@@ -39,7 +39,7 @@ class ExportCalendarToListBuilderPdf
         /** @var BaseTcpdf $pdf */
         $pdf = $this->tcpdf->create($this->sahs);
 
-        $correctorMargin = 20;
+        $correctorMargin = 10;
         $leftMargin = BaseTcpdf::PDF_MARGIN_LEFT - $correctorMargin;
         $rightMargin = BaseTcpdf::PDF_MARGIN_RIGHT - $correctorMargin;
         $maxCellWidth = BaseTcpdf::PDF_WIDTH - $leftMargin - $rightMargin;
@@ -69,9 +69,8 @@ class ExportCalendarToListBuilderPdf
         $daysAmount = count($calendarEventsList->getDays());
         /** @var ExportCalendarToListDayItem $day */
         foreach ($calendarEventsList->getDays() as $day) {
-            // don't draw sundays
             ++$iteratorDayIndex;
-            if ('0' !== $day->getDay()->format('w')) {
+            if ('0' !== $day->getDay()->format('w')) { // don't draw sundays
                 // day table header
                 $pdf->setCellPaddings(0, 2, 2, 2);
                 $pdf->setFontStyle(null, 'B', 11);
@@ -84,7 +83,7 @@ class ExportCalendarToListBuilderPdf
                     $this->setCellColors($pdf, $this->defaultCellColor);
                     $pdf->Cell($maxCellWidth, 0, $hour->getRangeName(), true, true, 'C', true);
                     // group row
-                    $pdf->Cell(self::FIRST_CELL_WIDTH, 0, 'Group', true, 0, 'L', true);
+                    $pdf->Cell(self::FIRST_CELL_WIDTH, 0, 'Grup', true, 0, 'L', true);
                     $eventsAmount = count($hour->getEvents());
                     /** @var Event $event */
                     foreach ($hour->getEvents() as $event) {
@@ -92,13 +91,13 @@ class ExportCalendarToListBuilderPdf
                         $pdf->Cell(self::CELL_WIDTH, 0, $event->getGroup()->getCode(), true, 0, 'L', true);
                     }
                     $this->setCellColors($pdf, $this->defaultCellColor);
-                    if ($eventsAmount < 5) {
-                        $this->drawEmptyCells($pdf, 5 - $eventsAmount, true);
+                    if ($eventsAmount < 3) {
+                        $this->drawEmptyCells($pdf, 3 - $eventsAmount, true);
                     } else {
                         $pdf->SetXY($leftMargin, $pdf->GetY() + $cellHeigth);
                     }
                     // room row
-                    $pdf->Cell(self::FIRST_CELL_WIDTH, 0, 'Room', true, 0, 'L', true);
+                    $pdf->Cell(self::FIRST_CELL_WIDTH, 0, 'Aula', true, 0, 'L', true);
                     $eventsAmount = count($hour->getEvents());
                     /** @var Event $event */
                     foreach ($hour->getEvents() as $event) {
@@ -106,13 +105,13 @@ class ExportCalendarToListBuilderPdf
                         $pdf->Cell(self::CELL_WIDTH, 0, $event->getClassroomString(), true, 0, 'L', true);
                     }
                     $this->setCellColors($pdf, $this->defaultCellColor);
-                    if ($eventsAmount < 5) {
-                        $this->drawEmptyCells($pdf, 5 - $eventsAmount, true);
+                    if ($eventsAmount < 3) {
+                        $this->drawEmptyCells($pdf, 3 - $eventsAmount, true);
                     } else {
                         $pdf->SetXY($leftMargin, $pdf->GetY() + $cellHeigth);
                     }
                     // teacher row
-                    $pdf->Cell(self::FIRST_CELL_WIDTH, 0, 'Teacher', true, 0, 'L', true);
+                    $pdf->Cell(self::FIRST_CELL_WIDTH, 0, 'Professor', true, 0, 'L', true);
                     $eventsAmount = count($hour->getEvents());
                     /** @var Event $event */
                     foreach ($hour->getEvents() as $event) {
@@ -120,26 +119,11 @@ class ExportCalendarToListBuilderPdf
                         $pdf->Cell(self::CELL_WIDTH, 0, $event->getTeacher()->getName(), true, 0, 'L', true);
                     }
                     $this->setCellColors($pdf, $this->defaultCellColor);
-                    if ($eventsAmount < 5) {
-                        $this->drawEmptyCells($pdf, 5 - $eventsAmount, true);
+                    if ($eventsAmount < 3) {
+                        $this->drawEmptyCells($pdf, 3 - $eventsAmount, true);
                     } else {
                         $pdf->SetXY($leftMargin, $pdf->GetY() + $cellHeigth);
                     }
-                    // book row
-                    $pdf->Cell(self::FIRST_CELL_WIDTH, 0, 'Book', true, 0, 'L', true);
-                    $eventsAmount = count($hour->getEvents());
-                    /** @var Event $event */
-                    foreach ($hour->getEvents() as $event) {
-                        $this->setCellColors($pdf, $event->getGroup()->getColorRgbArray(), true);
-                        $pdf->Cell(self::CELL_WIDTH, 0, $event->getGroup()->getBook(), true, 0, 'L', true);
-                    }
-                    $this->setCellColors($pdf, $this->defaultCellColor);
-                    if ($eventsAmount < 5) {
-                        $this->drawEmptyCells($pdf, 5 - $eventsAmount, true);
-                    } else {
-                        $pdf->SetXY($leftMargin, $pdf->GetY() + $cellHeigth);
-                    }
-                    $pdf->SetFillColor(255, 255, 255);
                     // students row
                     $maxStudentRows = $hour->getMaxStudentRows();
                     if ($maxStudentRows > 0) {
@@ -160,8 +144,8 @@ class ExportCalendarToListBuilderPdf
                                     $pdf->Cell(self::CELL_WIDTH, 0, $studentName, true, 0, 'L', true);
                                 }
                             }
-                            if ($eventsAmount < 5) {
-                                $this->drawEmptyCells($pdf, 5 - $eventsAmount, true);
+                            if ($eventsAmount < 3) {
+                                $this->drawEmptyCells($pdf, 3 - $eventsAmount, true);
                             } else {
                                 $pdf->SetXY($leftMargin, $pdf->GetY() + $cellHeigth);
                             }
