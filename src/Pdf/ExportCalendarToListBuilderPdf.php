@@ -16,7 +16,7 @@ use TCPDF;
 class ExportCalendarToListBuilderPdf
 {
     private const FIRST_CELL_WIDTH = 20;
-    private const CELL_WIDTH = 34;
+    private const CELL_WIDTH = 50;
 
     private TCPDFController $tcpdf;
     private SmartAssetsHelperService $sahs;
