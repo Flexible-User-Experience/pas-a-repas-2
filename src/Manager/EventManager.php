@@ -12,16 +12,19 @@ use App\Repository\TariffRepository;
 use DateInterval;
 use DateTimeInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EventManager
 {
     private EventRepository $er;
     private TariffRepository $tr;
+    private TranslatorInterface $ts;
 
-    public function __construct(EventRepository $er, TariffRepository $tr)
+    public function __construct(EventRepository $er, TariffRepository $tr, TranslatorInterface $ts)
     {
         $this->er = $er;
         $this->tr = $tr;
+        $this->ts = $ts;
     }
 
     public function getFirstEventOf(Event $event): ?Event
@@ -165,7 +168,7 @@ class EventManager
         do {
             $iteratedDate = clone $start;
             $events = $this->er->getEnabledFilteredByDateSortedByBeginAndClassroom($iteratedDate);
-            $calendarEventsListDayItem = new ExportCalendarToListDayItem($iteratedDate->format('l'), $iteratedDate);
+            $calendarEventsListDayItem = new ExportCalendarToListDayItem($this->ts->trans('weekdays.day_'.$iteratedDate->format('N')), $iteratedDate);
             $calendarEventsListDayItem->setEvents($events);
             if (count($events) > 0) {
                 /** @var Event $iteratedEvent */

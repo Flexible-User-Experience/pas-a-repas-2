@@ -615,3 +615,12 @@ color:
 breadcrumb:
     link_user_list: "Usuaris"
     link_user_create: "Crear"
+
+weekdays:
+    day_1: "Dilluns"
+    day_2: "Dimarts"
+    day_3: "Dimecres"
+    day_4: "Dijous"
+    day_5: "Divendres"
+    day_6: "Dissabte"
+    day_7: "Diumenge"

@@ -168,6 +168,7 @@ services:
         arguments:
             - '@app.event_repository'
             - '@app.tariff_repository'
+            - '@translator.default'
     app.generate_receipt_form_manager:
         class: App\Manager\GenerateReceiptFormManager
         public: true
