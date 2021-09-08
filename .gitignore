@@ -23,7 +23,7 @@
 /var/log/dev.log
 /var/log/prod.log
 /var/cache/*
-/var/testing-database.db
+/var/sqlite_test_database.db
 /vendor/
 ###< symfony/framework-bundle ###
 
@@ -43,3 +43,8 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
