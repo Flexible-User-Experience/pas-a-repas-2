@@ -4,41 +4,30 @@ namespace App\Manager;
 
 use App\Entity\Event;
 use App\Entity\Tariff;
+use App\Model\ExportCalendarToList;
+use App\Model\ExportCalendarToListDayHourItem;
+use App\Model\ExportCalendarToListDayItem;
+use App\Repository\EventRepository;
 use App\Repository\TariffRepository;
+use DateInterval;
+use DateTimeInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * Class EventManager.
- *
- * @category Manager
- */
 class EventManager
 {
-    /**
-     * @var TariffRepository
-     */
-    private $tr;
+    private EventRepository $er;
+    private TariffRepository $tr;
+    private TranslatorInterface $ts;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * EventManager constructor.
-     *
-     * @param TariffRepository $tr
-     */
-    public function __construct(TariffRepository $tr)
+    public function __construct(EventRepository $er, TariffRepository $tr, TranslatorInterface $ts)
     {
+        $this->er = $er;
         $this->tr = $tr;
+        $this->ts = $ts;
     }
 
-    /**
-     * @param Event $event
-     *
-     * @return Event|null
-     */
-    public function getFirstEventOf(Event $event)
+    public function getFirstEventOf(Event $event): ?Event
     {
         $iteratedEvent = null;
         if (!is_null($event->getPrevious())) {
@@ -51,12 +40,7 @@ class EventManager
         return $iteratedEvent;
     }
 
-    /**
-     * @param Event $event
-     *
-     * @return Event|null
-     */
-    public function getLastEventOf(Event $event)
+    public function getLastEventOf(Event $event): ?Event
     {
         $iteratedEvent = null;
         if (!is_null($event->getNext())) {
@@ -69,15 +53,9 @@ class EventManager
         return $iteratedEvent;
     }
 
-    /**
-     * @param Event $event
-     *
-     * @return int
-     */
-    public function getRelatedEventsAmountOf(Event $event)
+    public function getRelatedEventsAmountOf(Event $event): int
     {
         $amount = 0;
-        $iteratedEvent = null;
         if (!is_null($event->getNext())) {
             $iteratedEvent = $event;
             while (!is_null($iteratedEvent->getNext())) {
@@ -89,12 +67,7 @@ class EventManager
         return $amount;
     }
 
-    /**
-     * @param Event $event
-     *
-     * @return int
-     */
-    public function getTotalRelatedEventsAmountOf(Event $event)
+    public function getTotalRelatedEventsAmountOf(Event $event): int
     {
         $amount = 0;
         if (!is_null($event->getPrevious())) {
@@ -112,18 +85,13 @@ class EventManager
         return $amount;
     }
 
-    /**
-     * @param Event $event
-     *
-     * @return array
-     */
-    public function getProgressBarPercentilesOf(Event $event)
+    public function getProgressBarPercentilesOf(Event $event): array
     {
-        $progressBarPercentiles = array();
+        $progressBarPercentiles = [];
         $total = $this->getTotalRelatedEventsAmountOf($event);
         $involved = $this->getRelatedEventsAmountOf($event);
-        if (0 != $total) {
-            $progressBarPercentiles['last'] = round(($involved * 55) / $total, 0) + 15;
+        if (0 !== $total) {
+            $progressBarPercentiles['last'] = round(($involved * 55) / $total) + 15;
             $progressBarPercentiles['first'] = 85 - $progressBarPercentiles['last'];
         } else {
             $progressBarPercentiles['last'] = 15;
@@ -133,14 +101,9 @@ class EventManager
         return $progressBarPercentiles;
     }
 
-    /**
-     * @param Event $event
-     *
-     * @return array
-     */
-    public function getRangeChoices(Event $event)
+    public function getRangeChoices(Event $event): array
     {
-        $result = array();
+        $result = [];
         if (!is_null($event->getNext())) {
             $iteratedEvent = $event;
             while (!is_null($iteratedEvent->getNext())) {
@@ -152,14 +115,9 @@ class EventManager
         return array_flip($result);
     }
 
-    /**
-     * @param Event $event
-     *
-     * @return array
-     */
-    public function getInclusiveRangeChoices(Event $event)
+    public function getInclusiveRangeChoices(Event $event): array
     {
-        $result = array();
+        $result = [];
         $result[$event->getId()] = $event->getBegin()->format('d/m/Y H:i');
         if (!is_null($event->getNext())) {
             $iteratedEvent = $event;
@@ -177,12 +135,12 @@ class EventManager
      *
      * @return bool true if there is at least one event with only one student in class, false elsewhere because is a shared private class
      */
-    public function decidePrivateLessonsTariff($events)
+    public function decidePrivateLessonsTariff(array $events): bool
     {
         $isPrivateLesson = false;
         /** @var Event $event */
         foreach ($events as $event) {
-            if (1 == count($event->getStudents())) {
+            if (1 === count($event->getStudents())) {
                 $isPrivateLesson = true;
 
                 break;
@@ -199,8 +157,41 @@ class EventManager
      *
      * @throws NonUniqueResultException
      */
-    public function getCurrentPrivateLessonsTariffForEvents($events)
+    public function getCurrentPrivateLessonsTariffForEvents(array $events): Tariff
     {
         return $this->decidePrivateLessonsTariff($events) ? $this->tr->findCurrentPrivateLessonTariff() : $this->tr->findCurrentSharedPrivateLessonTariff();
+    }
+
+    public function getCalendarEventsListFromDates(DateTimeInterface $start, DateTimeInterface $end): ExportCalendarToList
+    {
+        $calendarEventsList = new ExportCalendarToList();
+        do {
+            $iteratedDate = clone $start;
+            $events = $this->er->getEnabledFilteredByDateSortedByBeginAndClassroom($iteratedDate);
+            $calendarEventsListDayItem = new ExportCalendarToListDayItem($this->ts->trans('weekdays.day_'.$iteratedDate->format('N')), $iteratedDate);
+            $calendarEventsListDayItem->setEvents($events);
+            if (count($events) > 0) {
+                /** @var Event $iteratedEvent */
+                $iteratedEvent = clone $events[0];
+                $calendarEventsListDayHourItem = new ExportCalendarToListDayHourItem($iteratedEvent->getBegin()->format('H:i').' - '.$iteratedEvent->getEnd()->format('H:i'), $iteratedEvent->getBegin(), $iteratedEvent->getEnd());
+                $calendarEventsListDayItem->addHour($calendarEventsListDayHourItem);
+                /** @var Event $event */
+                foreach ($events as $event) {
+                    if ($event->getBeginString() === $iteratedEvent->getBeginString() && $event->getEndString() === $iteratedEvent->getEndString()) {
+                        $calendarEventsListDayHourItem->addEvent($event);
+                    } else {
+                        $iteratedEvent = clone $event;
+                        $calendarEventsListDayHourItem = new ExportCalendarToListDayHourItem($iteratedEvent->getBegin()->format('H:i').' - '.$iteratedEvent->getEnd()->format('H:i'), $iteratedEvent->getBegin(), $iteratedEvent->getEnd());
+                        $calendarEventsListDayHourItem->addEvent($iteratedEvent);
+                        $calendarEventsListDayItem->addHour($calendarEventsListDayHourItem);
+                    }
+                }
+            }
+            $calendarEventsList->addDay($calendarEventsListDayItem);
+            // iterate $start date one day
+            $start->add(new DateInterval('P1D'));
+        } while ($start->format('Y-m-d') < $end->format('Y-m-d'));
+
+        return $calendarEventsList;
     }
 }

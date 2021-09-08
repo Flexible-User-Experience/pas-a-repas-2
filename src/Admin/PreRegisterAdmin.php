@@ -6,15 +6,11 @@ use App\Enum\PreRegisterSeasonEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-/**
- * Class PreRegisterAdmin.
- *
- * @category Admin
- */
 class PreRegisterAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Preregisters';
@@ -24,12 +20,7 @@ class PreRegisterAdmin extends AbstractBaseAdmin
         '_sort_order' => 'desc',
     );
 
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         $collection
             ->add('student', $this->getRouterIdParameter().'/create-student')
@@ -38,12 +29,7 @@ class PreRegisterAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param array $actions
-     *
-     * @return array
-     */
-    public function configureBatchActions($actions)
+    public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('show') && $this->hasAccess('show')) {
             $actions['generatestudents'] = array(
@@ -56,15 +42,12 @@ class PreRegisterAdmin extends AbstractBaseAdmin
         return $actions;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'createdAt',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'frontend.forms.preregister.date',
                     'field_type' => DatePickerType::class,
@@ -164,12 +147,9 @@ class PreRegisterAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param ShowMapper $showMapper
-     */
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add(
                 'createdAt',
                 null,
@@ -258,12 +238,9 @@ class PreRegisterAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'createdAt',
                 null,
@@ -336,10 +313,7 @@ class PreRegisterAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @return array
-     */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'createdAtString',

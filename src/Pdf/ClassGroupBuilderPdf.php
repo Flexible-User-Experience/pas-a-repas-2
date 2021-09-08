@@ -5,42 +5,19 @@ namespace App\Pdf;
 use App\Entity\ClassGroup;
 use App\Entity\Student;
 use App\Service\SmartAssetsHelperService;
+use DateTimeImmutable;
 use Qipsius\TCPDFBundle\Controller\TCPDFController;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use TCPDF;
 
-/**
- * Class ClassGroupBuilderPdf.
- *
- * @category Service
- */
 class ClassGroupBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
 {
-    /**
-     * ClassGroupBuilderPdf constructor.
-     *
-     * @param TCPDFController          $tcpdf
-     * @param SmartAssetsHelperService $sahs
-     * @param Translator               $ts
-     * @param string                   $pwt    project web title
-     * @param string                   $bn     boss name
-     * @param string                   $bd     boss DNI
-     * @param string                   $ba     boss address
-     * @param string                   $bc     boss city
-     * @param string                   $ib     IBAN bussines
-     * @param string                   $locale default locale useful in CLI
-     */
-    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, Translator $ts, $pwt, $bn, $bd, $ba, $bc, $ib, $locale)
+    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, Translator $ts, string $pwt, string $bn, string $bd, string $ba, string $bc, string $ib, string $locale)
     {
         parent::__construct($tcpdf, $sahs, $ts, $pwt, $bn, $bd, $ba, $bc, $ib, $locale);
     }
 
-    /**
-     * @param ClassGroup      $classGroup
-     * @param Student[]|array $students
-     *
-     * @return \TCPDF
-     */
-    public function build(ClassGroup $classGroup, $students)
+    public function build(ClassGroup $classGroup, $students): TCPDF
     {
         if ($this->sahs->isCliContext()) {
             $this->ts->setLocale($this->locale);
@@ -77,7 +54,7 @@ class ClassGroupBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
         $verticalTableGap = 10;
 
         // today
-        $today = new \DateTimeImmutable();
+        $today = new DateTimeImmutable();
 
         // invoice header
         $retainedYForGlobes = $pdf->GetY() - 4;
@@ -108,7 +85,7 @@ class ClassGroupBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
         $pdf->SetX($column2Gap);
         $pdf->Write(6, ($classGroup->isForPrivateLessons() ? $this->ts->trans('backend.admin.is_for_private_lessons') : $this->ts->trans('backend.admin.is_not_for_private_lessons')).'    ', '', false, 'R', true);
         $pdf->SetX($column2Gap);
-        $pdf->RoundedRect($pdf->GetX(), $pdf->GetY() + 2, 61.5, 3, 1, '1111', 'F', array(), $this->hex2RGBarray($classGroup->getColor()));
+        $pdf->RoundedRect($pdf->GetX(), $pdf->GetY() + 2, 61.5, 3, 1, '1111', 'F', [], $this->hex2RGBarray($classGroup->getColor()));
 
         // svg globles
         $pdf->drawSvg($this->sahs->getAbsoluteAssetFilePath('/build/svg/globe-violet.svg'), BaseTcpdf::PDF_MARGIN_LEFT, $retainedYForGlobes, 70, 35);
@@ -120,13 +97,13 @@ class ClassGroupBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
         $pdf->Ln(BaseTcpdf::MARGIN_VERTICAL_BIG);
 
         if (0 < count($students)) {
-            $pdf->SetLineStyle(array(
+            $pdf->SetLineStyle([
                 'width' => 0.15,
                 'cap' => 'butt',
                 'join' => 'miter',
                 'dash' => 0,
-                'color' => array(0, 0, 0),
-            ));
+                'color' => [0, 0, 0],
+            ]);
             // students table header
             $pdf->setFontStyle(null, 'B', 9);
             $pdf->Cell(78, $verticalTableGap, $this->ts->trans('backend.admin.student.name'), 0, 0, 'L');

@@ -7,15 +7,11 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-/**
- * Class StudentAbsenceAdmin.
- *
- * @category Admin
- */
 class StudentAbsenceAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Absence';
@@ -25,12 +21,7 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
         '_sort_order' => 'desc',
     );
 
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -39,12 +30,9 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'day',
@@ -91,15 +79,12 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'day',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'backend.admin.teacher_absence.day',
                     'field_type' => DatePickerType::class,
@@ -143,12 +128,9 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'student',
                 null,
@@ -201,10 +183,7 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @return array
-     */
-    public function getExportFields()
+    public function getExportFields(): array
     {
         return array(
             'dayString',
