@@ -2032,16 +2032,16 @@
         },
         {
             "name": "excelwebzone/recaptcha-bundle",
-            "version": "v1.5.28",
+            "version": "v1.5.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/excelwebzone/EWZRecaptchaBundle.git",
-                "reference": "88646b56877007fd86e50438ddf1e29ee0905d32"
+                "reference": "8bb31b2073aeaa0b22403a82687fd139af4e1dbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/excelwebzone/EWZRecaptchaBundle/zipball/88646b56877007fd86e50438ddf1e29ee0905d32",
-                "reference": "88646b56877007fd86e50438ddf1e29ee0905d32",
+                "url": "https://api.github.com/repos/excelwebzone/EWZRecaptchaBundle/zipball/8bb31b2073aeaa0b22403a82687fd139af4e1dbd",
+                "reference": "8bb31b2073aeaa0b22403a82687fd139af4e1dbd",
                 "shasum": ""
             },
             "require": {
@@ -2086,9 +2086,9 @@
             ],
             "support": {
                 "issues": "https://github.com/excelwebzone/EWZRecaptchaBundle/issues",
-                "source": "https://github.com/excelwebzone/EWZRecaptchaBundle/tree/v1.5.28"
+                "source": "https://github.com/excelwebzone/EWZRecaptchaBundle/tree/v1.5.29"
             },
-            "time": "2021-08-12T13:12:57+00:00"
+            "time": "2021-09-08T14:52:45+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
