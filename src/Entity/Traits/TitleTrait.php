@@ -4,40 +4,21 @@ namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Description trait
- *
- * @category Trait
- */
 Trait TitleTrait
 {
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $title;
+    private string $title;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }

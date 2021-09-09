@@ -9,15 +9,12 @@ use App\Entity\Traits\TitleTrait;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class BlogPost.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
  * @Vich\Uploadable
  */
@@ -29,11 +26,15 @@ class BlogPost extends AbstractBase
     use DescriptionTrait;
 
     /**
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="date")
      */
-    private $publishedAt;
+    private DateTimeInterface $publishedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Gedmo\Slug(fields={"title"})
+     */
+    private string $slug;
 
     /**
      * @var File
@@ -48,125 +49,75 @@ class BlogPost extends AbstractBase
     private $imageFile;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $metaKeywords;
+    private ?string $metaKeywords = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $metaDescription;
+    private ?string $metaDescription = null;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\ManyToMany(targetEntity="BlogCategory", inversedBy="posts")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $categories;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * Post constructor.
-     */
     public function __construct()
     {
         $this->categories = new ArrayCollection();
     }
 
-    /**
-     * @param DateTimeInterface $publishedAt
-     *
-     * @return $this
-     */
-    public function setPublishedAt(DateTimeInterface $publishedAt)
+    public function setPublishedAt(DateTimeInterface $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
 
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
-    public function getPublishedAt()
+    public function getPublishedAt(): DateTimeInterface
     {
         return $this->publishedAt;
     }
 
-    /**
-     * @param string $metaKeywords
-     *
-     * @return $this
-     */
-    public function setMetaKeywords($metaKeywords)
+    public function setMetaKeywords(?string $metaKeywords): self
     {
         $this->metaKeywords = $metaKeywords;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMetaKeywords()
+    public function getMetaKeywords(): ?string
     {
         return $this->metaKeywords;
     }
 
-    /**
-     * @param string $metaDescription
-     *
-     * @return $this
-     */
-    public function setMetaDescription($metaDescription)
+    public function setMetaDescription(?string $metaDescription): self
     {
         $this->metaDescription = $metaDescription;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMetaDescription()
+    public function getMetaDescription(): ?string
     {
         return $this->metaDescription;
     }
 
-    /**
-     * @param ArrayCollection $categories
-     *
-     * @return $this
-     */
-    public function setCategories(ArrayCollection $categories)
+    public function setCategories(ArrayCollection $categories): self
     {
         $this->categories = $categories;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getCategories()
     {
         return $this->categories;
     }
 
-    /**
-     * @param BlogCategory $category
-     *
-     * @return $this
-     */
-    public function addCategory(BlogCategory $category)
+    public function addCategory(BlogCategory $category): self
     {
         $category->addPost($this);
         $this->categories[] = $category;
@@ -174,19 +125,15 @@ class BlogPost extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param BlogCategory $category
-     */
-    public function removeCategory(BlogCategory $category)
+    public function removeCategory(BlogCategory $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->title ? $this->getTitle() : '---';
+        return $this->title ? $this->getTitle() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }
