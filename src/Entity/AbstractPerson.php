@@ -81,10 +81,7 @@ abstract class AbstractPerson extends AbstractBase
      */
     protected $payment = 0;
 
-    /**
-     * @var Bank
-     */
-    protected $bank;
+    protected ?Bank $bank = null;
 
     /**
      * Methods.

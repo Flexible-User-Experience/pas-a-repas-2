@@ -1,11 +1,19 @@
 Changelog
 =========
 
-##### Version 4.5.04 (WIP)
+##### Version 4.5.05 (WIP)
  * fix minor bugs
+
+##### Version 4.5.04 (2021-09-09)
+ * Symfony 4.4.30 update
  * final styles version
  * final dynamic sitemap builder version
  * show Blog posts
+ * replace Less by Sass processor
+ * fix Travis broken tests
+ * add ExportCalendarToList behaviour
+ * fix missing translations
+ * add school year filter
 
 ##### Version 4.5.03 (2021-01-31)
  * Symfony 4.4.19 update

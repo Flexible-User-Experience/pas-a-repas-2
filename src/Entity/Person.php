@@ -36,7 +36,7 @@ class Person extends AbstractPerson
      * @ORM\OneToOne(targetEntity="App\Entity\Bank", cascade={"persist"})
      * @Assert\Valid
      */
-    protected $bank;
+    protected ?Bank $bank = null;
 
     /**
      * Methods.
