@@ -1,1 +1,1 @@
-import '../css/backend.less';
+import '../css/backend.scss';

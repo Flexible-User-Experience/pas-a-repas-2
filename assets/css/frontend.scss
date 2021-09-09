@@ -1,0 +1,386 @@
+// Variables
+$magenta: #CD5599;
+$cyan:    #40B4E5;
+$wine:    #782C63;
+$violet:  #62259D;
+$lviolet: #8E64A7;
+$grey:    #9FA1A1;
+$lgrey:   #F0F1F2;
+$brown:   #AA542F;
+$lbrown:  #D5BC94;
+$white:   #FFFFFF;
+$black:   #222222;
+$gap-extra:  40px;
+$gap-double: 60px;
+$screen-xs: 480px !default;
+$screen-sm: 768px !default;
+$screen-md: 992px !default;
+$screen-lg: 1200px !default;
+
+// Fonts
+$icon-font-path: "../../fonts/bootstrap/";
+
+@font-face {
+    font-family: 'pluto';
+    src:url('../../public/build/fonts/PlutoSansRegular.eot');
+    src:url('../../public/build/fonts/PlutoSansRegular.eot?#iefix') format('embedded-opentype'),
+    url('../../public/build/fonts/PlutoSansRegular.ttf') format('truetype'),
+    url('../../public/build/fonts/PlutoSansRegular.woff') format('woff'),
+    url('../../public/build/fonts/PlutoSansRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'plutobold';
+    src:url('../../public/build/fonts/PlutoSansBold.eot');
+    src:url('../../public/build/fonts/PlutoSansBold.eot?#iefix') format('embedded-opentype'),
+    url('../../public/build/fonts/PlutoSansBold.ttf') format('truetype'),
+    url('../../public/build/fonts/PlutoSansBold.woff') format('woff'),
+    url('../../public/build/fonts/PlutoSansBold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'icomoon';
+    src:url('../../public/build/fonts/icomoon.eot?owk010');
+    src:url('../../public/build/fonts/icomoon.eot?owk010#iefix') format('embedded-opentype'),
+    url('../../public/build/fonts/icomoon.ttf?owk010') format('truetype'),
+    url('../../public/build/fonts/icomoon.woff?owk010') format('woff'),
+    url('../../public/build/fonts/icomoon.svg?owk010#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    font-family: 'icomoon', sans-serif !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-right:before {
+    content: "\e906";
+}
+
+.icon-arrow:before {
+    content: "\e900";
+}
+
+.icon-book:before {
+    content: "\e901";
+}
+
+.icon-check:before {
+    content: "\e902";
+}
+
+.icon-hat:before {
+    content: "\e903";
+}
+
+.icon-pencil:before {
+    content: "\e904";
+}
+
+.icon-ruler:before {
+    content: "\e905";
+}
+
+$font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$text-color: $grey;
+
+// Navbar
+$navbar-height: 90px;
+$navbar-default-border: $grey;
+$navbar-default-color: transparent;
+$navbar-default-bg: $white;
+$navbar-default-brand-color: $grey;
+$navbar-default-link-color: $grey;
+$navbar-default-link-active-color: $cyan;
+$navbar-default-link-hover-color: $magenta;
+$navbar-default-link-active-bg: transparent;
+nav.my-nav {
+    a.navbar-brand { margin-top: -20px; }
+    div.navbar-collapse.collapse.float-right { float: right; }
+    div#navbar { padding-right: 15px; }
+}
+@media (min-width: $screen-sm) {
+    .navbar-nav > li > a {
+        padding-top: 58px;
+        padding-bottom: 20px;
+    }
+}
+.nav-justified > li {
+    display: table-cell;
+    width: 1%;
+}
+
+// Link
+$link-color: $magenta;
+$link-hover-color: darken($link-color, 15%);
+
+// Colors
+.c-magenta  { color: $magenta }
+.c-cyan     { color: $cyan }
+.c-wine     { color: $wine }
+.c-violet   { color: $violet }
+.c-lviolet  { color: $lviolet }
+.c-grey     { color: $grey }
+.c-brown    { color: $brown }
+.c-lbrown   { color: $lbrown }
+.c-white    { color: $white }
+.c-black    { color: $black }
+.bc-magenta { background-color: $magenta }
+.bc-cyan    { background-color: $cyan }
+.bc-wine    { background-color: $wine }
+.bc-violet  { background-color: $violet }
+.bc-lviolet { background-color: $lviolet }
+.bc-grey    { background-color: $grey }
+.bc-brown   { background-color: $brown }
+.bc-lbrown  { background-color: $lbrown }
+.bc-white   { background-color: $white }
+.bc-black   { background-color: $black }
+
+// Body
+body.my-body {
+    margin-top: 90px;
+    position: relative;
+    font-size: 8px;
+    @media (min-width: $screen-xs) {
+        font-size: 9px;
+    }
+    @media (min-width: $screen-sm) {
+        font-size: 9px;
+    }
+    @media (min-width: $screen-md) {
+        font-size: 12px;
+    }
+    @media (min-width: $screen-lg) {
+        font-size: 14px;
+    }
+}
+
+// Strongs
+strong {
+    text-decoration: underline;
+}
+
+// Textarea
+textarea { resize: vertical; }
+
+// Address
+address { line-height: 1.65; }
+
+// Gaps
+.no-m { margin: 0; }
+.no-m-top { margin-top: 0; }
+.no-m-bottom { margin-bottom: 0; }
+.no-m-left { margin-left: 0; }
+.no-m-right { margin-right: 0; }
+.extra-m-top { margin-top: $gap-extra; }
+.extra-d-top { margin-top: $gap-double; }
+.extra-m-bottom { margin-bottom: $gap-extra; }
+.extra-d-bottom { margin-bottom: $gap-double; }
+.no-p-left { padding-left: 0; }
+.no-p-right { padding-right: 0; }
+.no-h-padding {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+// Clean ups
+.no-overflow { overflow: hidden; }
+.no-underline {
+    text-decoration: none;
+    &:hover { text-decoration: none; }
+}
+.d-block { display: block; }
+
+// Buttons
+.btn-violet {
+    color: $white;
+    background-color: $violet;
+    border-color: $lviolet;
+    &:hover {
+        color: $white;
+        background-color: $lviolet;
+    }
+}
+
+// Captions
+.my-carousel-caption {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 0;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+// Customs
+h2.my-h2 {
+    margin: 30px 0;
+    font-size: 18px;
+    &.c-white { color: $white; }
+    @media (min-width: $screen-sm) {
+        margin: 50px 0;
+        font-size: 22px;
+    }
+    @media (min-width: $screen-md) {
+        margin: 70px 0;
+        font-size: 24px;
+    }
+}
+.google-maps-container { height: 400px; }
+.banner-service {
+    line-height: 1.65;
+    margin-bottom: 0;
+    padding: 35px;
+    @media (min-width: $screen-sm) {
+        padding: 35px 35px 10px 35px;
+    }
+    @media (min-width: $screen-md) {
+        padding: 60px 60px 20px 60px;
+    }
+    @media (min-width: $screen-lg) {
+        padding: 70px;
+    }
+    &.sobre-mi { padding: 0 20px 70px 20px; }
+}
+div.navbar ul.nav.nav-justified {
+    li {
+        i {
+            display: block;
+            margin-bottom: 10px;
+            &.icon-arrow { margin: 0 }
+        }
+        .current-mark {
+            visibility: hidden;
+            margin-top: 5px;
+            display: block;
+        }
+        a.c-magenta:hover, a.c-magenta:focus { color: $magenta }
+        a.c-cyan:hover,    a.c-cyan:focus    { color: $cyan }
+        a.c-wine:hover,    a.c-wine:focus    { color: $wine }
+        a.c-violet:hover,  a.c-violet:focus  { color: $violet }
+        a.c-lviolet:hover, a.c-lviolet:focus { color: $lviolet }
+        &.active {
+            background-color: #EEE;
+            & > a {
+                margin-bottom: 0;
+            }
+        }
+        &:hover {
+            background-color: #EEE;
+        }
+        &.active, & a:hover {
+            .current-mark {
+                visibility: visible;
+            }
+        }
+    }
+}
+p.text-center.contacte { margin: 0 0 40px 0; }
+.blog-categories {
+    h3 { margin-top: 0; }
+    ul.list-unstyled {
+        margin-bottom: 0;
+        li {
+            padding: 10px;
+            border-bottom: solid 1px $grey;
+            a { color: $grey; }
+            &.active {
+                border-bottom: solid 1px $cyan;
+                a { color: $cyan; }
+            }
+            &:hover a {
+                color: $magenta;
+                text-decoration: none;
+            }
+        }
+    }
+}
+.fa-4x {
+    font-size: 3em;
+    @media (min-width: $screen-sm) {
+        font-size: 3.5em;
+    }
+    @media (min-width: $screen-md) {
+        font-size: 4em;
+    }
+}
+
+// Thumbnails
+$thumbnail-padding: 0;
+$thumbnail-bg: $lgrey;
+$thumbnail-border: $lgrey;
+$thumbnail-border-radius: 10px;
+$thumbnail-caption-padding: 40px;
+
+// Scroll to top helper
+.scroll-top-wrapper {
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    text-align: center;
+    z-index: 2000;
+    background-color: $grey;
+    color: $white;
+    width: 50px;
+    height: 48px;
+    line-height: 48px;
+    right: 15px;
+    bottom: 15px;
+    padding-top: 2px;
+    border-radius: 4px;
+    transition: all 0.5s ease-in-out;
+    &.show {
+        visibility: visible;
+        cursor: pointer;
+        opacity: 0.85;
+    }
+    i.fa { line-height: inherit; }
+}
+
+// Pagination
+ul.pagination {
+    li.active {
+        span.c-magenta {
+            background-color: $magenta;
+            border-color: $magenta;
+        }
+    }
+}
+
+// Footer
+footer {
+    color: $white;
+    background-color: $black;
+    padding: 40px 0;
+    a {
+        color: $white;
+        text-decoration: none;
+        &:hover {
+            color: $white;
+            text-decoration: underline;
+        }
+    }
+    a.btn { text-decoration: none; }
+}
+
+@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
