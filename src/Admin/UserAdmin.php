@@ -13,11 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-/**
- * Class UserAdmin.
- *
- * @category Admin
- */
 class UserAdmin extends ParentUserAdmin
 {
     /**
@@ -32,24 +27,14 @@ class UserAdmin extends ParentUserAdmin
         '_sort_order' => 'asc',
     );
 
-    /**
-     * Available routes.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         $collection->remove('batch');
         $collection->remove('export');
         $collection->remove('show');
     }
 
-    /**
-     * Remove batch action list view first column.
-     *
-     * @return array
-     */
-    public function getBatchActions()
+    public function getBatchActions(): array
     {
         $actions = parent::getBatchActions();
         unset($actions['delete']);
@@ -57,9 +42,6 @@ class UserAdmin extends ParentUserAdmin
         return $actions;
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
     protected function configureFormFields(FormMapper $formMapper): void
     {
         /* @var object $formMapper */
@@ -126,9 +108,6 @@ class UserAdmin extends ParentUserAdmin
             ->end();
     }
 
-    /**
-     * @param DatagridMapper $filterMapper
-     */
     protected function configureDatagridFilters(DatagridMapper $filterMapper): void
     {
         $filterMapper
@@ -155,9 +134,6 @@ class UserAdmin extends ParentUserAdmin
             );
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
@@ -183,6 +159,8 @@ class UserAdmin extends ParentUserAdmin
                 array(
                     'label' => 'backend.admin.user.roles',
                     'template' => 'Admin/Cells/list__cell_user_roles.html.twig',
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
                 )
             )
             ->add(
@@ -191,12 +169,16 @@ class UserAdmin extends ParentUserAdmin
                 array(
                     'label' => 'backend.admin.enabled',
                     'editable' => true,
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
                 )
             )
             ->add(
                 '_action',
                 'actions',
                 array(
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
                     'label' => 'backend.admin.actions',
                     'actions' => array(
                         'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),

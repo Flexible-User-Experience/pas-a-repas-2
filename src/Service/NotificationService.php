@@ -54,7 +54,7 @@ class NotificationService
             $this->messenger->sendEmail(
                 $contactMessage->getEmail(),
                 $this->amd,
-                $this->pub.' contact form received',
+                'Formulari contacte pàgina web '.$this->pub,
                 $this->twig->render('Mails/contact_form_admin_notification.html.twig', array(
                     'contact' => $contactMessage,
                 ))
@@ -92,7 +92,7 @@ class NotificationService
             $this->messenger->sendEmail(
                 $this->amd,
                 $contactMessage->getEmail(),
-                $this->pub.' contact form answer',
+                'Reposta missatge de contacte pàgina web '.$this->pub,
                 $this->twig->render('Mails/contact_form_user_backend_notification.html.twig', array(
                     'contact' => $contactMessage,
                 ))
@@ -171,7 +171,7 @@ class NotificationService
                 $this->amd,
                 $receipt->getMainEmail(),
                 $receipt->getMainEmailName(),
-                'Recordatori de pagament rebut Box Idiomes núm. '.$receipt->getReceiptNumber(),
+                'Recordatori de pagament rebut Pas a Repàs núm. '.$receipt->getReceiptNumber(),
                 $this->twig->render('Mails/receipt_reminder_pdf_notification.html.twig', array(
                     'receipt' => $receipt,
                 )),
@@ -193,7 +193,7 @@ class NotificationService
                 $this->amd,
                 $receipt->getMainEmail(),
                 $receipt->getMainEmailName(),
-                'Rebut Box Idiomes núm. '.$receipt->getReceiptNumber(),
+                'Rebut Pas a Repàs núm. '.$receipt->getReceiptNumber(),
                 $this->twig->render('Mails/receipt_pdf_notification.html.twig', array(
                     'receipt' => $receipt,
                 )),
@@ -215,7 +215,7 @@ class NotificationService
                 $this->amd,
                 $invoice->getMainEmail(),
                 $invoice->getMainEmailName(),
-                'Factura Box Idiomes núm. '.$invoice->getInvoiceNumber(),
+                'Factura Pas a Repàs núm. '.$invoice->getInvoiceNumber(),
                 $this->twig->render('Mails/invoice_pdf_notification.html.twig', array(
                     'invoice' => $invoice,
                 )),

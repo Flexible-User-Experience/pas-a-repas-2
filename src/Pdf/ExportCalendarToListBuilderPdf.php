@@ -139,7 +139,7 @@ class ExportCalendarToListBuilderPdf
                                     $studentName = $event->getStudents()[$studentIteratorIndex]->getFullname();
                                 }
                                 if (0 === count($event->getStudents())) {
-                                    $pdf->Cell(self::CELL_WIDTH, 0, '--- empty class ---', true, 0, 'C', true);
+                                    $pdf->Cell(self::CELL_WIDTH, 0, $this->ts->trans('backend.admin.calendar.export.pdf.empty_class'), true, 0, 'C', true);
                                 } else {
                                     $pdf->Cell(self::CELL_WIDTH, 0, $studentName, true, 0, 'L', true);
                                 }
@@ -154,9 +154,7 @@ class ExportCalendarToListBuilderPdf
                         $pdf->SetFillColor(255, 255, 255);
                         $pdf->setFontStyle(null, '', 8);
                         $pdf->Cell(self::FIRST_CELL_WIDTH, 0, '', true, 0, 'R', true);
-                        $pdf->Cell(self::CELL_WIDTH, 0, '--- empty class ---', true, 0, 'C', true);
-                        $pdf->Cell(self::CELL_WIDTH, 0, '', true, 0, 'C', true);
-                        $pdf->Cell(self::CELL_WIDTH, 0, '', true, 0, 'C', true);
+                        $pdf->Cell(self::CELL_WIDTH, 0, $this->ts->trans('backend.admin.calendar.export.pdf.empty_class'), true, 0, 'C', true);
                         $pdf->Cell(self::CELL_WIDTH, 0, '', true, 0, 'C', true);
                         $pdf->Cell(self::CELL_WIDTH, 0, '', true, 1, 'C', true);
                     }

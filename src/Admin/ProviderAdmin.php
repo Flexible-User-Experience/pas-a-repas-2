@@ -11,277 +11,259 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-/**
- * Class ProviderAdmin.
- *
- * @category Admin
- */
 class ProviderAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Provider';
     protected $baseRoutePattern = 'purchases/provider';
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
-    );
+    ];
 
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
         $collection->remove('delete');
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(5))
             ->add(
                 'tic',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.tic',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.name',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'alias',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.alias',
-                )
+                ]
             )
             ->add(
                 'address',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.address',
-                )
+                ]
             )
             ->add(
                 'city',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.city',
                     'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.phone',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.email',
-                )
+                ]
             )
             ->end()
             ->with('backend.admin.payments', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'paymentMethod',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'backend.admin.customer.payment_method',
                     'choices' => StudentPaymentEnum::getEnumArray(),
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'ibanForBankDraftPayment',
                 TextType::class,
-                array(
+                [
                     'label' => 'backend.admin.customer.iban_for_bank_draft_payment',
                     'help' => 'backend.admin.customer.iban_for_bank_draft_payment_help',
                     'required' => false,
-                )
+                ]
             )
             ->end()
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'tic',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.tic',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.name',
-                )
+                ]
             )
             ->add(
                 'alias',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.alias',
-                )
+                ]
             )
             ->add(
                 'address',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.address',
-                )
+                ]
             )
             ->add(
                 'city',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.city',
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.phone',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.email',
-                )
+                ]
             )
             ->add(
                 'paymentMethod',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.payment_method',
-                )
+                ]
             )
             ->add(
                 'ibanForBankDraftPayment',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.iban_for_bank_draft_payment',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'tic',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.tic',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.name',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'alias',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.alias',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'city',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.city',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.customer.email',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'editable' => true,
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
+                [
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
                     'label' => 'backend.admin.actions',
-                    'actions' => array(
-                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
-                    ),
-                )
+                    'actions' => [
+                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
+                    ],
+                ]
             )
         ;
     }
 
-    /**
-     * @return array
-     */
-    public function getExportFields()
+    public function getExportFields(): array
     {
-        return array(
+        return [
             'tic',
             'name',
             'alias',
@@ -292,6 +274,6 @@ class ProviderAdmin extends AbstractBaseAdmin
             'paymentString',
             'ibanForBankDraftPayment',
             'enabled',
-        );
+        ];
     }
 }
