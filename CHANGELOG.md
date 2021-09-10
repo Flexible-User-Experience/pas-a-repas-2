@@ -6,6 +6,7 @@ Changelog
 
 ##### Version 4.5.06 (2021-09-10)
  * improve Notification service email subjects
+ * fix row overflow on empty classroom in ExportCalendarToListBuilderPdf
 
 ##### Version 4.5.05 (2021-09-10)
  * finish Blog module
