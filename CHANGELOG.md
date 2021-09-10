@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.06 (WIP)
+##### Version 4.5.07 (WIP)
  * fix minor bugs
+
+##### Version 4.5.06 (2021-09-10)
+ * improve Notification service email subjects
 
 ##### Version 4.5.05 (2021-09-10)
  * finish Blog module
