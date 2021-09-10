@@ -5,6 +5,7 @@ namespace App\Entity;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,7 +54,7 @@ class Student extends AbstractPerson
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="students")
      */
-    private $events;
+    private Collection $events;
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
@@ -109,7 +110,7 @@ class Student extends AbstractPerson
         return $this->schedule;
     }
 
-    public function setSchedule(?string $schedule)
+    public function setSchedule(?string $schedule): self
     {
         $this->schedule = $schedule;
 
@@ -152,12 +153,12 @@ class Student extends AbstractPerson
         return $this;
     }
 
-    public function getEvents()
+    public function getEvents(): Collection
     {
         return $this->events;
     }
 
-    public function setEvents($events): self
+    public function setEvents(Collection $events): self
     {
         $this->events = $events;
 
