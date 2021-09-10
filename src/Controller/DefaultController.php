@@ -37,7 +37,7 @@ class DefaultController extends AbstractController
             $em->persist($contactEntity);
             $em->flush();
             // send notifications
-            $messenger->sendUserNotification($contactEntity); // TODO check it
+            $messenger->sendCommonUserNotification($contactEntity);
             $messenger->sendAdminNotification($contactEntity);
             // reset form
             $contactEntity = new ContactMessage();
