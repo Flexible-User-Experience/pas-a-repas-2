@@ -8,6 +8,7 @@ Changelog
  * finish Blog module
  * delete pre-register inscriptions management
  * remove newsletter contacts management
+ * fix problem sending email
 
 ##### Version 4.5.04 (2021-09-09)
  * Symfony 4.4.30 update
