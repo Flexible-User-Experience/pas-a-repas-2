@@ -13,10 +13,10 @@ class ContactMessageAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Contact Message';
     protected $baseRoutePattern = 'contacts/message';
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'createdAt',
         '_sort_order' => 'desc',
-    );
+    ];
 
     protected function configureRoutes(RouteCollection $collection): void
     {
@@ -33,66 +33,67 @@ class ContactMessageAdmin extends AbstractBaseAdmin
             ->add(
                 'checked',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.checked',
-                )
+                ]
             )
             ->add(
                 'createdAt',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'backend.admin.date',
                     'field_type' => DatePickerType::class,
                     'format' => 'd-m-Y',
-                ),
+                ],
                 null,
-                array(
+                [
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.name',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.email',
-                )
+                ]
             )
             ->add(
                 'subject',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.subject',
-                )
+                ]
             )
             ->add(
                 'message',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.message',
-                )
+                ]
             )
             ->add(
                 'answered',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.answered',
-                )
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.description',
-                )
-            );
+                ]
+            )
+        ;
     }
 
     protected function configureShowFields(ShowMapper $show): void
@@ -101,55 +102,57 @@ class ContactMessageAdmin extends AbstractBaseAdmin
             ->add(
                 'checked',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.checked',
-                )
+                ]
             )
             ->add(
                 'createdAt',
                 'date',
-                array(
+                [
                     'label' => 'backend.admin.date',
                     'format' => 'd/m/Y H:i',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.name',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.email',
-                )
+                ]
             )
             ->add(
                 'message',
                 'textarea',
-                array(
+                [
                     'label' => 'backend.admin.contact.message',
-                )
+                ]
             )
             ->add(
                 'answered',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.answered',
-                )
-            );
+                ]
+            )
+        ;
         if ($this->getSubject() && $this->getSubject()->getAnswered()) {
             $show
                 ->add(
                     'description',
                     'textarea',
-                    array(
+                    [
                         'label' => 'backend.admin.contact.answer',
-                    )
-                );
+                    ]
+                )
+            ;
         }
     }
 
@@ -159,62 +162,70 @@ class ContactMessageAdmin extends AbstractBaseAdmin
             ->add(
                 'checked',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.checked',
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 'createdAt',
                 'date',
-                array(
+                [
                     'label' => 'backend.admin.contact.date',
                     'format' => 'd/m/Y',
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.name',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.email',
-                )
+                ]
             )
             ->add(
                 'answered',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.answered',
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array(
+                [
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
+                    'actions' => [
+                        'show' => [
                             'template' => 'Admin/Buttons/list__action_show_button.html.twig',
-                        ),
-                        'answer' => array(
+                        ],
+                        'answer' => [
                             'template' => 'Admin/Cells/list__action_answer.html.twig',
-                        ),
-                        'delete' => array(
+                        ],
+                        'delete' => [
                             'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             )
         ;
     }
 
     public function getExportFields(): array
     {
-        return array(
+        return [
             'checked',
             'createdAtString',
             'name',
@@ -223,6 +234,6 @@ class ContactMessageAdmin extends AbstractBaseAdmin
             'message',
             'answered',
             'description',
-        );
+        ];
     }
 }

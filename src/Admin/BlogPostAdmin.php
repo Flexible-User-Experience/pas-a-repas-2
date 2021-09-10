@@ -13,27 +13,15 @@ use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-/**
- * Class BlogPostAdmin.
- *
- * @category Admin
- */
 class BlogPostAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Article';
     protected $baseRoutePattern = 'web/blog-post';
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'publishedAt',
         '_sort_order' => 'desc',
-    );
+    ];
 
-    /**
-     * Override query list to reduce queries amount on list view (apply join strategy).
-     *
-     * @param string $context context
-     *
-     * @return QueryBuilder
-     */
     public function createQuery($context = 'list')
     {
         /** @var QueryBuilder $query */
@@ -45,216 +33,213 @@ class BlogPostAdmin extends AbstractBaseAdmin
         return $query;
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('backend.admin.post', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'publishedAt',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'backend.admin.published_date',
                     'format' => 'd/M/y',
-                )
+                ]
             )
             ->add(
                 'imageFile',
                 FileType::class,
-                array(
+                [
                     'label' => 'backend.admin.image',
                     'help' => $this->getImageHelperFormMapperWithThumbnail(),
                     'required' => false,
-                )
+                ]
             )
             ->end()
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'categories',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.categories',
                     'query_builder' => function (BlogCategoryRepository $repository) {
                         return $repository->getAllSortedByTitleQB();
                     },
-                )
+                ]
             )
             ->add(
                 'metaKeywords',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.metakeywords',
                     'help' => 'backend.admin.metakeywordshelp',
-                )
+                ]
             )
             ->add(
                 'metaDescription',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.metadescription',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'required' => false,
-                )
+                ]
             )
             ->end()
             ->with('backend.admin.content', $this->getFormMdSuccessBoxArray(12))
             ->add(
                 'title',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.title',
-                )
+                ]
             )
             ->add(
                 'description',
                 CKEditorType::class,
-                array(
+                [
                     'label' => 'backend.admin.description',
                     'config_name' => 'my_config',
                     'required' => true,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'publishedAt',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'backend.admin.published_date',
                     'field_type' => DatePickerType::class,
                     'format' => 'd/M/y',
-                ),
+                ],
                 null,
-                array(
+                [
                     'widget' => 'single_text',
                     'format' => 'dd/MM/yyyy',
-                )
+                ]
             )
             ->add(
                 'title',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.title',
-                )
+                ]
             )
             ->add(
                 'categories',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.categories',
-                )
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.description',
-                )
+                ]
             )
             ->add(
                 'metaKeywords',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.metakeywords',
-                )
+                ]
             )
             ->add(
                 'metaDescription',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.metadescription',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->add(
                 'image',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.image',
                     'template' => 'Admin/Cells/list__cell_image_field.html.twig',
-                )
+                ]
             )
             ->add(
                 'publishedAt',
                 'date',
-                array(
+                [
                     'label' => 'backend.admin.published_date',
                     'format' => 'd/m/Y',
                     'editable' => true,
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 'title',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.title',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'categories',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.categories',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'editable' => true,
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array(
+                [
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
+                    'actions' => [
+                        'show' => [
                             'template' => 'Admin/Buttons/list__action_show_button.html.twig',
-                        ),
-                        'edit' => array(
+                        ],
+                        'edit' => [
                             'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
-                        ),
-                        'delete' => array(
+                        ],
+                        'delete' => [
                             'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
-                        ),
-                    ),
+                        ],
+                    ],
                     'label' => 'backend.admin.actions',
-                )
+                ]
             )
         ;
     }

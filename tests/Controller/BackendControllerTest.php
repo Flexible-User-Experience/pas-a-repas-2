@@ -5,39 +5,30 @@ namespace App\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * Class BackendControllerTest.
- *
- * @category Test
- *
- * @author   David Romaní <david@flux.cat>
- */
 class BackendControllerTest extends WebTestCase
 {
     /**
      * Test admin login request is successful.
      */
-    public function testAdminLoginPageIsSuccessful()
+    public function testAdminLoginPageIsSuccessful(): void
     {
         $client = WebTestCase::createClient();
         $client->request('GET', '/admin/login');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     /**
      * Test HTTP request is successful.
      *
      * @dataProvider provideSuccessfulUrls
-     *
-     * @param string $url
      */
-    public function testAdminPagesAreSuccessful(string $url)
+    public function testAdminPagesAreSuccessful(string $url): void
     {
         $client = $this->getAuthenticatedClient();
         $client->request('GET', $url);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     /**
@@ -45,7 +36,7 @@ class BackendControllerTest extends WebTestCase
      *
      * @return array
      */
-    public function provideSuccessfulUrls()
+    public function provideSuccessfulUrls(): array
     {
         return array(
             array('/admin/dashboard'),
@@ -71,10 +62,6 @@ class BackendControllerTest extends WebTestCase
             array('/admin/students/parent/list'),
             array('/admin/students/parent/create'),
             array('/admin/students/parent/1/edit'),
-            array('/admin/services/service/list'),
-            array('/admin/services/service/create'),
-            array('/admin/services/service/1/delete'),
-            array('/admin/services/service/1/edit'),
             array('/admin/administrations/province/list'),
             array('/admin/administrations/province/create'),
             array('/admin/administrations/province/1/edit'),
@@ -144,15 +131,13 @@ class BackendControllerTest extends WebTestCase
      * Test HTTP request is not found.
      *
      * @dataProvider provideNotFoundUrls
-     *
-     * @param string $url
      */
-    public function testAdminPagesAreNotFound(string $url)
+    public function testAdminPagesAreNotFound(string $url): void
     {
         $client = $this->getAuthenticatedClient();
         $client->request('GET', $url);
 
-        $this->assertResponseStatusCodeSame(404);
+        self::assertResponseStatusCodeSame(404);
     }
 
     /**
@@ -160,7 +145,7 @@ class BackendControllerTest extends WebTestCase
      *
      * @return array
      */
-    public function provideNotFoundUrls()
+    public function provideNotFoundUrls(): array
     {
         return array(
             array('/admin/contacts/message/create'),
@@ -175,7 +160,6 @@ class BackendControllerTest extends WebTestCase
             array('/admin/students/absence/1/delete'),
             array('/admin/students/parent/1/delete'),
             array('/admin/students/parent/1/show'),
-            array('/admin/services/service/batch'),
             array('/admin/administrations/province/batch'),
             array('/admin/administrations/province/1/delete'),
             array('/admin/administrations/city/1/delete'),
@@ -196,10 +180,7 @@ class BackendControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @return KernelBrowser
-     */
-    private function getAuthenticatedClient()
+    private function getAuthenticatedClient(): KernelBrowser
     {
         return WebTestCase::createClient([], [
             'PHP_AUTH_USER' => 'admin',
