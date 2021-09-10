@@ -115,11 +115,6 @@ services:
         arguments: [ ~, App\Entity\ContactMessage, App\Controller\Admin\ContactMessageAdminController, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Missatge de contacte", group: "Contactes" }
-    admin.newslettercontact:
-        class: App\Admin\NewsletterContactAdmin
-        arguments: [ ~, App\Entity\NewsletterContact, ~, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Butlletí de contacte", group: "Contactes" }
     # Configurations
     admin.province:
         class: App\Admin\ProvinceAdmin
