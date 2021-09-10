@@ -10,165 +10,152 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-/**
- * Class CityAdmin.
- *
- * @category Admin
- */
 class CityAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'City';
     protected $baseRoutePattern = 'administrations/city';
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
-    );
+    ];
 
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
         $collection->remove('delete');
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'postalCode',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.postalCode',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.name',
-                )
+                ]
             )
             ->end()
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'province',
                 EntityType::class,
-                array(
+                [
                     'label' => 'backend.admin.city.province',
                     'required' => true,
                     'class' => Province::class,
                     'choice_label' => 'name',
                     'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.province_repository')->getEnabledSortedByNameQB(),
-                )
+                ]
             )
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'postalCode',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.postalCode',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.name',
-                )
+                ]
             )
             ->add(
                 'province',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.province',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'postalCode',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.postalCode',
                     'editable' => true,
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.name',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'province',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.city.province',
                     'editable' => true,
                     'associated_property' => 'name',
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'name'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'province')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'province']],
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'editable' => true,
-                )
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
-                    ),
+                [
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
+                    'actions' => [
+                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }
