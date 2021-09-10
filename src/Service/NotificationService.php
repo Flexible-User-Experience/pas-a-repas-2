@@ -13,17 +13,12 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use TCPDF;
 use Twig\Environment;
 
-/**
- * Class NotificationService.
- *
- * @category Service
- */
 class NotificationService
 {
     /**
      * @var CourierService
      */
-    private $messenger;
+    private CourierService $messenger;
 
     /**
      * @var Environment
