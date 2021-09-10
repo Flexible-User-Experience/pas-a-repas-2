@@ -277,6 +277,8 @@ class EventAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.event.students',
                     'template' => 'Admin/Cells/list__cell_classroom_students_amount.html.twig',
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
                 ]
             )
             ->add(
