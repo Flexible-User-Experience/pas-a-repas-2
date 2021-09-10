@@ -4,40 +4,21 @@ namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Description trait
- *
- * @category Trait
- */
 Trait DescriptionTrait
 {
     /**
-     * @var string
-     *
      * @ORM\Column(type="text", length=4000, nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return $this
-     */
-    public function setDescription($description)
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }

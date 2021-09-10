@@ -6,12 +6,9 @@ use App\Entity\Traits\SlugTrait;
 use App\Entity\Traits\TitleTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Class BlogCategory.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\BlogCategoryRepository")
  */
 class BlogCategory extends AbstractBase
@@ -20,73 +17,49 @@ class BlogCategory extends AbstractBase
     use SlugTrait;
 
     /**
-     * @var ArrayCollection
-     *
+     * @ORM\Column(type="string", length=255)
+     * @Gedmo\Slug(fields={"title"})
+     */
+    private string $slug;
+
+    /**
      * @ORM\ManyToMany(targetEntity="BlogPost", mappedBy="categories")
      */
     private $posts;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * BlogCategory constructor.
-     */
     public function __construct()
     {
         $this->posts = new ArrayCollection();
     }
 
-    /**
-     * @param ArrayCollection $posts
-     *
-     * @return $this
-     */
-    public function setPosts(ArrayCollection $posts)
+    public function setPosts(ArrayCollection $posts): self
     {
         $this->posts = $posts;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getPosts()
     {
         return $this->posts;
     }
 
-    /**
-     * @param BlogPost $post
-     *
-     * @return $this
-     */
-    public function addPost(BlogPost $post)
+    public function addPost(BlogPost $post): self
     {
         $this->posts[] = $post;
 
         return $this;
     }
 
-    /**
-     * @param BlogPost $post
-     *
-     * @return $this
-     */
-    public function removePost(BlogPost $post)
+    public function removePost(BlogPost $post): self
     {
         $this->posts->removeElement($post);
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->title ? $this->getTitle() : '---';
+        return $this->title ? $this->getTitle() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

@@ -11,10 +11,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
-/**
- * Class BlogController
- */
 class BlogController extends AbstractController
 {
     public const PAGE_LIMIT = 5;
@@ -37,7 +35,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/{year}/{month}/{day}/{slug}", name="app_blog_detail")
      */
-    public function postDetailAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, $year, $month, $day, $slug)
+    public function postDetailAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, Security $security, $year, $month, $day, $slug): Response
     {
         /** @var BlogPost $post */
         $post = $bpr->findOneBySlug($slug);
@@ -45,7 +43,7 @@ class BlogController extends AbstractController
         if (!$post) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
-        if (!$post->getEnabled() && !$this->get('security.authorization_checker')->isGranted(UserRolesEnum::ROLE_CMS)) {
+        if (!$post->getEnabled() && !$security->isGranted(UserRolesEnum::ROLE_CMS)) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
         if ($post->getPublishedAt()->format('Y-m-d') !== $year . '-' . $month . '-' . $day) {
@@ -61,7 +59,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/categoria/{slug}/{pagina}", name="app_blog_category_detail")
      */
-    public function categoryDetailAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, $slug, $pagina = 1)
+    public function categoryDetailAction(BlogPostRepository $bpr, BlogCategoryRepository $bcr, PaginatorInterface $paginator, $slug, $pagina = 1): Response
     {
         /** @var BlogCategory $category */
         $category = $bcr->findOneBySlug($slug);
@@ -69,7 +67,6 @@ class BlogController extends AbstractController
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
         $categories = $bcr->getAllEnabledSortedByTitleWithJoin();
-        $paginator = $this->get('knp_paginator');
         $posts = $bpr->getPostsByCategoryEnabledSortedByPublishedDateWithJoinUntilNow($category);
         $postsPaginator = $paginator->paginate($posts, $pagina, self::PAGE_LIMIT);
 

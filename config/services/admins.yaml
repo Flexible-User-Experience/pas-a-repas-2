@@ -19,11 +19,6 @@ services:
             - { name: sonata.admin, manager_type: orm, label: "Pare, mare o tutor", group: "Alumnes" }
         calls:
             - [ setTemplate, [ edit, "Admin/Student/edit.html.twig" ] ]
-    admin.pre_register:
-        class: App\Admin\PreRegisterAdmin
-        arguments: [ ~, App\Entity\PreRegister, App\Controller\Admin\PreRegisterAdminController, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Preinscipcions", group: "Alumnes" }
     # Teachers
     admin.teacher:
         class: App\Admin\TeacherAdmin
@@ -120,11 +115,6 @@ services:
         arguments: [ ~, App\Entity\ContactMessage, App\Controller\Admin\ContactMessageAdminController, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Missatge de contacte", group: "Contactes" }
-    admin.newslettercontact:
-        class: App\Admin\NewsletterContactAdmin
-        arguments: [ ~, App\Entity\NewsletterContact, ~, "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Butlletí de contacte", group: "Contactes" }
     # Configurations
     admin.province:
         class: App\Admin\ProvinceAdmin

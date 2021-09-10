@@ -15,12 +15,10 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class DefaultController.
- */
 class DefaultController extends AbstractController
 {
     public const ENV_DEV = 'dev';
+    public const ENV_PROD = 'prod';
 
     /**
      * @Route("/", name="app_homepage")
@@ -28,7 +26,7 @@ class DefaultController extends AbstractController
     public function indexAction(Request $request, GoogleMapsService $gms, NotificationService $messenger): Response
     {
         $flash = null;
-        $mapObject = $gms->buildMap(40.7061278, 0.5817055555555556, 15);
+        $mapObject = $gms->buildMap(40.7061278, 0.5817055555555556);
         $contactEntity = new ContactMessage();
         $form = $this->createForm(ContactMessageType::class, $contactEntity);
         $form->handleRequest($request);
@@ -39,7 +37,7 @@ class DefaultController extends AbstractController
             $em->persist($contactEntity);
             $em->flush();
             // send notifications
-            $messenger->sendUserNotification($contactEntity);
+            $messenger->sendCommonUserNotification($contactEntity);
             $messenger->sendAdminNotification($contactEntity);
             // reset form
             $contactEntity = new ContactMessage();
@@ -57,10 +55,6 @@ class DefaultController extends AbstractController
         );
     }
 
-    /**
-     * @param NotificationService $messenger
-     * @param NewsletterContact   $newsletterContact
-     */
     private function setFlashMessageAndEmailNotifications(NotificationService $messenger, NewsletterContact $newsletterContact): void
     {
         // Send email notifications
@@ -100,7 +94,7 @@ class DefaultController extends AbstractController
      */
     public function testEmailAction(KernelInterface $kernel): Response
     {
-        if ($kernel->getEnvironment() === 'prod') {
+        if ($kernel->getEnvironment() === self::ENV_PROD) {
             throw new AccessDeniedHttpException();
         }
 
