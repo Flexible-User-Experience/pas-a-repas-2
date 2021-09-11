@@ -3,9 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event;
+use App\Entity\EventStudent;
+use App\Entity\Student;
 use App\Form\Type\EventBatchRemoveType;
 use App\Form\Type\EventType;
 use App\Manager\EventManager;
+use App\Repository\EventStudentRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -14,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Templating\EngineInterface;
 
 class EventAdminController extends BaseAdminController
 {
@@ -24,14 +28,11 @@ class EventAdminController extends BaseAdminController
     {
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
-
         /** @var Event $object */
         $object = $this->admin->getObject($id);
-
         if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-
         if (!$object->getEnabled()) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
@@ -41,31 +42,19 @@ class EventAdminController extends BaseAdminController
 
     /**
      * Edit event and all the next related events action.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws AccessDeniedException If access is not granted
-     * @throws \Exception
      */
-    public function batcheditAction(Request $request)
+    public function batcheditAction(Request $request): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
-
         /** @var Event $object */
         $object = $this->admin->getObject($id);
-
         if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-
         if (!$object->getEnabled()) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-
         /** @var EventManager $eventsManager */
         $eventsManager = $this->container->get('app.event_manager');
         $firstEvent = $eventsManager->getFirstEventOf($object);
@@ -73,11 +62,9 @@ class EventAdminController extends BaseAdminController
             $firstEvent = $object;
         }
         $lastEvent = $eventsManager->getLastEventOf($object);
-
         /** @var Form $form */
-        $form = $this->createForm(EventType::class, $object, array('event' => $object));
+        $form = $this->createForm(EventType::class, $object, ['event' => $object]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $eventIdStopRangeIterator = $form->get('range')->getData();
             /** @var EntityManager $em */
@@ -115,73 +102,55 @@ class EventAdminController extends BaseAdminController
 
         return $this->renderWithExtraParams(
             'Admin/Event/batch_edit_form.html.twig',
-            array(
+            [
                 'action' => 'batchedit',
                 'object' => $object,
                 'firstEvent' => $firstEvent,
                 'lastEvent' => $lastEvent,
                 'progressBarPercentiles' => $eventsManager->getProgressBarPercentilesOf($object),
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
     /**
      * Delete event and all the next related events action.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws AccessDeniedException If access is not granted
-     * @throws \Exception
      */
-    public function batchdeleteAction(Request $request)
+    public function batchdeleteAction(Request $request): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
-
         /** @var Event $object */
         $object = $this->admin->getObject($id);
-
         if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-
         if (!$object->getEnabled()) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-
         /** @var EventManager $eventsManager */
         $eventsManager = $this->container->get('app.event_manager');
         $firstEvent = $eventsManager->getFirstEventOf($object);
         $lastEvent = $eventsManager->getLastEventOf($object);
-
         /** @var Form $form */
-        $form = $this->createForm(EventBatchRemoveType::class, $object, array('event' => $object));
+        $form = $this->createForm(EventBatchRemoveType::class, $object, ['event' => $object]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var EntityManager $em */
             $em = $this->get('doctrine')->getManager();
             $eventIdStopRange = $form->get('range')->getData();
-
             /** @var Event|null $eventStopRange */
             $eventStopRange = $em->getRepository(Event::class)->find($eventIdStopRange);
-
             /** @var Event|null $eventAfterStopRange */
             $eventAfterStopRange = null;
             if (!is_null($eventStopRange->getNext())) {
                 $eventAfterStopRange = $em->getRepository(Event::class)->find($eventStopRange->getNext()->getId());
             }
-
             /** @var Event|null $eventBeforeStartRange */
             $eventBeforeStartRange = null;
             if (!is_null($object->getPrevious())) {
                 $eventBeforeStartRange = $em->getRepository(Event::class)->find($object->getPrevious()->getId());
             }
-
             // begin range
             if (is_null($firstEvent)) {
                 $iteratorCounter = 1;
@@ -200,8 +169,7 @@ class EventAdminController extends BaseAdminController
                     }
                     $em->flush();
                 }
-
-                // end range
+            // end range
             } elseif (is_null($eventAfterStopRange)) {
                 $iteratorCounter = 1;
                 $iteratedEvent = $object;
@@ -217,7 +185,6 @@ class EventAdminController extends BaseAdminController
                     $eventBeforeStartRange->setNext(null);
                 }
                 $em->flush();
-
             // middle range
             } else {
                 if (is_null($eventBeforeStartRange)) {
@@ -226,13 +193,10 @@ class EventAdminController extends BaseAdminController
                 if (is_null($eventAfterStopRange)) {
                     $eventAfterStopRange = $lastEvent;
                 }
-
                 $eventBeforeStartRange->setNext($eventAfterStopRange);
                 $eventAfterStopRange->setPrevious($eventBeforeStartRange);
                 $em->flush();
-
                 $iteratorCounter = 1;
-
                 if (!is_null($object->getNext())) {
                     $iteratedEvent = $object;
                     while (!is_null($iteratedEvent->getNext())) {
@@ -257,21 +221,21 @@ class EventAdminController extends BaseAdminController
 
         return $this->renderWithExtraParams(
             'Admin/Event/batch_delete_form.html.twig',
-            array(
+            [
                 'action' => 'batchdelete',
                 'object' => $object,
                 'firstEvent' => $firstEvent,
                 'lastEvent' => $lastEvent,
                 'progressBarPercentiles' => $eventsManager->getProgressBarPercentilesOf($object),
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
     /**
      * API GET action.
      */
-    public function apigetAction(Request $request): JsonResponse
+    public function apigetAction(Request $request, EventStudentRepository $esr, EngineInterface $twig): JsonResponse
     {
         $id = $request->get($this->admin->getIdParameter());
         /** @var Event $object */
@@ -282,8 +246,100 @@ class EventAdminController extends BaseAdminController
         if (!$object->getEnabled()) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
+        // init synchro process, create new references
+        $items = $esr->getItemsByEvent($object);
+        $resultItems = [];
+        /** @var Student $student */
+        foreach ($object->getStudents() as $student) {
+            $alreadyExists = false;
+            /** @var EventStudent $item */
+            foreach ($items as $item) {
+                if ($item->getStudent()->getId() === $student->getId()) {
+                    $alreadyExists = true;
+                    break;
+                }
+            }
+            if (!$alreadyExists) {
+                $newEventStudent = new EventStudent();
+                $newEventStudent
+                    ->setEvent($object)
+                    ->setStudent($student)
+                    ->setHasAttendedTheClass(true)
+                ;
+                $this->getDoctrine()->getManager()->persist($newEventStudent);
+                $resultItems[] = $newEventStudent;
+            } else {
+                $resultItems[] = $item;
+            }
+        }
+        $this->getDoctrine()->getManager()->flush();
         $resonse = [
-           'eid' => $object->getId(),
+            'eid' => $object->getId(),
+            'html' => $twig->render('Admin/Event/api_get.html.twig', [
+                'items' => $resultItems,
+            ])
+        ];
+
+        return new JsonResponse($resonse);
+    }
+
+    /**
+     * API attended action.
+     */
+    public function apiattendedclassAction(Request $request, EventStudentRepository $esr): JsonResponse
+    {
+        $id = $request->get($this->admin->getIdParameter());
+        $student = $request->get('student');
+        /** @var Event $object */
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        if (!$object->getEnabled()) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        $eventStudent = $esr->findOneBy([
+            'event' => $object,
+            'student' => $student,
+        ]);
+        if ($eventStudent) {
+            $eventStudent->setHasAttendedTheClass(true);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        $resonse = [
+            'eid' => $object->getId(),
+            'student' => $student,
+        ];
+
+        return new JsonResponse($resonse);
+    }
+
+    /**
+     * API attended action.
+     */
+    public function apinotattendedclassAction(Request $request, EventStudentRepository $esr): JsonResponse
+    {
+        $id = $request->get($this->admin->getIdParameter());
+        $student = $request->get('student');
+        /** @var Event $object */
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        if (!$object->getEnabled()) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        $eventStudent = $esr->findOneBy([
+            'event' => $object,
+            'student' => $student,
+        ]);
+        if ($eventStudent) {
+            $eventStudent->setHasAttendedTheClass(false);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        $resonse = [
+            'eid' => $object->getId(),
+            'student' => $student,
         ];
 
         return new JsonResponse($resonse);

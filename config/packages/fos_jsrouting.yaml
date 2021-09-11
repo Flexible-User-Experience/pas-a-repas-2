@@ -3,3 +3,5 @@ fos_js_routing:
         - 'sonata_admin_dashboard'
         - 'admin_app_filedummy_exportCalendarPdfList'
         - 'admin_app_event_apiget'
+        - 'admin_app_event_apiattendedclass'
+        - 'admin_app_event_apinotattendedclass'
