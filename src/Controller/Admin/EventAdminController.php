@@ -288,36 +288,18 @@ class EventAdminController extends BaseAdminController
      */
     public function apiattendedclassAction(Request $request, EventStudentRepository $esr): JsonResponse
     {
-        $id = $request->get($this->admin->getIdParameter());
-        $student = $request->get('student');
-        /** @var Event $object */
-        $object = $this->admin->getObject($id);
-        if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        if (!$object->getEnabled()) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        $eventStudent = $esr->findOneBy([
-            'event' => $object,
-            'student' => $student,
-        ]);
-        if ($eventStudent) {
-            $eventStudent->setHasAttendedTheClass(true);
-            $this->getDoctrine()->getManager()->flush();
-        }
-        $resonse = [
-            'eid' => $object->getId(),
-            'student' => $student,
-        ];
-
-        return new JsonResponse($resonse);
+        return $this->commonAttendedClass($request, $esr, true);
     }
 
     /**
      * API attended action.
      */
     public function apinotattendedclassAction(Request $request, EventStudentRepository $esr): JsonResponse
+    {
+        return $this->commonAttendedClass($request, $esr, false);
+    }
+
+    public function commonAttendedClass(Request $request, EventStudentRepository $esr, bool $attended): JsonResponse
     {
         $id = $request->get($this->admin->getIdParameter());
         $student = $request->get('student');
@@ -334,7 +316,7 @@ class EventAdminController extends BaseAdminController
             'student' => $student,
         ]);
         if ($eventStudent) {
-            $eventStudent->setHasAttendedTheClass(false);
+            $eventStudent->setHasAttendedTheClass($attended);
             $this->getDoctrine()->getManager()->flush();
         }
         $resonse = [
