@@ -25,7 +25,7 @@
         jQuery(document).ready(function() {
             let emptyPanelBoxNode = jQuery('div.sonata-ba-collapsed-fields em');
             if (emptyPanelBoxNode) {
-                emptyPanelBoxNode.html('<div data-controller="events-student-assistance"><i class="fa fa-5x fa-spinner fa-spin" aria-hidden="true"></i></div>');
+                emptyPanelBoxNode.html('<div data-controller="events-student-assistance" data-events-student-assistance-eid-value="{{ object.id }}"></div>');
                 let studentsMultiSelectNode = jQuery('#{{ form.vars.id ~ '_students' }}');
                 studentsMultiSelectNode.on('change', function(e) {
                     console.log(e);

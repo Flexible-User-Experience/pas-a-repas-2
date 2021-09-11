@@ -9,24 +9,18 @@ use App\Manager\EventManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Class EventAdminController.
- *
- * @category Controller
- */
 class EventAdminController extends BaseAdminController
 {
     /**
-     * @param null|int|string $id
-     *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction($deprecatedId = null)
     {
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
@@ -272,5 +266,26 @@ class EventAdminController extends BaseAdminController
                 'form' => $form->createView(),
             )
         );
+    }
+
+    /**
+     * API GET action.
+     */
+    public function apigetAction(Request $request): JsonResponse
+    {
+        $id = $request->get($this->admin->getIdParameter());
+        /** @var Event $object */
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        if (!$object->getEnabled()) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        $resonse = [
+           'eid' => $object->getId(),
+        ];
+
+        return new JsonResponse($resonse);
     }
 }

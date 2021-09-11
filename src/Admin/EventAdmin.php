@@ -36,6 +36,7 @@ class EventAdmin extends AbstractBaseAdmin
         $collection
             ->add('batchedit', $this->getRouterIdParameter().'/batch-edit')
             ->add('batchdelete', $this->getRouterIdParameter().'/batch-delete')
+            ->add('apiget', $this->getRouterIdParameter().'/api/get')
             ->remove('delete')
         ;
     }
