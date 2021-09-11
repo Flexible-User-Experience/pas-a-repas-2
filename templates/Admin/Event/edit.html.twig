@@ -18,3 +18,20 @@
     {# timelapse buttons section #}
     {% include "Admin/Event/timelapse_buttons_section.html.twig" with {mode: 'edit'} %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            let emptyPanelBoxNode = jQuery('div.sonata-ba-collapsed-fields em');
+            if (emptyPanelBoxNode) {
+                emptyPanelBoxNode.html('<div data-controller="events-student-assistance"><i class="fa fa-5x fa-spinner fa-spin" aria-hidden="true"></i></div>');
+                let studentsMultiSelectNode = jQuery('#{{ form.vars.id ~ '_students' }}');
+                studentsMultiSelectNode.on('change', function(e) {
+                    console.log(e);
+                });
+                console.log('HIT', studentsMultiSelectNode, emptyPanelBoxNode);
+            }
+        });
+    </script>
+{% endblock %}

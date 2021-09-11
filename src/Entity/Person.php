@@ -3,85 +3,55 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Person.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  * @ORM\Table(name="person")
  */
 class Person extends AbstractPerson
 {
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
      */
-    protected $dni;
+    protected ?string $dni;
 
     /**
-     * @var array
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="parent")
      */
-    private $students;
+    private Collection $students;
 
     /**
-     * @var Bank
-     *
      * @ORM\OneToOne(targetEntity="App\Entity\Bank", cascade={"persist"})
      * @Assert\Valid
      */
     protected ?Bank $bank = null;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * Person constructor.
-     */
     public function __construct()
     {
         $this->students = new ArrayCollection();
     }
 
-    /**
-     * @return array
-     */
-    public function getStudents()
+    public function getStudents(): Collection
     {
         return $this->students;
     }
 
-    /**
-     * @param array $students
-     *
-     * @return Person
-     */
-    public function setStudents($students)
+    public function setStudents(Collection $students): self
     {
         $this->students = $students;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSonsAmount()
+    public function getSonsAmount(): int
     {
         return count($this->students);
     }
 
-    /**
-     * @return int
-     */
-    public function getEnabledSonsAmount()
+    public function getEnabledSonsAmount(): int
     {
         $result = 0;
         /** @var Student $student */

@@ -133,6 +133,8 @@ class EventAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
+            ->with('backend.admin.assistance', $this->getFormMdSuccessBoxArray(6))
+            ->end()
         ;
     }
 
