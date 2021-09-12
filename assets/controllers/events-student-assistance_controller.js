@@ -47,7 +47,7 @@ export default class extends Controller {
                         sendEmailNotificationButton.innerHTML = '<i class="fa fa-envelope-o"></i> Enviar notificació de no assitència per correu';
                         sendEmailNotificationButton.setAttribute('href', Routing.generate('admin_app_studentabsence_notification', {id: said}));
                         sendEmailNotificationButton.setAttribute('class', 'btn btn-warning');
-                        sendEmailNotificationButton.setAttribute('style', 'margin-top:5px');
+                        sendEmailNotificationButton.setAttribute('style', 'margin-top:10px');
                         self.element.parentNode.insertBefore(sendEmailNotificationButton, self.element.nextSibling);
                     }
                 })
