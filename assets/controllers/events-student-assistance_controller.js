@@ -15,6 +15,7 @@ export default class extends Controller {
             .then(function (response) {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('html')) {
                     self.element.innerHTML = response.data.html;
+                    console.log('self.element', self.element);
                 }
             })
             .catch(function (error) {
@@ -23,17 +24,37 @@ export default class extends Controller {
     }
 
     update(event) {
-        let apiPath = Routing.generate('admin_app_event_apiattendedclass', { id: this.eidValue, student: event.target.value});
-        if (!event.target.checked) {
-            apiPath = Routing.generate('admin_app_event_apinotattendedclass', { id: this.eidValue, student: event.target.value});
+        if (event.target.checked) {
+            // attend class
+            axios.get(Routing.generate('admin_app_event_apiattendedclass', { id: this.eidValue, student: event.target.value}))
+                .then(function (response) {
+                    console.log('[EventsStudentAssistance::update] attend class axios response', response);
+                })
+                .catch(function (error) {
+                    console.error('[EventsStudentAssistance::update] attend axios error response', error);
+                });
+        } else {
+            // not atted class
+            let self = this;
+            axios.get(Routing.generate('admin_app_event_apinotattendedclass', { id: this.eidValue, student: event.target.value}))
+                .then(function (response) {
+                    console.log('[EventsStudentAssistance::update] NOT attend class axios response', response);
+                    console.log('[EventsStudentAssistance::update] self.element', self.element);
+                    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('said')) {
+                        let said = response.data.said;
+                        console.log('said', said, Routing.generate('admin_app_studentabsence_notification', {id: said}));
+                        let sendEmailNotificationButton = document.createElement('a');
+                        sendEmailNotificationButton.innerHTML = '<i class="fa fa-envelope-o"></i> Enviar notificació de no assitència per correu';
+                        sendEmailNotificationButton.setAttribute('href', Routing.generate('admin_app_studentabsence_notification', {id: said}));
+                        sendEmailNotificationButton.setAttribute('class', 'btn btn-warning');
+                        sendEmailNotificationButton.setAttribute('style', 'margin-top:5px');
+                        self.element.parentNode.insertBefore(sendEmailNotificationButton, self.element.nextSibling);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('[EventsStudentAssistance::update] NOT attend axios error response', error);
+                });
         }
-        axios.get(apiPath)
-            .then(function (response) {
-                console.log('[EventsStudentAssistance::update] axios response', response);
-            })
-            .catch(function (error) {
-                console.error('[EventsStudentAssistance::update] axios error response', error);
-            });
     }
 
     studentAdded(event) {

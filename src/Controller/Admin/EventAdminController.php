@@ -317,12 +317,14 @@ class EventAdminController extends BaseAdminController
             ;
             $this->getDoctrine()->getManager()->persist($studentAbsence);
             $this->getDoctrine()->getManager()->flush();
+
+            return $this->commonAttendedClass($event, $student, false, $studentAbsence->getId());
         }
 
         return $this->commonAttendedClass($event, $student, false);
     }
 
-    public function commonAttendedClass(Event $event, Student $student, bool $attended): JsonResponse
+    public function commonAttendedClass(Event $event, Student $student, bool $attended, ?int $studentAbsenceId = null): JsonResponse
     {
         $searchedEventStudent = $this->getDoctrine()->getRepository(EventStudent::class)->findOneBy([
             'event' => $event,
@@ -338,10 +340,18 @@ class EventAdminController extends BaseAdminController
         }
         $searchedEventStudent->setHasAttendedTheClass($attended);
         $this->getDoctrine()->getManager()->flush();
-        $resonse = [
-            'eid' => $event->getId(),
-            'student' => $student->getId(),
-        ];
+        if ($studentAbsenceId) {
+            $resonse = [
+                'eid' => $event->getId(),
+                'student' => $student->getId(),
+                'said' => $studentAbsenceId,
+            ];
+        } else {
+            $resonse = [
+                'eid' => $event->getId(),
+                'student' => $student->getId(),
+            ];
+        }
 
         return new JsonResponse($resonse);
     }

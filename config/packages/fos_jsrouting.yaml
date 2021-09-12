@@ -5,3 +5,4 @@ fos_js_routing:
         - 'admin_app_event_apiget'
         - 'admin_app_event_apiattendedclass'
         - 'admin_app_event_apinotattendedclass'
+        - 'admin_app_studentabsence_notification'
