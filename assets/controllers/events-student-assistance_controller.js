@@ -16,10 +16,9 @@ export default class extends Controller {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('html')) {
                     self.element.innerHTML = response.data.html;
                 }
-                console.log('[EventsStudentAssistance::connect] axios response', response);
             })
             .catch(function (error) {
-                console.log('[EventsStudentAssistance::connect] axios error response', error);
+                console.error('[EventsStudentAssistance::connect] axios error response', error);
             });
     }
 
@@ -33,7 +32,24 @@ export default class extends Controller {
                 console.log('[EventsStudentAssistance::update] axios response', response);
             })
             .catch(function (error) {
-                console.log('[EventsStudentAssistance::update] axios error response', error);
+                console.error('[EventsStudentAssistance::update] axios error response', error);
             });
+    }
+
+    studentAdded(event) {
+        let self = this;
+        console.log('[EventsStudentAssistance::studentAdded] event', event.detail);
+        axios.get(Routing.generate('admin_app_event_apiattendedclass', { id: event.detail.event, student: event.detail.student}))
+            .then(function (response) {
+                console.log('[EventsStudentAssistance::studentAdded] axios response', response);
+                self.element.innerHTML += '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckboxEvent' + event.detail.event + 'Student' + event.detail.student + '" name="eid' + event.detail.event + '" value="' + event.detail.student + '" data-action="click->events-student-assistance#update" checked> ' + event.detail.text + '</label>';
+            })
+            .catch(function (error) {
+                console.error('[EventsStudentAssistance::studentAdded] axios error response', error);
+            });
+    }
+
+    studentRemoved(event) {
+        console.log('[EventsStudentAssistance::studentRemoved] event', event.detail);
     }
 }

@@ -9,14 +9,15 @@ use App\Form\Type\EventBatchRemoveType;
 use App\Form\Type\EventType;
 use App\Manager\EventManager;
 use App\Repository\EventStudentRepository;
+use App\Repository\StudentRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Templating\EngineInterface;
 
 class EventAdminController extends BaseAdminController
@@ -42,6 +43,8 @@ class EventAdminController extends BaseAdminController
 
     /**
      * Edit event and all the next related events action.
+     *
+     * @throws Exception
      */
     public function batcheditAction(Request $request): Response
     {
@@ -76,8 +79,8 @@ class EventAdminController extends BaseAdminController
                 while (!is_null($iteratedEvent->getNext())) {
                     $currentBegin = $iteratedEvent->getBegin();
                     $currentEnd = $iteratedEvent->getEnd();
-                    $currentBegin->add(new \DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
-                    $currentEnd->add(new \DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
+                    $currentBegin->add(new DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
+                    $currentEnd->add(new DateInterval('P'.$firstEvent->getDayFrequencyRepeat().'D'));
                     $iteratedEvent = $iteratedEvent->getNext();
                     if ($iteratedEvent->getId() <= $eventIdStopRangeIterator) {
                         $iteratedEvent
@@ -286,20 +289,20 @@ class EventAdminController extends BaseAdminController
     /**
      * API attended action.
      */
-    public function apiattendedclassAction(Request $request, EventStudentRepository $esr): JsonResponse
+    public function apiattendedclassAction(Request $request, EventStudentRepository $esr, StudentRepository $sr): JsonResponse
     {
-        return $this->commonAttendedClass($request, $esr, true);
+        return $this->commonAttendedClass($request, $esr, $sr, true);
     }
 
     /**
-     * API attended action.
+     * API not attended action.
      */
-    public function apinotattendedclassAction(Request $request, EventStudentRepository $esr): JsonResponse
+    public function apinotattendedclassAction(Request $request, EventStudentRepository $esr, StudentRepository $sr): JsonResponse
     {
-        return $this->commonAttendedClass($request, $esr, false);
+        return $this->commonAttendedClass($request, $esr, $sr, false);
     }
 
-    public function commonAttendedClass(Request $request, EventStudentRepository $esr, bool $attended): JsonResponse
+    public function commonAttendedClass(Request $request, EventStudentRepository $esr, StudentRepository $sr, bool $attended): JsonResponse
     {
         $id = $request->get($this->admin->getIdParameter());
         $student = $request->get('student');
@@ -311,14 +314,20 @@ class EventAdminController extends BaseAdminController
         if (!$object->getEnabled()) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        $eventStudent = $esr->findOneBy([
+        $searchedEventStudent = $esr->findOneBy([
             'event' => $object,
             'student' => $student,
         ]);
-        if ($eventStudent) {
-            $eventStudent->setHasAttendedTheClass($attended);
-            $this->getDoctrine()->getManager()->flush();
+        if (!$searchedEventStudent) {
+            $searchedEventStudent = new EventStudent();
+            $searchedEventStudent
+                ->setEvent($object)
+                ->setStudent($sr->find((int) $student))
+            ;
+            $this->getDoctrine()->getManager()->persist($searchedEventStudent);
         }
+        $searchedEventStudent->setHasAttendedTheClass($attended);
+        $this->getDoctrine()->getManager()->flush();
         $resonse = [
             'eid' => $object->getId(),
             'student' => $student,
