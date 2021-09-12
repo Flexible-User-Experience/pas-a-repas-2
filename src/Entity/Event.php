@@ -43,6 +43,7 @@ class Event extends AbstractBase
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Student", inversedBy="events")
+     * @ORM\OrderBy({"surname"="ASC", "name"="ASC"})
      */
     private Collection $students;
 

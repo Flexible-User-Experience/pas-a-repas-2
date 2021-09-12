@@ -50,6 +50,20 @@ export default class extends Controller {
     }
 
     studentRemoved(event) {
-        console.log('[EventsStudentAssistance::studentRemoved] event', event.detail);
+        let element = document.getElementById('inlineCheckboxEvent' + event.detail.event + 'Student' + event.detail.student);
+        if (element.parentNode) {
+            let checkboxer = element.parentNode.parentNode;
+            if (checkboxer) {
+                axios.get(Routing.generate('admin_app_event_apinotattendedclass', { id: event.detail.event, student: event.detail.student}))
+                    .then(function (response) {
+                        console.log('[EventsStudentAssistance::studentRemoved] axios response', response);
+                        checkboxer.removeChild(element.parentNode);
+                    })
+                    .catch(function (error) {
+                        console.error('[EventsStudentAssistance::studentRemoved] axios error response', error);
+                    });
+            }
+        }
+        console.log('[EventsStudentAssistance::studentRemoved] event', event.detail, element.parentNode);
     }
 }
