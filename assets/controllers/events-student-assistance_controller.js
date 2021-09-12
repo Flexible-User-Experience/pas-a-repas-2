@@ -43,6 +43,11 @@ export default class extends Controller {
             .then(function (response) {
                 console.log('[EventsStudentAssistance::studentAdded] axios response', response);
                 self.element.innerHTML += '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckboxEvent' + event.detail.event + 'Student' + event.detail.student + '" name="eid' + event.detail.event + '" value="' + event.detail.student + '" data-action="click->events-student-assistance#update" checked> ' + event.detail.text + '</label>';
+                let submitFormButtons = document.getElementsByName('btn_update_and_edit');
+                if (submitFormButtons && submitFormButtons.length > 0) {
+                    console.log(submitFormButtons);
+                    submitFormButtons[0].click();
+                }
             })
             .catch(function (error) {
                 console.error('[EventsStudentAssistance::studentAdded] axios error response', error);
@@ -58,6 +63,11 @@ export default class extends Controller {
                     .then(function (response) {
                         console.log('[EventsStudentAssistance::studentRemoved] axios response', response);
                         checkboxer.removeChild(element.parentNode);
+                        let submitFormButtons = document.getElementsByName('btn_update_and_edit');
+                        if (submitFormButtons && submitFormButtons.length > 0) {
+                            console.log(submitFormButtons);
+                            submitFormButtons[0].click();
+                        }
                     })
                     .catch(function (error) {
                         console.error('[EventsStudentAssistance::studentRemoved] axios error response', error);

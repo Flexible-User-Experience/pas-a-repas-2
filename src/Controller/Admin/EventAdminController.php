@@ -5,11 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Event;
 use App\Entity\EventStudent;
 use App\Entity\Student;
+use App\Entity\StudentAbsence;
 use App\Form\Type\EventBatchRemoveType;
 use App\Form\Type\EventType;
 use App\Manager\EventManager;
-use App\Repository\EventStudentRepository;
-use App\Repository\StudentRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManager;
 use Exception;
@@ -238,7 +237,7 @@ class EventAdminController extends BaseAdminController
     /**
      * API GET action.
      */
-    public function apigetAction(Request $request, EventStudentRepository $esr, EngineInterface $twig): JsonResponse
+    public function apigetAction(Request $request, EngineInterface $twig): JsonResponse
     {
         $id = $request->get($this->admin->getIdParameter());
         /** @var Event $object */
@@ -250,7 +249,7 @@ class EventAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
         // init synchro process, create new references
-        $items = $esr->getItemsByEvent($object);
+        $items = $this->getDoctrine()->getRepository(EventStudent::class)->getItemsByEvent($object);
         $resultItems = [];
         /** @var Student $student */
         foreach ($object->getStudents() as $student) {
@@ -289,50 +288,95 @@ class EventAdminController extends BaseAdminController
     /**
      * API attended action.
      */
-    public function apiattendedclassAction(Request $request, EventStudentRepository $esr, StudentRepository $sr): JsonResponse
+    public function apiattendedclassAction(Request $request): JsonResponse
     {
-        return $this->commonAttendedClass($request, $esr, $sr, true);
+        $event = $this->getEvent($request);
+        $student = $this->getStudent($request);
+        $searchedStudentAbsence = $this->getStudentAbsenceByEventAndStudent($event, $student);
+        if ($searchedStudentAbsence) {
+            $this->getDoctrine()->getManager()->remove($searchedStudentAbsence);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->commonAttendedClass($event, $student, true);
     }
 
     /**
      * API not attended action.
      */
-    public function apinotattendedclassAction(Request $request, EventStudentRepository $esr, StudentRepository $sr): JsonResponse
+    public function apinotattendedclassAction(Request $request): JsonResponse
     {
-        return $this->commonAttendedClass($request, $esr, $sr, false);
+        $event = $this->getEvent($request);
+        $student = $this->getStudent($request);
+        $searchedStudentAbsence = $this->getStudentAbsenceByEventAndStudent($event, $student);
+        if (!$searchedStudentAbsence) {
+            $studentAbsence = new StudentAbsence();
+            $studentAbsence
+                ->setDay($event->getBegin())
+                ->setStudent($student)
+            ;
+            $this->getDoctrine()->getManager()->persist($studentAbsence);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->commonAttendedClass($event, $student, false);
     }
 
-    public function commonAttendedClass(Request $request, EventStudentRepository $esr, StudentRepository $sr, bool $attended): JsonResponse
+    public function commonAttendedClass(Event $event, Student $student, bool $attended): JsonResponse
     {
-        $id = $request->get($this->admin->getIdParameter());
-        $student = $request->get('student');
-        /** @var Event $object */
-        $object = $this->admin->getObject($id);
-        if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        if (!$object->getEnabled()) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        $searchedEventStudent = $esr->findOneBy([
-            'event' => $object,
+        $searchedEventStudent = $this->getDoctrine()->getRepository(EventStudent::class)->findOneBy([
+            'event' => $event,
             'student' => $student,
         ]);
         if (!$searchedEventStudent) {
             $searchedEventStudent = new EventStudent();
             $searchedEventStudent
-                ->setEvent($object)
-                ->setStudent($sr->find((int) $student))
+                ->setEvent($event)
+                ->setStudent($student)
             ;
             $this->getDoctrine()->getManager()->persist($searchedEventStudent);
         }
         $searchedEventStudent->setHasAttendedTheClass($attended);
         $this->getDoctrine()->getManager()->flush();
         $resonse = [
-            'eid' => $object->getId(),
-            'student' => $student,
+            'eid' => $event->getId(),
+            'student' => $student->getId(),
         ];
 
         return new JsonResponse($resonse);
+    }
+
+    private function getEvent(Request $request): Event
+    {
+        $id = $request->get($this->admin->getIdParameter());
+        /** @var Event $object */
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the event with id: %s', $id));
+        }
+        if (!$object->getEnabled()) {
+            throw $this->createNotFoundException(sprintf('unable to find the event with id: %s', $id));
+        }
+
+        return $object;
+    }
+
+    private function getStudent(Request $request): Student
+    {
+        $sid = $request->get('student');
+        $student = $this->getDoctrine()->getRepository(Student::class)->find((int) $sid);
+        if (!$student) {
+            throw $this->createNotFoundException(sprintf('unable to find the student with id: %s', $sid));
+        }
+
+        return $student;
+    }
+
+    private function getStudentAbsenceByEventAndStudent(Event $event, Student $student): ?StudentAbsence
+    {
+        return $this->getDoctrine()->getRepository(StudentAbsence::class)->findOneBy([
+            'day' => $event->getBegin(),
+            'student' => $student,
+        ]);
     }
 }
