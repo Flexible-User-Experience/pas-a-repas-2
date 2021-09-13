@@ -1,8 +1,13 @@
 Changelog
 =========
 
-##### Version 4.5.10 (WIP)
+##### Version 4.5.11 (WIP)
  * fix minor bugs
+
+##### Version 4.5.10 (2021-09-13)
+ * remove duplicated frontend layout template
+ * add missing Sitemap blog route paths
+ * add frontend thank you page template
 
 ##### Version 4.5.09 (2021-09-13)
  * allow to remove Student absences from admin list

@@ -1,0 +1,20 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block title %}Gràcies! · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row extra-d-top extra-d-bottom">
+            <div class="col-md-12 text-justify">
+                <hr>
+                <h1 class="extra-m-bottom"><i class="fa fa-paper-plane" aria-hidden="true"></i> {{ 'frontend.index.main.sent' | trans | capitalize }}</h1>
+                <p>
+                    {{ 'frontend.index.main.thanks' | trans }}
+                </p>
+                <hr>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block inside_on_ready_javascripts_node %}{% endblock %}

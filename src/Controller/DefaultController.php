@@ -74,6 +74,14 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/gracies", name="app_thank_you")
+     */
+    public function thankYouAction(): Response
+    {
+        return $this->render('Front/thank_you.html.twig', array());
+    }
+
+    /**
      * @Route("/politica-de-privacitat", name="app_privacy_policy")
      */
     public function privacyPolicyAction(): Response
