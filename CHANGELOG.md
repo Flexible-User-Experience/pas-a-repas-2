@@ -3,6 +3,7 @@ Changelog
 
 ##### Version 4.5.10 (WIP)
  * fix minor bugs
+ * remove duplicated frontend layout template
 
 ##### Version 4.5.09 (2021-09-13)
  * allow to remove Student absences from admin list
