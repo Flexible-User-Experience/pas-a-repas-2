@@ -131,8 +131,6 @@ class EventManager
     }
 
     /**
-     * @param Event[]|array $events
-     *
      * @return bool true if there is at least one event with only one student in class, false elsewhere because is a shared private class
      */
     public function decidePrivateLessonsTariff(array $events): bool
@@ -151,10 +149,7 @@ class EventManager
     }
 
     /**
-     * @param Event[]|array $events
-     *
      * @return Tariff last current Tariff for private or shared private lessons
-     *
      * @throws NonUniqueResultException
      */
     public function getCurrentPrivateLessonsTariffForEvents(array $events): Tariff

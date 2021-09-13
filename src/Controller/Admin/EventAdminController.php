@@ -45,20 +45,9 @@ class EventAdminController extends BaseAdminController
      *
      * @throws Exception
      */
-    public function batcheditAction(Request $request): Response
+    public function batcheditAction(Request $request, EventManager $eventsManager): Response
     {
-        $request = $this->resolveRequest($request);
-        $id = $request->get($this->admin->getIdParameter());
-        /** @var Event $object */
-        $object = $this->admin->getObject($id);
-        if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        if (!$object->getEnabled()) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var EventManager $eventsManager */
-        $eventsManager = $this->container->get('app.event_manager');
+        $object = $this->getEvent($request);
         $firstEvent = $eventsManager->getFirstEventOf($object);
         if (is_null($firstEvent)) {
             $firstEvent = $object;
@@ -70,7 +59,7 @@ class EventAdminController extends BaseAdminController
         if ($form->isSubmitted() && $form->isValid()) {
             $eventIdStopRangeIterator = $form->get('range')->getData();
             /** @var EntityManager $em */
-            $em = $this->get('doctrine')->getManager();
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
             $iteratorCounter = 1;
             if (!is_null($object->getNext())) {
@@ -118,20 +107,9 @@ class EventAdminController extends BaseAdminController
     /**
      * Delete event and all the next related events action.
      */
-    public function batchdeleteAction(Request $request): Response
+    public function batchdeleteAction(Request $request, EventManager $eventsManager): Response
     {
-        $request = $this->resolveRequest($request);
-        $id = $request->get($this->admin->getIdParameter());
-        /** @var Event $object */
-        $object = $this->admin->getObject($id);
-        if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        if (!$object->getEnabled()) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var EventManager $eventsManager */
-        $eventsManager = $this->container->get('app.event_manager');
+        $object = $this->getEvent($request);
         $firstEvent = $eventsManager->getFirstEventOf($object);
         $lastEvent = $eventsManager->getLastEventOf($object);
         /** @var Form $form */
@@ -139,13 +117,13 @@ class EventAdminController extends BaseAdminController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var EntityManager $em */
-            $em = $this->get('doctrine')->getManager();
+            $em = $this->getDoctrine()->getManager();
             $eventIdStopRange = $form->get('range')->getData();
             /** @var Event|null $eventStopRange */
             $eventStopRange = $em->getRepository(Event::class)->find($eventIdStopRange);
             /** @var Event|null $eventAfterStopRange */
             $eventAfterStopRange = null;
-            if (!is_null($eventStopRange->getNext())) {
+            if ($eventStopRange && !is_null($eventStopRange->getNext())) {
                 $eventAfterStopRange = $em->getRepository(Event::class)->find($eventStopRange->getNext()->getId());
             }
             /** @var Event|null $eventBeforeStartRange */
@@ -165,12 +143,12 @@ class EventAdminController extends BaseAdminController
                             ++$iteratorCounter;
                         }
                     }
-                    $object->setEnabled(false);
                     if (!is_null($eventAfterStopRange)) {
                         $eventAfterStopRange->setPrevious(null);
                     }
-                    $em->flush();
                 }
+                $object->setEnabled(false);
+                $em->flush();
             // end range
             } elseif (is_null($eventAfterStopRange)) {
                 $iteratorCounter = 1;

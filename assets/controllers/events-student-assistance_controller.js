@@ -15,7 +15,6 @@ export default class extends Controller {
             .then(function (response) {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('html')) {
                     self.element.innerHTML = response.data.html;
-                    console.log('self.element', self.element);
                 }
             })
             .catch(function (error) {
@@ -28,7 +27,6 @@ export default class extends Controller {
             // attend class
             axios.get(Routing.generate('admin_app_event_apiattendedclass', { id: this.eidValue, student: event.target.value}))
                 .then(function (response) {
-                    console.log('[EventsStudentAssistance::update] attend class axios response', response);
                 })
                 .catch(function (error) {
                     console.error('[EventsStudentAssistance::update] attend axios error response', error);
@@ -38,11 +36,8 @@ export default class extends Controller {
             let self = this;
             axios.get(Routing.generate('admin_app_event_apinotattendedclass', { id: this.eidValue, student: event.target.value}))
                 .then(function (response) {
-                    console.log('[EventsStudentAssistance::update] NOT attend class axios response', response);
-                    console.log('[EventsStudentAssistance::update] self.element', self.element);
                     if (response.hasOwnProperty('data') && response.data.hasOwnProperty('said')) {
                         let said = response.data.said;
-                        console.log('said', said, Routing.generate('admin_app_studentabsence_notification', {id: said}));
                         let sendEmailNotificationButton = document.createElement('a');
                         sendEmailNotificationButton.innerHTML = '<i class="fa fa-envelope-o"></i> Enviar notificació de no assitència per correu';
                         sendEmailNotificationButton.setAttribute('href', Routing.generate('admin_app_studentabsence_notification', {id: said}));
@@ -59,14 +54,11 @@ export default class extends Controller {
 
     studentAdded(event) {
         let self = this;
-        console.log('[EventsStudentAssistance::studentAdded] event', event.detail);
         axios.get(Routing.generate('admin_app_event_apiattendedclass', { id: event.detail.event, student: event.detail.student}))
-            .then(function (response) {
-                console.log('[EventsStudentAssistance::studentAdded] axios response', response);
+            .then(function () {
                 self.element.innerHTML += '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckboxEvent' + event.detail.event + 'Student' + event.detail.student + '" name="eid' + event.detail.event + '" value="' + event.detail.student + '" data-action="click->events-student-assistance#update" checked> ' + event.detail.text + '</label>';
                 let submitFormButtons = document.getElementsByName('btn_update_and_edit');
                 if (submitFormButtons && submitFormButtons.length > 0) {
-                    console.log(submitFormButtons);
                     submitFormButtons[0].click();
                 }
             })
@@ -81,12 +73,10 @@ export default class extends Controller {
             let checkboxer = element.parentNode.parentNode;
             if (checkboxer) {
                 axios.get(Routing.generate('admin_app_event_apinotattendedclass', { id: event.detail.event, student: event.detail.student}))
-                    .then(function (response) {
-                        console.log('[EventsStudentAssistance::studentRemoved] axios response', response);
+                    .then(function () {
                         checkboxer.removeChild(element.parentNode);
                         let submitFormButtons = document.getElementsByName('btn_update_and_edit');
                         if (submitFormButtons && submitFormButtons.length > 0) {
-                            console.log(submitFormButtons);
                             submitFormButtons[0].click();
                         }
                     })
@@ -95,6 +85,5 @@ export default class extends Controller {
                     });
             }
         }
-        console.log('[EventsStudentAssistance::studentRemoved] event', event.detail, element.parentNode);
     }
 }

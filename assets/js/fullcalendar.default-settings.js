@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     omitZeroMinute: false,
                     meridiem: 'short'
                 },
-                scrollTime: '08:00:00',
-                minTime: '06:00:00',
-                maxTime: '22:00:00',
+                scrollTime: '09:00:00',
+                minTime: '09:00:00',
+                maxTime: '23:00:00',
                 hiddenDays: [ 0 ]
             }
         },
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 type: 'POST',
                 data: {},
                 error: function(data) {
-                    console.log('error!', data.responseText);
+                    console.error('error!', data.responseText);
                 }
             }
         ],
