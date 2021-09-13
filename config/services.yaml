@@ -10,8 +10,6 @@ parameters:
     project_backend_title:       '%env(string:PROJECT_BACKEND_TITLE)%'
     google_tag_manager_enabled:  '%env(bool:GOOGLE_TAG_MANAGER_IS_ENABLED)%'
     google_tag_manager_account:  '%env(string:GOOGLE_TAG_MANAGER_ACCOUNT)%'
-    google_analytics_enabled:    '%env(bool:GOOGLE_ANALYTICS_IS_ENABLED)%'
-    google_analytics_account:    '%env(string:GOOGLE_ANALYTICS_ACCOUNT)%'
     google_maps_api_key:         '%env(string:GOOGLE_MAPS_API_KEY)%'
     facebook_pixel_enabled:      '%env(bool:FACEBOOK_PIXEL_ENABLED)%'
     facebook_pixel_id:           '%env(string:FACEBOOK_PIXEL_ID)%'
