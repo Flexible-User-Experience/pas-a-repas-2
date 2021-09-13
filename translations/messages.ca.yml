@@ -3,6 +3,23 @@
 "Teacher Absence List": Absències professor
 "Teacher Absence Create": Crear
 "Teacher Teacher Delete": Esborrar
+"Absence List": Absències alumne
+"Absence Create": Crear
+"Absence Delete": Esborrar
+"Grups List": Grups
+"Grups Create": Crear
+"Grups Delete": Esborrar
+"Timetable List": Horaris
+"Timetable Create": Crear
+"Timetable Delete": Esborrar
+"Categoria List": Categories
+"Categoria Create": Crear
+"Categoria Delete": Esborrar
+"Article List": Articles
+"Article Create": Crear
+"Article Delete": Esborrar
+"File List": Fitxers
+"File Show": Gestor de documents
 "Student List": Alumnes
 "Student Create": Crear
 "Student Delete": Esborrar
@@ -223,6 +240,7 @@ backend:
         actions: Accions
         controls: Controls
         general: General
+        assistance: "Control assistència"
         date: Data creació
         dates: Dates
         enabled: Actiu

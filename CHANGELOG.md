@@ -1,8 +1,15 @@
 Changelog
 =========
 
-##### Version 4.5.07 (WIP)
+##### Version 4.5.08 (WIP)
  * fix minor bugs
+ * remove console log from Stimulus controllers
+
+##### Version 4.5.07 (2021-09-13)
+ * fix Doctrine schema validation
+ * fix missing admin translations
+ * add events-student-assistance Stimulus controller
+ * enable rotating logs in production
 
 ##### Version 4.5.06 (2021-09-10)
  * improve Notification service email subjects
