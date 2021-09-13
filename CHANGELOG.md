@@ -7,6 +7,7 @@ Changelog
 ##### Version 4.5.08 (2021-09-13)
  * fix problem during batch delete on unique events (not chained)
  * remove unnecessary console log from Stimulus controllers
+ * include complied yarn assets to avoid deploy problem
 
 ##### Version 4.5.07 (2021-09-13)
  * fix Doctrine schema validation
