@@ -78,7 +78,7 @@ class DefaultController extends AbstractController
      */
     public function thankYouAction(): Response
     {
-        return $this->render('Front/privacy_policy.html.twig', array());
+        return $this->render('Front/thank_you.html.twig', array());
     }
 
     /**

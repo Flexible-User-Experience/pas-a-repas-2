@@ -5,6 +5,7 @@ Changelog
  * fix minor bugs
  * remove duplicated frontend layout template
  * add missing Sitemap blog route paths
+ * add frontend thank you page template
 
 ##### Version 4.5.09 (2021-09-13)
  * allow to remove Student absences from admin list

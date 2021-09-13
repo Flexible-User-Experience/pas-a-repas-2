@@ -120,6 +120,7 @@ frontend:
         main:
             image: el pas definitiu
             sent: el seu missatge s'ha enviat correctament!
+            thanks: "Moltes gràcies per contactar amb nosaltres. Et respondrem el més aviat possible."
         courses:
             primary: primària
             eso: eso
