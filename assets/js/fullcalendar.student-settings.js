@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 type: 'POST',
                 data: {},
                 error: function(data) {
-                    console.log('error!', data.responseText);
+                    console.error('error!', data.responseText);
                 }
             }
         ]
