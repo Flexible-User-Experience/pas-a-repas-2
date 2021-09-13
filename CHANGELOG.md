@@ -1,12 +1,17 @@
 Changelog
 =========
 
-##### Version 4.5.09 (WIP)
+##### Version 4.5.10 (WIP)
  * fix minor bugs
+
+##### Version 4.5.09 (2021-09-13)
+ * allow to remove Student absences from admin list
+ * fix problem with unnecessary created Student absences from EventAdmin edit view
 
 ##### Version 4.5.08 (2021-09-13)
  * fix problem during batch delete on unique events (not chained)
  * remove unnecessary console log from Stimulus controllers
+ * include complied yarn assets to avoid deploy problem
 
 ##### Version 4.5.07 (2021-09-13)
  * fix Doctrine schema validation

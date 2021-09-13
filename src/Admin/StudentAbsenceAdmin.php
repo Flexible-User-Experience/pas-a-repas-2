@@ -24,10 +24,7 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection): void
     {
         parent::configureRoutes($collection);
-        $collection
-            ->add('notification', $this->getRouterIdParameter().'/notification')
-            ->remove('delete')
-        ;
+        $collection->add('notification', $this->getRouterIdParameter().'/notification');
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -184,6 +181,7 @@ class StudentAbsenceAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
                         'notification' => ['template' => 'Admin/Buttons/list__action_student_absence_notification_button.html.twig'],
+                        'delete' => ['template' => 'Admin/Buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'backend.admin.actions',
                 ]

@@ -72,17 +72,11 @@ export default class extends Controller {
         if (element.parentNode) {
             let checkboxer = element.parentNode.parentNode;
             if (checkboxer) {
-                axios.get(Routing.generate('admin_app_event_apinotattendedclass', { id: event.detail.event, student: event.detail.student}))
-                    .then(function () {
-                        checkboxer.removeChild(element.parentNode);
-                        let submitFormButtons = document.getElementsByName('btn_update_and_edit');
-                        if (submitFormButtons && submitFormButtons.length > 0) {
-                            submitFormButtons[0].click();
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error('[EventsStudentAssistance::studentRemoved] axios error response', error);
-                    });
+                checkboxer.removeChild(element.parentNode);
+                let submitFormButtons = document.getElementsByName('btn_update_and_edit');
+                if (submitFormButtons && submitFormButtons.length > 0) {
+                    submitFormButtons[0].click();
+                }
             }
         }
     }
