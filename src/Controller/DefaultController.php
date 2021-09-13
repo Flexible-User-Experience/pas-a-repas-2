@@ -25,7 +25,6 @@ class DefaultController extends AbstractController
      */
     public function indexAction(Request $request, GoogleMapsService $gms, NotificationService $messenger): Response
     {
-        $flash = null;
         $mapObject = $gms->buildMap(40.7061278, 0.5817055555555556);
         $contactEntity = new ContactMessage();
         $form = $this->createForm(ContactMessageType::class, $contactEntity);
@@ -39,18 +38,14 @@ class DefaultController extends AbstractController
             // send notifications
             $messenger->sendCommonUserNotification($contactEntity);
             $messenger->sendAdminNotification($contactEntity);
-            // reset form
-            $contactEntity = new ContactMessage();
-            $form = $this->createForm(ContactMessageType::class, $contactEntity);
-            // build flash message
-            $flash = 'frontend.index.main.sent';
+
+            return $this->redirectToRoute('app_thank_you');
         }
 
         return $this->render('Front/homepage.html.twig',
             [
                 'mapView' => $mapObject,
                 'contactForm' => $form->createView(),
-                'flash' => $flash,
             ]
         );
     }
