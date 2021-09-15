@@ -5,6 +5,7 @@ Changelog
  * fix minor bugs
 
 ##### Version 4.5.11 (2021-09-15)
+ * replace GoogleCharts by ChartJS powered by SymfonyUX
  * replace 'callto' by 'tel' phone tags
  * add Whatsapp contact message button
 
