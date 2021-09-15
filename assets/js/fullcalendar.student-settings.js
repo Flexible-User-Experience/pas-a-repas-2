@@ -2,6 +2,7 @@ import '@fullcalendar/common/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import '@fullcalendar/list/main.css';
+import '@fullcalendar/bootstrap/main.css';
 
 import { Calendar } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         views: {
             timeGrid: {
                 nowIndicator: true,
-                allDaySlot: true,
+                allDaySlot: false,
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -38,17 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     meridiem: 'short'
                 },
                 scrollTime: '09:00:00',
-                minTime: '09:00:00',
-                maxTime: '23:00:00',
+                slotMinTime: '08:00:00',
+                slotMaxTime: '23:00:00',
                 hiddenDays: [ 0 ]
             }
         },
-        height: 750,
+        height: 735,
         locale: caLocale,
         timeFormat: 'HH:mm',
         firstDay: 1,
         lazyFetching: false,
-        editable: true,
+        editable: false,
         navLinks: true,
         eventLimit: true,
         businessHours: false,

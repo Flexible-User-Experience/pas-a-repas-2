@@ -26,23 +26,23 @@
       "js": [
         "/build/runtime.686d9699.js",
         "/build/473.09345d27.js",
-        "/build/284.bb705847.js",
+        "/build/560.2f575e87.js",
         "/build/755.f5cf308f.js",
-        "/build/fullcalendardefaultsettings.47a53f11.js"
+        "/build/fullcalendardefaultsettings.5a17b079.js"
       ],
       "css": [
-        "/build/284.f60314b2.css"
+        "/build/560.c0c43ca3.css"
       ]
     },
     "fullcalendarstudentsettings": {
       "js": [
         "/build/runtime.686d9699.js",
         "/build/473.09345d27.js",
-        "/build/284.bb705847.js",
-        "/build/fullcalendarstudentsettings.03655f6f.js"
+        "/build/560.2f575e87.js",
+        "/build/fullcalendarstudentsettings.6936799f.js"
       ],
       "css": [
-        "/build/284.f60314b2.css"
+        "/build/560.c0c43ca3.css"
       ]
     }
   }
