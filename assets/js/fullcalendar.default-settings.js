@@ -72,13 +72,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         ],
-        datesRender: function (calendar) {
-            if (calendar.hasOwnProperty('view') && calendar.view.hasOwnProperty('props') && calendar.view.props.hasOwnProperty('dateProfile') && calendar.view.props.dateProfile.hasOwnProperty('currentRangeUnit') && calendar.view.props.dateProfile.hasOwnProperty('currentRange') && calendar.view.props.dateProfile.currentRange.hasOwnProperty('start') && calendar.view.props.dateProfile.currentRange.hasOwnProperty('end') && calendar.view.props.dateProfile.currentRange.start instanceof Date && calendar.view.props.dateProfile.currentRange.end instanceof Date) {
-                let exportCalendarPdfListAnchorNode = jQuery('#export_calendar_pdf_list_anchor');
-                let start = calendar.view.props.dateProfile.currentRange.start;
-                let end = calendar.view.props.dateProfile.currentRange.end;
-                let route = Routing.generate('admin_app_filedummy_exportCalendarPdfList', {start: start.getFullYear() + '-' + twoDigitsPadWithZeros(start.getMonth() + 1) + '-' + twoDigitsPadWithZeros(start.getDate()), end: end.getFullYear() + '-' + twoDigitsPadWithZeros(end.getMonth() + 1) + '-' + twoDigitsPadWithZeros(end.getDate())});
-                exportCalendarPdfListAnchorNode.attr('href', route);
+        viewDidMount: function (calendar) {
+            if (calendar.hasOwnProperty('view')) {
+                let dateProfile = calendar.view.getCurrentData().dateProfile;
+                if (dateProfile.hasOwnProperty('currentRangeUnit') && dateProfile.hasOwnProperty('currentRange') && dateProfile.currentRange.hasOwnProperty('start') && dateProfile.currentRange.hasOwnProperty('end') && dateProfile.currentRange.start instanceof Date && dateProfile.currentRange.end instanceof Date) {
+                    let exportCalendarPdfListAnchorNode = jQuery('#export_calendar_pdf_list_anchor');
+                    let start = dateProfile.currentRange.start;
+                    let end = dateProfile.currentRange.end;
+                    let route = Routing.generate('admin_app_filedummy_exportCalendarPdfList', {start: start.getFullYear() + '-' + twoDigitsPadWithZeros(start.getMonth() + 1) + '-' + twoDigitsPadWithZeros(start.getDate()), end: end.getFullYear() + '-' + twoDigitsPadWithZeros(end.getMonth() + 1) + '-' + twoDigitsPadWithZeros(end.getDate())});
+                    exportCalendarPdfListAnchorNode.attr('href', route);
+                }
+                console.log(dateProfile);
             }
         }
     });
