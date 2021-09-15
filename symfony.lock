@@ -337,9 +337,6 @@
     "qipsius/tcpdf-bundle": {
         "version": "2.0.1"
     },
-    "saad-tazi/g-chart-bundle": {
-        "version": "v3.1.1"
-    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },

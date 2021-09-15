@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e99a79b66093012451b42fd1c86ce3c",
+    "content-hash": "846e4662ae2f615ad1b5a4820de5c75d",
     "packages": [
         {
             "name": "artgris/filemanager-bundle",
@@ -4243,50 +4243,6 @@
                 "source": "https://github.com/Qipsius/QipsiusTCPDFBundle/tree/2.0.2"
             },
             "time": "2020-09-22T19:00:11+00:00"
-        },
-        {
-            "name": "saad-tazi/g-chart-bundle",
-            "version": "v3.2.1",
-            "target-dir": "SaadTazi/GChartBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/saadtazi/SaadTaziGChartBundle.git",
-                "reference": "1226aa6b295043ced62398f831c81b6bab277b49"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/saadtazi/SaadTaziGChartBundle/zipball/1226aa6b295043ced62398f831c81b6bab277b49",
-                "reference": "1226aa6b295043ced62398f831c81b6bab277b49",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/framework-bundle": "3.* || 4.*"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "SaadTazi\\GChartBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Saad Tazi"
-                }
-            ],
-            "description": "A super simple Bundle that facilitate the usage of Google Chart Tool, Google Chart Image API and Google Infographics.",
-            "keywords": [
-                "chart",
-                "google"
-            ],
-            "support": {
-                "issues": "https://github.com/saadtazi/SaadTaziGChartBundle/issues",
-                "source": "https://github.com/saadtazi/SaadTaziGChartBundle/tree/v3.2.1"
-            },
-            "time": "2021-03-12T14:22:17+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
