@@ -1,8 +1,12 @@
 Changelog
 =========
 
-##### Version 4.5.11 (WIP)
+##### Version 4.5.12 (WIP)
  * fix minor bugs
+
+##### Version 4.5.11 (2021-09-15)
+ * replace 'callto' by 'tel' phone tags
+ * add Whatsapp contact message button
 
 ##### Version 4.5.10 (2021-09-13)
  * remove duplicated frontend layout template
