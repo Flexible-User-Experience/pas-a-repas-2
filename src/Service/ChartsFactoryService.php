@@ -89,6 +89,7 @@ class ChartsFactoryService
                 ],
             ])
             ->setOptions([
+                'aspectRatio' => 4,
                 'legend' => [
                     'display' => true,
                     'position' => 'top',
