@@ -51,7 +51,7 @@ class ChartsFactoryService
             $sale += $this->ir->getMonthlyIncomingsAmountForDate($date);
             $expense = $this->sr->getMonthlyExpensesAmountForDate($date);
             $result = $sale - $expense;
-            $labels[] = ReceiptYearMonthEnum::getShortTranslatedMonthEnumArray()[(int) $date->format('n')].'. '.$date->format('y');
+            $labels[] = ReceiptYearMonthEnum::getShortTranslatedMonthEnumArray()[(int) $date->format('n')].'. '.$date->format('Y');
             $sales[] = round($sale, 2);
             $expenses[] = round($expense, 2);
             $results[] = round($result, 2);
@@ -93,6 +93,13 @@ class ChartsFactoryService
             ])
             ->setOptions([
                 'aspectRatio' => 4,
+                'scales' => [
+                    'yAxes' => [
+                        'ticks' => [
+                            'display' => false,
+                        ],
+                    ],
+                ],
                 'legend' => [
                     'display' => true,
                     'position' => 'top',
