@@ -10,7 +10,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
-import caLocale from '@fullcalendar/core/locales/es';
+import caLocale from '@fullcalendar/core/locales/ca';
 import Routing from '../../public/bundles/fosjsrouting/js/router.min';
 
 const routes = require('../../public/js/fos_js_routes.json');
@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let calendar = new Calendar(calendarEl, {
         plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, googleCalendarPlugin],
         initialView: 'timeGridWeek',
-        timeZone: 'UTC',
+        timeZone: 'Europe/Madrid',
         headerToolbar: {
-            start: 'prev today next',
+            start: 'prev,today,next',
             center: 'title',
             end: 'timeGridDay,timeGridWeek,dayGridMonth listWeek'
         },
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hiddenDays: [ 0 ]
             }
         },
-        height: 785,
+        height: 780,
         locale: caLocale,
         firstDay: 1,
         lazyFetching: false,
