@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         views: {
             timeGrid: {
                 nowIndicator: true,
-                allDaySlot: false,
+                allDaySlot: true,
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -44,21 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 hiddenDays: [ 0 ]
             }
         },
-        height: 735,
+        height: 785,
         locale: caLocale,
-        timeFormat: 'HH:mm',
         firstDay: 1,
         lazyFetching: false,
         editable: false,
         navLinks: true,
-        eventLimit: true,
         businessHours: false,
         displayEventTime: true,
         fixedWeekCount: false,
         weekNumbers: false,
-        defaultView: 'timeGridWeek',
         themeSystem: 'bootstrap3',
-        googleCalendarApiKey: 'AIzaSyCZZYZV-LqX2qDtggiEo1GmeNhxe3SAhfI',
+        googleCalendarApiKey: 'AIzaSyB332MhD5g142kIo79ZagVcXUidQwHbWwk',
         eventSources: [
             {
                 googleCalendarId: 'es.spain#holiday@group.v.calendar.google.com',
