@@ -142,6 +142,10 @@ frontend:
         contact:
             msg1: Si vols rebre més informació, omple aquest formulari
             msg2: i et resoldré qualsevol dubte que tinguis sobre les classes de repàs.
+            msg3: 'Whatsapp'
+            msg4: 'Estic interessat en rebre més informació sobre Pas a Repàs.'
+            msg5: 'Hola! Estic interessat en rebre més informació sobre Pas a Repàs.'
+            msg6: 'Enviar missatge de Whatsapp'
             form:
                 name: nom
                 email: email
