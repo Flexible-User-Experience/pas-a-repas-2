@@ -52,9 +52,9 @@ class ChartsFactoryService
             $expense = $this->sr->getMonthlyExpensesAmountForDate($date);
             $result = $sale - $expense;
             $labels[] = ReceiptYearMonthEnum::getShortTranslatedMonthEnumArray()[(int) $date->format('n')].'. '.$date->format('Y');
-            $sales[] = round($sale, 2);
-            $expenses[] = round($expense, 2);
-            $results[] = round($result, 2);
+            $sales[] = round($sale);
+            $expenses[] = round($expense);
+            $results[] = round($result);
             $date->add($interval);
         }
         $chart = $this->cb->createChart(Chart::TYPE_LINE);
