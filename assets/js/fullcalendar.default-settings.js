@@ -1,31 +1,35 @@
-import { Calendar } from "@fullcalendar/core";
-import interactionPlugin from "@fullcalendar/interaction";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import caLocale from "@fullcalendar/core/locales/ca";
-import Routing from '../../public/bundles/fosjsrouting/js/router.min';
+import '@fullcalendar/common/main.css';
+import '@fullcalendar/daygrid/main.css';
+import '@fullcalendar/timegrid/main.css';
+import '@fullcalendar/list/main.css';
 
-import "@fullcalendar/core/main.css";
-import "@fullcalendar/daygrid/main.css";
-import "@fullcalendar/timegrid/main.css";
-import "@fullcalendar/list/main.css";
+import { Calendar } from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import googleCalendarPlugin from '@fullcalendar/google-calendar';
+import caLocale from '@fullcalendar/core/locales/es';
+import Routing from '../../public/bundles/fosjsrouting/js/router.min';
 
 const routes = require('../../public/js/fos_js_routes.json');
 Routing.setRoutingData(routes);
 
 document.addEventListener('DOMContentLoaded', () => {
     let calendarEl = document.getElementById('calendar-holder');
+    let eventsUrl = calendarEl.dataset.eventsUrl;
     let calendar = new Calendar(calendarEl, {
-        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
+        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, googleCalendarPlugin],
+        initialView: 'timeGridWeek',
         timeZone: 'UTC',
-        header: {
-            left: 'prev today next',
+        headerToolbar: {
+            start: 'prev today next',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay listWeek'
+            end: 'timeGridDay,timeGridWeek,dayGridMonth listWeek'
         },
         views: {
             timeGrid: {
+                nowIndicator: true,
                 allDaySlot: true,
                 slotLabelFormat: {
                     hour: '2-digit',
@@ -62,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: '#FED3D7'
             },
             {
-                url: Routing.generate('fc_load_events'),
+                url: eventsUrl,
                 type: 'POST',
                 data: {},
                 error: function(data) {

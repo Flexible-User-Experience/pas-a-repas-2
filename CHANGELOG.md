@@ -8,6 +8,7 @@ Changelog
  * replace GoogleCharts by ChartJS powered by SymfonyUX
  * replace 'callto' by 'tel' phone tags
  * add Whatsapp contact message button
+ * upgrade fullcalendar.js up to version 5
 
 ##### Version 4.5.10 (2021-09-13)
  * remove duplicated frontend layout template

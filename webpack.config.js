@@ -12,11 +12,6 @@ Encore
         {from: './assets/img', to: 'img/[path][name].[ext]'},
         {from: './assets/svg', to: 'svg/[path][name].[ext]'},
         {from: './assets/fonts', to: 'fonts/[path][name].[ext]'},
-        {from: './node_modules/ckeditor/', to: 'ckeditor4/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
-        {from: './node_modules/ckeditor/adapters', to: 'ckeditor4/adapters/[path][name].[ext]'},
-        {from: './node_modules/ckeditor/lang', to: 'ckeditor4/lang/[path][name].[ext]'},
-        {from: './node_modules/ckeditor/plugins', to: 'ckeditor4/plugins/[path][name].[ext]'},
-        {from: './node_modules/ckeditor/skins', to: 'ckeditor4/skins/[path][name].[ext]'},
     ])
     // entries
     .addEntry('frontend', './assets/js/frontend.js')
