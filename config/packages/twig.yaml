@@ -12,6 +12,7 @@ twig:
         google_tag_manager_enabled: '%google_tag_manager_enabled%'
         google_tag_manager_account: '%google_tag_manager_account%'
         google_maps_api_key:        '%google_maps_api_key%'
+        google_calendar_api_key:    '%google_calendar_api_key%'
         facebook_pixel_enabled:     '%facebook_pixel_enabled%'
         facebook_pixel_id:          '%facebook_pixel_id%'
         main_brand_title:           '%project_web_title%'

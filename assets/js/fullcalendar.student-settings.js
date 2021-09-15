@@ -18,7 +18,9 @@ Routing.setRoutingData(routes);
 
 document.addEventListener('DOMContentLoaded', () => {
     let calendarEl = document.getElementById('calendar-holder');
-    let eventsUrl = calendarEl.dataset.eventsUrl;
+    let eventsUrl = calendarEl.getAttribute('data-events-url');
+    let googleCalendarApiKey = calendarEl.getAttribute('data-gmap-api-key');
+    console.log(googleCalendarApiKey, calendarEl, eventsUrl);
     let calendar = new Calendar(calendarEl, {
         plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, googleCalendarPlugin],
         initialView: 'timeGridWeek',
@@ -55,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fixedWeekCount: false,
         weekNumbers: false,
         themeSystem: 'bootstrap3',
-        googleCalendarApiKey: 'AIzaSyB332MhD5g142kIo79ZagVcXUidQwHbWwk',
+        googleCalendarApiKey: googleCalendarApiKey,
         eventSources: [
             {
                 googleCalendarId: 'es.spain#holiday@group.v.calendar.google.com',
