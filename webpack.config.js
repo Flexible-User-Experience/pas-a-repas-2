@@ -17,7 +17,6 @@ Encore
         {from: './node_modules/ckeditor/lang', to: 'ckeditor4/lang/[path][name].[ext]'},
         {from: './node_modules/ckeditor/plugins', to: 'ckeditor4/plugins/[path][name].[ext]'},
         {from: './node_modules/ckeditor/skins', to: 'ckeditor4/skins/[path][name].[ext]'},
-        {from: './node_modules/google-charts/dist', to: 'google-charts/[path][name].[ext]'}
     ])
     // entries
     .addEntry('frontend', './assets/js/frontend.js')

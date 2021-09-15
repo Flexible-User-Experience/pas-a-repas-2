@@ -2,47 +2,49 @@
   "entrypoints": {
     "frontend": {
       "js": [
-        "/build/runtime.f3575a88.js",
-        "/build/755.ddf5ef9e.js",
-        "/build/2.c8c7bb4a.js",
-        "/build/frontend.e4e51ac7.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_jquery_dist_jquery_js.js",
+        "/build/vendors-node_modules_bootstrap-sass_assets_javascripts_bootstrap_js.js",
+        "/build/frontend.js"
       ],
       "css": [
-        "/build/frontend.ccff988b.css"
+        "/build/frontend.css"
       ]
     },
     "backend": {
       "js": [
-        "/build/runtime.f3575a88.js",
-        "/build/473.ebb43c18.js",
-        "/build/92.de16dd26.js",
-        "/build/backend.14e28f51.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_arr-20a9b1.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_symfony_ux-chartjs_di-bf6efe.js",
+        "/build/backend.js"
       ],
       "css": [
-        "/build/backend.1551f284.css"
+        "/build/backend.css"
       ]
     },
     "fullcalendardefaultsettings": {
       "js": [
-        "/build/runtime.f3575a88.js",
-        "/build/473.ebb43c18.js",
-        "/build/68.4c11d927.js",
-        "/build/755.ddf5ef9e.js",
-        "/build/fullcalendardefaultsettings.e3a2dc3e.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_arr-20a9b1.js",
+        "/build/vendors-node_modules_fullcalendar_core_locales_ca_js-node_modules_fullcalendar_interaction_ma-dbe99e.js",
+        "/build/vendors-node_modules_jquery_dist_jquery_js.js",
+        "/build/public_bundles_fosjsrouting_js_router_min_js-public_js_fos_js_routes_json.js",
+        "/build/fullcalendardefaultsettings.js"
       ],
       "css": [
-        "/build/68.8c78cc94.css"
+        "/build/vendors-node_modules_fullcalendar_core_locales_ca_js-node_modules_fullcalendar_interaction_ma-dbe99e.css"
       ]
     },
     "fullcalendarstudentsettings": {
       "js": [
-        "/build/runtime.f3575a88.js",
-        "/build/473.ebb43c18.js",
-        "/build/68.4c11d927.js",
-        "/build/fullcalendarstudentsettings.a2491bb4.js"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_arr-20a9b1.js",
+        "/build/vendors-node_modules_fullcalendar_core_locales_ca_js-node_modules_fullcalendar_interaction_ma-dbe99e.js",
+        "/build/public_bundles_fosjsrouting_js_router_min_js-public_js_fos_js_routes_json.js",
+        "/build/fullcalendarstudentsettings.js"
       ],
       "css": [
-        "/build/68.8c78cc94.css"
+        "/build/vendors-node_modules_fullcalendar_core_locales_ca_js-node_modules_fullcalendar_interaction_ma-dbe99e.css"
       ]
     }
   }
