@@ -3,7 +3,7 @@
     "frontend": {
       "js": [
         "/build/runtime.686d9699.js",
-        "/build/755.f5cf308f.js",
+        "/build/755.5a8586e9.js",
         "/build/2.3ec8fceb.js",
         "/build/frontend.4a90bca4.js"
       ],
@@ -14,9 +14,9 @@
     "backend": {
       "js": [
         "/build/runtime.686d9699.js",
-        "/build/473.09345d27.js",
-        "/build/623.bb65f455.js",
-        "/build/backend.3c4fd47f.js"
+        "/build/473.4e06f0c9.js",
+        "/build/623.bd14eb3d.js",
+        "/build/backend.5d23720c.js"
       ],
       "css": [
         "/build/backend.1551f284.css"
@@ -25,10 +25,10 @@
     "fullcalendardefaultsettings": {
       "js": [
         "/build/runtime.686d9699.js",
-        "/build/473.09345d27.js",
-        "/build/845.56985277.js",
-        "/build/755.f5cf308f.js",
-        "/build/fullcalendardefaultsettings.cdce67ae.js"
+        "/build/473.4e06f0c9.js",
+        "/build/845.c86dbc30.js",
+        "/build/755.5a8586e9.js",
+        "/build/fullcalendardefaultsettings.62986c5d.js"
       ],
       "css": [
         "/build/845.c0c43ca3.css"
@@ -37,9 +37,9 @@
     "fullcalendarstudentsettings": {
       "js": [
         "/build/runtime.686d9699.js",
-        "/build/473.09345d27.js",
-        "/build/845.56985277.js",
-        "/build/fullcalendarstudentsettings.feabb6ff.js"
+        "/build/473.4e06f0c9.js",
+        "/build/845.c86dbc30.js",
+        "/build/fullcalendarstudentsettings.0e50a4ca.js"
       ],
       "css": [
         "/build/845.c0c43ca3.css"

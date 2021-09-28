@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.12 (WIP)
+##### Version 4.5.13 (WIP)
  * fix minor bugs
+
+##### Version 4.5.12 (2021-09-28)
+ * fix fullcalendar bug on datesSet event
 
 ##### Version 4.5.11 (2021-09-15)
  * replace GoogleCharts by ChartJS powered by SymfonyUX
