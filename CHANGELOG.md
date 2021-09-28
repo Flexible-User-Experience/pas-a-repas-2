@@ -6,6 +6,7 @@ Changelog
 
 ##### Version 4.5.12 (2021-09-28)
  * fix fullcalendar bug on datesSet event
+ * add roave/security-advisories dev dependency
 
 ##### Version 4.5.11 (2021-09-15)
  * replace GoogleCharts by ChartJS powered by SymfonyUX
