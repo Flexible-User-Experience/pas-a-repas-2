@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ],
         viewDidMount: function (calendar) {
+            console.log('viewDidMount', calendar);
             if (calendar.hasOwnProperty('view')) {
                 let dateProfile = calendar.view.getCurrentData().dateProfile;
                 if (dateProfile.hasOwnProperty('currentRangeUnit') && dateProfile.hasOwnProperty('currentRange') && dateProfile.currentRange.hasOwnProperty('start') && dateProfile.currentRange.hasOwnProperty('end') && dateProfile.currentRange.start instanceof Date && dateProfile.currentRange.end instanceof Date) {
