@@ -4,21 +4,11 @@ namespace App\Repository;
 
 use App\Entity\PreRegister;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class PreRegisterRepository.
- *
- * @category Repository
- */
-class PreRegisterRepository extends ServiceEntityRepository
+final class PreRegisterRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PreRegister::class);
     }

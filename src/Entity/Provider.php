@@ -8,10 +8,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Provider.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\ProviderRepository")
  * @UniqueEntity({"tic"})
  */
@@ -81,10 +77,6 @@ class Provider extends AbstractBase
      * @Assert\Iban()
      */
     private $ibanForBankDraftPayment;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return string
@@ -274,11 +266,8 @@ class Provider extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? ($this->alias ? $this->getName().' · '.$this->getAlias().' · '.$this->getTic() : $this->getName().' · '.$this->getTic()) : '---';
+        return $this->id ? ($this->alias ? $this->getName().' · '.$this->getAlias().' · '.$this->getTic() : $this->getName().' · '.$this->getTic()) : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

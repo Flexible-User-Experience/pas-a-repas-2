@@ -4,11 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Abstract class AbstractReceiptInvoiceLine.
- *
- * @category Entity
- */
 abstract class AbstractReceiptInvoiceLine extends AbstractBase
 {
     /**
@@ -53,10 +48,6 @@ abstract class AbstractReceiptInvoiceLine extends AbstractBase
      * @ORM\Column(type="float", nullable=true)
      */
     protected $total;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return Student
@@ -186,11 +177,8 @@ abstract class AbstractReceiptInvoiceLine extends AbstractBase
         return $this->units * $this->priceUnit - $this->discount;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getDescription() : '---';
+        return $this->id ? $this->getDescription() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

@@ -6,10 +6,6 @@ use App\Entity\Traits\DescriptionTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class ContactMessage.
- *
- * @category Entity
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="App\Repository\ContactMessageRepository")
  */
@@ -70,10 +66,6 @@ class ContactMessage extends AbstractBase
      * @var bool
      */
     private $privacy;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return string
@@ -235,13 +227,8 @@ class ContactMessage extends AbstractBase
         return $this;
     }
 
-    /**
-     * To string.
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getCreatedAtString().' · '.$this->getEmail() : '---';
+        return $this->id ? $this->getCreatedAtString().' · '.$this->getEmail() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

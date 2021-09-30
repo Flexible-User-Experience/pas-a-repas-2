@@ -6,10 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Bank.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\BankRepository")
  * @ORM\Table(name="bank")
  */
@@ -45,10 +41,6 @@ class Bank extends AbstractBase
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $parent;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return string
@@ -210,11 +202,8 @@ class Bank extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getIbanFormatNumber() : '---';
+        return $this->id ? $this->getIbanFormatNumber() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

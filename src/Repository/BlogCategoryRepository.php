@@ -3,58 +3,35 @@
 namespace App\Repository;
 
 use App\Entity\BlogCategory;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class BlogCategoryRepository
- *
- * @category Repository
- */
-class BlogCategoryRepository extends ServiceEntityRepository
+final class BlogCategoryRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BlogCategory::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getAllSortedByTitleQB()
+    public function getAllSortedByTitleQB(): QueryBuilder
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.title', 'ASC');
     }
 
-    /**
-     * @return Query
-     */
-    public function getAllSortedByTitleQ()
+    public function getAllSortedByTitleQ(): Query
     {
         return $this->getAllSortedByTitleQB()->getQuery();
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getAllSortedByTitle()
+    public function getAllSortedByTitle(): array
     {
         return $this->getAllSortedByTitleQ()->getResult();
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getAllEnabledSortedByTitle()
+    public function getAllEnabledSortedByTitle(): array
     {
         $query = $this->createQueryBuilder('c')
             ->where('c.enabled = :enabled')
@@ -65,10 +42,7 @@ class BlogCategoryRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getAllEnabledSortedByTitleWithJoin()
+    public function getAllEnabledSortedByTitleWithJoin(): array
     {
         $query = $this->createQueryBuilder('c')
             ->select('c, p')

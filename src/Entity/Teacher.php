@@ -13,10 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Class Teacher.
- *
- * @category    Entity
- *
  * @ORM\Table()
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="App\Repository\TeacherRepository")
@@ -67,10 +63,6 @@ class Teacher extends AbstractBase
      * @ORM\Column(type="boolean")
      */
     private $showInHomepage = true;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return string
@@ -140,11 +132,8 @@ class Teacher extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getName() : '---';
+        return $this->id ? $this->getName() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

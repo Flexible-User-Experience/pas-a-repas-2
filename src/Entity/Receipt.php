@@ -2,16 +2,13 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Receipt.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\ReceiptRepository")
  * @ORM\Table(name="receipt")
  * @UniqueEntity(fields={"month", "year", "student", "person", "isForPrivateLessons"})
@@ -25,10 +22,6 @@ class Receipt extends AbstractReceiptInvoice
      * @ORM\OneToMany(targetEntity="App\Entity\ReceiptLine", mappedBy="receipt", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $lines;
-
-    /**
-     * Methods.
-     */
 
     /**
      * Receipt constructor.
@@ -121,7 +114,7 @@ class Receipt extends AbstractReceiptInvoice
      */
     public function getUnderscoredReceiptNumber()
     {
-        $date = new \DateTime();
+        $date = new DateTimeImmutable();
         if ($this->getDate()) {
             $date = $this->getDate();
         }
@@ -137,17 +130,14 @@ class Receipt extends AbstractReceiptInvoice
         $result = 0.0;
         /** @var ReceiptLine $line */
         foreach ($this->lines as $line) {
-            $result = $result + $line->calculateBaseAmount();
+            $result += $line->calculateBaseAmount();
         }
 
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getReceiptNumber().' · '.$this->getStudent().' · '.$this->getBaseAmountString() : '---';
+        return $this->id ? $this->getReceiptNumber().' · '.$this->getStudent().' · '.$this->getBaseAmountString() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }
