@@ -5,33 +5,18 @@ namespace App\Repository;
 use App\Entity\Bank;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class BankRepository.
- *
- * @category Repository
- */
-class BankRepository extends ServiceEntityRepository
+final class BankRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Bank::class);
     }
 
-    /**
-     * @param Student|null $student
-     *
-     * @return QueryBuilder
-     */
-    public function getStudentRelatedItemsQB(Student $student = null)
+    public function getStudentRelatedItemsQB(Student $student = null): QueryBuilder
     {
         $qb = $this->createQueryBuilder('b');
 
@@ -49,22 +34,12 @@ class BankRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    /**
-     * @param Student|null $student
-     *
-     * @return Query
-     */
-    public function getStudentRelatedItemsQ(Student $student = null)
+    public function getStudentRelatedItemsQ(Student $student = null): Query
     {
         return $this->getStudentRelatedItemsQB($student)->getQuery();
     }
 
-    /**
-     * @param Student|null $student
-     *
-     * @return array
-     */
-    public function getStudentRelatedItems(Student $student = null)
+    public function getStudentRelatedItems(Student $student = null): array
     {
         return $this->getStudentRelatedItemsQ($student)->getResult();
     }

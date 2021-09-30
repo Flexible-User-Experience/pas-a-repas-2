@@ -5,35 +5,21 @@ namespace App\Repository;
 use App\Entity\Spending;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class SpendingRepository.
- *
- * @category Repository
- */
-class SpendingRepository extends ServiceEntityRepository
+final class SpendingRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Spending::class);
     }
 
     /**
-     * @param DateTimeInterface $date
-     *
-     * @return int
-     *
      * @throws NonUniqueResultException
      */
-    public function getMonthlyExpensesAmountForDate(DateTimeInterface $date)
+    public function getMonthlyExpensesAmountForDate(DateTimeInterface $date): float
     {
         $begin = clone $date;
         $end = clone $date;
@@ -48,6 +34,6 @@ class SpendingRepository extends ServiceEntityRepository
             ->getQuery()
         ;
 
-        return is_null($query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR)) ? 0 : floatval($query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR));
+        return is_null($query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR)) ? 0 : (float) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 }

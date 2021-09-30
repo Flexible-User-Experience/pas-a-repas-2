@@ -4,31 +4,18 @@ namespace App\Repository;
 
 use App\Entity\ClassGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class ClassGroupRepository.
- *
- * @category Repository
- */
-class ClassGroupRepository extends ServiceEntityRepository
+final class ClassGroupRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ClassGroup::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByCodeQB()
+    public function getEnabledSortedByCodeQB(): QueryBuilder
     {
         return $this->createQueryBuilder('cg')
             ->where('cg.enabled = :enabled')
@@ -37,18 +24,12 @@ class ClassGroupRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByCodeQ()
+    public function getEnabledSortedByCodeQ(): Query
     {
         return $this->getEnabledSortedByCodeQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByCode()
+    public function getEnabledSortedByCode(): array
     {
         return $this->getEnabledSortedByCodeQ()->getResult();
     }

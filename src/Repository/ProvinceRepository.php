@@ -4,31 +4,18 @@ namespace App\Repository;
 
 use App\Entity\Province;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class ProvinceRepository.
- *
- * @category Repository
- */
-class ProvinceRepository extends ServiceEntityRepository
+final class ProvinceRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Province::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
             ->where('p.enabled = :enabled')
@@ -37,18 +24,12 @@ class ProvinceRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameQ()
+    public function getEnabledSortedByNameQ(): Query
     {
         return $this->getEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameQ()->getResult();
     }

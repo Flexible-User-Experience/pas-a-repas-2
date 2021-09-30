@@ -4,31 +4,18 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class PersonRepository.
- *
- * @category Repository
- */
-class PersonRepository extends ServiceEntityRepository
+final class PersonRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Person::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedBySurnameQB()
+    public function getEnabledSortedBySurnameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
             ->where('p.enabled = :enabled')
@@ -38,18 +25,12 @@ class PersonRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedBySurnameQ()
+    public function getEnabledSortedBySurnameQ(): Query
     {
         return $this->getEnabledSortedBySurnameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedBySurname()
+    public function getEnabledSortedBySurname(): array
     {
         return $this->getEnabledSortedBySurnameQ()->getResult();
     }

@@ -6,31 +6,18 @@ use App\Entity\ClassGroup;
 use App\Entity\PreRegister;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class StudentRepository.
- *
- * @category Repository
- */
-class StudentRepository extends ServiceEntityRepository
+final class StudentRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Student::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->getAllSortedByNameQB()
             ->where('s.enabled = :enabled')
@@ -38,26 +25,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameQ()
+    public function getEnabledSortedByNameQ(): Query
     {
         return $this->getEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameQ()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getAllSortedByNameQB()
+    public function getAllSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->orderBy('s.name', 'ASC')
@@ -65,26 +43,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getAllSortedByNameQ()
+    public function getAllSortedByNameQ(): Query
     {
         return $this->getAllSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getAllSortedByName()
+    public function getAllSortedByName(): array
     {
         return $this->getAllSortedByNameQ()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedBySurnameQB()
+    public function getEnabledSortedBySurnameQB(): QueryBuilder
     {
         return $this->getAllSortedBySurnameQB()
             ->where('s.enabled = :enabled')
@@ -92,26 +61,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedBySurnameQ()
+    public function getEnabledSortedBySurnameQ(): Query
     {
         return $this->getEnabledSortedBySurnameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedBySurname()
+    public function getEnabledSortedBySurname(): array
     {
         return $this->getEnabledSortedBySurnameQ()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getAllSortedBySurnameQB()
+    public function getAllSortedBySurnameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->orderBy('s.surname', 'ASC')
@@ -119,53 +79,32 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getAllSortedBySurnameQ()
+    public function getAllSortedBySurnameQ(): Query
     {
         return $this->getAllSortedBySurnameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getAllSortedBySurname()
+    public function getAllSortedBySurname(): array
     {
         return $this->getAllSortedBySurnameQ()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedBySurnameValidTariffQB()
+    public function getEnabledSortedBySurnameValidTariffQB(): QueryBuilder
     {
         return $this->getEnabledSortedBySurnameQB()->andWhere('s.tariff IS NOT NULL');
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedBySurnameValidTariffQ()
+    public function getEnabledSortedBySurnameValidTariffQ(): Query
     {
         return $this->getEnabledSortedBySurnameValidTariffQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedBySurnameWithValidTariff()
+    public function getEnabledSortedBySurnameWithValidTariff(): array
     {
         return $this->getEnabledSortedBySurnameValidTariffQ()->getResult();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return QueryBuilder
-     */
-    public function getStudentsInEventsByYearAndMonthQB($year, $month)
+    public function getStudentsInEventsByYearAndMonthQB($year, $month): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->join('s.events', 'e')
@@ -179,35 +118,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return Query
-     */
-    public function getStudentsInEventsByYearAndMonthQ($year, $month)
+    public function getStudentsInEventsByYearAndMonthQ($year, $month): Query
     {
         return $this->getStudentsInEventsByYearAndMonthQB($year, $month)->getQuery();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return array
-     */
-    public function getStudentsInEventsByYearAndMonth($year, $month)
+    public function getStudentsInEventsByYearAndMonth($year, $month): array
     {
         return $this->getStudentsInEventsByYearAndMonthQ($year, $month)->getResult();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return QueryBuilder
-     */
-    public function getStudentsInEventsByYearAndMonthSortedBySurnameQB($year, $month)
+    public function getStudentsInEventsByYearAndMonthSortedBySurnameQB($year, $month): QueryBuilder
     {
         return $this->getStudentsInEventsByYearAndMonthQB($year, $month)
             ->orderBy('s.surname', 'ASC')
@@ -215,35 +136,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return Query
-     */
-    public function getStudentsInEventsByYearAndMonthSortedBySurnameQ($year, $month)
+    public function getStudentsInEventsByYearAndMonthSortedBySurnameQ($year, $month): Query
     {
         return $this->getStudentsInEventsByYearAndMonthSortedBySurnameQB($year, $month)->getQuery();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return array
-     */
-    public function getStudentsInEventsByYearAndMonthSortedBySurname($year, $month)
+    public function getStudentsInEventsByYearAndMonthSortedBySurname($year, $month): array
     {
         return $this->getStudentsInEventsByYearAndMonthSortedBySurnameQ($year, $month)->getResult();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return QueryBuilder
-     */
-    public function getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)
+    public function getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month): QueryBuilder
     {
         return $this->getStudentsInEventsByYearAndMonthSortedBySurnameQB($year, $month)
             ->andWhere('s.tariff IS NOT NULL')
@@ -252,35 +155,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return Query
-     */
-    public function getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)
+    public function getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month): Query
     {
         return $this->getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)->getQuery();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return array
-     */
-    public function getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month)
+    public function getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month): array
     {
         return $this->getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)->getResult();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return QueryBuilder
-     */
-    public function getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)
+    public function getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month): QueryBuilder
     {
         return $this->getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)
             ->andWhere('cg.isForPrivateLessons = :isForPrivateLessons')
@@ -288,35 +173,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return Query
-     */
-    public function getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)
+    public function getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month): Query
     {
         return $this->getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)->getQuery();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return array
-     */
-    public function getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month)
+    public function getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month): array
     {
         return $this->getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)->getResult();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return QueryBuilder
-     */
-    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)
+    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month): QueryBuilder
     {
         return $this->getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)
             ->andWhere('cg.isForPrivateLessons = :isForPrivateLessons')
@@ -324,34 +191,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return Query
-     */
-    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)
+    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month): Query
     {
         return $this->getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)->getQuery();
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return array
-     */
-    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month)
+    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month): array
     {
         return $this->getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)->getResult();
     }
 
-    /**
-     * @param ClassGroup $classGroup
-     *
-     * @return QueryBuilder
-     */
-    public function getStudentsInClassGroupQB(ClassGroup $classGroup)
+    public function getStudentsInClassGroupQB(ClassGroup $classGroup): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->join('s.events', 'e')
@@ -360,64 +210,34 @@ class StudentRepository extends ServiceEntityRepository
             ->setParameter('id', $classGroup->getId());
     }
 
-    /**
-     * @param ClassGroup $classGroup
-     *
-     * @return Query
-     */
-    public function getStudentsInClassGroupQ(ClassGroup $classGroup)
+    public function getStudentsInClassGroupQ(ClassGroup $classGroup): Query
     {
         return $this->getStudentsInClassGroupQB($classGroup)->getQuery();
     }
 
-    /**
-     * @param ClassGroup $classGroup
-     *
-     * @return array
-     */
-    public function getStudentsInClassGroup(ClassGroup $classGroup)
+    public function getStudentsInClassGroup(ClassGroup $classGroup): array
     {
         return $this->getStudentsInClassGroupQ($classGroup)->getResult();
     }
 
-    /**
-     * @param ClassGroup $classGroup
-     *
-     * @return QueryBuilder
-     */
-    public function getStudentsInClassGroupSortedByNameQB(ClassGroup $classGroup)
+    public function getStudentsInClassGroupSortedByNameQB(ClassGroup $classGroup): QueryBuilder
     {
         return $this->getStudentsInClassGroupQB($classGroup)
             ->orderBy('s.surname')
             ->addOrderBy('s.name');
     }
 
-    /**
-     * @param ClassGroup $classGroup
-     *
-     * @return Query
-     */
-    public function getStudentsInClassGroupSortedByNameQ(ClassGroup $classGroup)
+    public function getStudentsInClassGroupSortedByNameQ(ClassGroup $classGroup): Query
     {
         return $this->getStudentsInClassGroupSortedByNameQB($classGroup)->getQuery();
     }
 
-    /**
-     * @param ClassGroup $classGroup
-     *
-     * @return array
-     */
-    public function getStudentsInClassGroupSortedByName(ClassGroup $classGroup)
+    public function getStudentsInClassGroupSortedByName(ClassGroup $classGroup): array
     {
         return $this->getStudentsInClassGroupSortedByNameQ($classGroup)->getResult();
     }
 
-    /**
-     * @param PreRegister $preRegister
-     *
-     * @return QueryBuilder
-     */
-    public function getPreviouslyStoredStudentsFromPreRegisterQB(PreRegister $preRegister)
+    public function getPreviouslyStoredStudentsFromPreRegisterQB(PreRegister $preRegister): QueryBuilder
     {
         return $this->getAllSortedBySurnameQB()
             ->where('s.name = :name')
@@ -426,22 +246,12 @@ class StudentRepository extends ServiceEntityRepository
             ->setParameter('surname', $preRegister->getSurname());
     }
 
-    /**
-     * @param PreRegister $preRegister
-     *
-     * @return Query
-     */
-    public function getPreviouslyStoredStudentsFromPreRegisterQ(PreRegister $preRegister)
+    public function getPreviouslyStoredStudentsFromPreRegisterQ(PreRegister $preRegister): Query
     {
         return $this->getPreviouslyStoredStudentsFromPreRegisterQB($preRegister)->getQuery();
     }
 
-    /**
-     * @param PreRegister $preRegister
-     *
-     * @return array
-     */
-    public function getPreviouslyStoredStudentsFromPreRegister(PreRegister $preRegister)
+    public function getPreviouslyStoredStudentsFromPreRegister(PreRegister $preRegister): array
     {
         return $this->getPreviouslyStoredStudentsFromPreRegisterQ($preRegister)->getResult();
     }

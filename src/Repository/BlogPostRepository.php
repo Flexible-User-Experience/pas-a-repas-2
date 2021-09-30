@@ -6,30 +6,17 @@ use App\Entity\BlogCategory;
 use App\Entity\BlogPost;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class PostRepository
- *
- * @category Repository
- */
-class BlogPostRepository extends ServiceEntityRepository
+final class BlogPostRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BlogPost::class);
     }
 
-    /**
-     * @return array
-     */
-    public function getAllEnabledSortedByPublishedDate()
+    public function getAllEnabledSortedByPublishedDate(): array
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.enabled = :enabled')
@@ -41,10 +28,7 @@ class BlogPostRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @return array
-     */
-    public function getAllEnabledSortedByPublishedDateWithJoin()
+    public function getAllEnabledSortedByPublishedDateWithJoin(): array
     {
         $query = $this->createQueryBuilder('p')
             ->select('p, c')
@@ -79,12 +63,7 @@ class BlogPostRepository extends ServiceEntityRepository
         return $this->getAllEnabledSortedByPublishedDateWithJoinUntilNowQ()->getResult();
     }
 
-    /**
-     * @param BlogCategory $category
-     *
-     * @return array
-     */
-    public function getPostsByCategoryEnabledSortedByPublishedDate(BlogCategory $category)
+    public function getPostsByCategoryEnabledSortedByPublishedDate(BlogCategory $category): array
     {
         $query = $this->createQueryBuilder('p')
             ->select('p')
@@ -100,12 +79,7 @@ class BlogPostRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @param BlogCategory $category
-     *
-     * @return array
-     */
-    public function getPostsByCategoryEnabledSortedByPublishedDateWithJoin(BlogCategory $category)
+    public function getPostsByCategoryEnabledSortedByPublishedDateWithJoin(BlogCategory $category): array
     {
         $query = $this->createQueryBuilder('p')
             ->select('p, c')
@@ -121,12 +95,7 @@ class BlogPostRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @param BlogCategory $category
-     *
-     * @return array
-     */
-    public function getPostsByCategoryEnabledSortedByPublishedDateWithJoinUntilNow(BlogCategory $category)
+    public function getPostsByCategoryEnabledSortedByPublishedDateWithJoinUntilNow(BlogCategory $category): array
     {
         $now = new DateTimeImmutable();
         $query = $this->createQueryBuilder('p')
