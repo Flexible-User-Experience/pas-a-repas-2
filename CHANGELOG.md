@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.13 (WIP)
+##### Version 4.5.14 (WIP)
  * fix minor bugs
+
+##### Version 4.5.13 (2021-09-30)
+ * fix export problem
  * enable delete Recepit admin list button
 
 ##### Version 4.5.12 (2021-09-28)
