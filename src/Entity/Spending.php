@@ -10,10 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Class Spending.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\SpendingRepository")
  * @Vich\Uploadable
  */
@@ -94,10 +90,6 @@ class Spending extends AbstractBase
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $document;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return \DateTime
@@ -336,11 +328,8 @@ class Spending extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getDateString().' · '.$this->getProvider().' · '.$this->getBaseAmountString() : '---';
+        return $this->id ? $this->getDateString().' · '.$this->getProvider().' · '.$this->getBaseAmountString() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

@@ -7,10 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class Tariff.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\TariffRepository")
  * @ORM\Table(name="tariff")
  * @UniqueEntity({"type", "year"})
@@ -44,10 +40,6 @@ class Tariff extends AbstractBase
      * @ORM\Column(type="string", nullable=true)
      */
     private $name;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return int
@@ -145,11 +137,8 @@ class Tariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getYear().' · '.$this->getTypeString().' · '.$this->getPriceString() : '---';
+        return $this->id ? $this->getYear().' · '.$this->getTypeString().' · '.$this->getPriceString() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

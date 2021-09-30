@@ -283,6 +283,6 @@ class Event extends AbstractBase
 
     public function __toString(): string
     {
-        return $this->id ? $this->getBeginString().' · '.$this->getClassroomString().' · '.$this->getTeacher()->getName().' · '.$this->getGroup()->getCode() : '---';
+        return $this->id ? $this->getBeginString().' · '.$this->getClassroomString().' · '.$this->getTeacher()->getName().' · '.$this->getGroup()->getCode() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

@@ -8,10 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class TeacherAbsence.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\TeacherAbsenceRepository")
  * @ORM\Table(name="teacher_absence")
  * @UniqueEntity({"teacher", "day"})
@@ -38,10 +34,6 @@ class TeacherAbsence extends AbstractBase
      * @ORM\Column(type="date")
      */
     private $day;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return Teacher
@@ -127,11 +119,8 @@ class TeacherAbsence extends AbstractBase
         return '['.$this->getTypeString().'] '.$this->getTeacher()->getName();
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getDayString().' · '.$this->getTypeString().' · '.$this->getTeacher() : '---';
+        return $this->id ? $this->getDayString().' · '.$this->getTypeString().' · '.$this->getTeacher() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

@@ -7,10 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Invoice.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\InvoiceRepository")
  * @ORM\Table(name="invoice")
  */
@@ -55,10 +51,6 @@ class Invoice extends AbstractReceiptInvoice
      * @ORM\Column(type="float", nullable=true)
      */
     private $totalAmount;
-
-    /**
-     * Methods.
-     */
 
     /**
      * Invoice constructor.
@@ -313,13 +305,8 @@ class Invoice extends AbstractReceiptInvoice
         return $value / (1 - ($this->getIrpfPercentage() / 100));
     }
 
-    /**
-     * @return string
-     *
-     * @throws \Exception
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getInvoiceNumber().' · '.$this->getStudent().' · '.$this->getTotalAmountString() : '---';
+        return $this->id ? $this->getInvoiceNumber().' · '.$this->getStudent().' · '.$this->getTotalAmountString() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }

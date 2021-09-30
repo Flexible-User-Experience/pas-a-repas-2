@@ -6,10 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class City.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
  * @ORM\Table(name="city")
  * @UniqueEntity({"postalCode", "province"})
@@ -36,10 +32,6 @@ class City extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Province")
      */
     private $province;
-
-    /**
-     * Methods.
-     */
 
     /**
      * @return string
@@ -109,11 +101,8 @@ class City extends AbstractBase
         return $this->getPostalCode().' '.$this->getName().' ('.$this->getProvince()->getName().')';
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->id ? $this->getPostalCode().' · '.$this->getName() : '---';
+        return $this->id ? $this->getPostalCode().' · '.$this->getName() : AbstractBase::DEFAULT_NULL_STRING;
     }
 }
