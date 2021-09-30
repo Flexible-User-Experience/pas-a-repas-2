@@ -3,6 +3,7 @@ Changelog
 
 ##### Version 4.5.13 (WIP)
  * fix minor bugs
+ * enable delete Recepit admin list button
 
 ##### Version 4.5.12 (2021-09-28)
  * fix fullcalendar bug on datesSet event
