@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.14 (WIP)
+##### Version 4.5.15 (WIP)
  * fix minor bugs
+
+##### Version 4.5.14 (2021-10-05)
+ * fix problem with sepaXmlGeneratedDate datagrid filters
 
 ##### Version 4.5.13 (2021-09-30)
  * fix export problem
