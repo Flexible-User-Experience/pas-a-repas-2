@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,47 +17,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Receipt extends AbstractReceiptInvoice
 {
     /**
-     * @var ArrayCollection|array|ReceiptLine[]
-     *
-     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\ReceiptLine", mappedBy="receipt", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid
      */
-    private $lines;
+    private ?Collection $lines;
 
-    /**
-     * Receipt constructor.
-     */
     public function __construct()
     {
         $this->lines = new ArrayCollection();
     }
 
-    /**
-     * @return ReceiptLine[]|array|ArrayCollection
-     */
-    public function getLines()
+    public function getLines(): ?Collection
     {
         return $this->lines;
     }
 
-    /**
-     * @param ReceiptLine[]|array|ArrayCollection $lines
-     *
-     * @return $this
-     */
-    public function setLines($lines)
+    public function setLines(?Collection $lines): self
     {
         $this->lines = $lines;
 
         return $this;
     }
 
-    /**
-     * @param ReceiptLine $line
-     *
-     * @return $this
-     */
-    public function addLine(ReceiptLine $line)
+    public function addLine(ReceiptLine $line): self
     {
         if (!$this->lines->contains($line)) {
             $line->setReceipt($this);
@@ -68,12 +51,7 @@ class Receipt extends AbstractReceiptInvoice
         return $this;
     }
 
-    /**
-     * @param ReceiptLine $line
-     *
-     * @return $this
-     */
-    public function removeLine(ReceiptLine $line)
+    public function removeLine(ReceiptLine $line): self
     {
         if ($this->lines->contains($line)) {
             $this->lines->removeElement($line);
@@ -83,12 +61,9 @@ class Receipt extends AbstractReceiptInvoice
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getReceiptNumber()
+    public function getReceiptNumber(): string
     {
-        $date = new \DateTime();
+        $date = new DateTimeImmutable();
         if ($this->getDate()) {
             $date = $this->getDate();
         }
@@ -96,12 +71,9 @@ class Receipt extends AbstractReceiptInvoice
         return $date->format('Y').'/'.$this->getId();
     }
 
-    /**
-     * @return string
-     */
-    public function getSluggedReceiptNumber()
+    public function getSluggedReceiptNumber(): string
     {
-        $date = new \DateTime();
+        $date = new DateTimeImmutable();
         if ($this->getDate()) {
             $date = $this->getDate();
         }
@@ -109,10 +81,7 @@ class Receipt extends AbstractReceiptInvoice
         return $date->format('Y').'-'.$this->getId();
     }
 
-    /**
-     * @return string
-     */
-    public function getUnderscoredReceiptNumber()
+    public function getUnderscoredReceiptNumber(): string
     {
         $date = new DateTimeImmutable();
         if ($this->getDate()) {
@@ -122,10 +91,7 @@ class Receipt extends AbstractReceiptInvoice
         return $date->format('Y').'_'.$this->getId();
     }
 
-    /**
-     * @return float
-     */
-    public function calculateTotalBaseAmount()
+    public function calculateTotalBaseAmount(): float
     {
         $result = 0.0;
         /** @var ReceiptLine $line */
