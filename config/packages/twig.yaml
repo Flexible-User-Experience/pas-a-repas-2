@@ -24,4 +24,4 @@ twig:
         main_brand_phone_2:         '%boss_phone_number_2%'
         main_brand_city:            '%boss_city%'
         mailer_destination:         '%mailer_destination%'
-        admin_tag_version:          'v4.5.16'
+        admin_tag_version:          'v4.5.17'
