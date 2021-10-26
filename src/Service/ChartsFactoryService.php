@@ -44,7 +44,7 @@ class ChartsFactoryService
         $expenses = [];
         $results = [];
         $date = new DateTime();
-        $date->sub(new DateInterval('P12M'));
+        $date->sub(new DateInterval('P24M'));
         $interval = new DateInterval('P1M');
         for ($i = 0; $i <= 24; ++$i) {
             $sale = $this->rr->getMonthlyIncomingsAmountForDate($date);
