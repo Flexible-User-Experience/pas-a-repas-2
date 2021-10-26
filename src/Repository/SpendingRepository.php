@@ -25,10 +25,10 @@ final class SpendingRepository extends ServiceEntityRepository
         $end = clone $date;
         $begin->modify('first day of this month');
         $end->modify('last day of this month');
-        $query = $this->createQueryBuilder('i')
-            ->select('SUM(i.baseAmount) as amount')
-            ->where('i.date >= :begin')
-            ->andWhere('i.date <= :end')
+        $query = $this->createQueryBuilder('s')
+            ->select('SUM(s.baseAmount) as amount')
+            ->where('s.date >= :begin')
+            ->andWhere('s.date <= :end')
             ->setParameter('begin', $begin->format('Y-m-d'))
             ->setParameter('end', $end->format('Y-m-d'))
             ->getQuery()
