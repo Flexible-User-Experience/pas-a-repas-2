@@ -12,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Invoice extends AbstractReceiptInvoice
 {
-    const TAX_IRPF = 15;
-    const TAX_IVA = 0;
+    public const TAX_IRPF = 15;
+    public const TAX_IVA = 0;
 
     /**
      * @var Receipt
@@ -265,7 +265,7 @@ class Invoice extends AbstractReceiptInvoice
         $result = 0.0;
         /** @var InvoiceLine $line */
         foreach ($this->lines as $line) {
-            $result = $result + $line->calculateBaseAmount();
+            $result += $line->calculateBaseAmount();
         }
 
         return $result;
@@ -295,12 +295,7 @@ class Invoice extends AbstractReceiptInvoice
         return $this->getBaseAmount() + $this->calculateTaxPercentage() - $this->calculateIrpfPercentatge();
     }
 
-    /**
-     * @param int|float $value
-     *
-     * @return float
-     */
-    public function calculateIrpfOverhead($value)
+    public function calculateIrpfOverhead($value): float
     {
         return $value / (1 - ($this->getIrpfPercentage() / 100));
     }

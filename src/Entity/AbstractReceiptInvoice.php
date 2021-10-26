@@ -6,11 +6,6 @@ use App\Enum\InvoiceYearMonthEnum;
 use App\Enum\StudentPaymentEnum;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Abstract class AbstractReceiptInvoice.
- *
- * @category Entity
- */
 abstract class AbstractReceiptInvoice extends AbstractBase
 {
     /**
@@ -545,7 +540,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      *
      * @return string
      */
-    public function getDebtorMandateSignDate()
+    public function getDebtorMandateSignDate(): string
     {
         $subject = $this->getMainSubject();
 
