@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.15 (WIP)
+##### Version 4.5.16 (WIP)
  * fix minor bugs
+
+##### Version 4.5.15 (2021-01-26)
+ * double dashboard charts timeline graph
 
 ##### Version 4.5.14 (2021-10-05)
  * fix problem with sepaXmlGeneratedDate datagrid filters
