@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.16 (WIP)
+##### Version 4.5.17 (WIP)
  * fix minor bugs
+
+##### Version 4.5.16 (2021-01-26)
+ * fix charts problem related with date intervals
 
 ##### Version 4.5.15 (2021-01-26)
  * double dashboard charts timeline graph
