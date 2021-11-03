@@ -6,6 +6,7 @@ Changelog
 
 ##### Version 4.5.18 (2021-11-03)
  * replace bad academy in exported PDF file names
+ * remove unnecessary ColorPickerBundle dependency
 
 ##### Version 4.5.17 (2021-11-03)
  * improve enums
