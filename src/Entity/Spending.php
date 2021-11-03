@@ -25,13 +25,13 @@ class Spending extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\SpendingCategory")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    private SpendingCategory $category;
+    private ?SpendingCategory $category = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Provider")
      * @ORM\JoinColumn(name="provider_id", referencedColumnName="id")
      */
-    private Provider $provider;
+    private ?Provider $provider = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -89,24 +89,24 @@ class Spending extends AbstractBase
         return $this;
     }
 
-    public function getCategory(): SpendingCategory
+    public function getCategory(): ?SpendingCategory
     {
         return $this->category;
     }
 
-    public function setCategory(SpendingCategory $category): self
+    public function setCategory(?SpendingCategory $category): self
     {
         $this->category = $category;
 
         return $this;
     }
 
-    public function getProvider(): Provider
+    public function getProvider(): ?Provider
     {
         return $this->provider;
     }
 
-    public function setProvider(Provider $provider): self
+    public function setProvider(?Provider $provider): self
     {
         $this->provider = $provider;
 
