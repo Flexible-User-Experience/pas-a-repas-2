@@ -2,36 +2,25 @@
 
 namespace App\Enum;
 
-/**
- * TeacherColorEnum class.
- *
- * @category Enum
- */
-class TeacherColorEnum
+final class TeacherColorEnum
 {
-    const MAGENTA = 0;
-    const BLUE = 1;
-    const YELLOW = 2;
-    const GREEN = 3;
+    public const MAGENTA = 0;
+    public const BLUE = 1;
+    public const YELLOW = 2;
+    public const GREEN = 3;
 
-    /**
-     * @return array
-     */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
 
-    /**
-     * @return array
-     */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
-        return array(
+        return [
             self::MAGENTA => 'color.magenta',
             self::BLUE => 'color.blue',
             self::YELLOW => 'color.yellow',
             self::GREEN => 'color.green',
-        );
+        ];
     }
 }

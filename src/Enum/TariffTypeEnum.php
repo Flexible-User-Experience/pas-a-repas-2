@@ -2,43 +2,32 @@
 
 namespace App\Enum;
 
-/**
- * Class TariffTypeEnum.
- *
- * @category Enum
- */
-class TariffTypeEnum
+final class TariffTypeEnum
 {
-    const TARIFF_ONE_HOUR_PER_WEEK = 0;
-    const TARIFF_ONE_AND_A_HALF_HOUR_PER_WEEK = 3;
-    const TARIFF_TWO_HOUR_PER_WEEK = 1;
-    const TARIFF_TWO_AND_A_HALF_HOUR_PER_WEEK = 11;
-    const TARIFF_THREE_HOUR_PER_WEEK = 2;
-    const TARIFF_THREE_AND_A_HALF_HOUR_PER_WEEK = 6;
-    const TARIFF_FOUR_HOUR_PER_WEEK = 7;
-    const TARIFF_FOUR_AND_A_HALF_HOUR_PER_WEEK = 8;
-    const TARIFF_FIVE_HOUR_PER_WEEK = 9;
-    const TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK = 10;
-    const TARIFF_PRIVATE_LESSON_PER_HOUR = 4;
-    const TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR = 5;
-    const TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR = 13;
-    const TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR = 14;
-    const TARIFF_PRIVATE_LESSON_PER_HOUR_AND_A_HALF = 15;
+    public const TARIFF_ONE_HOUR_PER_WEEK = 0;
+    public const TARIFF_ONE_AND_A_HALF_HOUR_PER_WEEK = 3;
+    public const TARIFF_TWO_HOUR_PER_WEEK = 1;
+    public const TARIFF_TWO_AND_A_HALF_HOUR_PER_WEEK = 11;
+    public const TARIFF_THREE_HOUR_PER_WEEK = 2;
+    public const TARIFF_THREE_AND_A_HALF_HOUR_PER_WEEK = 6;
+    public const TARIFF_FOUR_HOUR_PER_WEEK = 7;
+    public const TARIFF_FOUR_AND_A_HALF_HOUR_PER_WEEK = 8;
+    public const TARIFF_FIVE_HOUR_PER_WEEK = 9;
+    public const TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK = 10;
+    public const TARIFF_PRIVATE_LESSON_PER_HOUR = 4;
+    public const TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR = 5;
+    public const TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR = 13;
+    public const TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR = 14;
+    public const TARIFF_PRIVATE_LESSON_PER_HOUR_AND_A_HALF = 15;
 
-    /**
-     * @return array
-     */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
 
-    /**
-     * @return array
-     */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
-        return array(
+        return [
             self::TARIFF_ONE_HOUR_PER_WEEK => 'backend.admin.tariff.tariff_1',
             self::TARIFF_ONE_AND_A_HALF_HOUR_PER_WEEK => 'backend.admin.tariff.tariff_4',
             self::TARIFF_TWO_HOUR_PER_WEEK => 'backend.admin.tariff.tariff_2',
@@ -54,15 +43,12 @@ class TariffTypeEnum
             self::TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_13',
             self::TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_14',
             self::TARIFF_PRIVATE_LESSON_PER_HOUR_AND_A_HALF => 'backend.admin.tariff.tariff_15',
-        );
+        ];
     }
 
-    /**
-     * @return array
-     */
-    public static function getTranslatedEnumArray()
+    public static function getTranslatedEnumArray(): array
     {
-        return array(
+        return [
             self::TARIFF_ONE_HOUR_PER_WEEK => '1h /setmana',
             self::TARIFF_ONE_AND_A_HALF_HOUR_PER_WEEK => '1,5h / setmana',
             self::TARIFF_TWO_HOUR_PER_WEEK => '2h / setmana',
@@ -78,6 +64,6 @@ class TariffTypeEnum
             self::TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR => 'hora particular familiar',
             self::TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR => 'hora particular festiu familiar',
             self::TARIFF_PRIVATE_LESSON_PER_HOUR_AND_A_HALF => 'hora i mitja particular',
-        );
+        ];
     }
 }

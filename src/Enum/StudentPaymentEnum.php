@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-class StudentPaymentEnum
+final class StudentPaymentEnum
 {
     public const BANK_ACCOUNT_NUMBER = 0;
     public const CASH = 1;
