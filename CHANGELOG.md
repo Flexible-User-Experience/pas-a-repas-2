@@ -7,7 +7,7 @@ Changelog
 ##### Version 4.5.17 (2021-11-03)
  * improve enums
  * reduce classrooms enum amount
- * fix missing teacher color
+ * fix missing green teacher color
 
 ##### Version 4.5.16 (2021-10-26)
  * fix charts problem related with date intervals
