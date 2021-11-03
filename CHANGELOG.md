@@ -1,13 +1,18 @@
 Changelog
 =========
 
-##### Version 4.5.17 (WIP)
+##### Version 4.5.18 (WIP)
  * fix minor bugs
 
-##### Version 4.5.16 (2021-01-26)
+##### Version 4.5.17 (2021-11-03)
+ * improve enums
+ * reduce classrooms enum amount
+ * fix missing teacher color
+
+##### Version 4.5.16 (2021-10-26)
  * fix charts problem related with date intervals
 
-##### Version 4.5.15 (2021-01-26)
+##### Version 4.5.15 (2021-10-26)
  * double dashboard charts timeline graph
 
 ##### Version 4.5.14 (2021-10-05)
