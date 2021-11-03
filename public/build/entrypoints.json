@@ -14,9 +14,9 @@
     "backend": {
       "js": [
         "/build/runtime.686d9699.js",
-        "/build/473.4e06f0c9.js",
-        "/build/623.bd14eb3d.js",
-        "/build/backend.5d23720c.js"
+        "/build/473.4ce9296d.js",
+        "/build/623.7a610855.js",
+        "/build/backend.9735e2b3.js"
       ],
       "css": [
         "/build/backend.1551f284.css"
@@ -25,24 +25,24 @@
     "fullcalendardefaultsettings": {
       "js": [
         "/build/runtime.686d9699.js",
-        "/build/473.4e06f0c9.js",
-        "/build/845.c86dbc30.js",
+        "/build/473.4ce9296d.js",
+        "/build/845.ce18f0d2.js",
         "/build/755.5a8586e9.js",
         "/build/fullcalendardefaultsettings.62986c5d.js"
       ],
       "css": [
-        "/build/845.c0c43ca3.css"
+        "/build/845.0bc88668.css"
       ]
     },
     "fullcalendarstudentsettings": {
       "js": [
         "/build/runtime.686d9699.js",
-        "/build/473.4e06f0c9.js",
-        "/build/845.c86dbc30.js",
+        "/build/473.4ce9296d.js",
+        "/build/845.ce18f0d2.js",
         "/build/fullcalendarstudentsettings.0e50a4ca.js"
       ],
       "css": [
-        "/build/845.c0c43ca3.css"
+        "/build/845.0bc88668.css"
       ]
     }
   }
