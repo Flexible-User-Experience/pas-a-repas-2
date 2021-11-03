@@ -33,9 +33,6 @@ class ClassGroup extends AbstractBase
      */
     private string $color;
 
-    /**
-     * @var Color|null
-     */
     private ?Color $colorRgbArray = null;
 
     /**

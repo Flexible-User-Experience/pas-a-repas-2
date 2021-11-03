@@ -2,14 +2,14 @@
 
 namespace App\Admin;
 
-use KunicMarko\ColorPickerBundle\Form\Type\ColorPickerType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 
-class ClassGroupAdmin extends AbstractBaseAdmin
+final class ClassGroupAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Grups';
     protected $baseRoutePattern = 'classrooms/group';
@@ -59,7 +59,7 @@ class ClassGroupAdmin extends AbstractBaseAdmin
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'color',
-                ColorPickerType::class,
+                ColorType::class,
                 [
                     'label' => 'backend.admin.teacher.color',
                     'required' => true,
