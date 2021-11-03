@@ -211,7 +211,7 @@ App\Entity\Event:
     begin: <dateTimeThisMonth()>
     end: <dateTimeThisMonth()>
     teacher: '@teacher1'
-    classroom: <numberBetween(0, 3)>
+    classroom: <numberBetween(0, 2)>
     group: '@classgroup1'
     students:
         - '@student1'
@@ -223,7 +223,7 @@ App\Entity\Event:
     begin: <dateTimeThisMonth()>
     end: <dateTimeThisMonth()>
     teacher: '@teacher1'
-    classroom: <numberBetween(0, 3)>
+    classroom: <numberBetween(0, 2)>
     group: '@classgroup1'
     students:
         - '@student1'
@@ -235,7 +235,7 @@ App\Entity\Event:
     begin: <dateTimeThisMonth()>
     end: <dateTimeThisMonth()>
     teacher: '@teacher1'
-    classroom: <numberBetween(0, 3)>
+    classroom: <numberBetween(0, 2)>
     group: '@classgroup2'
     students:
         - '@student1'
