@@ -2,42 +2,33 @@
 
 namespace App\Enum;
 
-/**
- * Class ReceiptYearMonthEnum.
- *
- * @category Enum
- */
+use DateTimeImmutable;
+
 class ReceiptYearMonthEnum
 {
-    const APP_FIRST_YEAR = 2017;
+    public const APP_FIRST_YEAR = 2017;
 
-    const JANUARY = 1;
-    const FEBRAURY = 2;
-    const MARCH = 3;
-    const APRIL = 4;
-    const MAY = 5;
-    const JUNE = 6;
-    const JULY = 7;
-    const AUGUST = 8;
-    const SEPTEMBER = 9;
-    const OCTOBER = 10;
-    const NOVEMBER = 11;
-    const DECEMBER = 12;
+    public const JANUARY = 1;
+    public const FEBRAURY = 2;
+    public const MARCH = 3;
+    public const APRIL = 4;
+    public const MAY = 5;
+    public const JUNE = 6;
+    public const JULY = 7;
+    public const AUGUST = 8;
+    public const SEPTEMBER = 9;
+    public const OCTOBER = 10;
+    public const NOVEMBER = 11;
+    public const DECEMBER = 12;
 
-    /**
-     * @return array
-     */
-    public static function getMonthEnumArray()
+    public static function getMonthEnumArray(): array
     {
         return array_flip(self::getReversedMonthEnumArray());
     }
 
-    /**
-     * @return array
-     */
-    public static function getReversedMonthEnumArray()
+    public static function getReversedMonthEnumArray(): array
     {
-        return array(
+        return [
             self::JANUARY => 'month.january',
             self::FEBRAURY => 'month.febraury',
             self::MARCH => 'month.march',
@@ -50,15 +41,12 @@ class ReceiptYearMonthEnum
             self::OCTOBER => 'month.october',
             self::NOVEMBER => 'month.november',
             self::DECEMBER => 'month.december',
-        );
+        ];
     }
 
-    /**
-     * @return array
-     */
-    public static function getTranslatedMonthEnumArray()
+    public static function getTranslatedMonthEnumArray(): array
     {
-        return array(
+        return [
             self::JANUARY => 'gener',
             self::FEBRAURY => 'febrer',
             self::MARCH => 'març',
@@ -71,15 +59,12 @@ class ReceiptYearMonthEnum
             self::OCTOBER => 'octubre',
             self::NOVEMBER => 'novembre',
             self::DECEMBER => 'desembre',
-        );
+        ];
     }
 
-    /**
-     * @return array
-     */
-    public static function getShortTranslatedMonthEnumArray()
+    public static function getShortTranslatedMonthEnumArray(): array
     {
-        return array(
+        return [
             self::JANUARY => 'gen',
             self::FEBRAURY => 'feb',
             self::MARCH => 'mar',
@@ -92,30 +77,20 @@ class ReceiptYearMonthEnum
             self::OCTOBER => 'oct',
             self::NOVEMBER => 'nov',
             self::DECEMBER => 'des',
-        );
+        ];
     }
 
-    /**
-     * @return array
-     *
-     * @throws \Exception
-     */
-    public static function getYearEnumArray()
+    public static function getYearEnumArray(): array
     {
         return array_flip(self::getReversedYearEnumArray());
     }
 
-    /**
-     * @return array
-     *
-     * @throws \Exception
-     */
-    public static function getReversedYearEnumArray()
+    public static function getReversedYearEnumArray(): array
     {
-        $result = array();
-        $now = new \DateTime();
-        $currentYear = intval($now->format('Y'));
-        if (12 == intval($now->format('m')) && 15 < intval($now->format('d'))) {
+        $result = [];
+        $now = new DateTimeImmutable();
+        $currentYear = (int) $now->format('Y');
+        if (12 === (int) $now->format('m') && 15 < (int) $now->format('d')) {
             ++$currentYear;
         }
         $steps = $currentYear - self::APP_FIRST_YEAR + 1;
