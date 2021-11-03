@@ -15,7 +15,6 @@ return [
     Ivory\GoogleMapBundle\IvoryGoogleMapBundle::class => ['all' => true],
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
-    KunicMarko\ColorPickerBundle\ColorPickerBundle::class => ['all' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle::class => ['dev' => true, 'test' => true],
     Presta\SitemapBundle\PrestaSitemapBundle::class => ['all' => true],

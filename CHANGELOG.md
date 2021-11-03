@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.18 (WIP)
+##### Version 4.5.19 (WIP)
  * fix minor bugs
+
+##### Version 4.5.18 (2021-11-03)
+ * replace bad academy in exported PDF file names
 
 ##### Version 4.5.17 (2021-11-03)
  * improve enums

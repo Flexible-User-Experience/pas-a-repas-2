@@ -29,7 +29,7 @@ class Event extends AbstractBase
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teacher")
      */
-    private ?Teacher $teacher = null;
+    private Teacher $teacher;
 
     /**
      * @ORM\Column(type="integer", options={"default"=0})
@@ -39,7 +39,7 @@ class Event extends AbstractBase
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ClassGroup")
      */
-    private ?ClassGroup $group = null;
+    private ClassGroup $group;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Student", inversedBy="events")
@@ -109,12 +109,12 @@ class Event extends AbstractBase
         return $this;
     }
 
-    public function getTeacher(): ?Teacher
+    public function getTeacher(): Teacher
     {
         return $this->teacher;
     }
 
-    public function setTeacher(?Teacher $teacher): self
+    public function setTeacher(Teacher $teacher): self
     {
         $this->teacher = $teacher;
 
@@ -143,13 +143,13 @@ class Event extends AbstractBase
         return $this;
     }
 
-    public function getGroup(): ?ClassGroup
+    public function getGroup(): ClassGroup
     {
         return $this->group;
     }
 
 
-    public function setGroup(?ClassGroup $group): self
+    public function setGroup(ClassGroup $group): self
     {
         $this->group = $group;
 

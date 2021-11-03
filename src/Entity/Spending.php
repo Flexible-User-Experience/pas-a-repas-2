@@ -65,7 +65,7 @@ class Spending extends AbstractBase
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
-    private File $documentFile;
+    private ?File $documentFile = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -193,12 +193,12 @@ class Spending extends AbstractBase
         return $this;
     }
 
-    public function getDocumentFile(): File
+    public function getDocumentFile(): ?File
     {
         return $this->documentFile;
     }
 
-    public function setDocumentFile(File $documentFile = null): self
+    public function setDocumentFile(?File $documentFile = null): self
     {
         $this->documentFile = $documentFile;
         if ($documentFile) {

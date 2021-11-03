@@ -11,62 +11,19 @@ use App\Repository\TeacherAbsenceRepository;
 use App\Service\EventTrasnformerFactoryService;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Event\CalendarEvent;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * Class FullCalendarListener.
- *
- * @category Listener
- */
-class FullCalendarListener implements EventSubscriberInterface
+final class FullCalendarListener implements EventSubscriberInterface
 {
-    /**
-     * @var EventRepository
-     */
-    private $ers;
+    private EventRepository $ers;
+    private TeacherAbsenceRepository $tars;
+    private StudentRepository $srs;
+    private EventTrasnformerFactoryService $etfs;
+    private RequestStack $rss;
+    private RouterInterface $router;
 
-    /**
-     * @var TeacherAbsenceRepository
-     */
-    private $tars;
-
-    /**
-     * @var StudentRepository
-     */
-    private $srs;
-
-    /**
-     * @var EventTrasnformerFactoryService
-     */
-    private $etfs;
-
-    /**
-     * @var RequestStack
-     */
-    private $rss;
-
-    /**
-     * @var Router
-     */
-    private $router;
-
-    /**
-     * Methods.
-     */
-
-    /**
-     * FullcalendarListener constructor.
-     *
-     * @param EventRepository                $ers
-     * @param TeacherAbsenceRepository       $tars
-     * @param StudentRepository              $srs
-     * @param EventTrasnformerFactoryService $etfs
-     * @param RequestStack                   $rss
-     * @param RouterInterface                $router
-     */
     public function __construct(EventRepository $ers, TeacherAbsenceRepository $tars, StudentRepository $srs, EventTrasnformerFactoryService $etfs, RequestStack $rss, RouterInterface $router)
     {
         $this->ers = $ers;
@@ -77,19 +34,13 @@ class FullCalendarListener implements EventSubscriberInterface
         $this->router = $router;
     }
 
-    /**
-     * @return array|string[]
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             CalendarEvents::SET_DATA => 'loadData',
         ];
     }
 
-    /**
-     * @param CalendarEvent $calendarEvent
-     */
     public function loadData(CalendarEvent $calendarEvent)
     {
         $startDate = $calendarEvent->getStart();
@@ -105,12 +56,10 @@ class FullCalendarListener implements EventSubscriberInterface
             // prod environment
             $path = str_replace($this->rss->getCurrentRequest()->getSchemeAndHttpHost(), '', $referer);
         }
-
         $matcher = $this->router->getMatcher();
         $parameters = $matcher->match($path);
         $route = $parameters['_route'];
-
-        if ('sonata_admin_dashboard' == $route) {
+        if ('sonata_admin_dashboard' === $route) {
             //// admin dashboard action
             // classroom events
             $events = $this->ers->getEnabledFilteredByBeginAndEnd($startDate, $endDate);
@@ -124,11 +73,11 @@ class FullCalendarListener implements EventSubscriberInterface
             foreach ($events as $event) {
                 $calendarEvent->addEvent($this->etfs->buildTeacherAbsence($event));
             }
-        } elseif ('admin_app_student_show' == $route) {
+        } elseif ('admin_app_student_show' === $route) {
             //// admin student show action
             // student events
             /** @var Student $student */
-            $student = $this->srs->find(intval($parameters['id']));
+            $student = $this->srs->find((int) $parameters['id']);
             $events = $this->ers->getEnabledFilteredByBeginEndAndStudent($startDate, $endDate, $student);
             /** @var AppEvent $event */
             foreach ($events as $event) {
