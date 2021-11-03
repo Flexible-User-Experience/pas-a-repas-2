@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\StudentPaymentEnum;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -91,28 +92,17 @@ class Spending extends AbstractBase
      */
     private $document;
 
-    /**
-     * @return \DateTime
-     */
-    public function getDate()
+    public function getDate(): DateTimeInterface
     {
         return $this->date;
     }
 
-    /**
-     * @return string
-     */
-    public function getDateString()
+    public function getDateString(): string
     {
         return $this->getDate() ? $this->getDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    /**
-     * @param \DateTime $date
-     *
-     * @return $this
-     */
-    public function setDate(\DateTime $date)
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 

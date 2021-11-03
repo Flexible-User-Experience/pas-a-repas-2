@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\InvoiceYearMonthEnum;
 use App\Enum\StudentPaymentEnum;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractReceiptInvoice extends AbstractBase
@@ -168,124 +169,75 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         return $this->getDate() ? $this->getDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    /**
-     * @param \DateTime $date
-     *
-     * @return $this
-     */
-    public function setDate(\DateTime $date)
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPayed()
+    public function isPayed(): bool
     {
         return $this->isPayed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIsPayed()
+    public function getIsPayed(): bool
     {
         return $this->isPayed();
     }
 
-    /**
-     * @param bool $isPayed
-     *
-     * @return $this
-     */
-    public function setIsPayed($isPayed)
+    public function setIsPayed(bool $isPayed): self
     {
         $this->isPayed = $isPayed;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getPaymentDate()
+    public function getPaymentDate(): DateTimeInterface
     {
         return $this->paymentDate;
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentDateString()
+    public function getPaymentDateString(): string
     {
         return $this->getPaymentDate() ? $this->getPaymentDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    /**
-     * @param \DateTime $paymentDate
-     *
-     * @return $this
-     */
-    public function setPaymentDate($paymentDate)
+    public function setPaymentDate(DateTimeInterface $paymentDate): self
     {
         $this->paymentDate = $paymentDate;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSended()
+    public function isSended(): bool
     {
         return $this->isSended;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIsSended()
+    public function getIsSended(): bool
     {
         return $this->isSended();
     }
 
-    /**
-     * @param bool $isSended
-     *
-     * @return $this
-     */
-    public function setIsSended($isSended)
+    public function setIsSended(bool $isSended): self
     {
         $this->isSended = $isSended;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getSendDate()
+    public function getSendDate(): DateTimeInterface
     {
         return $this->sendDate;
     }
 
-    /**
-     * @return string
-     */
-    public function getSendDateString()
+    public function getSendDateString(): string
     {
         return $this->getSendDate() ? $this->getSendDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    /**
-     * @param \DateTime|null $sendDate
-     *
-     * @return $this
-     */
-    public function setSendDate($sendDate)
+    public function setSendDate(?DateTimeInterface $sendDate): self
     {
         $this->sendDate = $sendDate;
 
@@ -307,56 +259,34 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         return $result;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSepaXmlGenerated()
+    public function isSepaXmlGenerated(): bool
     {
         return $this->isSepaXmlGenerated;
     }
 
-    /**
-     * @return bool
-     */
-    public function getSepaXmlGenerated()
+    public function getSepaXmlGenerated(): bool
     {
         return $this->isSepaXmlGenerated();
     }
 
-    /**
-     * @param bool $isSepaXmlGenerated
-     *
-     * @return $this
-     */
-    public function setIsSepaXmlGenerated($isSepaXmlGenerated)
+    public function setIsSepaXmlGenerated(bool $isSepaXmlGenerated): self
     {
         $this->isSepaXmlGenerated = $isSepaXmlGenerated;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getSepaXmlGeneratedDate()
+    public function getSepaXmlGeneratedDate(): DateTimeInterface
     {
         return $this->sepaXmlGeneratedDate;
     }
 
-    /**
-     * @return string
-     */
-    public function getSepaXmlGeneratedDateString()
+    public function getSepaXmlGeneratedDateString(): string
     {
         return $this->getSepaXmlGeneratedDate() ? $this->getSepaXmlGeneratedDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    /**
-     * @param \DateTime $sepaXmlGeneratedDate
-     *
-     * @return $this
-     */
-    public function setSepaXmlGeneratedDate($sepaXmlGeneratedDate)
+    public function setSepaXmlGeneratedDate(DateTimeInterface $sepaXmlGeneratedDate): self
     {
         $this->sepaXmlGeneratedDate = $sepaXmlGeneratedDate;
 
