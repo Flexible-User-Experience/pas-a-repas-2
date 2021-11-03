@@ -10,190 +10,136 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AbstractReceiptInvoice extends AbstractBase
 {
     /**
-     * @var Student
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Student")
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
-    protected $student;
+    protected Student $student;
 
     /**
-     * @var Person
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
-    protected $person;
+    protected Person $person;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(type="date", nullable=true)
      */
-    protected $date;
+    protected ?DateTimeInterface $date = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
      */
-    protected $isPayed = false;
+    protected ?bool $isPayed = false;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(type="date", nullable=true)
      */
-    protected $paymentDate;
+    protected ?DateTimeInterface $paymentDate = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
      */
-    protected $isSended = false;
+    protected ?bool $isSended = false;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(type="date", nullable=true)
      */
-    protected $sendDate;
+    protected ?DateTimeInterface $sendDate = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
      */
-    protected $isSepaXmlGenerated = false;
+    protected ?bool $isSepaXmlGenerated = false;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(type="date", nullable=true)
      */
-    protected $sepaXmlGeneratedDate;
+    protected ?DateTimeInterface $sepaXmlGeneratedDate;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $baseAmount;
+    protected ?float $baseAmount = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
      */
-    protected $discountApplied;
+    protected ?bool $discountApplied = false;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    protected $month;
+    protected int $month;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    protected $year;
+    protected int $year;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
      */
-    protected $isForPrivateLessons;
+    protected ?bool $isForPrivateLessons = false;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @return Student
-     */
-    public function getStudent()
+    public function getStudent(): Student
     {
         return $this->student;
     }
 
-    /**
-     * @param Student $student
-     *
-     * @return $this
-     */
-    public function setStudent($student)
+    public function setStudent(Student $student): self
     {
         $this->student = $student;
 
         return $this;
     }
 
-    /**
-     * @return Person
-     */
-    public function getPerson()
+    public function getPerson(): Person
     {
         return $this->person;
     }
 
-    /**
-     * @param Person $person
-     *
-     * @return $this
-     */
-    public function setPerson($person)
+    public function setPerson(Person $person): self
     {
         $this->person = $person;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDate()
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    /**
-     * @return string
-     */
-    public function getDateString()
+    public function getDateString(): string
     {
         return $this->getDate() ? $this->getDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    public function setDate(DateTimeInterface $date): self
+    public function setDate(?DateTimeInterface $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    public function isPayed(): bool
+    public function isPayed(): ?bool
     {
         return $this->isPayed;
     }
 
-    public function getIsPayed(): bool
+    public function getIsPayed(): ?bool
     {
         return $this->isPayed();
     }
 
-    public function setIsPayed(bool $isPayed): self
+    public function setIsPayed(?bool $isPayed): self
     {
         $this->isPayed = $isPayed;
 
         return $this;
     }
 
-    public function getPaymentDate(): DateTimeInterface
+    public function getPaymentDate(): ?DateTimeInterface
     {
         return $this->paymentDate;
     }
@@ -203,31 +149,31 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         return $this->getPaymentDate() ? $this->getPaymentDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    public function setPaymentDate(DateTimeInterface $paymentDate): self
+    public function setPaymentDate(?DateTimeInterface $paymentDate): self
     {
         $this->paymentDate = $paymentDate;
 
         return $this;
     }
 
-    public function isSended(): bool
+    public function isSended(): ?bool
     {
         return $this->isSended;
     }
 
-    public function getIsSended(): bool
+    public function getIsSended(): ?bool
     {
         return $this->isSended();
     }
 
-    public function setIsSended(bool $isSended): self
+    public function setIsSended(?bool $isSended): self
     {
         $this->isSended = $isSended;
 
         return $this;
     }
 
-    public function getSendDate(): DateTimeInterface
+    public function getSendDate(): ?DateTimeInterface
     {
         return $this->sendDate;
     }
@@ -252,31 +198,31 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         if (StudentPaymentEnum::BANK_ACCOUNT_NUMBER !== $subject->getPayment()) {
             $result = false;
         }
-        if (!$subject->getBank()->getAccountNumber()) {
+        if ($subject->getBank() && $subject->getBank()->getAccountNumber()) {
             $result = false;
         }
 
         return $result;
     }
 
-    public function isSepaXmlGenerated(): bool
+    public function isSepaXmlGenerated(): ?bool
     {
         return $this->isSepaXmlGenerated;
     }
 
-    public function getSepaXmlGenerated(): bool
+    public function getSepaXmlGenerated(): ?bool
     {
         return $this->isSepaXmlGenerated();
     }
 
-    public function setIsSepaXmlGenerated(bool $isSepaXmlGenerated): self
+    public function setIsSepaXmlGenerated(?bool $isSepaXmlGenerated): self
     {
         $this->isSepaXmlGenerated = $isSepaXmlGenerated;
 
         return $this;
     }
 
-    public function getSepaXmlGeneratedDate(): DateTimeInterface
+    public function getSepaXmlGeneratedDate(): ?DateTimeInterface
     {
         return $this->sepaXmlGeneratedDate;
     }
@@ -286,131 +232,82 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         return $this->getSepaXmlGeneratedDate() ? $this->getSepaXmlGeneratedDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
-    public function setSepaXmlGeneratedDate(DateTimeInterface $sepaXmlGeneratedDate): self
+    public function setSepaXmlGeneratedDate(?DateTimeInterface $sepaXmlGeneratedDate): self
     {
         $this->sepaXmlGeneratedDate = $sepaXmlGeneratedDate;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getBaseAmount()
+    public function getBaseAmount(): ?float
     {
         return $this->baseAmount;
     }
 
-    /**
-     * @return string
-     */
-    public function getBaseAmountString()
+    public function getBaseAmountString(): string
     {
         return number_format($this->baseAmount, 2, ',', '.').'€';
     }
 
-    /**
-     * @param float $baseAmount
-     *
-     * @return $this
-     */
-    public function setBaseAmount($baseAmount)
+    public function setBaseAmount(?float $baseAmount): string
     {
         $this->baseAmount = $baseAmount;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDiscountApplied()
+    public function isDiscountApplied(): ?bool
     {
         return $this->discountApplied;
     }
 
-    /**
-     * @param bool $discountApplied
-     *
-     * @return $this
-     */
-    public function setDiscountApplied($discountApplied)
+    public function setDiscountApplied(?bool $discountApplied): self
     {
         $this->discountApplied = $discountApplied;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getMonth()
+    public function getMonth(): int
     {
         return $this->month;
     }
 
-    /**
-     * @return int
-     */
-    public function getMonthNameString()
+    public function getMonthNameString(): string
     {
         return InvoiceYearMonthEnum::getTranslatedMonthEnumArray()[$this->getMonth()];
     }
 
-    /**
-     * @param int $month
-     *
-     * @return $this
-     */
-    public function setMonth($month)
+    public function setMonth(int $month): self
     {
         $this->month = $month;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    /**
-     * @param int $year
-     *
-     * @return $this
-     */
-    public function setYear($year)
+    public function setYear(int $year): self
     {
         $this->year = $year;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isForPrivateLessons()
+    public function isForPrivateLessons(): ?bool
     {
         return $this->isForPrivateLessons;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIsForPrivateLessons()
+    public function getIsForPrivateLessons(): ?bool
     {
         return $this->isForPrivateLessons();
     }
 
-    /**
-     * @param bool $isForPrivateLessons
-     *
-     * @return $this
-     */
-    public function setIsForPrivateLessons($isForPrivateLessons)
+    public function setIsForPrivateLessons(?bool $isForPrivateLessons): self
     {
         $this->isForPrivateLessons = $isForPrivateLessons;
 
@@ -419,10 +316,8 @@ abstract class AbstractReceiptInvoice extends AbstractBase
 
     /**
      * Get parent's email first, or student's one if it's not set.
-     *
-     * @return string
      */
-    public function getMainEmail()
+    public function getMainEmail(): string
     {
         $subject = $this->getMainSubject();
 
@@ -431,10 +326,8 @@ abstract class AbstractReceiptInvoice extends AbstractBase
 
     /**
      * Get parent's name first, or student's one if it's not set.
-     *
-     * @return string
      */
-    public function getMainEmailName()
+    public function getMainEmailName(): string
     {
         $subject = $this->getMainSubject();
 
@@ -443,10 +336,8 @@ abstract class AbstractReceiptInvoice extends AbstractBase
 
     /**
      * Get parent's bank, or student's one if it's not set.
-     *
-     * @return Bank
      */
-    public function getMainBank()
+    public function getMainBank(): ?Bank
     {
         $subject = $this->getMainSubject();
 
@@ -455,10 +346,8 @@ abstract class AbstractReceiptInvoice extends AbstractBase
 
     /**
      * Get parent's debtor mandates, or student's one if it's not set.
-     *
-     * @return string
      */
-    public function getDebtorMandate()
+    public function getDebtorMandate(): string
     {
         $subject = $this->getMainSubject();
 
@@ -467,8 +356,6 @@ abstract class AbstractReceiptInvoice extends AbstractBase
 
     /**
      * Get parent's debtor mandate sign date, or student's one if it's not set.
-     *
-     * @return string
      */
     public function getDebtorMandateSignDate(): string
     {
