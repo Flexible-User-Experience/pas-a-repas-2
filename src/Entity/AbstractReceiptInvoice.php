@@ -198,7 +198,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         if (StudentPaymentEnum::BANK_ACCOUNT_NUMBER !== $subject->getPayment()) {
             $result = false;
         }
-        if ($subject->getBank() && $subject->getBank()->getAccountNumber()) {
+        if ($subject->getBank() && !$subject->getBank()->getAccountNumber()) {
             $result = false;
         }
 

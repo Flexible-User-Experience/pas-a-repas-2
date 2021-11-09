@@ -281,6 +281,7 @@ final class ReceiptAdminController extends BaseAdminController
         $this->admin->checkAccess('edit');
         $em = $this->getDoctrine()->getManager();
         $selectedModels = $selectedModelQuery->execute();
+//        dd($selectedModels);
         try {
             /** @var XmlSepaBuilderService $xsbs */
             $xsbs = $this->container->get('app.xml_sepa_builder');
