@@ -19,7 +19,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
-    protected Person $person;
+    protected ?Person $person = null;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -93,12 +93,12 @@ abstract class AbstractReceiptInvoice extends AbstractBase
         return $this;
     }
 
-    public function getPerson(): Person
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    public function setPerson(Person $person): self
+    public function setPerson(?Person $person): self
     {
         $this->person = $person;
 
