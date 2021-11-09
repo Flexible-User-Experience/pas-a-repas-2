@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.20 (WIP)
+##### Version 4.5.21 (WIP)
  * fix minor bugs
+
+##### Version 4.5.20 (2021-11-09)
+ * fix empty SEPA receipts problem
 
 ##### Version 4.5.19 (2021-11-09)
  * fix nullable Person problem in AbstractReceiptInvoice
