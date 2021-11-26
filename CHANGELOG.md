@@ -4,7 +4,7 @@ Changelog
 ##### Version 4.5.22 (WIP)
  * fix minor bugs
 
-##### Version 4.5.21 (WIP)
+##### Version 4.5.21 (2021-11-26)
  * avoid SEPA receipts generation for empty units receipt case
  * composer dependecies update
  * yarn dependencies update
