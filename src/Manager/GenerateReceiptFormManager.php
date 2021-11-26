@@ -257,7 +257,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     ->setIsPreviouslyGenerated(false)
                     ->setIsPrivateLessonType(false)
                 ;
-                if ($generateReceiptItem->getUnitPrice() > 0 && $generateReceiptItem->getUnitPrice() > $generateReceiptItem->getDiscount()) {
+                if ($generateReceiptItem->getUnits() > 0 && $generateReceiptItem->getUnitPrice() > 0 && $generateReceiptItem->getUnitPrice() > $generateReceiptItem->getDiscount()) {
                     $generateReceipt->addItem($generateReceiptItem);
                 }
             }

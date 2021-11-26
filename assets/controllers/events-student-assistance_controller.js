@@ -32,7 +32,7 @@ export default class extends Controller {
                     console.error('[EventsStudentAssistance::update] attend axios error response', error);
                 });
         } else {
-            // not atted class
+            // not attend class
             let self = this;
             axios.get(Routing.generate('admin_app_event_apinotattendedclass', { id: this.eidValue, student: event.target.value}))
                 .then(function (response) {
