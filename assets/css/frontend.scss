@@ -1,15 +1,7 @@
+// Imports
+@import "colors.scss";
+
 // Variables
-$magenta: #CD5599;
-$cyan:    #40B4E5;
-$wine:    #782C63;
-$violet:  #62259D;
-$lviolet: #8E64A7;
-$grey:    #9FA1A1;
-$lgrey:   #F0F1F2;
-$brown:   #AA542F;
-$lbrown:  #D5BC94;
-$white:   #FFFFFF;
-$black:   #222222;
 $gap-extra:  40px;
 $gap-double: 60px;
 $screen-xs: 480px !default;
@@ -123,28 +115,6 @@ nav.my-nav {
 // Link
 $link-color: $magenta;
 $link-hover-color: darken($link-color, 15%);
-
-// Colors
-.c-magenta  { color: $magenta }
-.c-cyan     { color: $cyan }
-.c-wine     { color: $wine }
-.c-violet   { color: $violet }
-.c-lviolet  { color: $lviolet }
-.c-grey     { color: $grey }
-.c-brown    { color: $brown }
-.c-lbrown   { color: $lbrown }
-.c-white    { color: $white }
-.c-black    { color: $black }
-.bc-magenta { background-color: $magenta }
-.bc-cyan    { background-color: $cyan }
-.bc-wine    { background-color: $wine }
-.bc-violet  { background-color: $violet }
-.bc-lviolet { background-color: $lviolet }
-.bc-grey    { background-color: $grey }
-.bc-brown   { background-color: $brown }
-.bc-lbrown  { background-color: $lbrown }
-.bc-white   { background-color: $white }
-.bc-black   { background-color: $black }
 
 // Body
 body.my-body {
@@ -379,7 +349,8 @@ footer {
     a.btn { text-decoration: none; }
 }
 
-@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import '~bootstrap/scss/bootstrap';
+@import '~icheck-bootstrap/icheck-bootstrap.css';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';

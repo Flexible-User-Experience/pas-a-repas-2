@@ -1,8 +1,7 @@
 import '../css/frontend.scss';
-import '../../node_modules/bootstrap-sass/assets/javascripts/bootstrap';
-const $ = require('jquery');
+import jQuery from 'jquery';
 
-global.$ = global.jQuery = $;
+require('bootstrap');
 
 jQuery(document).ready(function() {
     jQuery(document).on('scroll', function() {
@@ -13,16 +12,10 @@ jQuery(document).ready(function() {
         }
     });
     jQuery('.scroll-top-wrapper').on('click', scrollToTop);
-    let errorNode = jQuery(".has-error");
-    let envelopeNode = jQuery(".fa-paper-plane-o");
-    if (errorNode.length > 0) {
-        jQuery('html,body').animate({scrollTop: errorNode.offset().top - 200}, "slow");
-    }
-    if (envelopeNode.length > 0) {
-        jQuery('html,body').animate({scrollTop: envelopeNode.offset().top - 200}, "slow");
+    function scrollToTop() {
+        const element = jQuery('body');
+        const offset = element.offset();
+        const offsetTop = offset.top;
+        jQuery('html, body').animate({scrollTop: offsetTop}, 1000, 'swing');
     }
 });
-
-function scrollToTop() {
-    jQuery('html, body').animate({scrollTop: 0}, 1000, 'swing');
-}

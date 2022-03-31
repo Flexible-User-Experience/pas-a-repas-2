@@ -3,11 +3,11 @@ doctrine:
         url:     '%env(resolve:DATABASE_URL)%'
         charset: 'utf8mb4'
         types:
-            json: Sonata\Doctrine\Types\JsonType
+            json: 'Sonata\Doctrine\Types\JsonType'
     orm:
         auto_mapping:                true
         auto_generate_proxy_classes: true
-        naming_strategy:             doctrine.orm.naming_strategy.underscore_number_aware
+        naming_strategy:             'doctrine.orm.naming_strategy.underscore_number_aware'
         mappings:
             App:
                 is_bundle: false
@@ -17,11 +17,11 @@ doctrine:
                 alias:     'App'
         dql:
             datetime_functions:
-                timestampdiff: DoctrineExtensions\Query\Mysql\TimestampDiff
-                year:          DoctrineExtensions\Query\Mysql\Year
-                month:         DoctrineExtensions\Query\Mysql\Month
-                date:          DoctrineExtensions\Query\Mysql\Date
-                now:           DoctrineExtensions\Query\Mysql\Now
+                timestampdiff: 'DoctrineExtensions\Query\Mysql\TimestampDiff'
+                year:          'DoctrineExtensions\Query\Mysql\Year'
+                month:         'DoctrineExtensions\Query\Mysql\Month'
+                date:          'DoctrineExtensions\Query\Mysql\Date'
+                now:           'DoctrineExtensions\Query\Mysql\Now'
 
 when@test:
     doctrine:
@@ -30,5 +30,5 @@ when@test:
         orm:
             dql:
                 datetime_functions:
-                    month: DoctrineExtensions\Query\Sqlite\Month
-                    year:  DoctrineExtensions\Query\Sqlite\Year
+                    month: 'DoctrineExtensions\Query\Sqlite\Month'
+                    year:  'DoctrineExtensions\Query\Sqlite\Year'
