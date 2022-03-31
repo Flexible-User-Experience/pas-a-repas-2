@@ -4,7 +4,7 @@ namespace App\Enum;
 
 use DateTimeImmutable;
 
-final class SchoolYearChoicesGeneratorEnum
+class SchoolYearChoicesGeneratorEnum
 {
     public static function getSchoolYearChoicesArray(): array
     {

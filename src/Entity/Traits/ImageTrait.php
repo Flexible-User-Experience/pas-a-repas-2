@@ -13,19 +13,9 @@ trait ImageTrait
      */
     private ?string $imageName = null;
 
-    public function setImageFile(?File $imageFile = null): self
+    public function getImageName(): ?string
     {
-        $this->imageFile = $imageFile;
-        if ($imageFile) {
-            $this->updatedAt = new DateTimeImmutable();
-        }
-
-        return $this;
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
+        return $this->imageName;
     }
 
     public function setImageName(?string $imageName): self
@@ -35,8 +25,18 @@ trait ImageTrait
         return $this;
     }
 
-    public function getImageName(): ?string
+    public function getImageFile(): ?File
     {
-        return $this->imageName;
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+        if ($imageFile) {
+            $this->updatedAt = new DateTimeImmutable();
+        }
+
+        return $this;
     }
 }

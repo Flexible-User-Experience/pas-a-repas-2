@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\BankCreditorSepaTrait;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Student extends AbstractPerson
 {
-    public const DISCOUNT_PER_EXTRA_SON = 0;
+    use BankCreditorSepaTrait;
+
+    public const DISCOUNT_PER_EXTRA_SON = 5;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -288,7 +291,7 @@ class Student extends AbstractPerson
         return false;
     }
 
-    public function getMainEmailSubject(): string
+    public function getMainEmailSubject(): ?string
     {
         $email = $this->getEmail();
         if ($this->getParent() && $this->getParent()->getEmail()) {
@@ -301,7 +304,7 @@ class Student extends AbstractPerson
     public function canBeDeletedSafely(): bool
     {
         $result = false;
-        if (is_null($this->getParent()) && count($this->getEvents()) === 0) {
+        if (is_null($this->getParent()) && 0 === count($this->getEvents())) {
             $result = true;
         }
 

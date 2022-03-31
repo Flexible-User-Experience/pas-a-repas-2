@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-final class TeacherAbsenceTypeEnum
+class TeacherAbsenceTypeEnum
 {
     public const PERSONAL_ISSUES = 0;
     public const TRAINING = 1;

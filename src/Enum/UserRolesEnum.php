@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-final class UserRolesEnum
+class UserRolesEnum
 {
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_CMS = 'ROLE_CMS';
