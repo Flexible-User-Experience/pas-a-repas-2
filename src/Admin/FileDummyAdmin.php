@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 final class FileDummyAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'File';
+    protected $classnameLabel = 'FileDummy';
     protected $baseRoutePattern = 'fitxers';
 
     protected function configureDefaultSortValues(array &$sortValues): void

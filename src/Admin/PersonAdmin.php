@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\BankCreditorSepa;
 use App\Entity\City;
 use App\Entity\Person;
 use App\Enum\StudentPaymentEnum;
@@ -17,8 +18,9 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 final class PersonAdmin extends AbstractBaseAdmin
 {
@@ -58,21 +60,27 @@ final class PersonAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->with('backend.admin.contact.contact', $this->getFormMdSuccessBoxArray('backend.admin.contact.contact', 3))
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.parent.phone',
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.parent.email',
-                    'required' => false,
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $form
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.phone',
+                    ]
+                )
+                ->add(
+                    'email',
+                    EmailType::class,
+                    [
+                        'label' => 'backend.admin.parent.email',
+                        'required' => true,
+                    ]
+                )
+            ;
+        }
+        $form
             ->add(
                 'address',
                 null,
@@ -103,6 +111,17 @@ final class PersonAdmin extends AbstractBaseAdmin
                     'multiple' => false,
                     'expanded' => false,
                     'required' => true,
+                ]
+            )
+            ->add(
+                'bankCreditorSepa',
+                EntityType::class,
+                [
+                    'label' => 'backend.admin.bank.creditor_bank_name',
+                    'help' => 'backend.admin.bank.creditor_bank_name_help',
+                    'required' => true,
+                    'class' => BankCreditorSepa::class,
+                    'query_builder' => $this->em->getRepository(BankCreditorSepa::class)->getEnabledSortedByNameQB(),
                 ]
             )
             ->add(
@@ -178,20 +197,26 @@ final class PersonAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.parent.surname',
                 ]
             )
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.parent.phone',
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.parent.email',
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $filter
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.phone',
+                    ]
+                )
+                ->add(
+                    'email',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.email',
+                    ]
+                )
+            ;
+        }
+        $filter
             ->add(
                 'address',
                 null,
@@ -246,6 +271,19 @@ final class PersonAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'bankCreditorSepa',
+                null,
+                [
+                    'label' => 'backend.admin.bank.creditor_bank_name',
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'required' => false,
+                        'class' => BankCreditorSepa::class,
+                        'query_builder' => $this->em->getRepository(BankCreditorSepa::class)->getAllSortedByNameQB(),
+                    ],
+                ]
+            )
+            ->add(
                 'dischargeDate',
                 DateFilter::class,
                 [
@@ -255,7 +293,6 @@ final class PersonAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -287,22 +324,28 @@ final class PersonAdmin extends AbstractBaseAdmin
                     'editable' => true,
                 ]
             )
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.parent.phone',
-                    'editable' => true,
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.parent.email',
-                    'editable' => true,
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $list
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.phone',
+                        'editable' => true,
+                    ]
+                )
+                ->add(
+                    'email',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.email',
+                        'editable' => true,
+                    ]
+                )
+            ;
+        }
+        $list
             ->add(
                 'enabled',
                 null,
@@ -330,7 +373,7 @@ final class PersonAdmin extends AbstractBaseAdmin
 
     public function configureExportFields(): array
     {
-        return [
+        $result = [
             'dni',
             'name',
             'surname',
@@ -342,9 +385,16 @@ final class PersonAdmin extends AbstractBaseAdmin
             'bank.name',
             'bank.swiftCode',
             'bank.accountNumber',
+            'bankCreditorSepa.name',
+            'bankCreditorSepa.iban',
             'dischargeDateString',
             'enabled',
         ];
+        if (!$this->isAdminUser()) {
+            unset($result[3], $result[4]);
+        }
+
+        return $result;
     }
 
     /**

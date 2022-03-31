@@ -6,13 +6,13 @@ use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Enum\TeacherColorEnum;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 final class TeacherAdmin extends AbstractBaseAdmin
 {
@@ -41,10 +41,9 @@ final class TeacherAdmin extends AbstractBaseAdmin
             ->with('backend.admin.image', $this->getFormMdSuccessBoxArray('backend.admin.image', 4))
             ->add(
                 'imageFile',
-                FileType::class,
+                VichImageType::class,
                 [
                     'label' => 'backend.admin.image',
-                    'help' => $this->getImageHelperFormMapperWithThumbnailAspectRatio(),
                     'required' => false,
                 ]
             )

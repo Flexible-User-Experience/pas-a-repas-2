@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\BankCreditorSepa;
 use App\Entity\City;
 use App\Entity\ClassGroup;
 use App\Entity\Invoice;
@@ -94,21 +95,28 @@ final class StudentAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->with('backend.admin.contact.contact', $this->getFormMdSuccessBoxArray('backend.admin.contact.contact', 3))
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.student.phone',
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.student.email',
-                    'required' => false,
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $form
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.student.phone',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'email',
+                    null,
+                    [
+                        'label' => 'backend.admin.student.email',
+                        'required' => false,
+                    ]
+                )
+            ;
+        }
+        $form
             ->add(
                 'address',
                 null,
@@ -150,6 +158,17 @@ final class StudentAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'btn_add' => false,
                     'by_reference' => false,
+                ]
+            )
+            ->add(
+                'bankCreditorSepa',
+                EntityType::class,
+                [
+                    'label' => 'backend.admin.bank.creditor_bank_name',
+                    'help' => 'backend.admin.bank.creditor_bank_name_help',
+                    'required' => true,
+                    'class' => BankCreditorSepa::class,
+                    'query_builder' => $this->em->getRepository(BankCreditorSepa::class)->getEnabledSortedByNameQB(),
                 ]
             )
             ->end()
@@ -283,20 +302,26 @@ final class StudentAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.student.comments',
                 ]
             )
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.student.phone',
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.student.email',
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $filter
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.student.phone',
+                    ]
+                )
+                ->add(
+                    'email',
+                    null,
+                    [
+                        'label' => 'backend.admin.student.email',
+                    ]
+                )
+            ;
+        }
+        $filter
             ->add(
                 'address',
                 null,
@@ -321,6 +346,31 @@ final class StudentAdmin extends AbstractBaseAdmin
                         'choices' => StudentPaymentEnum::getEnumArray(),
                         'expanded' => false,
                         'multiple' => false,
+                    ],
+                ]
+            )
+            ->add(
+                'parent.payment',
+                null,
+                [
+                    'label' => 'backend.admin.student.parent_payment',
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => StudentPaymentEnum::getEnumArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
+                ]
+            )
+            ->add(
+                'bankCreditorSepa',
+                null,
+                [
+                    'label' => 'backend.admin.bank.creditor_bank_name',
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'class' => BankCreditorSepa::class,
+                        'query_builder' => $this->em->getRepository(BankCreditorSepa::class)->getAllSortedByNameQB(),
                     ],
                 ]
             )
@@ -376,7 +426,6 @@ final class StudentAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -389,7 +438,6 @@ final class StudentAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -502,22 +550,28 @@ final class StudentAdmin extends AbstractBaseAdmin
                     'editable' => true,
                 ]
             )
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.student.phone',
-                    'editable' => true,
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.student.email',
-                    'editable' => true,
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $list
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.student.phone',
+                        'editable' => true,
+                    ]
+                )
+                ->add(
+                    'email',
+                    null,
+                    [
+                        'label' => 'backend.admin.student.email',
+                        'editable' => true,
+                    ]
+                )
+            ;
+        }
+        $list
             ->add(
                 'hasImageRightsAccepted',
                 null,
@@ -589,7 +643,7 @@ final class StudentAdmin extends AbstractBaseAdmin
 
     public function configureExportFields(): array
     {
-        return [
+        $result = [
             'dni',
             'name',
             'surname',
@@ -603,6 +657,8 @@ final class StudentAdmin extends AbstractBaseAdmin
             'bank.name',
             'bank.swiftCode',
             'bank.accountNumber',
+            'bankCreditorSepa.name',
+            'bankCreditorSepa.iban',
             'birthDateString',
             'dischargeDateString',
             'schedule',
@@ -612,6 +668,11 @@ final class StudentAdmin extends AbstractBaseAdmin
             'hasAcceptedInternalRegulations',
             'enabled',
         ];
+        if (!$this->isAdminUser()) {
+            unset($result[5], $result[6]);
+        }
+
+        return $result;
     }
 
     public function preRemove($object): void

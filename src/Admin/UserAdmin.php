@@ -5,8 +5,8 @@ namespace App\Admin;
 use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Enum\UserRolesEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -182,5 +182,14 @@ final class UserAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    public function configureExportFields(): array
+    {
+        return [
+            'username',
+            'email',
+            'enabled',
+        ];
     }
 }

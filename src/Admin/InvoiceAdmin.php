@@ -15,10 +15,10 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
-use Sonata\Form\Type\DatePickerType;
-use Sonata\Form\Type\CollectionType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use Sonata\Form\Type\CollectionType;
+use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -47,7 +47,7 @@ final class InvoiceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    public function configureBatchActions($actions): array
+    public function configureBatchActions(array $actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generatesepaxmls'] = [
@@ -84,7 +84,7 @@ final class InvoiceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.receipt.date',
                     'format' => 'd/M/y',
-                    'required' => !$this->id($this->getSubject()),
+                    'required' => $this->isFormToCreateNewRecord(),
                     'disabled' => false,
                 ]
             )
@@ -296,7 +296,6 @@ final class InvoiceAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd/MM/yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -369,6 +368,19 @@ final class InvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'person.payment',
+                null,
+                [
+                    'label' => 'backend.admin.student.parent_payment',
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => StudentPaymentEnum::getEnumArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
+                ]
+            )
+            ->add(
                 'discountApplied',
                 null,
                 [
@@ -427,7 +439,6 @@ final class InvoiceAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -447,7 +458,6 @@ final class InvoiceAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -467,7 +477,6 @@ final class InvoiceAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
         ;
@@ -598,12 +607,24 @@ final class InvoiceAdmin extends AbstractBaseAdmin
                     'header_class' => 'text-right',
                     'row_align' => 'right',
                     'actions' => [
-                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
-                        'invoice' => ['template' => 'Admin/Buttons/list__action_invoice_pdf_button.html.twig'],
-                        'send' => ['template' => 'Admin/Buttons/list__action_invoice_send_button.html.twig'],
-                        'generateDirectDebit' => ['template' => 'Admin/Buttons/list__action_generate_direct_debit_xml_button.html.twig'],
-                        'duplicate' => ['template' => 'Admin/Buttons/list__action_invoice_duplicate_button.html.twig'],
-                        'delete' => ['template' => 'Admin/Buttons/list__action_delete_superadmin_button.html.twig'],
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
+                        'invoice' => [
+                            'template' => 'Admin/Buttons/list__action_invoice_pdf_button.html.twig',
+                        ],
+                        'send' => [
+                            'template' => 'Admin/Buttons/list__action_invoice_send_button.html.twig',
+                        ],
+                        'generateDirectDebit' => [
+                            'template' => 'Admin/Buttons/list__action_generate_direct_debit_xml_button.html.twig',
+                        ],
+                        'duplicate' => [
+                            'template' => 'Admin/Buttons/list__action_invoice_duplicate_button.html.twig',
+                        ],
+                        'delete' => [
+                            'template' => 'Admin/Buttons/list__action_delete_superadmin_button.html.twig',
+                        ],
                     ],
                 ]
             );
@@ -620,17 +641,17 @@ final class InvoiceAdmin extends AbstractBaseAdmin
             'student.fullCanonicalName',
             'person.fullCanonicalName',
             'student.paymentString',
-            'discountApplied',
+            'discountAppliedString',
             'baseAmountString',
             'taxPercentage',
             'irpfPercentage',
             'totalAmountString',
-            'isForPrivateLessons',
-            'isSepaXmlGenerated',
+            'isForPrivateLessonsString',
+            'isSepaXmlGeneratedString',
             'sepaXmlGeneratedDateString',
-            'isSended',
+            'isSendedString',
             'sendDateString',
-            'isPayed',
+            'isPayedString',
             'paymentDateString',
         ];
     }

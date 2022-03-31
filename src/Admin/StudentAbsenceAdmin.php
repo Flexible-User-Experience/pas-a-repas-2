@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 final class StudentAbsenceAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Absence';
+    protected $classnameLabel = 'StudentAbsence';
     protected $baseRoutePattern = 'students/absence';
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -29,7 +29,10 @@ final class StudentAbsenceAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
-        $collection->add('notification', $this->getRouterIdParameter().'/notification');
+        $collection
+            ->add('notification', $this->getRouterIdParameter().'/notification')
+            ->remove('delete')
+        ;
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -94,7 +97,6 @@ final class StudentAbsenceAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -122,7 +124,6 @@ final class StudentAbsenceAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
         ;
@@ -203,6 +204,8 @@ final class StudentAbsenceAdmin extends AbstractBaseAdmin
         return [
             'dayString',
             'student',
+            'hasBeenNotified',
+            'notificationDateString',
         ];
     }
 }

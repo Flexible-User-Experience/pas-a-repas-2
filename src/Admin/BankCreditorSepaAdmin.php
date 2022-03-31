@@ -3,19 +3,16 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
-use App\Entity\Province;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-final class CityAdmin extends AbstractBaseAdmin
+final class BankCreditorSepaAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'City';
-    protected $baseRoutePattern = 'administrations/city';
+    protected $classnameLabel = 'BankCreditorSepa';
+    protected $baseRoutePattern = 'administrations/bank-creditor-sepa';
 
     protected function configureDefaultSortValues(array &$sortValues): void
     {
@@ -24,41 +21,50 @@ final class CityAdmin extends AbstractBaseAdmin
         $sortValues[DatagridInterface::SORT_BY] = 'name';
     }
 
-    protected function configureRoutes(RouteCollectionInterface $collection): void
-    {
-        parent::configureRoutes($collection);
-        $collection->remove('delete');
-    }
-
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general', 3))
-            ->add(
-                'postalCode',
-                null,
-                [
-                    'label' => 'backend.admin.city.postalCode',
-                ]
-            )
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general'))
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'backend.admin.city.name',
+                    'label' => 'backend.admin.bank.name',
+                    'required' => true,
                 ]
             )
-            ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
-                'province',
-                EntityType::class,
+                'organizationId',
+                null,
                 [
-                    'label' => 'backend.admin.city.province',
+                    'label' => 'backend.admin.bank.organization_id',
                     'required' => true,
-                    'class' => Province::class,
-                    'choice_label' => 'name',
-                    'query_builder' => $this->em->getRepository(Province::class)->getEnabledSortedByNameQB(),
+                    'help' => 'Exemple DNI: 12345678A',
+                ]
+            )
+            ->add(
+                'creditorName',
+                null,
+                [
+                    'label' => 'backend.admin.bank.creditor_name',
+                    'required' => true,
+                ]
+            )
+            ->add(
+                'iban',
+                null,
+                [
+                    'label' => 'IBAN',
+                    'required' => true,
+                    'help' => 'backend.admin.bank.accountNumber_help',
+                ]
+            )
+            ->add(
+                'bic',
+                null,
+                [
+                    'label' => 'BIC',
+                    'required' => true,
                 ]
             )
             ->add(
@@ -77,24 +83,38 @@ final class CityAdmin extends AbstractBaseAdmin
     {
         $filter
             ->add(
-                'postalCode',
-                null,
-                [
-                    'label' => 'backend.admin.city.postalCode',
-                ]
-            )
-            ->add(
                 'name',
                 null,
                 [
-                    'label' => 'backend.admin.city.name',
+                    'label' => 'backend.admin.bank.name',
                 ]
             )
             ->add(
-                'province',
+                'organizationId',
                 null,
                 [
-                    'label' => 'backend.admin.city.province',
+                    'label' => 'backend.admin.bank.organization_id',
+                ]
+            )
+            ->add(
+                'creditorName',
+                null,
+                [
+                    'label' => 'backend.admin.bank.creditor_name',
+                ]
+            )
+            ->add(
+                'iban',
+                null,
+                [
+                    'label' => 'IBAN',
+                ]
+            )
+            ->add(
+                'bic',
+                null,
+                [
+                    'label' => 'BIC',
                 ]
             )
             ->add(
@@ -111,33 +131,43 @@ final class CityAdmin extends AbstractBaseAdmin
     {
         $list
             ->add(
-                'postalCode',
-                null,
-                [
-                    'label' => 'backend.admin.city.postalCode',
-                    'editable' => true,
-                    'header_class' => 'text-center',
-                    'row_align' => 'center',
-                ]
-            )
-            ->add(
                 'name',
                 null,
                 [
-                    'label' => 'backend.admin.city.name',
+                    'label' => 'backend.admin.bank.name',
                     'editable' => true,
                 ]
             )
             ->add(
-                'province',
+                'organizationId',
                 null,
                 [
-                    'label' => 'backend.admin.city.province',
+                    'label' => 'backend.admin.bank.organization_id',
                     'editable' => true,
-                    'associated_property' => 'name',
-                    'sortable' => true,
-                    'sort_field_mapping' => ['fieldName' => 'name'],
-                    'sort_parent_association_mappings' => [['fieldName' => 'province']],
+                ]
+            )
+            ->add(
+                'creditorName',
+                null,
+                [
+                    'label' => 'backend.admin.bank.creditor_name',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'iban',
+                null,
+                [
+                    'label' => 'IBAN',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'bic',
+                null,
+                [
+                    'label' => 'BIC',
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -145,9 +175,9 @@ final class CityAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'backend.admin.enabled',
-                    'editable' => true,
                     'header_class' => 'text-center',
                     'row_align' => 'center',
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -159,6 +189,7 @@ final class CityAdmin extends AbstractBaseAdmin
                     'row_align' => 'right',
                     'actions' => [
                         'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'Admin/Buttons/list__action_delete_button.html.twig'],
                     ],
                 ]
             )
@@ -168,9 +199,11 @@ final class CityAdmin extends AbstractBaseAdmin
     public function configureExportFields(): array
     {
         return [
-            'postalCode',
             'name',
-            'province',
+            'organizationId',
+            'creditorName',
+            'iban',
+            'bic',
             'enabled',
         ];
     }

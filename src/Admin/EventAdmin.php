@@ -23,7 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class EventAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Timetable';
+    protected $classnameLabel = 'Event';
     protected $baseRoutePattern = 'classrooms/timetable';
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -69,7 +69,7 @@ final class EventAdmin extends AbstractBaseAdmin
                     'required' => true,
                 ]
             );
-        if (!$this->id($this->getSubject())) {
+        if ($this->isFormToCreateNewRecord()) {
             $form
                 ->add(
                     'dayFrequencyRepeat',
@@ -158,7 +158,6 @@ final class EventAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy HH:mm',
                     ],
-//                    'format' => 'd-m-Y H:i',
                 ]
             )
             ->add(
@@ -171,7 +170,6 @@ final class EventAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy HH:mm',
                     ],
-//                    'format' => 'd-m-Y H:i',
                 ]
             )
             ->add(
@@ -184,7 +182,7 @@ final class EventAdmin extends AbstractBaseAdmin
                         'expanded' => false,
                         'multiple' => false,
                         'choices' => EventClassroomTypeEnum::getEnumArray(),
-                    ]
+                    ],
                 ]
             )
             ->add(

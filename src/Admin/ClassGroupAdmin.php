@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ColorType;
 
 final class ClassGroupAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Grups';
+    protected $classnameLabel = 'ClassGroup';
     protected $baseRoutePattern = 'classrooms/group';
 
     protected function configureDefaultSortValues(array &$sortValues): void

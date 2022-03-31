@@ -4,15 +4,15 @@ namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter;
 use Sonata\Form\Type\DateTimePickerType;
 
 final class NewsletterContactAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Newsletter Contact';
+    protected $classnameLabel = 'NewsletterContact';
     protected $baseRoutePattern = 'contacts/newsletter';
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -46,7 +46,6 @@ final class NewsletterContactAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy HH:mm',
                     ],
-//                    'format' => 'd-m-Y H:i',
                 ]
             )
             ->add(
@@ -78,5 +77,13 @@ final class NewsletterContactAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    public function configureExportFields(): array
+    {
+        return [
+            'createdAtString',
+            'email',
+        ];
     }
 }

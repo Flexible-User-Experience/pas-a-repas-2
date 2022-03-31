@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class TeacherAbsenceAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Absence';
+    protected $classnameLabel = 'TeacherAbsence';
     protected $baseRoutePattern = 'teachers/absence';
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -85,7 +85,6 @@ final class TeacherAbsenceAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(

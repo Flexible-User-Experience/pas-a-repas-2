@@ -4,8 +4,8 @@ namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
@@ -13,7 +13,7 @@ use Sonata\Form\Type\DatePickerType;
 
 final class ContactMessageAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Contact Message';
+    protected $classnameLabel = 'ContactMessage';
     protected $baseRoutePattern = 'contacts/message';
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -53,7 +53,6 @@ final class ContactMessageAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd/MM/yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ],
             )
             ->add(

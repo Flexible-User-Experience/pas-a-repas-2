@@ -27,12 +27,11 @@ final class ReceiptAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Receipt';
     protected $baseRoutePattern = 'billings/receipt';
-    protected int $maxPerPage = 500;
 
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PAGE] = 1;
-        $sortValues[DatagridInterface::PER_PAGE] = [25, 50, 100, 200, 500];
+        $sortValues[DatagridInterface::PER_PAGE] = 500;
         $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::DESC;
         $sortValues[DatagridInterface::SORT_BY] = 'id';
     }
@@ -52,7 +51,7 @@ final class ReceiptAdmin extends AbstractBaseAdmin
         ;
     }
 
-    public function configureBatchActions($actions): array
+    public function configureBatchActions(array $actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generatereminderspdf'] = [
@@ -60,13 +59,13 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                 'translation_domain' => 'messages',
                 'ask_confirmation' => false,
             ];
-            $actions['generatefirstsepaxmls'] = [
-                'label' => 'backend.admin.receipt.generate_first_sepa_xmls_batch_action',
+            $actions['generatesepaxmls'] = [
+                'label' => 'backend.admin.invoice.batch_action',
                 'translation_domain' => 'messages',
                 'ask_confirmation' => false,
             ];
-            $actions['generatesepaxmls'] = [
-                'label' => 'backend.admin.receipt.generate_recurrent_sepa_xmls_batch_action',
+            $actions['markaspayed'] = [
+                'label' => 'backend.admin.receipt.mark_as_payed_batch_action',
                 'translation_domain' => 'messages',
                 'ask_confirmation' => false,
             ];
@@ -143,8 +142,8 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.receipt.date',
                     'format' => 'd/M/y',
-                    'required' => !$this->id($this->getSubject()),
-                    'disabled' => (bool) $this->id($this->getSubject()),
+                    'required' => $this->isFormToCreateNewRecord(),
+                    'disabled' => !$this->isFormToCreateNewRecord(),
                 ]
             )
             ->add(
@@ -177,7 +176,7 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
-        if (!$this->id($this->getSubject()) || ($this->id($this->getSubject()) && !$this->getSubject()->getStudent()->isPaymentExempt())) {
+        if ($this->isFormToCreateNewRecord() || (!$this->isFormToCreateNewRecord() && !$this->getSubject()->getStudent()->isPaymentExempt())) {
             $form
                 ->add(
                     'isSepaXmlGenerated',
@@ -279,7 +278,6 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -330,7 +328,20 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                 'student.payment',
                 null,
                 [
-                    'label' => 'backend.admin.parent.payment',
+                    'label' => 'backend.admin.student.payment',
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => StudentPaymentEnum::getEnumArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
+                ]
+            )
+            ->add(
+                'person.payment',
+                null,
+                [
+                    'label' => 'backend.admin.student.parent_payment',
                     'field_type' => ChoiceType::class,
                     'field_options' => [
                         'choices' => StudentPaymentEnum::getEnumArray(),
@@ -377,7 +388,6 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -397,7 +407,6 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -417,7 +426,6 @@ final class ReceiptAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
         ;
@@ -574,14 +582,14 @@ final class ReceiptAdmin extends AbstractBaseAdmin
             'student.fullCanonicalName',
             'person.fullCanonicalName',
             'student.paymentString',
-            'discountApplied',
+            'discountAppliedString',
             'baseAmountString',
-            'isForPrivateLessons',
-            'isSepaXmlGenerated',
+            'isForPrivateLessonsString',
+            'isSepaXmlGeneratedString',
             'sepaXmlGeneratedDateString',
-            'isSended',
+            'isSendedString',
             'sendDateString',
-            'isPayed',
+            'isPayedString',
             'paymentDateString',
         ];
     }

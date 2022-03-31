@@ -5,18 +5,18 @@ namespace App\Admin;
 use App\Doctrine\Enum\SortOrderTypeEnum;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 final class ServiceAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Service';
     protected $baseRoutePattern = 'services/service';
-    
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PAGE] = 1;
@@ -34,15 +34,6 @@ final class ServiceAdmin extends AbstractBaseAdmin
         $form
             ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general'))
             ->add(
-                'imageFile',
-                FileType::class,
-                [
-                    'label' => 'backend.admin.image',
-                    'help' => $this->getImageHelperFormMapperWithThumbnail(),
-                    'required' => false,
-                ]
-            )
-            ->add(
                 'title',
                 null,
                 [
@@ -59,6 +50,14 @@ final class ServiceAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
+            ->add(
+                'imageFile',
+                VichImageType::class,
+                [
+                    'label' => 'backend.admin.image',
+                    'required' => false,
+                ]
+            )
             ->add(
                 'position',
                 null,
@@ -124,7 +123,7 @@ final class ServiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'image',
+                'imageName',
                 null,
                 [
                     'label' => 'backend.admin.image',
@@ -152,6 +151,8 @@ final class ServiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'backend.admin.actions',
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
                     'actions' => [
                         'edit' => [
                             'template' => 'Admin/Buttons/list__action_edit_button.html.twig',

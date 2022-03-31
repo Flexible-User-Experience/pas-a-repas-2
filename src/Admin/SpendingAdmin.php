@@ -7,16 +7,16 @@ use App\Entity\Provider;
 use App\Entity\SpendingCategory;
 use App\Enum\StudentPaymentEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 final class SpendingAdmin extends AbstractBaseAdmin
 {
@@ -81,11 +81,15 @@ final class SpendingAdmin extends AbstractBaseAdmin
             ->with('backend.admin.documents', $this->getFormMdSuccessBoxArray('backend.admin.documents', 4))
             ->add(
                 'documentFile',
-                FileType::class,
+                VichFileType::class,
                 [
                     'label' => 'backend.admin.spending.document',
-                    'help' => $this->getSmartHelper('getDocument', 'documentFile'),
+                    'download_uri' => true,
+                    'allow_delete' => true,
+                    'asset_helper' => true,
+                    'download_label' => 'document',
                     'required' => false,
+                    'help' => 'Pots adjuntar qualsevol document amb format PDF de fins a 10MB',
                 ]
             )
             ->end()
@@ -120,7 +124,7 @@ final class SpendingAdmin extends AbstractBaseAdmin
                 ChoiceType::class,
                 [
                     'label' => 'backend.admin.customer.payment_method',
-                    'choices' => StudentPaymentEnum::getEnumArray(),
+                    'choices' => StudentPaymentEnum::getEnumArrayWithCreditCard(),
                     'required' => true,
                 ]
             )
@@ -133,15 +137,17 @@ final class SpendingAdmin extends AbstractBaseAdmin
         $filter
             ->add(
                 'date',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'backend.admin.spending.date',
-                    'field_type' => DatePickerType::class,
-                    'field_options' => [
+                    'field_options_start' => [
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
+                    'field_options_end' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                    ],
                 ]
             )
             ->add(
@@ -203,7 +209,6 @@ final class SpendingAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -320,12 +325,14 @@ final class SpendingAdmin extends AbstractBaseAdmin
         return [
             'dateString',
             'category',
-            'provider',
+            'provider.tic',
+            'provider.name',
+            'provider.alias',
             'description',
-            'baseAmountString',
+            'amountString',
             'isPayed',
             'paymentDateString',
-            'paymentString',
+            'paymentMethodString',
             'document',
         ];
     }

@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class PreRegisterAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Preregisters';
+    protected $classnameLabel = 'PreRegister';
     protected $baseRoutePattern = 'students/pre-register';
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -34,7 +34,7 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
         ;
     }
 
-    public function configureBatchActions($actions): array
+    public function configureBatchActions(array $actions): array
     {
         if ($this->hasRoute('show') && $this->hasAccess('show')) {
             $actions['generatestudents'] = [
@@ -60,7 +60,6 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                         'widget' => 'single_text',
                         'format' => 'dd-MM-yyyy',
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -74,7 +73,6 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                         'expanded' => false,
                         'multiple' => false,
                     ],
-//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -138,6 +136,20 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'frontend.forms.preregister.comments',
+                ]
+            )
+            ->add(
+                'hasBeenPreviousCustomer',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.has_been_previous_customer_short',
+                ]
+            )
+            ->add(
+                'wantsToMakeOfficialExam',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.wants_to_make_official_exam_short',
                 ]
             )
             ->add(
@@ -232,6 +244,20 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'hasBeenPreviousCustomer',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.has_been_previous_customer_short',
+                ]
+            )
+            ->add(
+                'wantsToMakeOfficialExam',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.wants_to_make_official_exam_short',
+                ]
+            )
+            ->add(
                 'enabled',
                 null,
                 [
@@ -250,7 +276,7 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'frontend.forms.preregister.date',
                     'editable' => false,
-                    'format' => 'd/m/Y H:i'
+                    'format' => 'd/m/Y H:i',
                 ]
             )
             ->add(
@@ -306,6 +332,8 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'backend.admin.actions',
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
                     'actions' => [
                         'show' => [
                             'template' => 'Admin/Buttons/list__action_show_button.html.twig',
@@ -336,6 +364,8 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
             'preferredTimetable',
             'previousAcademy',
             'comments',
+            'hasBeenPreviousCustomerString',
+            'wantsToMakeOfficialExamString',
             'enabled',
         ];
     }
