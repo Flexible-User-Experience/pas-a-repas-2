@@ -41,7 +41,7 @@ final class FullCalendarListener implements EventSubscriberInterface
         ];
     }
 
-    public function loadData(CalendarEvent $calendarEvent)
+    public function loadData(CalendarEvent $calendarEvent): void
     {
         $startDate = $calendarEvent->getStart();
         $endDate = $calendarEvent->getEnd();

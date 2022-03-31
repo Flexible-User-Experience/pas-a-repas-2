@@ -319,9 +319,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getMainEmail(): string
     {
-        $subject = $this->getMainSubject();
-
-        return $subject->getEmail();
+        return $this->getMainSubject()->getEmail();
     }
 
     /**
@@ -329,9 +327,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getMainEmailName(): string
     {
-        $subject = $this->getMainSubject();
-
-        return $subject->getFullName();
+        return $this->getMainSubject()->getFullName();
     }
 
     /**
@@ -339,9 +335,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getMainBank(): ?Bank
     {
-        $subject = $this->getMainSubject();
-
-        return $subject->getBank();
+        return $this->getMainSubject()->getBank();
     }
 
     /**
@@ -349,9 +343,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getDebtorMandate(): string
     {
-        $subject = $this->getMainSubject();
-
-        return $subject->getDebtorMandate();
+        return $this->getMainSubject()->getDebtorMandate();
     }
 
     /**
@@ -359,9 +351,7 @@ abstract class AbstractReceiptInvoice extends AbstractBase
      */
     public function getDebtorMandateSignDate(): string
     {
-        $subject = $this->getMainSubject();
-
-        return $subject->getDebtorMandateSignDate();
+        return $this->getMainSubject()->getDebtorMandateSignDate();
     }
 
     /**

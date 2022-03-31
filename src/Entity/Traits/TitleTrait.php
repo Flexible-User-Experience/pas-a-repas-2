@@ -4,7 +4,7 @@ namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 
-Trait TitleTrait
+trait TitleTrait
 {
     /**
      * @ORM\Column(type="string", length=255, unique=true)

@@ -91,7 +91,7 @@ abstract class AbstractBase
         return $this->getEnabled();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getId().' · '.$this->getCreatedAtString() : self::DEFAULT_NULL_STRING;
     }

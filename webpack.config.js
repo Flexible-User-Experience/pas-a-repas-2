@@ -1,10 +1,11 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
 
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
 Encore
+    // disc copy
     .setOutputPath('public/build/')
     .setPublicPath('/build')
     .copyFiles([
@@ -19,20 +20,22 @@ Encore
     .addEntry('fullcalendardefaultsettings', './assets/js/fullcalendar.default-settings.js')
     .addEntry('fullcalendarstudentsettings', './assets/js/fullcalendar.student-settings.js')
     // configs
-    .autoProvidejQuery()
-    .splitEntryChunks()
-    .cleanupOutputBeforeBuild()
+    .configureBabel((config) => {
+        config.plugins.push('@babel/plugin-proposal-class-properties');
+    })
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = 3;
     })
     // enablers
-    .enableSingleRuntimeChunk()
+    .splitEntryChunks()
+    .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
-    .enableSassLoader()
     .enableStimulusBridge('./assets/controllers.json')
+    .enableSingleRuntimeChunk()
+    .enableSassLoader()
 ;
 
 module.exports = Encore.getWebpackConfig();

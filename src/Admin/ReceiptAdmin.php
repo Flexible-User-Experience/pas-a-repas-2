@@ -2,37 +2,42 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Entity\Person;
 use App\Entity\Receipt;
 use App\Entity\Student;
 use App\Enum\InvoiceYearMonthEnum;
 use App\Enum\StudentPaymentEnum;
 use DateTimeImmutable;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class ReceiptAdmin extends AbstractBaseAdmin
+final class ReceiptAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Receipt';
     protected $baseRoutePattern = 'billings/receipt';
-    protected $maxPerPage = 500;
-    protected $datagridValues = [
-        '_sort_by' => 'id',
-        '_sort_order' => 'desc',
-        '_per_page' => 500,
-    ];
-    protected $perPageOptions = [25, 50, 100, 200, 500];
+    protected int $maxPerPage = 500;
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::PER_PAGE] = [25, 50, 100, 200, 500];
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::DESC;
+        $sortValues[DatagridInterface::SORT_BY] = 'id';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('generate')
@@ -70,9 +75,8 @@ class ReceiptAdmin extends AbstractBaseAdmin
         return $actions;
     }
 
-    public function getDashboardActions(): array
+    public function configureDashboardActions(array $actions): array
     {
-        $actions = parent::getDashboardActions();
         $actions['generate'] = [
             'label' => 'backend.admin.receipt.generate_batch',
             'translation_domain' => 'messages',
@@ -88,7 +92,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
         $now = new DateTimeImmutable();
         $currentYear = $now->format('Y');
         $form
-            ->with('backend.admin.receipt.receipt', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.receipt.receipt', $this->getFormMdSuccessBoxArray('backend.admin.receipt.receipt', 3))
             ->add(
                 'year',
                 ChoiceType::class,
@@ -116,7 +120,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => Student::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.student_repository')->getEnabledSortedBySurnameValidTariffQB(),
+                    'query_builder' => $this->em->getRepository(Student::class)->getEnabledSortedBySurnameValidTariffQB(),
                 ]
             )
             ->add(
@@ -127,12 +131,12 @@ class ReceiptAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'class' => Person::class,
                     'choice_label' => 'fullCanonicalName',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.parent_repository')->getEnabledSortedBySurnameQB(),
+                    'query_builder' => $this->em->getRepository(Person::class)->getEnabledSortedBySurnameQB(),
                     'disabled' => true,
                 ]
             )
             ->end()
-            ->with('backend.admin.invoice.detail', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.invoice.detail', $this->getFormMdSuccessBoxArray('backend.admin.invoice.detail', 3))
             ->add(
                 'date',
                 DatePickerType::class,
@@ -162,7 +166,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
                 'isForPrivateLessons',
                 CheckboxType::class,
@@ -235,7 +239,7 @@ class ReceiptAdmin extends AbstractBaseAdmin
         $form->end();
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $form
-                ->with('backend.admin.receipt.lines', $this->getFormMdSuccessBoxArray(12))
+                ->with('backend.admin.receipt.lines', $this->getFormMdSuccessBoxArray('backend.admin.receipt.lines', 12))
                 ->add(
                     'lines',
                     CollectionType::class,
@@ -271,12 +275,11 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.receipt.date',
                     'field_type' => DatePickerType::class,
-                    'format' => 'd-m-Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                    ],
+//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -291,36 +294,36 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'backend.admin.invoice.month',
-                ],
-                ChoiceType::class,
-                [
-                    'choices' => InvoiceYearMonthEnum::getMonthEnumArray(),
-                    'expanded' => false,
-                    'multiple' => false,
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => InvoiceYearMonthEnum::getMonthEnumArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
                 ]
             )
             ->add(
                 'student',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'backend.admin.invoice.student',
-                ],
-                null,
-                [
-                    'class' => Student::class,
-                    'property' => ['name', 'surname'],
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'class' => Student::class,
+                        'property' => ['name', 'surname'],
+                    ],
                 ]
             )
             ->add(
                 'person',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'backend.admin.invoice.person',
-                ],
-                null,
-                [
-                    'class' => Person::class,
-                    'property' => ['name', 'surname'],
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'class' => Person::class,
+                        'property' => ['name', 'surname'],
+                    ],
                 ]
             )
             ->add(
@@ -328,12 +331,12 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'backend.admin.parent.payment',
-                ],
-                ChoiceType::class,
-                [
-                    'choices' => StudentPaymentEnum::getEnumArray(),
-                    'expanded' => false,
-                    'multiple' => false,
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => StudentPaymentEnum::getEnumArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
                 ]
             )
             ->add(
@@ -370,12 +373,11 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.receipt.sepaXmlGeneratedDate',
                     'field_type' => DatePickerType::class,
-                    'format' => 'd-m-Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                    ],
+//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -391,12 +393,11 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.invoice.sendDate',
                     'field_type' => DatePickerType::class,
-                    'format' => 'd-m-Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                    ],
+//                    'format' => 'd-m-Y',
                 ]
             )
             ->add(
@@ -412,12 +413,11 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.invoice.paymentDate',
                     'field_type' => DatePickerType::class,
-                    'format' => 'd-m-Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                    ],
+//                    'format' => 'd-m-Y',
                 ]
             )
         ;
@@ -528,27 +528,43 @@ class ReceiptAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                null,
                 [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
                     'actions' => [
-                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
-                        'reminder' => ['template' => 'Admin/Buttons/list__action_receipt_reminder_button.html.twig'],
-                        'sendReminder' => ['template' => 'Admin/Buttons/list__action_receipt_reminder_send_button.html.twig'],
-                        'pdf' => ['template' => 'Admin/Buttons/list__action_receipt_pdf_button.html.twig'],
-                        'send' => ['template' => 'Admin/Buttons/list__action_receipt_send_button.html.twig'],
-                        'createInvoice' => ['template' => 'Admin/Buttons/list__action_receipt_create_invoice_button.html.twig'],
-                        'generateDirectDebit' => ['template' => 'Admin/Buttons/list__action_generate_direct_debit_xml_button.html.twig'],
-                        'delete' => ['template' => 'Admin/Buttons/list__action_delete_button.html.twig'],
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
+                        'reminder' => [
+                            'template' => 'Admin/Buttons/list__action_receipt_reminder_button.html.twig',
+                        ],
+                        'sendReminder' => [
+                            'template' => 'Admin/Buttons/list__action_receipt_reminder_send_button.html.twig',
+                        ],
+                        'pdf' => [
+                            'template' => 'Admin/Buttons/list__action_receipt_pdf_button.html.twig',
+                        ],
+                        'send' => [
+                            'template' => 'Admin/Buttons/list__action_receipt_send_button.html.twig',
+                        ],
+                        'createInvoice' => [
+                            'template' => 'Admin/Buttons/list__action_receipt_create_invoice_button.html.twig',
+                        ],
+                        'generateDirectDebit' => [
+                            'template' => 'Admin/Buttons/list__action_generate_direct_debit_xml_button.html.twig',
+                        ],
+                        'delete' => [
+                            'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
+                        ],
                     ],
-                    'label' => 'backend.admin.actions',
                 ]
             );
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'receiptNumber',
@@ -586,9 +602,6 @@ class ReceiptAdmin extends AbstractBaseAdmin
         $this->commonPreActions($object);
     }
 
-    /**
-     * @param Receipt $object
-     */
     private function commonPreActions($object): void
     {
         if ($object->getStudent()->getParent()) {

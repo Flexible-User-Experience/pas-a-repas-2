@@ -45,6 +45,19 @@ class ClassGroup extends AbstractBase
         return $this->code;
     }
 
+    public function getCodeAndBook(): string
+    {
+        $result = '';
+        if ($this->getCode()) {
+            $result = $this->getCode();
+            if ($this->getBook()) {
+                $result .= ' ('.$this->getBook().')';
+            }
+        }
+
+        return $result;
+    }
+
     public function setCode(string $code): self
     {
         $this->code = $code;

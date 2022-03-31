@@ -2,113 +2,99 @@
 
 namespace App\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
+use Symfony\Component\Security\Core\Security;
+use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-/**
- * Class BaseAdmin.
- *
- * @category Admin
- */
 abstract class AbstractBaseAdmin extends AbstractAdmin
 {
-    private UploaderHelper $vus;
-    private CacheManager $lis;
+    protected EntityManagerInterface $em;
+    protected Security $ss;
+    protected Environment $twig;
+    protected UploaderHelper $vus;
+    protected CacheManager $lis;
 
-    /**
-     * @param string         $code
-     * @param string         $class
-     * @param string         $baseControllerName
-     * @param UploaderHelper $vus
-     * @param CacheManager   $lis
-     */
-    public function __construct($code, $class, $baseControllerName, UploaderHelper $vus, CacheManager $lis)
+    protected array $perPageOptions = [25, 50, 100, 200, 400];
+    protected int $maxPerPage = 25;
+
+    public function __construct($code, $class, $baseControllerName, EntityManagerInterface $em, Security $ss, Environment $twig, UploaderHelper $vus, CacheManager $lis)
     {
         parent::__construct($code, $class, $baseControllerName);
+        $this->em = $em;
+        $this->ss = $ss;
+        $this->twig = $twig;
         $this->vus = $vus;
         $this->lis = $lis;
     }
 
-    /**
-     * @var array
-     */
-    protected $perPageOptions = array(25, 50, 100, 200, 400);
-
-    /**
-     * @var int
-     */
-    protected $maxPerPage = 25;
-
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
+        parent::configureRoutes($collection);
         $collection
             ->remove('show')
-            ->remove('batch');
+            ->remove('batch')
+        ;
     }
 
-    /**
-     * Remove batch action list view first column.
-     *
-     * @return array
-     */
-    public function getBatchActions(): array
+    public function configureBatchActions(array $actions): array
     {
-        $actions = parent::getBatchActions();
         unset($actions['delete']);
 
         return $actions;
     }
 
-    /**
-     * Get export formats.
-     *
-     * @return array
-     */
     public function getExportFormats(): array
     {
-        return array(
-            'csv',
-            'xls',
-        );
+        return ['csv', 'xls'];
     }
 
-    /**
-     * @param string $bootstrapGrid
-     * @param string $bootstrapSize
-     * @param string $boxClass
-     *
-     * @return array
-     */
-    protected function getDefaultFormBoxArray($bootstrapGrid = 'md', $bootstrapSize = '6', $boxClass = 'primary'): array
+    protected function checkUserHasRole(string $role): bool
     {
-        return array(
+        try {
+            return $this->ss->isGranted($role);
+        } catch (AuthenticationCredentialsNotFoundException $e) {
+            return false;
+        }
+    }
+
+    protected function getDefaultFormBoxArray(string $label, string $bootstrapGrid = 'md', string $bootstrapSize = '6', string $boxClass = 'primary'): array
+    {
+        return [
+            'label' => $label,
             'class' => 'col-'.$bootstrapGrid.'-'.$bootstrapSize,
             'box_class' => 'box box-'.$boxClass,
-        );
+        ];
     }
 
-    /**
-     * @param string $bootstrapColSize
-     *
-     * @return array
-     */
-    protected function getFormMdSuccessBoxArray($bootstrapColSize = '6'): array
+    protected function getFormMdSuccessBoxArray(string $label, int $bootstrapColSize = 6): array
     {
-        return $this->getDefaultFormBoxArray('md', $bootstrapColSize, 'success');
+        return $this->getDefaultFormBoxArray($label, 'md', (string) $bootstrapColSize, 'success');
     }
 
-    /**
-     * Get image helper form mapper with thumbnail.
-     *
-     * @return string
-     */
+    protected function getShowMdInfoBoxArray(string $label, int $bootstrapColSize = 6, string $boxClass = 'info'): array
+    {
+        return [
+            'label' => $label,
+            'class' => 'col-md-'.$bootstrapColSize,
+            'box_class' => 'box box-'.$boxClass,
+        ];
+    }
+
+    protected function isFormToCreateNewRecord(): bool
+    {
+        return !$this->id($this->getSubject());
+    }
+
+    protected function isChildForm(): bool
+    {
+        return $this->hasParentFieldDescription();
+    }
+
     protected function getImageHelperFormMapperWithThumbnail(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getImageName() ? '<img src="'.$this->lis->getBrowserPath(
@@ -165,19 +151,18 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     protected function getSmartHelper($attribute, $uploaderMapping): string
     {
         $fs = $this->getConfigurationPool()->getContainer()->get('app.file_service');
-        $tes = $this->getConfigurationPool()->getContainer()->get('twig');
 
         if ($this->getSubject() && $this->getSubject()->$attribute()) {
             if ($fs->isPdf($this->getSubject(), $uploaderMapping)) {
                 // PDF case
-                return $tes->render('Admin/Helpers/pdf.html.twig', [
+                return $this->twig->render('Admin/Helpers/pdf.html.twig', [
                     'attribute' => $this->getSubject()->$attribute(),
                     'subject' => $this->getSubject(),
                     'uploaderMapping' => $uploaderMapping,
                 ]);
             } else {
                 // Image case
-                return $tes->render('Admin/Helpers/image.html.twig', [
+                return $this->twig->render('Admin/Helpers/image.html.twig', [
                     'attribute' => $this->getSubject()->$attribute(),
                     'subject' => $this->getSubject(),
                     'uploaderMapping' => $uploaderMapping,

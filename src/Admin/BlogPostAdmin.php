@@ -2,33 +2,39 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Repository\BlogCategoryRepository;
-use Doctrine\ORM\QueryBuilder;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class BlogPostAdmin extends AbstractBaseAdmin
+final class BlogPostAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Article';
     protected $baseRoutePattern = 'web/blog-post';
-    protected $datagridValues = [
-        '_sort_by' => 'publishedAt',
-        '_sort_order' => 'desc',
-    ];
 
-    public function createQuery($context = 'list')
+    protected function configureDefaultSortValues(array &$sortValues): void
     {
-        /** @var QueryBuilder $query */
-        $query = parent::createQuery($context);
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::DESC;
+        $sortValues[DatagridInterface::SORT_BY] = 'publishedAt';
+    }
+
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $rootAlias = current($query->getRootAliases());
         $query
-            ->select($query->getRootAliases()[0].', c')
-            ->leftJoin($query->getRootAliases()[0].'.categories', 'c');
+            ->select($rootAlias.', c')
+            ->leftJoin($rootAlias.'.categories', 'c')
+        ;
 
         return $query;
     }
@@ -36,7 +42,7 @@ class BlogPostAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('backend.admin.post', $this->getFormMdSuccessBoxArray(6))
+            ->with('backend.admin.post', $this->getFormMdSuccessBoxArray('backend.admin.post'))
             ->add(
                 'publishedAt',
                 DatePickerType::class,
@@ -55,7 +61,7 @@ class BlogPostAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(6))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls'))
             ->add(
                 'categories',
                 null,
@@ -90,7 +96,7 @@ class BlogPostAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.content', $this->getFormMdSuccessBoxArray(12))
+            ->with('backend.admin.content', $this->getFormMdSuccessBoxArray('backend.admin.content', 12))
             ->add(
                 'title',
                 null,
@@ -120,12 +126,11 @@ class BlogPostAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'backend.admin.published_date',
                     'field_type' => DatePickerType::class,
-                    'format' => 'd/M/y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd/MM/yyyy',
+                    ],
+//                    'format' => 'd/M/y',
                 ]
             )
             ->add(
@@ -173,7 +178,7 @@ class BlogPostAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->add(
@@ -222,9 +227,10 @@ class BlogPostAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                null,
                 [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
                     'actions' => [
@@ -238,7 +244,6 @@ class BlogPostAdmin extends AbstractBaseAdmin
                             'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
                         ],
                     ],
-                    'label' => 'backend.admin.actions',
                 ]
             )
         ;

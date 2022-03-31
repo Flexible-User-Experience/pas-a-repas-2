@@ -24,4 +24,11 @@ twig:
         main_brand_phone_2:         '%boss_phone_number_2%'
         main_brand_city:            '%boss_city%'
         mailer_destination:         '%mailer_destination%'
+        admin_logo:                 '%admin_logo%'
+        admin_color:                '%admin_color%'
+        admin_is_stage:             '%admin_is_stage%'
         admin_tag_version:          'v4.5.22'
+
+when@test:
+    twig:
+        strict_variables: true

@@ -56,7 +56,7 @@ class Spending extends AbstractBase
     /**
      * @ORM\Column(type="integer", options={"default"=0})
      */
-    private int $paymentMethod;
+    private int $paymentMethod = StudentPaymentEnum::BANK_ACCOUNT_NUMBER;
 
     /**
      * @Vich\UploadableField(mapping="spending", fileNameProperty="document")

@@ -6,81 +6,61 @@ use App\Enum\PreRegisterSeasonEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class PreRegister.
- *
- * @category Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\PreRegisterRepository")
  * @ORM\Table(name="pre_register")
  */
 class PreRegister extends AbstractPerson
 {
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $age;
+    private ?string $age = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $courseLevel;
+    private ?string $courseLevel = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $preferredTimetable;
+    private ?string $preferredTimetable = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $previousAcademy;
+    private ?string $previousAcademy = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="text", length=4000, nullable=true)
      */
-    private $comments;
+    private ?string $comments = null;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer", options={"default"=0})
      */
-    private $season = 0;
+    private int $season = 0;
 
     /**
-     * @var ClassGroup
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\ClassGroup")
      */
-    protected $classGroup;
+    protected ?ClassGroup $classGroup = null;
 
     /**
-     * Methods.
+     * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
      */
+    protected ?bool $hasBeenPreviousCustomer = false;
 
     /**
-     * @return string|null
+     * @ORM\Column(type="boolean", nullable=true, options={"default"=0})
      */
+    protected ?bool $wantsToMakeOfficialExam = false;
+
     public function getAge(): ?string
     {
         return $this->age;
     }
 
-    /**
-     * @param string|null $age
-     *
-     * @return $this
-     */
     public function setAge(?string $age): PreRegister
     {
         $this->age = $age;
@@ -88,19 +68,11 @@ class PreRegister extends AbstractPerson
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCourseLevel(): ?string
     {
         return $this->courseLevel;
     }
 
-    /**
-     * @param string|null $courseLevel
-     *
-     * @return PreRegister
-     */
     public function setCourseLevel(?string $courseLevel): PreRegister
     {
         $this->courseLevel = $courseLevel;
@@ -108,19 +80,11 @@ class PreRegister extends AbstractPerson
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPreferredTimetable(): ?string
     {
         return $this->preferredTimetable;
     }
 
-    /**
-     * @param string|null $preferredTimetable
-     *
-     * @return PreRegister
-     */
     public function setPreferredTimetable(?string $preferredTimetable): PreRegister
     {
         $this->preferredTimetable = $preferredTimetable;
@@ -128,19 +92,11 @@ class PreRegister extends AbstractPerson
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPreviousAcademy(): ?string
     {
         return $this->previousAcademy;
     }
 
-    /**
-     * @param string|null $previousAcademy
-     *
-     * @return PreRegister
-     */
     public function setPreviousAcademy(?string $previousAcademy): PreRegister
     {
         $this->previousAcademy = $previousAcademy;
@@ -148,19 +104,11 @@ class PreRegister extends AbstractPerson
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getComments(): ?string
     {
         return $this->comments;
     }
 
-    /**
-     * @param string|null $comments
-     *
-     * @return PreRegister
-     */
     public function setComments(?string $comments): PreRegister
     {
         $this->comments = $comments;
@@ -168,27 +116,16 @@ class PreRegister extends AbstractPerson
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getSeason(): int
     {
         return $this->season;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSeasonString(): ?string
     {
         return PreRegisterSeasonEnum::getReversedEnumArray()[$this->getSeason()];
     }
 
-    /**
-     * @param int $season
-     *
-     * @return $this
-     */
     public function setSeason(int $season): PreRegister
     {
         $this->season = $season;
@@ -196,22 +133,48 @@ class PreRegister extends AbstractPerson
         return $this;
     }
 
-    /**
-     * @return ClassGroup|null
-     */
     public function getClassGroup(): ?ClassGroup
     {
         return $this->classGroup;
     }
 
-    /**
-     * @param ClassGroup|null $classGroup
-     *
-     * @return $this
-     */
     public function setClassGroup(?ClassGroup $classGroup): PreRegister
     {
         $this->classGroup = $classGroup;
+
+        return $this;
+    }
+
+    public function getHasBeenPreviousCustomer(): ?bool
+    {
+        return $this->hasBeenPreviousCustomer;
+    }
+
+    public function getHasBeenPreviousCustomerString(): string
+    {
+        return $this->getHasBeenPreviousCustomer() ? 'sí' : 'no';
+    }
+
+    public function setHasBeenPreviousCustomer(?bool $hasBeenPreviousCustomer): self
+    {
+        $this->hasBeenPreviousCustomer = $hasBeenPreviousCustomer;
+
+        return $this;
+    }
+
+    public function getWantsToMakeOfficialExam(): ?bool
+    {
+        return $this->wantsToMakeOfficialExam;
+    }
+
+    public function getWantsToMakeOfficialExamString(): string
+    {
+        return $this->getWantsToMakeOfficialExam() ? 'sí' : 'no';
+    }
+
+    public function setWantsToMakeOfficialExam(?bool $wantsToMakeOfficialExam): self
+    {
+        $this->wantsToMakeOfficialExam = $wantsToMakeOfficialExam;
 
         return $this;
     }

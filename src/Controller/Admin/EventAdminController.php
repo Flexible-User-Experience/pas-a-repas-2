@@ -16,7 +16,6 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\EngineInterface;
 
 final class EventAdminController extends BaseAdminController
 {
@@ -210,7 +209,7 @@ final class EventAdminController extends BaseAdminController
     /**
      * API GET action.
      */
-    public function apigetAction(Request $request, EngineInterface $twig): JsonResponse
+    public function apigetAction(Request $request, Templating $twig): JsonResponse
     {
         $id = $request->get($this->admin->getIdParameter());
         /** @var Event $object */

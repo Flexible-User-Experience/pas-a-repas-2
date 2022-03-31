@@ -2,35 +2,41 @@
 
 namespace App\Admin;
 
-use Doctrine\ORM\QueryBuilder;
+use App\Doctrine\Enum\SortOrderTypeEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class BlogCategoryAdmin extends AbstractBaseAdmin
+final class BlogCategoryAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Categoria';
     protected $baseRoutePattern = 'web/blog-category';
-    protected $datagridValues = [
-        '_sort_by' => 'title',
-        '_sort_order' => 'asc',
-    ];
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'title';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('batch');
     }
 
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $query */
-        $query = parent::createQuery($context);
+        $query = parent::configureQuery($query);
+        $rootAlias = current($query->getRootAliases());
         $query
-            ->select($query->getRootAliases()[0].', p')
-            ->leftJoin($query->getRootAliases()[0].'.posts', 'p');
+            ->select($rootAlias.', p')
+            ->leftJoin($rootAlias.'.posts', 'p')
+        ;
 
         return $query;
     }
@@ -38,7 +44,7 @@ class BlogCategoryAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('backend.admin.category', $this->getFormMdSuccessBoxArray(6))
+            ->with('backend.admin.category', $this->getFormMdSuccessBoxArray('backend.admin.category'))
             ->add(
                 'title',
                 null,
@@ -47,7 +53,7 @@ class BlogCategoryAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(6))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls'))
             ->add(
                 'enabled',
                 CheckboxType::class,
@@ -154,9 +160,10 @@ class BlogCategoryAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                null,
                 [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
                     'actions' => [
@@ -170,7 +177,6 @@ class BlogCategoryAdmin extends AbstractBaseAdmin
                             'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
                         ],
                     ],
-                    'label' => 'backend.admin.actions',
                 ]
             )
         ;

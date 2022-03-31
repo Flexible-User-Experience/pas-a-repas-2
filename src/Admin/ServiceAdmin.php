@@ -2,188 +2,176 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-/**
- * Class ServiceAdmin.
- *
- * @category Admin
- */
-class ServiceAdmin extends AbstractBaseAdmin
+final class ServiceAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Service';
     protected $baseRoutePattern = 'services/service';
-    protected $datagridValues = array(
-        '_sort_by' => 'position',
-        '_sort_order' => 'asc',
-    );
-
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    
+    protected function configureDefaultSortValues(array &$sortValues): void
     {
-        $collection
-            ->remove('batch');
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'position';
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        $formMapper
-            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(6))
+        $collection->remove('batch');
+    }
+
+    protected function configureFormFields(FormMapper $form): void
+    {
+        $form
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general'))
             ->add(
                 'imageFile',
                 FileType::class,
-                array(
+                [
                     'label' => 'backend.admin.image',
                     'help' => $this->getImageHelperFormMapperWithThumbnail(),
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'title',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.service.title',
-                )
+                ]
             )
             ->add(
                 'description',
                 CKEditorType::class,
-                array(
+                [
                     'label' => 'backend.admin.description',
                     'config_name' => 'my_config',
-                )
+                ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
                 'position',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.position',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'required' => false,
-                )
+                ]
             )
-            ->end();
+            ->end()
+        ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'position',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.position',
-                )
+                ]
             )
             ->add(
                 'title',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.service.title',
-                )
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.description',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
-                )
-            );
-    }
-
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
-    {
-        $listMapper
-            ->add(
-                'position',
-                'decimal',
-                array(
-                    'label' => 'backend.admin.position',
-                    'editable' => true,
-                )
-            )
-            ->add(
-                'image',
-                null,
-                array(
-                    'label' => 'backend.admin.image',
-                    'template' => 'Admin/Cells/list__cell_image_field.html.twig',
-                )
-            )
-            ->add(
-                'title',
-                null,
-                array(
-                    'label' => 'backend.admin.service.title',
-                    'editable' => true,
-                )
-            )
-            ->add(
-                'enabled',
-                null,
-                array(
-                    'label' => 'backend.admin.enabled',
-                    'editable' => true,
-                )
-            )
-            ->add(
-                '_action',
-                'actions',
-                array(
-                    'actions' => array(
-                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
-                    ),
-                    'label' => 'backend.admin.actions',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @return array
-     */
-    public function getExportFields()
+    protected function configureListFields(ListMapper $list): void
     {
-        return array(
+        $list
+            ->add(
+                'position',
+                'decimal',
+                [
+                    'label' => 'backend.admin.position',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'image',
+                null,
+                [
+                    'label' => 'backend.admin.image',
+                    'template' => 'Admin/Cells/list__cell_image_field.html.twig',
+                ]
+            )
+            ->add(
+                'title',
+                null,
+                [
+                    'label' => 'backend.admin.service.title',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'enabled',
+                null,
+                [
+                    'label' => 'backend.admin.enabled',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                ListMapper::NAME_ACTIONS,
+                null,
+                [
+                    'label' => 'backend.admin.actions',
+                    'actions' => [
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
+                        'delete' => [
+                            'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
+                        ],
+                    ],
+                ]
+            )
+        ;
+    }
+
+    public function configureExportFields(): array
+    {
+        return [
             'position',
             'title',
             'description',
             'enabled',
-        );
+        ];
     }
 }
