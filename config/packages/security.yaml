@@ -21,6 +21,7 @@ security:
             - ROLE_ADMIN_BLOG_POST_ALL
             - ROLE_ADMIN_FILE_MANAGER_DUMMY_ALL
         ROLE_SONATA_CUSTOM_ADMIN:
+            - ROLE_ADMIN_BANK_CREDITOR_SEPA_ALL
             - ROLE_ADMIN_SERVICE_ALL
             - ROLE_ADMIN_NEWSLETTERCONTACT_ALL
             - ROLE_ADMIN_RECEIPT_ALL
@@ -57,7 +58,7 @@ security:
                 property: 'username'
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         admin:
             pattern:     /admin(.*)
@@ -77,8 +78,8 @@ security:
                 path:   /admin/logout
                 target: /admin/login
         frontend:
-            pattern:   ^/(.*)
-            context:   user
+            pattern: ^/(.*)
+            context: user
             lazy:    true
     access_control:
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
