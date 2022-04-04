@@ -150,6 +150,18 @@ App\Entity\City:
     updatedAt: <dateTimeThisMonth()>
     enabled: true
 
+# BankCreditorSepa
+App\Entity\BankCreditorSepa:
+  bankCreditorSepa{1..2}:
+    name: <name()>
+    organizationId: <bothify('########?')>
+    creditorName: <company()>
+    iban: <iban('ES')>
+    bic: <swiftBicNumber()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
 # Bank
 App\Entity\Bank:
   bank{1..2}:
@@ -211,7 +223,7 @@ App\Entity\Event:
     begin: <dateTimeThisMonth()>
     end: <dateTimeThisMonth()>
     teacher: '@teacher1'
-    classroom: <numberBetween(0, 2)>
+    classroom: <numberBetween(0, 3)>
     group: '@classgroup1'
     students:
         - '@student1'
@@ -223,7 +235,7 @@ App\Entity\Event:
     begin: <dateTimeThisMonth()>
     end: <dateTimeThisMonth()>
     teacher: '@teacher1'
-    classroom: <numberBetween(0, 2)>
+    classroom: <numberBetween(0, 3)>
     group: '@classgroup1'
     students:
         - '@student1'
@@ -235,7 +247,7 @@ App\Entity\Event:
     begin: <dateTimeThisMonth()>
     end: <dateTimeThisMonth()>
     teacher: '@teacher1'
-    classroom: <numberBetween(0, 2)>
+    classroom: <numberBetween(0, 3)>
     group: '@classgroup2'
     students:
         - '@student1'
@@ -322,10 +334,10 @@ App\Entity\Provider:
 App\Entity\User:
     admin:
         username: admin
+        usernameCanonical: admin
         plainPassword: passwd
-        email: <safeEmail()>
-        firstname: <name()>
-        lastname: <lastname()>
+        email: admin@email.com
+        emailCanonical: admin@email.com
         enabled: true
         roles:
             - ROLE_SUPER_ADMIN
