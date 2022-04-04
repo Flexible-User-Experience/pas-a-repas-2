@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\AdminLoginForm;
+use App\Form\Type\AdminLoginForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +28,7 @@ final class AdminLoginController extends AbstractController
             'target_path' => $router->generate('sonata_admin_dashboard'),
         ]);
 
-        return $this->render('security/login.html.twig', [
+        return $this->render('Admin/Security/login.html.twig', [
             'form' => $form->createView(),
             'last_username' => $this->authenticationUtils->getLastUsername(),
             'error' => $this->authenticationUtils->getLastAuthenticationError(),
