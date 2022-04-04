@@ -1,7 +1,7 @@
 Pas a Repàs
 ===========
 
-A Symfony 4.4 LTS project to manage [Pas a Repàs](http://www.pasarepas.cat) website content with custom ERP integrated functionalities.
+A Symfony 4.4 LTS project to manage [Pas a Repàs](https://www.pasarepas.cat) website content with custom ERP integrated functionalities.
 
 ---
 

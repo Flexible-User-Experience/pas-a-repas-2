@@ -18,15 +18,15 @@ use App\Enum\TeacherColorEnum;
 use App\Enum\UserRolesEnum;
 use App\Manager\ReceiptManager;
 use App\Service\SmartAssetsHelperService;
-use Exception;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
 
-final class AppExtension extends AbstractExtension
+class AppExtension extends AbstractExtension
 {
     private SmartAssetsHelperService $sahs;
     private ReceiptManager $rm;
@@ -42,7 +42,6 @@ final class AppExtension extends AbstractExtension
     /**
      * Twig Tests.
      */
-
     public function getTests(): array
     {
         return [
@@ -50,12 +49,15 @@ final class AppExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * Return if a given object is instance of.
+     */
     public function isInstanceOf($var, $instance): bool
     {
         try {
             $reflexionClass = new ReflectionClass($instance);
             $result = $reflexionClass->isInstance($var);
-        } catch (Exception $e) {
+        } catch (ReflectionException $e) {
             $result = false;
         }
 
@@ -65,7 +67,6 @@ final class AppExtension extends AbstractExtension
     /**
      * Twig Functions.
      */
-
     public function getFunctions(): array
     {
         return [
@@ -94,7 +95,7 @@ final class AppExtension extends AbstractExtension
     /**
      * Always return absolute URL path, even in CLI contexts useful for background shell processes.
      */
-    public function getAbsoluteAssetPathContextIndependent(string $assetPath): string
+    public function getAbsoluteAssetPathContextIndependent($assetPath): string
     {
         return $this->sahs->getAbsoluteAssetPathContextIndependent($assetPath);
     }
@@ -102,7 +103,6 @@ final class AppExtension extends AbstractExtension
     /**
      * Twig Filters.
      */
-
     public function getFilters(): array
     {
         return [
@@ -122,7 +122,7 @@ final class AppExtension extends AbstractExtension
     public function drawRoleSpan(User $object): string
     {
         $span = '';
-        if (count($object->getRoles()) > 0) {
+        if ($object instanceof User && count($object->getRoles()) > 0) {
             $ea = UserRolesEnum::getReversedEnumArray();
             /** @var string $role */
             foreach ($object->getRoles() as $role) {
@@ -146,14 +146,16 @@ final class AppExtension extends AbstractExtension
     public function drawTeacherColorSpan(Teacher $object): string
     {
         $span = '';
-        if (TeacherColorEnum::MAGENTA === $object->getColor()) {
-            $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #EE388A"></span>';
-        } elseif (TeacherColorEnum::BLUE === $object->getColor()) {
-            $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #00ABE0"></span>';
-        } elseif (TeacherColorEnum::YELLOW === $object->getColor()) {
-            $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #FFCD38"></span>';
-        } elseif (TeacherColorEnum::GREEN === $object->getColor()) {
-            $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #77C533"></span>';
+        if ($object instanceof Teacher) {
+            if (TeacherColorEnum::MAGENTA === $object->getColor()) {
+                $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #EE388A"></span>';
+            } elseif (TeacherColorEnum::BLUE === $object->getColor()) {
+                $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #00ABE0"></span>';
+            } elseif (TeacherColorEnum::YELLOW === $object->getColor()) {
+                $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #FFCD38"></span>';
+            } elseif (TeacherColorEnum::GREEN === $object->getColor()) {
+                $span .= '<span class="label" style="margin-right:10px; width: 100%; height: 12px; display: block; background-color: #CEC533"></span>';
+            }
         } else {
             $span = '<span class="label label-success" style="margin-right:10px">---</span>';
         }
@@ -204,18 +206,21 @@ final class AppExtension extends AbstractExtension
 
     public function drawPreRegisterSeasonType(PreRegister $object): string
     {
-        if (PreRegisterSeasonEnum::SEASON_JULY_2020 === $object->getSeason()) {
-            $span = '<span class="label label-warning">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
-        } elseif (PreRegisterSeasonEnum::SEASON_SEPTEMBER_2020 === $object->getSeason()) {
-            $span = '<span class="label label-info">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
-        } elseif (PreRegisterSeasonEnum::SEASON_JULY_2021 === $object->getSeason()) {
-            $span = '<span class="label label-warning">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
-        } elseif (PreRegisterSeasonEnum::SEASON_SEPTEMBER_2021 === $object->getSeason()) {
-            $span = '<span class="label label-info">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
-        } elseif (PreRegisterSeasonEnum::SEASON_JULY_2022 === $object->getSeason()) {
-            $span = '<span class="label label-warning">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
-        } elseif (PreRegisterSeasonEnum::SEASON_SEPTEMBER_2022 === $object->getSeason()) {
-            $span = '<span class="label label-info">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
+        $span = '';
+        if ($object instanceof PreRegister) {
+            if (PreRegisterSeasonEnum::SEASON_JULY_2020 === $object->getSeason()) {
+                $span = '<span class="label label-warning">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
+            } elseif (PreRegisterSeasonEnum::SEASON_SEPTEMBER_2020 === $object->getSeason()) {
+                $span = '<span class="label label-info">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
+            } elseif (PreRegisterSeasonEnum::SEASON_JULY_2021 === $object->getSeason()) {
+                $span = '<span class="label label-warning">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
+            } elseif (PreRegisterSeasonEnum::SEASON_SEPTEMBER_2021 === $object->getSeason()) {
+                $span = '<span class="label label-info">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
+            } elseif (PreRegisterSeasonEnum::SEASON_JULY_2022 === $object->getSeason()) {
+                $span = '<span class="label label-warning">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
+            } elseif (PreRegisterSeasonEnum::SEASON_SEPTEMBER_2022 === $object->getSeason()) {
+                $span = '<span class="label label-info">'.$this->ts->trans(PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()]).'</span>';
+            }
         } else {
             $span = '<span class="label label-success" style="margin-right:10px">---</span>';
         }
@@ -226,5 +231,10 @@ final class AppExtension extends AbstractExtension
     public function writePreRegisterSeasonString(PreRegister $object): string
     {
         return PreRegisterSeasonEnum::getReversedEnumArray()[$object->getSeason()];
+    }
+
+    public function getName(): string
+    {
+        return 'app_extension';
     }
 }

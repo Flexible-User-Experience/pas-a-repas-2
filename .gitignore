@@ -7,6 +7,8 @@
 /public/uploads/images/*
 !/public/uploads/images/.gitkeep
 !.travis.yml
+/src/.preload.php
+.php_cs.cache
 ###< app/bundle ###
 
 ###> symfony/framework-bundle ###
@@ -23,12 +25,11 @@
 /var/log/dev.log
 /var/log/prod.log
 /var/cache/*
-/var/sqlite_test_database.db
+/var/testing-database.db
 /vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
-.phpunit
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
@@ -42,7 +43,3 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-
-###> phpunit/phpunit ###
-.php_cs.cache
-###< phpunit/phpunit ###

@@ -8,7 +8,6 @@ use App\Repository\ReceiptRepository;
 use App\Repository\SpendingRepository;
 use DateInterval;
 use DateTime;
-use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
@@ -34,9 +33,6 @@ class ChartsFactoryService
         $this->cb = $cb;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     public function buildLastYearResultsChart(): Chart
     {
         $labels = [];
@@ -96,7 +92,7 @@ class ChartsFactoryService
                 'scales' => [
                     'yAxes' => [
                         'ticks' => [
-                            'display' => false,
+                            'display' => true,
                         ],
                     ],
                 ],

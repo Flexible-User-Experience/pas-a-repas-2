@@ -2,17 +2,18 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class FileService
 {
     private UploaderHelper $uhs;
-    private string $krd;
+    private ParameterBagInterface $pb;
 
-    public function __construct(UploaderHelper $uhs, string $krd)
+    public function __construct(UploaderHelper $uhs, ParameterBagInterface $pb)
     {
         $this->uhs = $uhs;
-        $this->krd = $krd;
+        $this->pb = $pb;
     }
 
     public function getUhs(): UploaderHelper
@@ -23,7 +24,7 @@ class FileService
     public function getMimeType($entity, $attribute): string
     {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $path = $this->krd.DIRECTORY_SEPARATOR.'public'.$this->uhs->asset($entity, $attribute);
+        $path = $this->pb->get('kernel.project_dir').DIRECTORY_SEPARATOR.'public'.$this->uhs->asset($entity, $attribute);
         $mimeType = finfo_file($finfo, $path);
         finfo_close($finfo);
 
