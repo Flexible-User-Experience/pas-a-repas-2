@@ -6,7 +6,6 @@ use App\Entity\ContactMessage;
 use App\Entity\Invoice;
 use App\Entity\NewsletterContact;
 use App\Form\Type\ContactMessageType;
-use App\Service\GoogleMapsService;
 use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +22,9 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function indexAction(Request $request, GoogleMapsService $gms, NotificationService $messenger): Response
+    public function indexAction(Request $request, NotificationService $messenger): Response
     {
-        $mapObject = $gms->buildMap(40.7061278, 0.5817055555555556);
+//        $mapObject = $gms->buildMap(40.7061278, 0.5817055555555556);
         $contactEntity = new ContactMessage();
         $form = $this->createForm(ContactMessageType::class, $contactEntity);
         $form->handleRequest($request);
@@ -44,7 +43,8 @@ class DefaultController extends AbstractController
 
         return $this->render('Front/homepage.html.twig',
             [
-                'mapView' => $mapObject,
+//                'mapView' => $mapObject,
+                'mapView' => [],
                 'contactForm' => $form->createView(),
             ]
         );
@@ -73,7 +73,7 @@ class DefaultController extends AbstractController
      */
     public function thankYouAction(): Response
     {
-        return $this->render('Front/thank_you.html.twig', array());
+        return $this->render('Front/thank_you.html.twig', []);
     }
 
     /**
@@ -81,7 +81,7 @@ class DefaultController extends AbstractController
      */
     public function privacyPolicyAction(): Response
     {
-        return $this->render('Front/privacy_policy.html.twig', array());
+        return $this->render('Front/privacy_policy.html.twig', []);
     }
 
     /**
@@ -97,14 +97,14 @@ class DefaultController extends AbstractController
      */
     public function testEmailAction(KernelInterface $kernel): Response
     {
-        if ($kernel->getEnvironment() === self::ENV_PROD) {
+        if (self::ENV_PROD === $kernel->getEnvironment()) {
             throw new AccessDeniedHttpException();
         }
 
         $invoice = $this->getDoctrine()->getRepository(Invoice::class)->find(8);
 
-        return $this->render('Mails/invoice_pdf_notification.html.twig', array(
+        return $this->render('Mails/invoice_pdf_notification.html.twig', [
             'invoice' => $invoice,
-        ));
+        ]);
     }
 }
