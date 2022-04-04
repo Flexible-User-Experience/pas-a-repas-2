@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Province;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class ProvinceRepository extends ServiceEntityRepository
@@ -20,8 +20,7 @@ final class ProvinceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->where('p.enabled = :enabled')
             ->setParameter('enabled', true)
-            ->orderBy('p.name', 'ASC')
-        ;
+            ->orderBy('p.name', 'ASC');
     }
 
     public function getEnabledSortedByNameQ(): Query

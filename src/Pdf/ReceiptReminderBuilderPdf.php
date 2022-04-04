@@ -4,6 +4,7 @@ namespace App\Pdf;
 
 use App\Entity\AbstractBase;
 use App\Entity\Receipt;
+use DateTimeImmutable;
 use TCPDF;
 
 class ReceiptReminderBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
@@ -43,10 +44,8 @@ class ReceiptReminderBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
         if ($this->sahs->isCliContext()) {
             $this->ts->setLocale($this->locale);
         }
-
         /** @var BaseTcpdf $pdf */
         $pdf = $this->tcpdf->create($this->sahs);
-
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor($this->pwt);
@@ -91,7 +90,7 @@ class ReceiptReminderBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
 
         $pdf->Write(0, $this->ts->trans('backend.admin.receipt_reminder.second_paragraph_1'), '', false, 'L', false);
         $pdf->setFontStyle(null, 'B', 11);
-        $pdf->Write(0, (new \DateTime())->format(AbstractBase::DATE_STRING_FORMAT), '', false, 'L', false);
+        $pdf->Write(0, (new DateTimeImmutable())->format(AbstractBase::DATE_STRING_FORMAT), '', false, 'L', false);
         $pdf->setFontStyle(null, '', 11);
         $pdf->Write(0, $this->ts->trans('backend.admin.receipt_reminder.second_paragraph_2'), '', false, 'L', false);
         $pdf->setFontStyle(null, 'B', 11);

@@ -6,9 +6,8 @@ use App\Entity\Tariff;
 use App\Enum\TariffTypeEnum;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class TariffRepository extends ServiceEntityRepository
@@ -22,8 +21,7 @@ final class TariffRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->orderBy('t.year', 'DESC')
-            ->addOrderBy('t.price', 'ASC')
-        ;
+            ->addOrderBy('t.price', 'ASC');
     }
 
     public function findAllSortedByYearAndPriceQ(): Query
@@ -42,8 +40,7 @@ final class TariffRepository extends ServiceEntityRepository
             ->where('t.type = :type')
             ->setParameter('type', TariffTypeEnum::TARIFF_PRIVATE_LESSON_PER_HOUR)
             ->orderBy('t.year', 'DESC')
-            ->setMaxResults(1)
-        ;
+            ->setMaxResults(1);
     }
 
     public function findCurrentPrivateLessonTariffQ(): Query
@@ -51,12 +48,10 @@ final class TariffRepository extends ServiceEntityRepository
         return $this->findCurrentPrivateLessonTariffQB()->getQuery();
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findCurrentPrivateLessonTariff(): ?Tariff
+    public function findCurrentPrivateLessonTariff(): Tariff
     {
         $result = $this->findCurrentPrivateLessonTariffQ()->getOneOrNullResult();
+
         if (is_null($result)) {
             $today = new DateTimeImmutable();
             $result = new Tariff();
@@ -77,8 +72,7 @@ final class TariffRepository extends ServiceEntityRepository
             ->where('t.type = :type')
             ->setParameter('type', TariffTypeEnum::TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR)
             ->orderBy('t.year', 'DESC')
-            ->setMaxResults(1)
-        ;
+            ->setMaxResults(1);
     }
 
     public function findCurrentSharedPrivateLessonTariffQ(): Query
@@ -86,12 +80,10 @@ final class TariffRepository extends ServiceEntityRepository
         return $this->findCurrentSharedPrivateLessonTariffQB()->getQuery();
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findCurrentSharedPrivateLessonTariff(): ?Tariff
+    public function findCurrentSharedPrivateLessonTariff(): Tariff
     {
         $result = $this->findCurrentSharedPrivateLessonTariffQ()->getOneOrNullResult();
+
         if (is_null($result)) {
             $today = new DateTimeImmutable();
             $result = new Tariff();

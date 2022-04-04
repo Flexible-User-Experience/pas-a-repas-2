@@ -6,8 +6,8 @@ use App\Entity\Student;
 use App\Entity\StudentAbsence;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class StudentAbsenceRepository extends ServiceEntityRepository
@@ -23,8 +23,7 @@ final class StudentAbsenceRepository extends ServiceEntityRepository
             ->where('sa.student = :student')
             ->setParameter('student', $student)
             ->orderBy('sa.day', 'DESC')
-            ->addOrderBy('sa.type', 'ASC')
-        ;
+            ->addOrderBy('sa.type', 'ASC');
     }
 
     public function getStudentAbsencesSortedByDateQ(Student $student): Query
@@ -42,8 +41,7 @@ final class StudentAbsenceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('sa')
             ->where('sa.day BETWEEN :startDate AND :endDate')
             ->setParameter('startDate', $startDate->format('Y-m-d H:i:s'))
-            ->setParameter('endDate', $endDate->format('Y-m-d H:i:s'))
-        ;
+            ->setParameter('endDate', $endDate->format('Y-m-d H:i:s'));
     }
 
     public function getFilteredByBeginAndEndQ(DateTimeInterface $startDate, DateTimeInterface $endDate): Query

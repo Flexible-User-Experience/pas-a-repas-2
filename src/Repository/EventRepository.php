@@ -58,7 +58,7 @@ final class EventRepository extends ServiceEntityRepository
             ->join('e.students', 's')
             ->andWhere('s.id = :sid')
             ->setParameter('sid', $student->getId())
-            ;
+        ;
     }
 
     public function getEnabledFilteredByBeginEndAndStudentQ(DateTimeInterface $startDate, DateTimeInterface $endDate, Student $student): Query

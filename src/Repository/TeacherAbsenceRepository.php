@@ -6,8 +6,8 @@ use App\Entity\Teacher;
 use App\Entity\TeacherAbsence;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class TeacherAbsenceRepository extends ServiceEntityRepository
@@ -41,8 +41,7 @@ final class TeacherAbsenceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('ta')
             ->where('ta.day BETWEEN :startDate AND :endDate')
             ->setParameter('startDate', $startDate->format('Y-m-d H:i:s'))
-            ->setParameter('endDate', $endDate->format('Y-m-d H:i:s'))
-        ;
+            ->setParameter('endDate', $endDate->format('Y-m-d H:i:s'));
     }
 
     public function getFilteredByBeginAndEndQ(DateTimeInterface $startDate, DateTimeInterface $endDate): Query
