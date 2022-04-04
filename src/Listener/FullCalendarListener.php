@@ -8,23 +8,23 @@ use App\Entity\TeacherAbsence;
 use App\Repository\EventRepository;
 use App\Repository\StudentRepository;
 use App\Repository\TeacherAbsenceRepository;
-use App\Service\EventTrasnformerFactoryService;
+use App\Service\EventTransformerFactoryService;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Event\CalendarEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
-final class FullCalendarListener implements EventSubscriberInterface
+class FullCalendarListener implements EventSubscriberInterface
 {
     private EventRepository $ers;
     private TeacherAbsenceRepository $tars;
     private StudentRepository $srs;
-    private EventTrasnformerFactoryService $etfs;
+    private EventTransformerFactoryService $etfs;
     private RequestStack $rss;
     private RouterInterface $router;
 
-    public function __construct(EventRepository $ers, TeacherAbsenceRepository $tars, StudentRepository $srs, EventTrasnformerFactoryService $etfs, RequestStack $rss, RouterInterface $router)
+    public function __construct(EventRepository $ers, TeacherAbsenceRepository $tars, StudentRepository $srs, EventTransformerFactoryService $etfs, RequestStack $rss, RouterInterface $router)
     {
         $this->ers = $ers;
         $this->tars = $tars;
@@ -45,9 +45,7 @@ final class FullCalendarListener implements EventSubscriberInterface
     {
         $startDate = $calendarEvent->getStart();
         $endDate = $calendarEvent->getEnd();
-
         $referer = $this->rss->getCurrentRequest()->headers->get('referer');
-
         if ($this->rss->getCurrentRequest()->getBaseUrl()) {
             // probably dev environment
             $path = substr($referer, strpos($referer, $this->rss->getCurrentRequest()->getBaseUrl()));
@@ -56,9 +54,11 @@ final class FullCalendarListener implements EventSubscriberInterface
             // prod environment
             $path = str_replace($this->rss->getCurrentRequest()->getSchemeAndHttpHost(), '', $referer);
         }
+
         $matcher = $this->router->getMatcher();
         $parameters = $matcher->match($path);
         $route = $parameters['_route'];
+
         if ('sonata_admin_dashboard' === $route) {
             //// admin dashboard action
             // classroom events

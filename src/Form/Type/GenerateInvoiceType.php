@@ -7,37 +7,16 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-/**
- * Class GenerateInvoiceType.
- *
- * @category FormType
- */
 class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
 {
-    /**
-     * @var RouterInterface
-     */
-    private $rs;
+    private RouterInterface $rs;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * GenerateInvoiceType constructor.
-     *
-     * @param RouterInterface $rs
-     */
     public function __construct(RouterInterface $rs)
     {
         $this->rs = $rs;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
         $builder
@@ -45,26 +24,26 @@ class GenerateInvoiceType extends GenerateInvoiceYearMonthChooserType
             ->add(
                 'items',
                 CollectionType::class,
-                array(
+                [
                     'label' => 'backend.admin.invoice.items',
                     'allow_extra_fields' => true,
                     'required' => false,
                     'entry_type' => GenerateInvoiceItemType::class,
                     'by_reference' => false,
-                    'entry_options' => array(
+                    'entry_options' => [
                         'label' => false,
-                    ),
-                )
+                    ],
+                ]
             )
             ->add(
                 'generate',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'backend.admin.invoice.generate',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'btn btn-success',
-                    ),
-                )
+                    ],
+                ]
             )
             ->setAction($this->rs->generate('admin_app_invoice_creator'))
         ;
