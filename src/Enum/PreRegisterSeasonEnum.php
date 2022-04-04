@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-final class PreRegisterSeasonEnum
+class PreRegisterSeasonEnum
 {
     public const SEASON_JULY_2020 = 0;
     public const SEASON_SEPTEMBER_2020 = 1;

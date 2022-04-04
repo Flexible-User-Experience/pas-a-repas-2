@@ -2,6 +2,6 @@
 
 namespace App\Enum;
 
-final class InvoiceYearMonthEnum extends ReceiptYearMonthEnum
+class InvoiceYearMonthEnum extends ReceiptYearMonthEnum
 {
 }

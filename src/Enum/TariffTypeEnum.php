@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-final class TariffTypeEnum
+class TariffTypeEnum
 {
     public const TARIFF_ONE_HOUR_PER_WEEK = 0;
     public const TARIFF_ONE_AND_A_HALF_HOUR_PER_WEEK = 3;
