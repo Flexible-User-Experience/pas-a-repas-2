@@ -4,12 +4,8 @@
       "js": [
         "/build/runtime.js",
         "/build/vendors-node_modules_jquery_dist_jquery_js.js",
-        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_icheck-bootstrap_icheck--083db9.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js.js",
         "/build/frontend.js"
-      ],
-      "css": [
-        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js-node_modules_icheck-bootstrap_icheck--083db9.css",
-        "/build/frontend.css"
       ]
     },
     "scroll_to_flash": {
@@ -24,11 +20,8 @@
         "/build/runtime.js",
         "/build/vendors-node_modules_jquery_dist_jquery_js.js",
         "/build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_arr-20a9b1.js",
-        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_symfony_ux-chartjs_di-245040.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_symfony_ux-chartjs_di-2fe1fb.js",
         "/build/backend.js"
-      ],
-      "css": [
-        "/build/backend.css"
       ]
     },
     "fullcalendardefaultsettings": {
