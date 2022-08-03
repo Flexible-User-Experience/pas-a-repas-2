@@ -9,7 +9,6 @@ Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
     .copyFiles([
-        {from: './assets/images', to: 'images/[path][name].[ext]'},
         {from: './assets/img', to: 'img/[path][name].[ext]'},
         {from: './assets/svg', to: 'svg/[path][name].[ext]'},
         {from: './assets/fonts', to: 'fonts/[path][name].[ext]'},
@@ -29,7 +28,6 @@ Encore
         config.corejs = 3;
     })
     // features
-    // .autoProvidejQuery()
     .cleanupOutputBeforeBuild()
     .splitEntryChunks()
     .enableBuildNotifications()
