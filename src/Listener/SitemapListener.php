@@ -27,14 +27,14 @@ class SitemapListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            SitemapPopulateEvent::ON_SITEMAP_POPULATE => 'populateSitemap',
+            SitemapPopulateEvent::class => 'populate',
         ];
     }
 
-    public function populateSitemap(SitemapPopulateEvent $event): void
+    public function populate(SitemapPopulateEvent $event): void
     {
         $section = $event->getSection();
-        if (is_null($section) || $section === 'default') {
+        if (is_null($section) || 'default' === $section) {
             // Homepage
             $url = $this->makeUrl('app_homepage');
             $event
