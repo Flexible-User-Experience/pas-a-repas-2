@@ -14,31 +14,31 @@ $icon-font-path: "../../fonts/bootstrap/";
 
 @font-face {
     font-family: 'pluto';
-    src:url('../../public/build/fonts/PlutoSansRegular.eot');
-    src:url('../../public/build/fonts/PlutoSansRegular.eot?#iefix') format('embedded-opentype'),
-    url('../../public/build/fonts/PlutoSansRegular.ttf') format('truetype'),
-    url('../../public/build/fonts/PlutoSansRegular.woff') format('woff'),
-    url('../../public/build/fonts/PlutoSansRegular.svg') format('svg');
+    src:url('../fonts/PlutoSansRegular.eot');
+    src:url('../fonts/PlutoSansRegular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/PlutoSansRegular.ttf') format('truetype'),
+    url('../fonts/PlutoSansRegular.woff') format('woff'),
+    url('../fonts/PlutoSansRegular.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'plutobold';
-    src:url('../../public/build/fonts/PlutoSansBold.eot');
-    src:url('../../public/build/fonts/PlutoSansBold.eot?#iefix') format('embedded-opentype'),
-    url('../../public/build/fonts/PlutoSansBold.ttf') format('truetype'),
-    url('../../public/build/fonts/PlutoSansBold.woff') format('woff'),
-    url('../../public/build/fonts/PlutoSansBold.svg') format('svg');
+    src:url('../fonts/PlutoSansBold.eot');
+    src:url('../fonts/PlutoSansBold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/PlutoSansBold.ttf') format('truetype'),
+    url('../fonts/PlutoSansBold.woff') format('woff'),
+    url('../fonts/PlutoSansBold.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'icomoon';
-    src:url('../../public/build/fonts/icomoon.eot?owk010');
-    src:url('../../public/build/fonts/icomoon.eot?owk010#iefix') format('embedded-opentype'),
-    url('../../public/build/fonts/icomoon.ttf?owk010') format('truetype'),
-    url('../../public/build/fonts/icomoon.woff?owk010') format('woff'),
-    url('../../public/build/fonts/icomoon.svg?owk010#icomoon') format('svg');
+    src:url('../fonts/icomoon.eot?owk010');
+    src:url('../fonts/icomoon.eot?owk010#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?owk010') format('truetype'),
+    url('../fonts/icomoon.woff?owk010') format('woff'),
+    url('../fonts/icomoon.svg?owk010#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
