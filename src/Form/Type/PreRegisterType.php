@@ -3,6 +3,8 @@
 namespace App\Form\Type;
 
 use App\Entity\PreRegister;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaV3Type;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrueV3 as RecaptchaTrue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -144,17 +146,6 @@ class PreRegisterType extends AbstractType
                 ]
             )
             ->add(
-                'wantsToMakeOfficialExam',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label' => 'frontend.forms.preregister.wants_to_make_official_exam',
-                    'attr' => [
-                        'tabindex' => 11,
-                    ],
-                ]
-            )
-            ->add(
                 'season',
                 HiddenType::class,
                 [
@@ -175,12 +166,24 @@ class PreRegisterType extends AbstractType
                 ]
             )
             ->add(
+                'captcha',
+                EWZRecaptchaV3Type::class,
+                [
+                    'label' => false,
+                    'action_name' => 'pre_register',
+                    'mapped' => false,
+                    'constraints' => [
+                        new RecaptchaTrue(),
+                    ],
+                ]
+            )
+            ->add(
                 'send',
                 SubmitType::class,
                 [
                     'label' => 'frontend.forms.preregister.submit',
                     'attr' => [
-                        'class' => 'btn-newsletter',
+                        'class' => 'btn btn-warning btn-lg text-white mb-5',
                         'tabindex' => 13,
                     ],
                 ]
