@@ -1,18 +1,17 @@
 doctrine:
     dbal:
-        url:     '%env(resolve:DATABASE_URL)%'
+        url: '%env(resolve:DATABASE_URL)%'
         charset: 'utf8mb4'
     orm:
-        auto_mapping:                true
         auto_generate_proxy_classes: true
-        naming_strategy:             'doctrine.orm.naming_strategy.underscore_number_aware'
+        naming_strategy: 'doctrine.orm.naming_strategy.underscore_number_aware'
+        auto_mapping: true
         mappings:
             App:
                 is_bundle: false
-                type:      annotation
-                dir:       '%kernel.project_dir%/src/Entity'
-                prefix:    'App\Entity'
-                alias:     'App'
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: 'App'
         dql:
             datetime_functions:
                 timestampdiff: 'DoctrineExtensions\Query\Mysql\TimestampDiff'
@@ -20,13 +19,30 @@ doctrine:
                 month:         'DoctrineExtensions\Query\Mysql\Month'
                 date:          'DoctrineExtensions\Query\Mysql\Date'
                 now:           'DoctrineExtensions\Query\Mysql\Now'
-
 when@test:
     doctrine:
         dbal:
             driver: 'pdo_sqlite'
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
         orm:
             dql:
                 datetime_functions:
                     month: 'DoctrineExtensions\Query\Sqlite\Month'
                     year:  'DoctrineExtensions\Query\Sqlite\Year'
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

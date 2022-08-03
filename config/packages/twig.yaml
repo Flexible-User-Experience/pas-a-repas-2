@@ -1,8 +1,5 @@
 twig:
-    default_path:         '%kernel.project_dir%/templates'
-    debug:                '%kernel.debug%'
-    strict_variables:     '%kernel.debug%'
-    exception_controller: null
+    default_path: '%kernel.project_dir%/templates'
     paths:
         '%kernel.project_dir%/assets/css': 'styles'
         '%kernel.project_dir%/assets/img': 'images'
@@ -33,7 +30,7 @@ twig:
         admin_logo:                 '%admin_logo%'
         admin_color:                '%admin_color%'
         admin_is_stage:             '%admin_is_stage%'
-        admin_tag_version:          'v5.2.05'
+        admin_tag_version:          'v5.2.15'
 
 when@test:
     twig:
