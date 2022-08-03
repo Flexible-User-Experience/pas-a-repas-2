@@ -21,7 +21,7 @@ class StudentAgesEnum
     private const AGE_17 = 17;
     private const AGE_18 = 18;
     private const AGE_19 = 19;
-    public const AGE_20_plus = 20;
+    public  const AGE_20_plus = 20;
 
     public static function getEnumArray(): array
     {
