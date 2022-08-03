@@ -16,9 +16,11 @@ class TariffTypeEnum
     public const TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK = 10;
     public const TARIFF_PRIVATE_LESSON_PER_HOUR = 4;
     public const TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR = 5;
-    public const TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR = 13;
-    public const TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR = 14;
-    public const TARIFF_PRIVATE_LESSON_PER_HOUR_AND_A_HALF = 15;
+    public const TARIFF_SPECIAL_TYPE = 12;
+    public const TARIFF_ONE_WEEK_INTESIVE = 13;
+    public const TARIFF_TWO_WEEKS_INTESIVE = 14;
+    public const TARIFF_THREE_WEEKS_INTESIVE = 15;
+    public const TARIFF_FOUR_FIVE_WEEKS_INTESIVE = 16;
 
     public static function getEnumArray(): array
     {
@@ -40,9 +42,11 @@ class TariffTypeEnum
             self::TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK => 'backend.admin.tariff.tariff_11',
             self::TARIFF_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_5',
             self::TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_6',
-            self::TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_13',
-            self::TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR => 'backend.admin.tariff.tariff_14',
-            self::TARIFF_PRIVATE_LESSON_PER_HOUR_AND_A_HALF => 'backend.admin.tariff.tariff_15',
+            self::TARIFF_SPECIAL_TYPE => 'backend.admin.tariff.tariff_12',
+            self::TARIFF_ONE_WEEK_INTESIVE => 'backend.admin.tariff.tariff_13',
+            self::TARIFF_TWO_WEEKS_INTESIVE => 'backend.admin.tariff.tariff_14',
+            self::TARIFF_THREE_WEEKS_INTESIVE => 'backend.admin.tariff.tariff_15',
+            self::TARIFF_FOUR_FIVE_WEEKS_INTESIVE => 'backend.admin.tariff.tariff_16',
         ];
     }
 
@@ -61,9 +65,11 @@ class TariffTypeEnum
             self::TARIFF_FIVE_AND_A_HALF_HOUR_PER_WEEK => '5,5h / setmana',
             self::TARIFF_PRIVATE_LESSON_PER_HOUR => 'hora particular',
             self::TARIFF_SHARED_PRIVATE_LESSON_PER_HOUR => 'hora particular compartida',
-            self::TARIFF_FAMILIY_PRIVATE_LESSON_PER_HOUR => 'hora particular familiar',
-            self::TARIFF_FAMILIY_SHARED_PRIVATE_LESSON_PER_HOUR => 'hora particular festiu familiar',
-            self::TARIFF_PRIVATE_LESSON_PER_HOUR_AND_A_HALF => 'hora i mitja particular',
+            self::TARIFF_SPECIAL_TYPE => 'preu especial',
+            self::TARIFF_ONE_WEEK_INTESIVE => 'intensiu 1 setmana',
+            self::TARIFF_TWO_WEEKS_INTESIVE => 'intensiu 2 setmanes',
+            self::TARIFF_THREE_WEEKS_INTESIVE => 'intensiu 3 setmanes',
+            self::TARIFF_FOUR_FIVE_WEEKS_INTESIVE => 'intensiu 4/5 setmanes',
         ];
     }
 }
