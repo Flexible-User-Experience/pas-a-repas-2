@@ -30,7 +30,7 @@
     <div class="container-fluid">
         <div class="row bc-brown">
             <div class="text-center">
-                <img src="{{ asset('build/images/head.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
+                <img src="{{ asset('build/img/head.jpg') | imagine_filter('2400xY') }}" class="img-fluid" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
             </div>
         </div>
     </div>
@@ -39,26 +39,55 @@
             <div class="col-xs-12">
                 <h2 class="my-h2 text-center">{{ 'frontend.layout.menu.courses' | trans | upper }}</h2>
                 {#<!-- Nav tabs -->#}
-                <div class="navbar no-m-bottom">
-                    <ul class="nav nav-justified" role="tablist">
-                        <li role="presentation" class="active"><a href="#primaria" class="c-magenta" aria-controls="primaria" role="tab" data-toggle="tab"><i class="icon-pencil fa-4x"></i>{{ 'frontend.index.courses.primary' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                        <li role="presentation"><a href="#eso" class="c-wine" aria-controls="eso" role="tab" data-toggle="tab"><i class="icon-ruler fa-4x"></i>{{ 'frontend.index.courses.eso' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                        <li role="presentation"><a href="#batxillerat" class="c-violet" aria-controls="batxillerat" role="tab" data-toggle="tab"><i class="icon-book fa-4x"></i>{{ 'frontend.index.courses.school' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                        <li role="presentation"><a href="#selectivitat" class="c-lviolet" aria-controls="selectivitat" role="tab" data-toggle="tab"><i class="icon-check fa-4x"></i>{{ 'frontend.index.courses.selectivity' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                        <li role="presentation"><a href="#universitat" class="c-cyan" aria-controls="universitat" role="tab" data-toggle="tab"><i class="icon-hat fa-4x"></i>{{ 'frontend.index.courses.university' | trans | upper }}<i class="current-mark icon-arrow fa-3x"></i></a></li>
-                    </ul>
-                </div>
+                <ul class="nav nav-pills" id="selector">
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#primaria" class="c-magenta" role="button" aria-expanded="false" aria-controls="primaria">
+                            <i class="icon-pencil fa-4x"></i>
+                            {{ 'frontend.index.courses.primary' | trans | upper }}
+                            <i class="current-mark icon-arrow fa-3x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#eso" class="c-wine" role="button" aria-expanded="false" aria-controls="eso">
+                            <i class="icon-ruler fa-4x"></i>
+                            {{ 'frontend.index.courses.eso' | trans | upper }}
+                            <i class="current-mark icon-arrow fa-3x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#batxillerat" class="c-violet" role="button" aria-expanded="false" aria-controls="batxillerat">
+                            <i class="icon-ruler fa-4x"></i>
+                            {{ 'frontend.index.courses.school' | trans | upper }}
+                            <i class="current-mark icon-arrow fa-3x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#selectivitat" class="c-lviolet" role="button" aria-expanded="false" aria-controls="selectivitat">
+                            <i class="icon-check fa-4x"></i>
+                            {{ 'frontend.index.courses.selectivity' | trans | upper }}
+                            <i class="current-mark icon-arrow fa-3x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#universitat" class="c-cyan" role="button" aria-expanded="false" aria-controls="universitat">
+                            <i class="icon-check fa-4x"></i>
+                            {{ 'frontend.index.courses.university' | trans | upper }}
+                            <i class="current-mark icon-arrow fa-3x"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
     <div class="container-fluid">
         <div class="row">
             {#<!-- Tab panes -->#}
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in bc-magenta active" id="primaria">
+{#            <div class="tab-content">#}
+
+                <div class="collapse show bc-magenta active" id="primaria" data-bs-parent="#selector">
                     <div class="row no-m-right">
                         <div class="col-md-5 col-sm-6 no-p-right">
-                            <img class="img-responsive" src="{{ asset('build/images/c1-primary.jpg') | imagine_filter('1050xY') }}" alt="heart shape lovely girls and colors zenit"/>
+                            <img class="img-fluid" src="{{ asset('build/img/c1-primary.jpg') | imagine_filter('1050xY') }}" alt="heart shape lovely girls and colors zenit"/>
                         </div>
                         <div class="col-md-7 col-sm-6 c-white no-p-right">
                             <div class="banner-service">
@@ -68,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade bc-wine" id="eso">
+                <div class="collapse fade bc-wine" id="eso" data-bs-parent="#selector">
                     <div class="row no-m-right">
                         <div class="col-md-7 col-sm-6 c-white no-p-right">
                             <div class="banner-service">
@@ -77,14 +106,14 @@
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-6 no-p-right">
-                            <img class="img-responsive" src="{{ asset('build/images/c2-eso.jpg') | imagine_filter('1050xY') }}" alt="teacher and student boys on a colorful background"/>
+                            <img class="img-fluid" src="{{ asset('build/img/c2-eso.jpg') | imagine_filter('1050xY') }}" alt="teacher and student boys on a colorful background"/>
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade bc-violet" id="batxillerat">
+                <div class="collapse fade bc-violet" id="batxillerat" data-bs-parent="#selector">
                     <div class="row no-m-right">
                         <div class="col-md-5 col-sm-6 no-p-right">
-                            <img class="img-responsive" src="{{ asset('build/images/c3-school.jpg') | imagine_filter('1050xY') }}" alt="student making maths on chalkboard"/>
+                            <img class="img-fluid" src="{{ asset('build/img/c3-school.jpg') | imagine_filter('1050xY') }}" alt="student making maths on chalkboard"/>
                         </div>
                         <div class="col-md-7 col-sm-6 c-white no-p-right">
                             <div class="banner-service">
@@ -94,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade bc-lviolet" id="selectivitat">
+                <div class="collapse fade bc-lviolet" id="selectivitat" data-bs-parent="#selector">
                     <div class="row no-m-right">
                         <div class="col-md-7 col-sm-6 c-white no-p-right">
                             <div class="banner-service">
@@ -110,14 +139,14 @@
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-6 no-p-right">
-                            <img class="img-responsive" src="{{ asset('build/images/c4-selectivity.jpg') | imagine_filter('1050xY') }}" alt="a shiny maths book over a dark background"/>
+                            <img class="img-fluid" src="{{ asset('build/img/c4-selectivity.jpg') | imagine_filter('1050xY') }}" alt="a shiny maths book over a dark background"/>
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade bc-cyan" id="universitat">
+                <div class="collapse fade bc-cyan" id="universitat" data-bs-parent="#selector">
                     <div class="row no-m-right">
                         <div class="col-md-5 col-sm-6 no-p-right">
-                            <img class="img-responsive" src="{{ asset('build/images/c5-university.jpg') | imagine_filter('1050xY') }}" alt="pretty girl smiling with laptop in a classroom"/>
+                            <img class="img-fluid" src="{{ asset('build/img/c5-university.jpg') | imagine_filter('1050xY') }}" alt="pretty girl smiling with laptop in a classroom"/>
                         </div>
                         <div class="col-md-7 col-sm-6 c-white no-p-right">
                             <div class="banner-service">
@@ -127,24 +156,20 @@
                         </div>
                     </div>
                 </div>
+{#            </div>#}
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div id="sobre-mi" class="row bc-grey">
+            <div class="col-xs-12">
+                <p class="c-white banner-service">{{ 'frontend.index.about_mi' | trans | raw }}</p>
             </div>
         </div>
     </div>
     <div class="container-fluid">
-        <div id="sobre-mi" class="row bc-lbrown">
+        <div class="row bc-lbrown">
             <div class="col-xs-12 no-h-padding">
-                <img src="{{ asset('build/images/about.jpg') | imagine_filter('2400xY') }}" class="img-responsive center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
-                <div class="my-carousel-caption">
-                    <h2 class="my-h2 c-white text-center">{{ 'frontend.layout.menu.about' | trans | upper }}</h2>
-                    <p class="text-center banner-service sobre-mi hidden-xs">{{ 'frontend.index.about_mi' | trans | raw }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="visible-xs container-fluid">
-        <div class="row bc-grey">
-            <div class="col-xs-12">
-                <p class="c-white banner-service">{{ 'frontend.index.about_mi' | trans | raw }}</p>
+                <img src="{{ asset('build/img/about.jpg') | imagine_filter('2400xY') }}" class="img-fluid center-block" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
             </div>
         </div>
     </div>
