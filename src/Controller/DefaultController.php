@@ -5,8 +5,12 @@ namespace App\Controller;
 use App\Entity\ContactMessage;
 use App\Entity\Invoice;
 use App\Entity\NewsletterContact;
+use App\Entity\PreRegister;
+use App\Enum\PreRegisterSeasonEnum;
 use App\Form\Type\ContactMessageType;
+use App\Form\Type\PreRegisterType;
 use App\Service\NotificationService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,6 +70,48 @@ class DefaultController extends AbstractController
             );
         }
         $messenger->sendNewsletterSubscriptionAdminNotification($newsletterContact);
+    }
+
+    /**
+     * @Route("/preinscripcions", name="app_pre_register")
+     */
+    public function preRegistersAction(Request $request, EntityManagerInterface $em, NotificationService $messenger): Response
+    {
+        $preRegister = new PreRegister();
+        $preRegisterForm = $this->createForm(PreRegisterType::class, $preRegister);
+        $preRegisterForm->handleRequest($request);
+        if ($preRegisterForm->isSubmitted() && $preRegisterForm->isValid()) {
+            // Persist new pre-register record into DB with default values
+            $preRegister
+                ->setSeason(PreRegisterSeasonEnum::SEASON_SEPTEMBER_2022)
+                ->setWantsToMakeOfficialExam(false)
+                ->setEnabled(false)
+            ;
+            $em->persist($preRegister);
+            $em->flush();
+            if (0 !== $messenger->sendPreRegisterAdminNotification($preRegister)) {
+                // Set frontend flash message
+                $this->addFlash(
+                    'notice',
+                    'La teva preinscripció s\'ha enviat correctament. Ens posarem en contacte amb tu tan aviat com ens sigui possible.'
+                );
+            } else {
+                $this->addFlash(
+                    'danger',
+                    'S\'ha produït un error inesperat durant el registre de la teva preinscripció. Si us plau, contacta directament amb nosaltres a través del telèfon que apareix al peu d\'aquesta pàgina. Gràcies.'
+                );
+            }
+            // Clean up new form
+            $preRegister = new PreRegister();
+            $preRegisterForm = $this->createForm(PreRegisterType::class, $preRegister);
+        }
+
+        return $this->render(
+            'Front/pre_register.html.twig',
+            [
+                'preRegisterForm' => $preRegisterForm->createView(),
+            ]
+        );
     }
 
     /**

@@ -1,14 +1,6 @@
 // Imports
 @import "colors.scss";
 
-// Variables
-$gap-extra:  40px;
-$gap-double: 60px;
-$screen-xs: 480px !default;
-$screen-sm: 768px !default;
-$screen-md: 992px !default;
-$screen-lg: 1200px !default;
-
 // Fonts
 $icon-font-path: "../../fonts/bootstrap/";
 
@@ -42,6 +34,7 @@ $icon-font-path: "../../fonts/bootstrap/";
     font-weight: normal;
     font-style: normal;
 }
+$font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 [class^="icon-"], [class*=" icon-"] {
     font-family: 'icomoon', sans-serif !important;
@@ -83,34 +76,26 @@ $icon-font-path: "../../fonts/bootstrap/";
     content: "\e905";
 }
 
-$font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+// Custom Bootstrap vars
 $text-color: $grey;
 
-// Navbar
-$navbar-height: 90px;
-$navbar-default-border: $grey;
-$navbar-default-color: transparent;
-$navbar-default-bg: $white;
-$navbar-default-brand-color: $grey;
-$navbar-default-link-color: $grey;
-$navbar-default-link-active-color: $cyan;
-$navbar-default-link-hover-color: $magenta;
-$navbar-default-link-active-bg: transparent;
-nav.my-nav {
-    a.navbar-brand { margin-top: -20px; }
-    div.navbar-collapse.collapse.float-right { float: right; }
-    div#navbar { padding-right: 15px; }
-}
-@media (min-width: $screen-sm) {
-    .navbar-nav > li > a {
-        padding-top: 58px;
-        padding-bottom: 20px;
-    }
-}
-.nav-justified > li {
-    display: table-cell;
-    width: 1%;
-}
+// Custom vars
+$ek-s-base:               20px;
+$ek-s-base-plus:          60px;
+$ek-s-base-minus:         10px;
+$ek-font-size-base:       16px;
+$ek-custom-navbar-height: 90px;
+$screen-xs: 480px !default;
+$screen-sm: 768px !default;
+$screen-md: 992px !default;
+$screen-lg: 1200px !default;
+
+// Custom Navbar
+$navbar-light-brand-color:       $grey;
+$navbar-light-brand-hover-color: darken($navbar-light-brand-color, 25%);
+$navbar-light-color:             $navbar-light-brand-color;
+$navbar-light-hover-color:       $navbar-light-brand-hover-color;
+$navbar-light-active-color:      $ek-c-violet;
 
 // Link
 $link-color: $magenta;
@@ -118,7 +103,7 @@ $link-hover-color: darken($link-color, 15%);
 
 // Body
 body.my-body {
-    margin-top: 90px;
+    padding-top: $ek-custom-navbar-height;
     position: relative;
     font-size: 8px;
     @media (min-width: $screen-xs) {
@@ -135,33 +120,29 @@ body.my-body {
     }
 }
 
+.navbar {
+    text-transform: uppercase;
+}
+
+.navbar-brand-logo {
+    padding: 20px 15px;
+    & svg {
+        margin-top: -10px;
+    }
+}
+
+.navbar-logo {
+    margin-top: -25px;
+}
+
 // Strongs
 strong {
     text-decoration: underline;
 }
 
-// Textarea
-textarea { resize: vertical; }
 
 // Address
 address { line-height: 1.65; }
-
-// Gaps
-.no-m { margin: 0; }
-.no-m-top { margin-top: 0; }
-.no-m-bottom { margin-bottom: 0; }
-.no-m-left { margin-left: 0; }
-.no-m-right { margin-right: 0; }
-.extra-m-top { margin-top: $gap-extra; }
-.extra-d-top { margin-top: $gap-double; }
-.extra-m-bottom { margin-bottom: $gap-extra; }
-.extra-d-bottom { margin-bottom: $gap-double; }
-.no-p-left { padding-left: 0; }
-.no-p-right { padding-right: 0; }
-.no-h-padding {
-    padding-left: 0;
-    padding-right: 0;
-}
 
 // Clean ups
 .no-overflow { overflow: hidden; }
@@ -227,39 +208,39 @@ h2.my-h2 {
     }
     &.sobre-mi { padding: 0 20px 70px 20px; }
 }
-div.navbar ul.nav.nav-justified {
-    li {
-        i {
-            display: block;
-            margin-bottom: 10px;
-            &.icon-arrow { margin: 0 }
-        }
-        .current-mark {
-            visibility: hidden;
-            margin-top: 5px;
-            display: block;
-        }
-        a.c-magenta:hover, a.c-magenta:focus { color: $magenta }
-        a.c-cyan:hover,    a.c-cyan:focus    { color: $cyan }
-        a.c-wine:hover,    a.c-wine:focus    { color: $wine }
-        a.c-violet:hover,  a.c-violet:focus  { color: $violet }
-        a.c-lviolet:hover, a.c-lviolet:focus { color: $lviolet }
-        &.active {
-            background-color: $lgrey;
-            & > a {
-                margin-bottom: 0;
-            }
-        }
-        &:hover {
-            background-color: $lgrey;
-        }
-        &.active, & a:hover {
-            .current-mark {
-                visibility: visible;
-            }
-        }
-    }
-}
+//div.navbar ul.nav.nav-justified {
+//    li {
+//        i {
+//            display: block;
+//            margin-bottom: 10px;
+//            &.icon-arrow { margin: 0 }
+//        }
+//        .current-mark {
+//            visibility: hidden;
+//            margin-top: 5px;
+//            display: block;
+//        }
+//        a.c-magenta:hover, a.c-magenta:focus { color: $magenta }
+//        a.c-cyan:hover,    a.c-cyan:focus    { color: $cyan }
+//        a.c-wine:hover,    a.c-wine:focus    { color: $wine }
+//        a.c-violet:hover,  a.c-violet:focus  { color: $violet }
+//        a.c-lviolet:hover, a.c-lviolet:focus { color: $lviolet }
+//        &.active {
+//            background-color: $lgrey;
+//            & > a {
+//                margin-bottom: 0;
+//            }
+//        }
+//        &:hover {
+//            background-color: $lgrey;
+//        }
+//        &.active, & a:hover {
+//            .current-mark {
+//                visibility: visible;
+//            }
+//        }
+//    }
+//}
 p.text-center.contacte { margin: 0 0 40px 0; }
 .blog-categories {
     h3 { margin-top: 0; }
@@ -280,15 +261,7 @@ p.text-center.contacte { margin: 0 0 40px 0; }
         }
     }
 }
-.fa-4x {
-    font-size: 3em;
-    @media (min-width: $screen-sm) {
-        font-size: 3.5em;
-    }
-    @media (min-width: $screen-md) {
-        font-size: 4em;
-    }
-}
+
 
 // Thumbnails
 $thumbnail-padding: 0;
@@ -348,6 +321,8 @@ footer {
     }
     a.btn { text-decoration: none; }
 }
+
+textarea { resize: vertical; }
 
 @import '~bootstrap/scss/bootstrap';
 @import '~icheck-bootstrap/icheck-bootstrap.css';
