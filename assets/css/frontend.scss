@@ -156,12 +156,11 @@ address {
 
 // Buttons
 .btn-violet {
-    color: $white;
-    background-color: $violet;
-    border-color: $lviolet;
+    color: $white !important;
+    background-color: $violet !important;
+    border-color: $lviolet !important;
     &:hover {
-        color: $white;
-        background-color: $lviolet;
+        background-color: $lviolet !important;
     }
 }
 
@@ -239,8 +238,6 @@ h2.my-h2 {
 //        }
 //    }
 //}
-
-p.text-center.contacte { margin: 0 0 40px 0; }
 
 .blog-categories {
     h3 { margin-top: 0; }

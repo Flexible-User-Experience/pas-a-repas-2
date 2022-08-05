@@ -24,10 +24,9 @@ class ContactMessageType extends AbstractType
                 'name',
                 TextType::class,
                 [
-                    'label' => false,
+                    'label' => 'frontend.forms.name',
                     'required' => true,
                     'attr' => [
-                        'placeholder' => 'frontend.forms.name',
                         'class' => 'common-fields',
                     ],
                     'constraints' => [
@@ -39,10 +38,9 @@ class ContactMessageType extends AbstractType
                 'email',
                 EmailType::class,
                 [
-                    'label' => false,
+                    'label' => 'frontend.forms.email',
                     'required' => true,
                     'attr' => [
-                        'placeholder' => 'frontend.forms.email',
                         'class' => 'common-fields',
                     ],
                     'constraints' => [
@@ -55,10 +53,9 @@ class ContactMessageType extends AbstractType
                 'phone',
                 TextType::class,
                 [
-                    'label' => false,
+                    'label' => 'frontend.forms.phone',
                     'required' => false,
                     'attr' => [
-                        'placeholder' => 'frontend.forms.phone',
                         'class' => 'common-fields',
                     ],
                 ]
@@ -105,7 +102,7 @@ class ContactMessageType extends AbstractType
                 [
                     'label' => 'frontend.forms.send',
                     'attr' => [
-                        'class' => 'btn btn-outline-secondary',
+                        'class' => 'btn btn-violet',
                     ],
                 ]
             )

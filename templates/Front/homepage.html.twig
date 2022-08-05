@@ -3,17 +3,6 @@
 {% form_theme contactForm _self %}
 
 {% block _contact_message_send_widget %}
-    {% set attr = attr | merge({class: (attr.class | default('btn-default') ~ ' btn') | trim}) %}
-    {%- if label is empty -%}
-        {%- if label_format is not empty -%}
-            {% set label = label_format | replace({
-                '%name%': name,
-                '%id%': id,
-            }) %}
-        {%- else -%}
-            {% set label = name | humanize %}
-        {%- endif -%}
-    {%- endif -%}
     <button type="submit" {{ block('button_attributes') }}><span class="hack">{{ label | trans({}, translation_domain) }}</span> <i class="fa icon-arrow-right" style="float:right;margin: 3px 0 0 7px;"></i></button>
 {% endblock %}
 
@@ -104,7 +93,7 @@
                                 <div class="banner-service">
                                     <h3 class="mt-0"><i class="icon-check me-2"></i> {{ 'frontend.index.courses.selectivity' | trans | upper }}</h3>
                                     <p>{{ 'frontend.index.selectivity_txt' | trans | raw }}</p>
-                                    <ul>
+                                    <ul class="mb-0">
                                         <li>{{ 'frontend.index.selectivity_list.pau' | trans }}</li>
                                         <li>{{ 'frontend.index.selectivity_list.pacfs' | trans }}</li>
                                         <li>{{ 'frontend.index.selectivity_list.pacfm' | trans }}</li>
@@ -157,12 +146,12 @@
         <div class="row mb-5">
             <div class="col-12">
                 <h2 class="my-h2 text-center">{{ 'frontend.layout.menu.contact' | trans | upper }}</h2>
-                <p class="text-center contacte">
+                <p class="text-center c-grey">
                     {{ 'frontend.index.contact.msg1' | trans }}<br>
                     {{ 'frontend.index.contact.msg2' | trans }}
                 </p>
                 {{ form_start(contactForm) }}
-                <div class="row">
+                <div class="row c-grey">
                     <div class="col-sm-2 hidden-xs"></div>
                     <div class="col-sm-4 col-xs-6">
                         {{ form_errors(contactForm) }}
@@ -183,10 +172,10 @@
             <div class="col-12">
                 <hr style="margin-top:70px">
                 <h2 class="my-h2 text-center">{{ 'frontend.index.contact.msg3' | trans | upper }}</h2>
-                <p class="text-center contacte">
+                <p class="text-center c-grey">
                     {{ 'frontend.index.contact.msg4' | trans }}<br>
                 </p>
-                <p class="text-center contacte">
+                <p class="text-center">
                     <a id="whatsapp-href-holder" href="https://wa.me/34{{ main_brand_phone_1 | replace({' ': ''}) }}?text={{ 'frontend.index.contact.msg5' | trans }}" class="btn btn-violet"><i class="fa fa-paper-plane" style="margin-right:5px" aria-hidden="true"></i> {{ 'frontend.index.contact.msg6' | trans }}</a>
                 </p>
             </div>
