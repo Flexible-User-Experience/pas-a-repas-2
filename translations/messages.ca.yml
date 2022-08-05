@@ -116,6 +116,7 @@ frontend:
         footer:
             contact: contacte
             address: adreça
+            social_networks: xarxes socials
     index:
         main:
             image: el pas definitiu
