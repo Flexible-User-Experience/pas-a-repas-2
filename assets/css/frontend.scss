@@ -78,13 +78,6 @@ $font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif
 
 // Custom Bootstrap vars
 $text-color: $grey;
-
-// Custom vars
-$ek-s-base:               20px;
-$ek-s-base-plus:          60px;
-$ek-s-base-minus:         10px;
-$ek-font-size-base:       16px;
-$ek-custom-navbar-height: 84px;
 $screen-xs: 480px !default;
 $screen-sm: 768px !default;
 $screen-md: 992px !default;
@@ -94,16 +87,18 @@ $screen-lg: 1200px !default;
 $navbar-light-brand-color:       $grey;
 $navbar-light-brand-hover-color: darken($navbar-light-brand-color, 25%);
 $navbar-light-color:             $navbar-light-brand-color;
-$navbar-light-hover-color:       $navbar-light-brand-hover-color;
-$navbar-light-active-color:      $ek-c-violet;
+$navbar-light-hover-color:       $magenta;
+$navbar-light-active-color:      $cyan;
 
 // Link
 $link-color: $magenta;
 $link-hover-color: darken($link-color, 15%);
 
 // Body
+$vertical-offset: 84px;
+
 body.my-body {
-    padding-top: $ek-custom-navbar-height;
+    padding-top: $vertical-offset;
     position: relative;
     font-size: 8px;
     @media (min-width: $screen-xs) {
@@ -120,19 +115,9 @@ body.my-body {
     }
 }
 
+// Navbars
 .navbar {
     text-transform: uppercase;
-}
-
-.navbar-brand-logo {
-    padding: 20px 15px;
-    & svg {
-        margin-top: -10px;
-    }
-}
-
-.navbar-logo {
-    margin-top: -25px;
 }
 
 // Strongs
@@ -140,17 +125,34 @@ strong {
     text-decoration: underline;
 }
 
-
 // Address
-address { line-height: 1.65; }
+address {
+    line-height: 1.65;
+}
 
 // Clean ups
-.no-overflow { overflow: hidden; }
+.no-overflow {
+    overflow: hidden;
+}
+
 .no-underline {
     text-decoration: none;
-    &:hover { text-decoration: none; }
+    &:hover {
+        text-decoration: none;
+    }
 }
-.d-block { display: block; }
+
+.container-fluid{
+    overflow: hidden;
+}
+
+.vertical-offset:before {
+    display: block;
+    content: " ";
+    height: $vertical-offset;
+    margin-top: -$vertical-offset;
+    visibility: hidden;
+}
 
 // Buttons
 .btn-violet {
@@ -161,21 +163,6 @@ address { line-height: 1.65; }
         color: $white;
         background-color: $lviolet;
     }
-}
-
-// Captions
-.my-carousel-caption {
-    position: absolute;
-    left: 5%;
-    right: 5%;
-    top: 0;
-    z-index: 10;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    color: $white;
-    text-align: center;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-    background-color: rgba(0, 0, 0, 0.4);
 }
 
 // Customs
@@ -203,6 +190,7 @@ h2.my-h2 {
         font-size: 24px;
     }
 }
+
 .banner-service {
     line-height: 1.65;
     margin-bottom: 0;
@@ -216,8 +204,8 @@ h2.my-h2 {
     @media (min-width: $screen-lg) {
         padding: 70px;
     }
-    &.sobre-mi { padding: 0 20px 70px 20px; }
 }
+
 //div.navbar ul.nav.nav-justified {
 //    li {
 //        i {
@@ -251,7 +239,9 @@ h2.my-h2 {
 //        }
 //    }
 //}
+
 p.text-center.contacte { margin: 0 0 40px 0; }
+
 .blog-categories {
     h3 { margin-top: 0; }
     ul.list-unstyled {
@@ -271,7 +261,6 @@ p.text-center.contacte { margin: 0 0 40px 0; }
         }
     }
 }
-
 
 // Thumbnails
 $thumbnail-padding: 0;

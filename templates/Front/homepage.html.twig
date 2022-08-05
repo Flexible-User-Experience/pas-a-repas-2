@@ -37,97 +37,99 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container-fluid px-0">
+    <div class="container-fluid p-0">
         <div class="row bc-brown">
-            <div class="text-center">
+            <div class="col">
                 <img src="{{ asset('build/img/head.jpg') | imagine_filter('2400xY') }}" class="img-fluid" alt="{{ 'frontend.index.main.image' | trans | capitalize }}">
             </div>
         </div>
     </div>
-    <div id="classes-de-repas" class="container-fluid p-0">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="my-h2 text-center">{{ 'frontend.index.courses.long_title' | trans | upper }}</h2>
+    <div id="classes-de-repas" class="vertical-offset">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col">
+                    <h2 class="my-h2 text-center">{{ 'frontend.index.courses.long_title' | trans | upper }}</h2>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="bc-magenta" id="primaria">
-                    <div class="row">
-                        <div class="col-md-5 col-sm-6">
-                            <img class="img-fluid" src="{{ asset('build/img/c1-primary.jpg') | imagine_filter('1050xY') }}" alt="heart shape lovely girls and colors zenit"/>
-                        </div>
-                        <div class="col-md-7 col-sm-6 c-white">
-                            <div class="banner-service">
-                                <h3 class="mt-0">{{ 'frontend.index.courses.primary' | trans | upper }}</h3>
-                                {{ 'frontend.index.primary_txt' | trans | raw }}
+            <div class="row">
+                <div class="col-12">
+                    <div class="bc-magenta" id="primaria">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6">
+                                <img class="img-fluid" src="{{ asset('build/img/c1-primary.jpg') | imagine_filter('1050xY') }}" alt="heart shape lovely girls and colors zenit"/>
+                            </div>
+                            <div class="col-md-7 col-sm-6 c-white">
+                                <div class="banner-service">
+                                    <h3 class="mt-0"><i class="icon-pencil me-2"></i> {{ 'frontend.index.courses.primary' | trans | upper }}</h3>
+                                    {{ 'frontend.index.primary_txt' | trans | raw }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="bc-wine" id="eso">
-                    <div class="row">
-                        <div class="col-md-7 col-sm-6 c-white">
-                            <div class="banner-service">
-                                <h3 class="mt-0">{{ 'frontend.index.courses.eso' | trans | upper }}</h3>
-                                {{ 'frontend.index.eso_txt' | trans | raw }}
+                <div class="col-12">
+                    <div class="bc-wine" id="eso">
+                        <div class="row">
+                            <div class="col-md-7 col-sm-6 c-white">
+                                <div class="banner-service">
+                                    <h3 class="mt-0"><i class="icon-ruler me-2"></i> {{ 'frontend.index.courses.eso' | trans | upper }}</h3>
+                                    {{ 'frontend.index.eso_txt' | trans | raw }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-5 col-sm-6">
-                            <img class="img-fluid" src="{{ asset('build/img/c2-eso.jpg') | imagine_filter('1050xY') }}" alt="teacher and student boys on a colorful background"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="bc-violet" id="batxillerat">
-                    <div class="row">
-                        <div class="col-md-5 col-sm-6">
-                            <img class="img-fluid" src="{{ asset('build/img/c3-school.jpg') | imagine_filter('1050xY') }}" alt="student making maths on chalkboard"/>
-                        </div>
-                        <div class="col-md-7 col-sm-6 c-white">
-                            <div class="banner-service">
-                                <h3 class="mt-0">{{ 'frontend.index.courses.school' | trans | upper }}</h3>
-                                {{ 'frontend.index.sc_school' | trans | raw  }}
+                            <div class="col-md-5 col-sm-6">
+                                <img class="img-fluid" src="{{ asset('build/img/c2-eso.jpg') | imagine_filter('1050xY') }}" alt="teacher and student boys on a colorful background"/>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="bc-lviolet" id="selectivitat">
-                    <div class="row">
-                        <div class="col-md-7 col-sm-6 c-white">
-                            <div class="banner-service">
-                                <h3 class="mt-0">{{ 'frontend.index.courses.selectivity' | trans | upper }}</h3>
-                                <p>{{ 'frontend.index.selectivity_txt' | trans | raw }}</p>
-                                <ul>
-                                    <li>{{ 'frontend.index.selectivity_list.pau' | trans }}</li>
-                                    <li>{{ 'frontend.index.selectivity_list.pacfs' | trans }}</li>
-                                    <li>{{ 'frontend.index.selectivity_list.pacfm' | trans }}</li>
-                                    <li>{{ 'frontend.index.selectivity_list.pau25' | trans }}</li>
-                                    <li>{{ 'frontend.index.selectivity_list.cc' | trans }}</li>
-                                </ul>
+                <div class="col-12">
+                    <div class="bc-violet" id="batxillerat">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6">
+                                <img class="img-fluid" src="{{ asset('build/img/c3-school.jpg') | imagine_filter('1050xY') }}" alt="student making maths on chalkboard"/>
                             </div>
-                        </div>
-                        <div class="col-md-5 col-sm-6">
-                            <img class="img-fluid" src="{{ asset('build/img/c4-selectivity.jpg') | imagine_filter('1050xY') }}" alt="a shiny maths book over a dark background"/>
+                            <div class="col-md-7 col-sm-6 c-white">
+                                <div class="banner-service">
+                                    <h3 class="mt-0"><i class="icon-book me-2"></i> {{ 'frontend.index.courses.school' | trans | upper }}</h3>
+                                    {{ 'frontend.index.sc_school' | trans | raw  }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="bc-cyan" id="universitat">
-                    <div class="row">
-                        <div class="col-md-5 col-sm-6">
-                            <img class="img-fluid" src="{{ asset('build/img/c5-university.jpg') | imagine_filter('1050xY') }}" alt="pretty girl smiling with laptop in a classroom"/>
+                <div class="col-12">
+                    <div class="bc-lviolet" id="selectivitat">
+                        <div class="row">
+                            <div class="col-md-7 col-sm-6 c-white">
+                                <div class="banner-service">
+                                    <h3 class="mt-0"><i class="icon-check me-2"></i> {{ 'frontend.index.courses.selectivity' | trans | upper }}</h3>
+                                    <p>{{ 'frontend.index.selectivity_txt' | trans | raw }}</p>
+                                    <ul>
+                                        <li>{{ 'frontend.index.selectivity_list.pau' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.pacfs' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.pacfm' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.pau25' | trans }}</li>
+                                        <li>{{ 'frontend.index.selectivity_list.cc' | trans }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-6">
+                                <img class="img-fluid" src="{{ asset('build/img/c4-selectivity.jpg') | imagine_filter('1050xY') }}" alt="a shiny maths book over a dark background"/>
+                            </div>
                         </div>
-                        <div class="col-md-7 col-sm-6 c-white">
-                            <div class="banner-service">
-                                <h3 class="mt-0">{{ 'frontend.index.courses.university' | trans | upper }}</h3>
-                                {{ 'frontend.index.university_txt' | trans | raw }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="bc-cyan" id="universitat">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6">
+                                <img class="img-fluid" src="{{ asset('build/img/c5-university.jpg') | imagine_filter('1050xY') }}" alt="pretty girl smiling with laptop in a classroom"/>
+                            </div>
+                            <div class="col-md-7 col-sm-6 c-white">
+                                <div class="banner-service">
+                                    <h3 class="mt-0"><i class="icon-hat me-2"></i> {{ 'frontend.index.courses.university' | trans | upper }}</h3>
+                                    {{ 'frontend.index.university_txt' | trans | raw }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,7 +137,7 @@
             </div>
         </div>
     </div>
-    <div id="sobre-mi">
+    <div id="sobre-mi" class="vertical-offset">
         <div class="container-fluid">
             <div class="row bc-grey justify-content-center p-5">
                 <div class="col-12 col-md-6">
@@ -151,7 +153,7 @@
             </div>
         </div>
     </div>
-    <div id="contacte" class="container">
+    <div id="contacte" class="container vertical-offset">
         <div class="row mb-5">
             <div class="col-12">
                 <h2 class="my-h2 text-center">{{ 'frontend.layout.menu.contact' | trans | upper }}</h2>
@@ -190,7 +192,7 @@
             </div>
         </div>
     </div>
-    <div id="localitzacio" class="container-fluid px-0">
+    <div id="localitzacio" class="container-fluid px-0 vertical-offset">
         <div class="row">
             <div class="col-12">
                 {{ ivory_google_map_container(map) }}

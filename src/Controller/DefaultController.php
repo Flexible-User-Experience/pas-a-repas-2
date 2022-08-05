@@ -9,8 +9,10 @@ use App\Entity\PreRegister;
 use App\Enum\PreRegisterSeasonEnum;
 use App\Form\Type\ContactMessageType;
 use App\Form\Type\PreRegisterType;
+use App\Kernel;
 use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Ivory\GoogleMap\Base\Coordinate;
 use Ivory\GoogleMap\Map;
 use Ivory\GoogleMap\Overlay\Marker;
@@ -23,13 +25,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    public const ENV_DEV = 'dev';
-    public const ENV_PROD = 'prod';
-
     /**
      * @Route("/", name="app_homepage")
      */
-    public function indexAction(Request $request, NotificationService $messenger): Response
+    public function indexAction(Request $request, NotificationService $messenger, ManagerRegistry $mr): Response
     {
         $map = new Map();
         $map->setCenter(new Coordinate(40.7061278, 0.5817055555555556));
@@ -45,10 +44,9 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // persist entity
-            $em = $this->getDoctrine()->getManager();
             $contactEntity->setDescription('');
-            $em->persist($contactEntity);
-            $em->flush();
+            $mr->getManager()->persist($contactEntity);
+            $mr->getManager()->flush();
             // send notifications
             $messenger->sendCommonUserNotification($contactEntity);
             $messenger->sendAdminNotification($contactEntity);
@@ -151,13 +149,12 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test-email", name="app_test_email")
      */
-    public function testEmailAction(KernelInterface $kernel): Response
+    public function testEmailAction(KernelInterface $kernel, ManagerRegistry $mr): Response
     {
-        if (self::ENV_PROD === $kernel->getEnvironment()) {
+        if (Kernel::ENV_PROD === $kernel->getEnvironment()) {
             throw new AccessDeniedHttpException();
         }
-
-        $invoice = $this->getDoctrine()->getRepository(Invoice::class)->find(8);
+        $invoice = $mr->getRepository(Invoice::class)->find(8);
 
         return $this->render('Mails/invoice_pdf_notification.html.twig', [
             'invoice' => $invoice,

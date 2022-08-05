@@ -14,7 +14,7 @@
             </script>
         {% endapply %}
     {% endif %}
-    <meta name="description" content="{% block metadescription %}{{ 'frontend.meta' | trans({'%main_brand_title%': main_brand_title}) | lower }}{% endblock %}">
+    <meta name="description" content="{% block metadescription %}{{ 'frontend.layout.tags.description' | trans({'%main_brand_title%': main_brand_title}) | lower }}{% endblock %}">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="author" content="www.flux.cat">
     <meta charset="UTF-8">
@@ -36,7 +36,7 @@
             fbq('track', 'PageView');
         </script>
         <noscript>
-            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ facebook_pixel_id }}&ev=PageView&noscript=1"/>
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ facebook_pixel_id }}&ev=PageView&noscript=1" alt="none"/>
         </noscript>
     {% endif %}
     {% block head_javascripts %}
@@ -67,43 +67,9 @@
             </div>
         </nav>
     {% endblock %}
-
-
-{#    <nav class="navbar navbar-default fixed-top my-nav">#}
-{#        <div class="container">#}
-{#            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
-{#                <span class="navbar-toggler-icon"></span>#}
-{#            </button>#}
-{#            <div class="navbar-header">#}
-{#                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" data-aria-expanded="false" data-aria-controls="navbar">#}
-{#                    <span class="sr-only">{{ 'frontend.layout.toggle.navigation' | trans }}</span>#}
-{#                    <span class="icon-bar"></span>#}
-{#                    <span class="icon-bar"></span>#}
-{#                    <span class="icon-bar"></span>#}
-{#                </button>#}
-{#                {% block head %}#}
-{#                    <a class="navbar-brand" href="{{ path('app_homepage') }}"><img src="{{ asset('build/images/menu.png') }}" alt="{{ 'frontend.layout.main.title' | trans | capitalize }}"/></a>#}
-{#                {% endblock %}#}
-{#                <h1 class="text-hide">{{ 'frontend.layout.main.title' | trans | capitalize }}. Acadèmia escolar i classes de repàs a Amposta.</h1>#}
-{#            </div>#}
-{#            {% block menu %}#}
-{#                <div id="navbar" class="navbar-collapse collapse float-right">#}
-{#                    <ul class="nav navbar-nav navbar-right">#}
-{#                        <li><a href="#classes-de-repas">{{ 'frontend.layout.menu.courses' | trans | upper }}</a></li>#}
-{#                        <li><a href="#sobre-mi">{{ 'frontend.layout.menu.about' | trans | upper }}</a></li>#}
-{#                        <li><a href="#contacte">{{ 'frontend.layout.menu.contact' | trans | upper }}</a></li>#}
-{#                        <li><a href="{{ path('app_blog') }}">{{ 'frontend.layout.menu.blog' | trans | upper }}</a></li>#}
-{#                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
-{#                            <li><a href="{{ path('sonata_admin_dashboard') }}"><i class="fa fa-cog"></i></a></li>#}
-{#                        {% endif %}#}
-{#                    </ul>#}
-{#                </div>#}
-{#            {% endblock %}#}
-{#        </div>#}
-{#    </nav>#}
     {#<!-- Main content -->#}
     {% block main %}{% endblock %}
-    {#<!-- Scroll-Top effect -->#}
+    {#<!-- Scroll-to-top effect -->#}
     <div class="scroll-top-wrapper"><span class="scroll-top-inner"><i class="fa fa-2x fa-arrow-circle-up"></i></span></div>
     {#<!-- Footer -->#}
     {% block footer %}
