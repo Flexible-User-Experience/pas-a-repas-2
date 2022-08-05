@@ -11,6 +11,9 @@ use App\Form\Type\ContactMessageType;
 use App\Form\Type\PreRegisterType;
 use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
+use Ivory\GoogleMap\Base\Coordinate;
+use Ivory\GoogleMap\Map;
+use Ivory\GoogleMap\Overlay\Marker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +31,15 @@ class DefaultController extends AbstractController
      */
     public function indexAction(Request $request, NotificationService $messenger): Response
     {
-//        $mapObject = $gms->buildMap(40.7061278, 0.5817055555555556);
+        $map = new Map();
+        $map->setCenter(new Coordinate(40.7061278, 0.5817055555555556));
+        $map->setAutoZoom(false);
+        $map->setMapOption('zoom', 17);
+        $marker = new Marker(new Coordinate(40.7061278, 0.5817055555555556));
+        $map->getOverlayManager()->addMarker($marker);
+        $map->setStylesheetOption('width', '100%');
+        $map->setStylesheetOption('height', '400px');
+
         $contactEntity = new ContactMessage();
         $form = $this->createForm(ContactMessageType::class, $contactEntity);
         $form->handleRequest($request);
@@ -47,8 +58,7 @@ class DefaultController extends AbstractController
 
         return $this->render('Front/homepage.html.twig',
             [
-//                'mapView' => $mapObject,
-                'mapView' => [],
+                'map' => $map,
                 'contactForm' => $form->createView(),
             ]
         );
