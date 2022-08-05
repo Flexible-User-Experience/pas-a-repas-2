@@ -129,6 +129,7 @@ services:
             - '@knp_menu.factory'
             - '@security.helper'
             - '@request_stack'
+            - '@router'
             - '@parameter_bag'
     app.frontend_top_menu:
         class: Knp\Menu\MenuItem

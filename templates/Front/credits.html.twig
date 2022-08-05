@@ -2,18 +2,14 @@
 
 {% block title %}{{ 'frontend.credits.credits' | trans | capitalize }} · {{ parent() }}{% endblock %}
 
-{% block menu %}
-    {% include "Front/includes/full_link_menu_navbar.html.twig" %}
-{% endblock %}
-
 {% block main %}
     <div class="container">
         <div class="row py-5">
-            <div class="col-xs-12">
-                <h1><i class="fa fa-coffee"></i> {{ 'frontend.credits.credits' | trans | upper }}</h1>
+            <div class="col-12">
+                <h1 class="c-grey"><i class="fa fa-coffee"></i> {{ 'frontend.credits.credits' | trans | upper }}</h1>
             </div>
-            <div class="col-xs-12 pt-5">
-                <p>
+            <div class="col-12 mt-5">
+                <p class="mb-0">
                     Disseny gràfic: <a>Tu&Jo Disseny</a><br>
                     Fotografia: <a href="http://www.pinapli.com" target="_blank">Pinapli</a><br>
                     Gestió de continguts: <a href="https://www.flux.cat" target="_blank">Flux</a><br>
@@ -24,5 +20,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block inside_on_ready_javascripts_node %}{% endblock %}

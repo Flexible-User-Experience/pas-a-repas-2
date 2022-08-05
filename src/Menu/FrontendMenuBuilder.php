@@ -7,6 +7,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
 
 class FrontendMenuBuilder
@@ -14,13 +15,15 @@ class FrontendMenuBuilder
     private FactoryInterface $factory;
     private Security $ss;
     private RequestStack $rs;
+    private RouterInterface $router;
     private string $ppo;
 
-    public function __construct(FactoryInterface $factory, Security $ss, RequestStack $rs, ParameterBagInterface $pb)
+    public function __construct(FactoryInterface $factory, Security $ss, RequestStack $rs, RouterInterface $router, ParameterBagInterface $pb)
     {
         $this->factory = $factory;
         $this->ss = $ss;
         $this->rs = $rs;
+        $this->router = $router;
         $this->ppo = $pb->get('preregister_period_is_open');
     }
 
@@ -51,7 +54,7 @@ class FrontendMenuBuilder
             'app_classes',
             [
                 'label' => 'frontend.layout.menu.courses',
-                'uri' => '#classes-de-repas',
+                'uri' => $this->router->generate('app_homepage').'#classes-de-repas',
                 'attributes' => [
                     'class' => 'nav-item',
                 ],
@@ -64,7 +67,7 @@ class FrontendMenuBuilder
             'app_about_me',
             [
                 'label' => 'frontend.layout.menu.about',
-                'uri' => '#sobre-mi',
+                'uri' => $this->router->generate('app_homepage').'#sobre-mi',
                 'attributes' => [
                     'class' => 'nav-item',
                 ],
@@ -77,7 +80,7 @@ class FrontendMenuBuilder
             'app_contact',
             [
                 'label' => 'frontend.layout.menu.contact',
-                'uri' => '#contacte',
+                'uri' => $this->router->generate('app_homepage').'#contacte',
                 'attributes' => [
                     'class' => 'nav-item',
                 ],
