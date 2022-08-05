@@ -21,13 +21,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="app_homepage")
      */
-    public function indexAction(Request $request, NotificationService $messenger, ManagerRegistry $mr): Response
+    public function indexAction(Request $request, NotificationService $messenger, ManagerRegistry $mr, TranslatorInterface $trans): Response
     {
         $map = new Map();
         $map->setCenter(new Coordinate(40.7061278, 0.5817055555555556));
@@ -46,7 +47,7 @@ class DefaultController extends AbstractController
             $mr->getManager()->persist($contactEntity);
             $mr->getManager()->flush();
             // send notification and OK flash
-            $this->setFlashMessageAndEmailNotifications($messenger, $contactEntity);
+            $this->setFlashMessageAndEmailNotifications($messenger, $contactEntity, $trans);
             // clean up new form
             $contact = new ContactMessage();
             $form = $this->createForm(ContactMessageType::class, $contact);
@@ -60,19 +61,19 @@ class DefaultController extends AbstractController
         );
     }
 
-    private function setFlashMessageAndEmailNotifications(NotificationService $messenger, ContactMessage $contactEntity): void
+    private function setFlashMessageAndEmailNotifications(NotificationService $messenger, ContactMessage $contactEntity, TranslatorInterface $trans): void
     {
         // Send email notifications
         if (0 !== $messenger->sendCommonUserNotification($contactEntity)) {
             // Set frontend flash message
             $this->addFlash(
                 'notice',
-                'Gràcies per subscriure\'t al newsletter'
+                $trans->trans('frontend.index.main.thanks')
             );
         } else {
             $this->addFlash(
                 'danger',
-                'El teu missatge no s\'ha enviat'
+                'Error! El teu missatge no s\'ha enviat'
             );
         }
         $messenger->sendAdminNotification($contactEntity);
