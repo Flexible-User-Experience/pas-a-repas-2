@@ -14,6 +14,7 @@ $icon-font-path: "../../fonts/bootstrap/";
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'plutobold';
     src:url('../fonts/PlutoSansBold.eot');
@@ -24,6 +25,7 @@ $icon-font-path: "../../fonts/bootstrap/";
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'icomoon';
     src:url('../fonts/icomoon.eot?owk010');
@@ -34,8 +36,10 @@ $icon-font-path: "../../fonts/bootstrap/";
     font-weight: normal;
     font-style: normal;
 }
+
 $font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
+// Custom font icons
 [class^="icon-"], [class*=" icon-"] {
     font-family: 'icomoon', sans-serif !important;
     speak: none;
@@ -83,7 +87,7 @@ $screen-sm: 768px !default;
 $screen-md: 992px !default;
 $screen-lg: 1200px !default;
 
-// Custom Navbar
+// Custom navbar
 $navbar-light-brand-color:       $grey;
 $navbar-light-brand-hover-color: darken($navbar-light-brand-color, 25%);
 $navbar-light-color:             $navbar-light-brand-color;
@@ -97,6 +101,17 @@ $link-hover-color: darken($link-color, 15%);
 // Body
 $vertical-offset: 84px;
 
+// Buttons
+.btn-violet {
+    color: $white !important;
+    background-color: $violet !important;
+    border-color: $lviolet !important;
+    &:hover {
+        background-color: $lviolet !important;
+    }
+}
+
+// Customs
 body.my-body {
     padding-top: $vertical-offset;
     position: relative;
@@ -115,22 +130,18 @@ body.my-body {
     }
 }
 
-// Navbars
 .navbar {
     text-transform: uppercase;
 }
 
-// Strongs
 strong {
     text-decoration: underline;
 }
 
-// Address
 address {
     line-height: 1.65;
 }
 
-// Clean ups
 .no-overflow {
     overflow: hidden;
 }
@@ -154,17 +165,10 @@ address {
     visibility: hidden;
 }
 
-// Buttons
-.btn-violet {
-    color: $white !important;
-    background-color: $violet !important;
-    border-color: $lviolet !important;
-    &:hover {
-        background-color: $lviolet !important;
-    }
+textarea {
+    resize: vertical;
 }
 
-// Customs
 .fa-4x {
     font-size: 3em;
     @media (min-width: $screen-sm) {
@@ -205,40 +209,6 @@ h2.my-h2 {
     }
 }
 
-//div.navbar ul.nav.nav-justified {
-//    li {
-//        i {
-//            display: block;
-//            margin-bottom: 10px;
-//            &.icon-arrow { margin: 0 }
-//        }
-//        .current-mark {
-//            visibility: hidden;
-//            margin-top: 5px;
-//            display: block;
-//        }
-//        a.c-magenta:hover, a.c-magenta:focus { color: $magenta }
-//        a.c-cyan:hover,    a.c-cyan:focus    { color: $cyan }
-//        a.c-wine:hover,    a.c-wine:focus    { color: $wine }
-//        a.c-violet:hover,  a.c-violet:focus  { color: $violet }
-//        a.c-lviolet:hover, a.c-lviolet:focus { color: $lviolet }
-//        &.active {
-//            background-color: $lgrey;
-//            & > a {
-//                margin-bottom: 0;
-//            }
-//        }
-//        &:hover {
-//            background-color: $lgrey;
-//        }
-//        &.active, & a:hover {
-//            .current-mark {
-//                visibility: visible;
-//            }
-//        }
-//    }
-//}
-
 .blog-categories {
     h3 { margin-top: 0; }
     ul.list-unstyled {
@@ -246,10 +216,14 @@ h2.my-h2 {
         li {
             padding: 10px;
             border-bottom: solid 1px $grey;
-            a { color: $grey; }
+            a {
+                color: $grey;
+            }
             &.active {
                 border-bottom: solid 1px $cyan;
-                a { color: $cyan; }
+                a {
+                    color: $cyan;
+                }
             }
             &:hover a {
                 color: $magenta;
@@ -258,13 +232,6 @@ h2.my-h2 {
         }
     }
 }
-
-// Thumbnails
-$thumbnail-padding: 0;
-$thumbnail-bg: $lgrey;
-$thumbnail-border: $lgrey;
-$thumbnail-border-radius: 10px;
-$thumbnail-caption-padding: 40px;
 
 // Scroll to top helper
 .scroll-top-wrapper {
@@ -289,7 +256,9 @@ $thumbnail-caption-padding: 40px;
         cursor: pointer;
         opacity: 0.85;
     }
-    i.fa { line-height: inherit; }
+    i.fa {
+        line-height: inherit;
+    }
 }
 
 // Pagination
@@ -315,10 +284,10 @@ footer {
             text-decoration: underline;
         }
     }
-    a.btn { text-decoration: none; }
+    a.btn {
+        text-decoration: none;
+    }
 }
-
-textarea { resize: vertical; }
 
 @import '~bootstrap/scss/bootstrap';
 @import '~icheck-bootstrap/icheck-bootstrap.css';

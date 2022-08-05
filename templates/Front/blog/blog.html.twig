@@ -2,10 +2,6 @@
 
 {% block title %}{{ 'frontend.layout.menu.blog' | trans | title }} · {{ parent() }}{% endblock %}
 
-{% block menu %}
-    {% include "Front/includes/full_link_menu_navbar.html.twig" %}
-{% endblock %}
-
 {% block main %}
     <div class="container-fluid">
         {%  include "Front/includes/blog_heading_image.html.twig" %}
@@ -55,5 +51,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block inside_on_ready_javascripts_node %}{% endblock %}

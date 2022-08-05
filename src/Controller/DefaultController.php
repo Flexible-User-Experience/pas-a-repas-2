@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\ContactMessage;
 use App\Entity\Invoice;
-use App\Entity\NewsletterContact;
 use App\Entity\PreRegister;
 use App\Enum\PreRegisterSeasonEnum;
 use App\Form\Type\ContactMessageType;
@@ -44,14 +43,13 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // persist entity
-            $contactEntity->setDescription('');
             $mr->getManager()->persist($contactEntity);
             $mr->getManager()->flush();
-            // send notifications
-            $messenger->sendCommonUserNotification($contactEntity);
-            $messenger->sendAdminNotification($contactEntity);
-
-            return $this->redirectToRoute('app_thank_you');
+            // send notification and OK flash
+            $this->setFlashMessageAndEmailNotifications($messenger, $contactEntity);
+            // clean up new form
+            $contact = new ContactMessage();
+            $form = $this->createForm(ContactMessageType::class, $contact);
         }
 
         return $this->render('Front/homepage.html.twig',
@@ -62,10 +60,10 @@ class DefaultController extends AbstractController
         );
     }
 
-    private function setFlashMessageAndEmailNotifications(NotificationService $messenger, NewsletterContact $newsletterContact): void
+    private function setFlashMessageAndEmailNotifications(NotificationService $messenger, ContactMessage $contactEntity): void
     {
         // Send email notifications
-        if (0 !== $messenger->sendCommonNewsletterUserNotification($newsletterContact)) {
+        if (0 !== $messenger->sendCommonUserNotification($contactEntity)) {
             // Set frontend flash message
             $this->addFlash(
                 'notice',
@@ -77,7 +75,7 @@ class DefaultController extends AbstractController
                 'El teu missatge no s\'ha enviat'
             );
         }
-        $messenger->sendNewsletterSubscriptionAdminNotification($newsletterContact);
+        $messenger->sendAdminNotification($contactEntity);
     }
 
     /**
