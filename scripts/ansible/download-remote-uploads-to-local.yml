@@ -10,7 +10,7 @@
         recursive: yes
         perms: yes
         times: yes
-        src: "{{ vhost_path }}/shared/public/uploads"
+        src: "{{ vhost_path_prod }}/shared/public/uploads"
         dest: "{{ playbook_dir }}/../../public"
     - name: fix ownership in downloaded files locally
       delegate_to: mother

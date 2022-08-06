@@ -2,44 +2,35 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Enum\PreRegisterSeasonEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class PreRegisterAdmin extends AbstractBaseAdmin
+final class PreRegisterAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Preregisters';
+    protected $classnameLabel = 'PreRegister';
     protected $baseRoutePattern = 'students/pre-register';
-    protected $datagridValues = array(
-        '_sort_by' => 'createdAt',
-        '_sort_order' => 'desc',
-    );
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::DESC;
+        $sortValues[DatagridInterface::SORT_BY] = 'createdAt';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
-            ->add('student', $this->getRouterIdParameter().'/create-student')
             ->remove('create')
             ->remove('edit')
         ;
-    }
-
-    public function configureBatchActions($actions): array
-    {
-        if ($this->hasRoute('show') && $this->hasAccess('show')) {
-            $actions['generatestudents'] = array(
-                'label' => 'backend.admin.pre_register.batch_action',
-                'translation_domain' => 'messages',
-                'ask_confirmation' => false,
-            );
-        }
-
-        return $actions;
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
@@ -48,101 +39,111 @@ class PreRegisterAdmin extends AbstractBaseAdmin
             ->add(
                 'createdAt',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.date',
                     'field_type' => DatePickerType::class,
-                    'format' => 'd-m-Y',
-                ),
-                null,
-                array(
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
-                )
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                    ],
+                ]
             )
             ->add(
                 'season',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.season',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd-m-Y',
-                ),
-                ChoiceType::class,
-                array(
-                    'choices' => PreRegisterSeasonEnum::getEnumArray(),
-                    'expanded' => false,
-                    'multiple' => false,
-                )
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => PreRegisterSeasonEnum::getEnumArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.name',
-                )
+                ]
             )
             ->add(
                 'surname',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.surname',
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.phone',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.email',
-                )
+                ]
             )
             ->add(
                 'age',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.age',
-                )
+                ]
             )
             ->add(
                 'courseLevel',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.course_level',
-                )
+                ]
             )
             ->add(
                 'preferredTimetable',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.preferred_timetable',
-                )
+                ]
             )
             ->add(
                 'previousAcademy',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.previous_academy',
-                )
+                ]
             )
             ->add(
                 'comments',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.comments',
-                )
+                ]
+            )
+            ->add(
+                'hasBeenPreviousCustomer',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.has_been_previous_customer_short',
+                ]
+            )
+            ->add(
+                'wantsToMakeOfficialExam',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.wants_to_make_official_exam_short',
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.enabled',
-                )
+                ]
             )
         ;
     }
@@ -153,87 +154,101 @@ class PreRegisterAdmin extends AbstractBaseAdmin
             ->add(
                 'createdAt',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.date',
-                    'format' => 'd/m/Y H:i'
-                )
+                    'format' => 'd/m/Y H:i',
+                ]
             )
             ->add(
                 'season',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.season',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.name',
-                )
+                ]
             )
             ->add(
                 'surname',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.surname',
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.phone',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.email',
-                )
+                ]
             )
             ->add(
                 'age',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.age',
-                )
+                ]
             )
             ->add(
                 'courseLevel',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.course_level',
-                )
+                ]
             )
             ->add(
                 'preferredTimetable',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.preferred_timetable',
-                )
+                ]
             )
             ->add(
                 'previousAcademy',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.previous_academy',
-                )
+                ]
             )
             ->add(
                 'comments',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.comments',
-                )
+                ]
+            )
+            ->add(
+                'hasBeenPreviousCustomer',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.has_been_previous_customer_short',
+                ]
+            )
+            ->add(
+                'wantsToMakeOfficialExam',
+                null,
+                [
+                    'label' => 'frontend.forms.preregister.wants_to_make_official_exam_short',
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.enabled',
-                )
+                ]
             )
         ;
     }
@@ -244,78 +259,83 @@ class PreRegisterAdmin extends AbstractBaseAdmin
             ->add(
                 'createdAt',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.date',
                     'editable' => false,
-                    'format' => 'd/m/Y H:i'
-                )
+                    'format' => 'd/m/Y H:i',
+                ]
             )
             ->add(
                 'season',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.season',
                     'template' => 'Admin/Cells/list__cell_pre_register_season.html.twig',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.name',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
                 'surname',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.surname',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.phone',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.email',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'frontend.forms.preregister.enabled',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
-                '_action',
-                'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'Admin/Buttons/list__action_show_button.html.twig'),
-                        'student' => array('template' => 'Admin/Buttons/list__action_create_student_from_pre_register_button.html.twig'),
-                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
-                    ),
-                    'label' => 'Accions',
-                )
+                ListMapper::NAME_ACTIONS,
+                null,
+                [
+                    'label' => 'backend.admin.actions',
+                    'header_class' => 'text-right',
+                    'row_align' => 'right',
+                    'actions' => [
+                        'show' => [
+                            'template' => 'Admin/Buttons/list__action_show_button.html.twig',
+                        ],
+                        'delete' => [
+                            'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
+                        ],
+                    ],
+                ]
             )
         ;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
-        return array(
+        return [
             'createdAtString',
             'seasonString',
             'name',
@@ -327,7 +347,9 @@ class PreRegisterAdmin extends AbstractBaseAdmin
             'preferredTimetable',
             'previousAcademy',
             'comments',
-            'enabled',
-        );
+            'hasBeenPreviousCustomerString',
+            'wantsToMakeOfficialExamString',
+            'studendCreatedString',
+        ];
     }
 }

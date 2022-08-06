@@ -7,7 +7,6 @@ use App\Entity\Student;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +18,7 @@ final class InvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoice::class);
     }
 
-    public function findOnePreviousInvoiceByStudentYearAndMonthOrNullQB(Student $student, $year, $month): QueryBuilder
+    public function findOnePreviousInvoiceByStudentYearAndMonthOrNullQB(Student $student, int $year, int $month): QueryBuilder
     {
         return $this->createQueryBuilder('i')
             ->where('i.student = :student')
@@ -28,53 +27,43 @@ final class InvoiceRepository extends ServiceEntityRepository
             ->setParameter('student', $student)
             ->setParameter('year', $year)
             ->setParameter('month', $month)
-            ->setMaxResults(1)
-        ;
+            ->setMaxResults(1);
     }
 
-    public function findOnePreviousInvoiceByStudentYearAndMonthOrNullQ(Student $student, $year, $month): Query
+    public function findOnePreviousInvoiceByStudentYearAndMonthOrNullQ(Student $student, int $year, int $month): Query
     {
         return $this->findOnePreviousInvoiceByStudentYearAndMonthOrNullQB($student, $year, $month)->getQuery();
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findOnePreviousInvoiceByStudentYearAndMonthOrNull(Student $student, $year, $month): ?Invoice
+    public function findOnePreviousInvoiceByStudentYearAndMonthOrNull(Student $student, int $year, int $month): ?Invoice
     {
         return $this->findOnePreviousInvoiceByStudentYearAndMonthOrNullQ($student, $year, $month)->getOneOrNullResult();
     }
 
-    public function findOnePreviousInvoiceByStudentIdYearAndMonthOrNullQB($studentId, $year, $month): QueryBuilder
+    public function findOnePreviousInvoiceByStudentIdYearAndMonthOrNullQB(int $studentId, int $year, int $month): QueryBuilder
     {
         return $this->createQueryBuilder('i')
-            ->where('i.student = :student')
+            ->join('i.student', 's')
+            ->where('s.id = :student')
             ->andWhere('i.year = :year')
             ->andWhere('i.month = :month')
             ->setParameter('student', $studentId)
             ->setParameter('year', $year)
             ->setParameter('month', $month)
-            ->setMaxResults(1)
-        ;
+            ->setMaxResults(1);
     }
 
-    public function findOnePreviousInvoiceByStudentIdYearAndMonthOrNullQ($studentId, $year, $month): Query
+    public function findOnePreviousInvoiceByStudentIdYearAndMonthOrNullQ(int $studentId, int $year, int $month): Query
     {
         return $this->findOnePreviousInvoiceByStudentIdYearAndMonthOrNullQB($studentId, $year, $month)->getQuery();
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findOnePreviousInvoiceByStudentIdYearAndMonthOrNull($studentId, $year, $month): ?Invoice
+    public function findOnePreviousInvoiceByStudentIdYearAndMonthOrNull(int $studentId, int $year, int $month): ?Invoice
     {
         return $this->findOnePreviousInvoiceByStudentIdYearAndMonthOrNullQ($studentId, $year, $month)->getOneOrNullResult();
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function getMonthlyIncomingsAmountForDate(DateTimeInterface $date)
+    public function getMonthlyIncomingsAmountForDate(DateTimeInterface $date): int
     {
         $query = $this->createQueryBuilder('i')
             ->select('SUM(i.baseAmount) as amount')
@@ -85,6 +74,6 @@ final class InvoiceRepository extends ServiceEntityRepository
             ->getQuery()
         ;
 
-        return is_null($query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR)) ? 0 : (float) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
+        return is_null($query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR)) ? 0 : (int) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 }

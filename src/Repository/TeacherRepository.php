@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class TeacherRepository extends ServiceEntityRepository
@@ -22,8 +22,7 @@ final class TeacherRepository extends ServiceEntityRepository
             ->setParameter('enabled', true)
             ->andWhere('t.showInHomepage = :showInHomepage')
             ->setParameter('showInHomepage', true)
-            ->orderBy('t.position', 'ASC')
-        ;
+            ->orderBy('t.position', 'ASC');
     }
 
     public function findAllEnabledSortedByPositionQ(): Query
@@ -38,12 +37,10 @@ final class TeacherRepository extends ServiceEntityRepository
 
     public function getEnabledSortedByNameQB(): QueryBuilder
     {
-        return $this
-            ->createQueryBuilder('t')
+        return $this->createQueryBuilder('t')
             ->where('t.enabled = :enabled')
             ->setParameter('enabled', true)
-            ->orderBy('t.name', 'ASC')
-        ;
+            ->orderBy('t.name', 'ASC');
     }
 
     public function getEnabledSortedByNameQ(): Query

@@ -2,24 +2,29 @@
 
 namespace App\Admin;
 
-use Sonata\AdminBundle\Datagrid\ListMapper;
+use App\Doctrine\Enum\SortOrderTypeEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class SpendingCategoryAdmin extends AbstractBaseAdmin
+final class SpendingCategoryAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'SpendingCategory';
     protected $baseRoutePattern = 'purchases/spending-category';
-    protected $datagridValues = [
-        '_sort_by' => 'name',
-        '_sort_order' => 'asc',
-    ];
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'name';
+    }
 
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(5))
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general', 5))
             ->add(
                 'name',
                 null,
@@ -28,7 +33,7 @@ class SpendingCategoryAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
                 'enabled',
                 CheckboxType::class,
@@ -84,22 +89,26 @@ class SpendingCategoryAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                null,
                 [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
-                    'label' => 'backend.admin.actions',
                     'actions' => [
-                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
-                        'delete' => ['template' => 'Admin/Buttons/list__action_delete_button.html.twig'],
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
+                        'delete' => [
+                            'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
+                        ],
                     ],
                 ]
             )
         ;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'name',

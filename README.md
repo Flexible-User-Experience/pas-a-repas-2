@@ -1,17 +1,17 @@
 Pas a Repàs
 ===========
 
-A Symfony 4.4 LTS project to manage [Pas a Repàs](http://www.pasarepas.cat) website content with custom ERP integrated functionalities.
+A Symfony 5.4 LTS project to manage [Pas a Repàs](https://www.pasarepas.cat) website content with custom ERP integrated functionalities.
 
 ---
 
 #### Installation requirements
 
-* PHP 7.4
-* MySQL 5.7
+* PHP 8.1
+* MySQL 8.0
 * Git 2.0
 * Composer 2.0
-* Yarn 1.22
+* Yarn 1.0
 * set php.ini config max_input_vars > 10.000
 
 #### Installation instructions

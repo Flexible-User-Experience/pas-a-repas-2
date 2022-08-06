@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Bank;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class BankRepository extends ServiceEntityRepository
@@ -19,7 +19,6 @@ final class BankRepository extends ServiceEntityRepository
     public function getStudentRelatedItemsQB(Student $student = null): QueryBuilder
     {
         $qb = $this->createQueryBuilder('b');
-
         if ($student instanceof Student && !is_null($student->getId())) {
             // $student is not null
             $qb

@@ -3,15 +3,17 @@
 namespace App\Form\Type;
 
 use App\Entity\ContactMessage;
-use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
-use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaV3Type;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrueV3 as RecaptchaTrue;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ContactMessageType extends AbstractType
 {
@@ -21,65 +23,88 @@ class ContactMessageType extends AbstractType
             ->add(
                 'name',
                 TextType::class,
-                array(
-                    'label' => 'frontend.index.contact.form.name',
+                [
+                    'label' => 'frontend.forms.name',
                     'required' => true,
-                )
+                    'attr' => [
+                        'class' => 'common-fields',
+                    ],
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                    ],
+                ]
             )
             ->add(
                 'email',
                 EmailType::class,
-                array(
-                    'label' => 'frontend.index.contact.form.email',
+                [
+                    'label' => 'frontend.forms.email',
                     'required' => true,
-                )
+                    'attr' => [
+                        'class' => 'common-fields',
+                    ],
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                        new Assert\Email(),
+                    ],
+                ]
             )
             ->add(
                 'phone',
                 TextType::class,
-                array(
-                    'label' => 'frontend.index.contact.form.phone',
+                [
+                    'label' => 'frontend.forms.phone',
                     'required' => false,
-                )
+                    'attr' => [
+                        'class' => 'common-fields',
+                    ],
+                ]
             )
             ->add(
                 'message',
                 TextareaType::class,
-                array(
-                    'label' => 'frontend.index.contact.form.message',
+                [
+                    'label' => 'frontend.forms.message',
                     'required' => true,
-                    'attr' => array(
-                        'rows' => 6,
-                    ),
-                )
+                    'attr' => [
+                        'rows' => 5,
+                        'class' => 'message-field',
+                    ],
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                    ],
+                ]
+            )
+            ->add(
+                'privacy',
+                CheckboxType::class,
+                [
+                    'required' => true,
+                    'label' => 'frontend.forms.privacy',
+                    'mapped' => false,
+                ]
             )
             ->add(
                 'captcha',
-                EWZRecaptchaType::class,
-                array(
-                    'label' => ' ',
-                    'attr' => array(
-                        'options' => array(
-                            'theme' => 'light',
-                            'type' => 'image',
-                            'size' => 'normal',
-                        ),
-                    ),
+                EWZRecaptchaV3Type::class,
+                [
+                    'label' => false,
+                    'action_name' => 'contact_message',
                     'mapped' => false,
-                    'constraints' => array(
+                    'constraints' => [
                         new RecaptchaTrue(),
-                    ),
-                )
+                    ],
+                ]
             )
             ->add(
                 'send',
                 SubmitType::class,
-                array(
-                    'label' => 'frontend.index.contact.form.submit',
-                    'attr' => array(
-                        'class' => 'btn-violet',
-                    ),
-                )
+                [
+                    'label' => 'frontend.forms.send',
+                    'attr' => [
+                        'class' => 'btn btn-violet',
+                    ],
+                ]
             )
         ;
     }
@@ -87,9 +112,9 @@ class ContactMessageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => ContactMessage::class,
-            )
+            ]
         );
     }
 }

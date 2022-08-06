@@ -11,12 +11,10 @@ use App\Form\Model\GenerateReceiptModel;
 use App\Repository\EventRepository;
 use App\Repository\ReceiptRepository;
 use App\Repository\StudentRepository;
-use DateTime;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\OptimisticLockException;
-use Exception;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -26,26 +24,17 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
 {
     private ReceiptRepository $rr;
     private EventManager $eem;
+    private ParameterBagInterface $parameterBag;
 
-    public function __construct(LoggerInterface $logger, KernelInterface $kernel, EntityManager $em, TranslatorInterface $ts, StudentRepository $sr, EventRepository $er, ReceiptRepository $rr, EventManager $eem)
+    public function __construct(LoggerInterface $logger, KernelInterface $kernel, EntityManagerInterface $em, TranslatorInterface $ts, StudentRepository $sr, EventRepository $er, ReceiptRepository $rr, EventManager $eem, ParameterBagInterface $parameterBag)
     {
         parent::__construct($logger, $kernel, $em, $ts, $sr, $er);
         $this->rr = $rr;
         $this->eem = $eem;
+        $this->parameterBag = $parameterBag;
     }
 
-    /**
-     * @param int  $year
-     * @param int  $month
-     * @param bool $enableEmailDelivery
-     *
-     * @return int
-     *
-     * @throws NonUniqueResultException
-     * @throws OptimisticLockException
-     * @throws Exception
-     */
-    private function commonFastGenerateReciptsForYearAndMonth($year, $month, $enableEmailDelivery = false)
+    private function commonFastGenerateReciptsForYearAndMonth(int $year, int $month, $enableEmailDelivery = false): int
     {
         $generatedReceiptsAmount = 0;
 
@@ -65,12 +54,12 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     ->setDescription($description)
                     ->setUnits(1)
                     ->setPriceUnit($student->getTariff()->getPrice())
-                    ->setDiscount($student->calculateMonthlyDiscount())
+                    ->setDiscount($student->calculateMonthlyDiscountWithExtraSonDiscount($this->parameterBag->get('project_discount_extra_son')))
                     ->setTotal($receiptLine->getPriceUnit() - $receiptLine->getDiscount())
                 ;
                 $receipt = new Receipt();
                 $receipt
-                    ->setDate(new \DateTime())
+                    ->setDate(new DateTimeImmutable())
                     ->setStudent($student)
                     ->setPerson($student->getParent() ?: null)
                     ->setIsPayed(false)
@@ -84,7 +73,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                 if ($enableEmailDelivery) {
                     $receipt
                         ->setIsSended(true)
-                        ->setSendDate(new \DateTime())
+                        ->setSendDate(new DateTimeImmutable())
                     ;
                 }
                 $this->em->persist($receipt);
@@ -119,7 +108,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                 ;
                 $receipt = new Receipt();
                 $receipt
-                    ->setDate(new DateTime())
+                    ->setDate(new DateTimeImmutable())
                     ->setStudent($student)
                     ->setPerson($student->getParent() ?: null)
                     ->setIsPayed(false)
@@ -133,7 +122,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                 if ($enableEmailDelivery) {
                     $receipt
                         ->setIsSended(true)
-                        ->setSendDate(new DateTime())
+                        ->setSendDate(new DateTimeImmutable())
                     ;
                 }
                 $this->em->persist($receipt);
@@ -156,7 +145,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     $ids[] = $receipt->getId();
                     $receipt
                         ->setIsSended(true)
-                        ->setSendDate(new \DateTime())
+                        ->setSendDate(new DateTimeImmutable())
                     ;
                 }
                 $this->em->flush();
@@ -176,43 +165,17 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
         return $generatedReceiptsAmount;
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return int
-     *
-     * @throws NonUniqueResultException
-     * @throws OptimisticLockException
-     */
-    public function fastGenerateReciptsForYearAndMonth($year, $month)
+    public function fastGenerateReciptsForYearAndMonth(int $year, int $month): int
     {
-        return $this->commonFastGenerateReciptsForYearAndMonth($year, $month, false);
+        return $this->commonFastGenerateReciptsForYearAndMonth($year, $month);
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return int
-     *
-     * @throws NonUniqueResultException
-     * @throws OptimisticLockException
-     */
-    public function fastGenerateReciptsForYearAndMonthAndDeliverEmail($year, $month)
+    public function fastGenerateReciptsForYearAndMonthAndDeliverEmail(int $year, int $month): int
     {
         return $this->commonFastGenerateReciptsForYearAndMonth($year, $month, true);
     }
 
-    /**
-     * @param int $year
-     * @param int $month
-     *
-     * @return GenerateReceiptModel
-     *
-     * @throws NonUniqueResultException
-     */
-    public function buildFullModelForm($year, $month)
+    public function buildFullModelForm(int $year, int $month): GenerateReceiptModel
     {
         $generateReceipt = new GenerateReceiptModel();
         $generateReceipt
@@ -252,12 +215,12 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     ->setStudentName($student->getFullCanonicalName())
                     ->setUnits(1)
                     ->setUnitPrice($student->getTariff()->getPrice())
-                    ->setDiscount($student->calculateMonthlyDiscount())
+                    ->setDiscount($student->calculateMonthlyDiscountWithExtraSonDiscount($this->parameterBag->get('project_discount_extra_son')))
                     ->setIsReadyToGenerate(true)
                     ->setIsPreviouslyGenerated(false)
                     ->setIsPrivateLessonType(false)
                 ;
-                if ($generateReceiptItem->getUnits() > 0 && $generateReceiptItem->getUnitPrice() > 0 && $generateReceiptItem->getUnitPrice() > $generateReceiptItem->getDiscount()) {
+                if ($generateReceiptItem->getUnitPrice() > 0 && $generateReceiptItem->getUnitPrice() > $generateReceiptItem->getDiscount()) {
                     $generateReceipt->addItem($generateReceiptItem);
                 }
             }
@@ -317,12 +280,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
         return $generateReceipt;
     }
 
-    /**
-     * @param array $requestArray
-     *
-     * @return GenerateReceiptModel
-     */
-    public function transformRequestArrayToModel($requestArray)
+    public function transformRequestArrayToModel(array $requestArray): GenerateReceiptModel
     {
         $generateReceipt = new GenerateReceiptModel();
         if (array_key_exists('year', $requestArray)) {
@@ -360,16 +318,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
         return $generateReceipt;
     }
 
-    /**
-     * @param bool $markReceiptAsSended
-     *
-     * @return int
-     *
-     * @throws NonUniqueResultException
-     * @throws OptimisticLockException
-     * @throws Exception
-     */
-    public function persistFullModelForm(GenerateReceiptModel $generateReceiptModel, $markReceiptAsSended = false)
+    public function persistFullModelForm(GenerateReceiptModel $generateReceiptModel, $markReceiptAsSended = false): int
     {
         $recordsParsed = 0;
         /** @var GenerateReceiptItemModel $generateReceiptItemModel */
@@ -395,12 +344,12 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     $isForPrivateLessons = true;
                 }
                 ++$recordsParsed;
-                /** @var Student|null $student */
+                /** @var Student $student */
                 $student = $this->sr->find($generateReceiptItemModel->getStudentId());
                 if (!is_null($previousReceipt)) {
                     // update existing receipt
                     if (1 === count($previousReceipt->getLines())) {
-                        $previousReceipt->setDate(new \DateTime());
+                        $previousReceipt->setDate(new DateTimeImmutable());
                         /** @var ReceiptLine $receiptLine */
                         $receiptLine = $previousReceipt->getLines()[0];
                         $receiptLine
@@ -418,7 +367,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                         if ($markReceiptAsSended) {
                             $previousReceipt
                                 ->setIsSended(true)
-                                ->setSendDate(new \DateTime())
+                                ->setSendDate(new DateTimeImmutable())
                             ;
                         }
                         $this->em->flush();
@@ -436,7 +385,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     ;
                     $receipt = new Receipt();
                     $receipt
-                        ->setDate(new DateTime())
+                        ->setDate(new DateTimeImmutable())
                         ->setStudent($student)
                         ->setPerson($student->getParent() ?: null)
                         ->setIsPayed(false)
@@ -450,7 +399,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     if ($markReceiptAsSended) {
                         $receipt
                             ->setIsSended(true)
-                            ->setSendDate(new DateTime())
+                            ->setSendDate(new DateTimeImmutable())
                         ;
                     }
                     $this->em->persist($receipt);
@@ -462,13 +411,7 @@ class GenerateReceiptFormManager extends AbstractGenerateReceiptInvoiceFormManag
         return $recordsParsed;
     }
 
-    /**
-     * @return int
-     *
-     * @throws NonUniqueResultException
-     * @throws OptimisticLockException
-     */
-    public function persistAndDeliverFullModelForm(GenerateReceiptModel $generateReceiptModel)
+    public function persistAndDeliverFullModelForm(GenerateReceiptModel $generateReceiptModel): int
     {
         $this->logger->info('[GRFM] persistAndDeliverFullModelForm call');
         $recordsParsed = $this->persistFullModelForm($generateReceiptModel, true);

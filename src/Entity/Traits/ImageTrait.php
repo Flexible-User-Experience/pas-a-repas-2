@@ -6,26 +6,16 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 
-Trait ImageTrait
+trait ImageTrait
 {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $imageName = null;
 
-    public function setImageFile(File $imageFile = null): self
+    public function getImageName(): ?string
     {
-        $this->imageFile = $imageFile;
-        if ($imageFile) {
-            $this->updatedAt = new DateTimeImmutable();
-        }
-
-        return $this;
-    }
-
-    public function getImageFile()
-    {
-        return $this->imageFile;
+        return $this->imageName;
     }
 
     public function setImageName(?string $imageName): self
@@ -35,8 +25,18 @@ Trait ImageTrait
         return $this;
     }
 
-    public function getImageName(): ?string
+    public function getImageFile(): ?File
     {
-        return $this->imageName;
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+        if ($imageFile) {
+            $this->updatedAt = new DateTimeImmutable();
+        }
+
+        return $this;
     }
 }

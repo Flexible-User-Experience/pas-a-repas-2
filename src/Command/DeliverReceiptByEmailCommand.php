@@ -3,21 +3,21 @@
 namespace App\Command;
 
 use App\Entity\Receipt;
-use App\Service\NotificationService;
 use App\Pdf\ReceiptBuilderPdf;
+use App\Service\NotificationService;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 /**
  * Class DeliverReceiptByEmailCommand.
  *
  * @category Command
  */
-class DeliverReceiptByEmailCommand extends ContainerAwareCommand
+class DeliverReceiptByEmailCommand extends Command
 {
     /**
      * Configure command.
@@ -44,20 +44,13 @@ class DeliverReceiptByEmailCommand extends ContainerAwareCommand
     /**
      * Execute command.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
-     *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @return int|void|null
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('<info>Welcome to '.$this->getName().' command</info>');
         /** @var Receipt|null $receipt */
-        $receipt = $this->getContainer()->get('doctrine')->getRepository(Receipt::class)->find(intval($input->getArgument('receipt')));
+        $receipt = $this->getContainer()->get('doctrine')->getRepository(Receipt::class)->find((int) $input->getArgument('receipt'));
         if ($receipt) {
             $output->write('building PDF receipt number '.$receipt->getReceiptNumber().'... ');
             /** @var Logger $logger */
@@ -86,7 +79,7 @@ class DeliverReceiptByEmailCommand extends ContainerAwareCommand
                 }
             }
         } else {
-            $output->writeln('<error>No receipt with ID#'.intval($input->getArgument('receipt')).' found. Nothing send.</error>');
+            $output->writeln('<error>No receipt with ID#'.(int) $input->getArgument('receipt').' found. Nothing send.</error>');
         }
 
         $output->writeln('<info>EOF.</info>');

@@ -2,189 +2,194 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Enum\UserRolesEnum;
-use Sonata\UserBundle\Admin\Model\UserAdmin as ParentUserAdmin;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use FOS\UserBundle\Model\UserManagerInterface;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class UserAdmin extends ParentUserAdmin
+final class UserAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var UserManagerInterface
-     */
-    protected $userManager;
-
     protected $classnameLabel = 'User';
     protected $baseRoutePattern = 'users';
-    protected $datagridValues = array(
-        '_sort_by' => 'username',
-        '_sort_order' => 'asc',
-    );
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'username';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('batch');
         $collection->remove('export');
         $collection->remove('show');
     }
 
-    public function getBatchActions(): array
+    protected function configureFormFields(FormMapper $form): void
     {
-        $actions = parent::getBatchActions();
-        unset($actions['delete']);
-
-        return $actions;
-    }
-
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
-        /* @var object $formMapper */
-        $formMapper
-            ->with('backend.admin.general', array('class' => 'col-md-3'))
+        $form
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general', 3))
             ->add(
                 'firstname',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.firstname',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'lastname',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.lastname',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'username',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.username',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.email',
-                )
+                ]
             )
             ->add(
                 'plainPassword',
                 TextType::class,
-                array(
+                [
                     'label' => 'backend.admin.user.plain_password',
                     'required' => (!$this->getSubject() || is_null($this->getSubject()->getId())),
-                )
+                ]
             )
             ->end()
-            ->with('backend.admin.controls', array('class' => 'col-md-3'))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'roles',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'backend.admin.user.roles',
                     'choices' => UserRolesEnum::getEnumArray(),
                     'multiple' => true,
                     'expanded' => true,
-                )
+                ]
             )
-            ->end();
+            ->end()
+        ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filterMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $filterMapper
+        $filter
             ->add(
                 'username',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.username',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.email',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
-                )
-            );
+                ]
+            )
+        ;
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'username',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.username',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.email',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'roles',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.user.roles',
                     'template' => 'Admin/Cells/list__cell_user_roles.html.twig',
                     'header_class' => 'text-center',
                     'row_align' => 'center',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'editable' => true,
                     'header_class' => 'text-center',
                     'row_align' => 'center',
-                )
+                ]
             )
             ->add(
-                '_action',
-                'actions',
-                array(
+                ListMapper::NAME_ACTIONS,
+                null,
+                [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
-                    'label' => 'backend.admin.actions',
-                    'actions' => array(
-                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
-                    ),
-                )
-            );
+                    'actions' => [
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
+                        'delete' => [
+                            'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
+                        ],
+                    ],
+                ]
+            )
+        ;
+    }
+
+    public function configureExportFields(): array
+    {
+        return [
+            'username',
+            'email',
+            'enabled',
+        ];
     }
 }

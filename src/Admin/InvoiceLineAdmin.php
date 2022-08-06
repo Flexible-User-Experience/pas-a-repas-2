@@ -2,219 +2,216 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-/**
- * Class InvoiceLineAdmin.
- *
- * @category Admin
- */
-class InvoiceLineAdmin extends AbstractBaseAdmin
+final class InvoiceLineAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Invoice Line';
+    protected $classnameLabel = 'InvoiceLine';
     protected $baseRoutePattern = 'billings/invoice-line';
-    protected $datagridValues = array(
-        '_sort_by' => 'description',
-        '_sort_order' => 'asc',
-    );
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureDefaultSortValues(array &$sortValues): void
     {
-        $formMapper
-            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(6))
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'description';
+    }
+
+    protected function configureFormFields(FormMapper $form): void
+    {
+        $form
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general'))
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.description',
-                )
+                ]
             )
             ->add(
                 'units',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.units',
-                )
+                ]
             )
             ->add(
                 'priceUnit',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.priceUnit',
-                )
+                ]
             )
             ->add(
                 'discount',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.discount',
-                )
+                ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(6))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls'))
             ->add(
                 'invoice',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.invoice',
-                    'attr' => array(
+                    'attr' => [
                         'hidden' => true,
-                    ),
+                    ],
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'hidden' => true,
-                    ),
-                )
+                    ],
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'invoice',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.invoice',
-                )
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.description',
-                )
+                ]
             )
             ->add(
                 'units',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.units',
-                )
+                ]
             )
             ->add(
                 'priceUnit',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.priceUnit',
-                )
+                ]
             )
             ->add(
                 'discount',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.discount',
-                )
+                ]
             )
             ->add(
                 'total',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.total',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->add(
                 'invoice',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.invoice',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.description',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'units',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.units',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'priceUnit',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.priceUnit',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'discount',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.discount',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'total',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.invoiceLine.total',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.enabled',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
-                '_action',
-                'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'Admin/Buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'Admin/Buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'Admin/Buttons/list__action_delete_button.html.twig'),
-                    ),
+                ListMapper::NAME_ACTIONS,
+                null,
+                [
                     'label' => 'backend.admin.actions',
-                )
+                    'actions' => [
+                        'show' => [
+                            'template' => 'Admin/Buttons/list__action_show_button.html.twig',
+                        ],
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
+                        'delete' => [
+                            'template' => 'Admin/Buttons/list__action_delete_button.html.twig',
+                        ],
+                    ],
+                ]
             )
         ;
     }

@@ -4,69 +4,54 @@ namespace App\Form\Type;
 
 use App\Enum\ReceiptYearMonthEnum;
 use App\Form\Model\GenerateReceiptModel;
-use Exception;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Class GenerateReceiptYearMonthChooserType.
- *
- * @category FormType
- */
 class GenerateReceiptYearMonthChooserType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     *
-     * @throws Exception
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
                 'year',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'backend.admin.invoice.year',
                     'required' => true,
                     'choices' => ReceiptYearMonthEnum::getYearEnumArray(),
-                )
+                ]
             )
             ->add(
                 'month',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'backend.admin.invoice.month',
                     'required' => true,
                     'choices' => ReceiptYearMonthEnum::getMonthEnumArray(),
-                )
+                ]
             )
             ->add(
                 'preview',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'backend.admin.receipt.preview_invoice',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'btn btn-warning',
-                    ),
-                )
+                    ],
+                ]
             )
         ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => GenerateReceiptModel::class,
-            )
+            ]
         );
     }
 }

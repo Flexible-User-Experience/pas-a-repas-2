@@ -24,22 +24,16 @@ class Service extends AbstractBase
     use SlugTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private string $title;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=true, length=255)
      */
-    private $slug;
+    private string $slug;
 
     /**
-     * @var File
-     *
      * @Vich\UploadableField(mapping="service", fileNameProperty="imageName")
      * @Assert\File(
      *     maxSize="10M",
@@ -47,22 +41,14 @@ class Service extends AbstractBase
      * )
      * @Assert\Image(minWidth=1200)
      */
-    private $imageFile;
+    private ?File $imageFile = null;
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\AbstractBase;
 use App\Entity\Event;
 use App\Entity\Student;
 use DateTimeInterface;
@@ -58,7 +59,7 @@ final class EventRepository extends ServiceEntityRepository
             ->join('e.students', 's')
             ->andWhere('s.id = :sid')
             ->setParameter('sid', $student->getId())
-            ;
+        ;
     }
 
     public function getEnabledFilteredByBeginEndAndStudentQ(DateTimeInterface $startDate, DateTimeInterface $endDate, Student $student): Query
@@ -108,7 +109,7 @@ final class EventRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->where('DATE(e.begin) = :searchedDate')
             ->andWhere('e.enabled = :enabled')
-            ->setParameter('searchedDate', $date->format('Y-m-d'))
+            ->setParameter('searchedDate', $date->format(AbstractBase::DATABASE_DATE_STRING_FORMAT))
             ->setParameter('enabled', true);
     }
 

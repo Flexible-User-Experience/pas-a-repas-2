@@ -12,19 +12,22 @@ use App\Repository\EventRepository;
 use App\Repository\InvoiceRepository;
 use App\Repository\StudentRepository;
 use DateTime;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GenerateInvoiceFormManager extends AbstractGenerateReceiptInvoiceFormManager
 {
     private InvoiceRepository $ir;
+    private ParameterBagInterface $parameterBag;
 
-    public function __construct(LoggerInterface $logger, KernelInterface $kernel, EntityManager $em, TranslatorInterface $ts, StudentRepository $sr, EventRepository $er, InvoiceRepository $ir)
+    public function __construct(LoggerInterface $logger, KernelInterface $kernel, EntityManagerInterface $em, TranslatorInterface $ts, StudentRepository $sr, EventRepository $er, InvoiceRepository $ir, ParameterBagInterface $parameterBag)
     {
         parent::__construct($logger, $kernel, $em, $ts, $sr, $er);
         $this->ir = $ir;
+        $this->parameterBag = $parameterBag;
     }
 
     public function buildFullModelForm($year, $month): GenerateInvoiceModel
@@ -65,7 +68,7 @@ class GenerateInvoiceFormManager extends AbstractGenerateReceiptInvoiceFormManag
                     ->setStudentName($student->getFullCanonicalName())
                     ->setUnits(1)
                     ->setUnitPrice($student->getTariff()->getPrice())
-                    ->setDiscount($student->calculateMonthlyDiscount())
+                    ->setDiscount($student->calculateMonthlyDiscountWithExtraSonDiscount($this->parameterBag->get('project_discount_extra_son')))
                     ->setIsReadyToGenerate(true)
                     ->setIsPreviouslyGenerated(false)
                     ->setIsPrivateLessonType(false)
@@ -121,7 +124,7 @@ class GenerateInvoiceFormManager extends AbstractGenerateReceiptInvoiceFormManag
         foreach ($generateInvoiceModel->getItems() as $generateInvoiceItemModel) {
             if ($generateInvoiceItemModel->isReadyToGenerate()) {
                 ++$recordsParsed;
-                /** @var Student|null $student */
+                /** @var Student $student */
                 $student = $this->sr->find($generateInvoiceItemModel->getStudentId());
                 if ($generateInvoiceItemModel->isPreviouslyGenerated()) {
                     /** @var Invoice $previousInvoice */

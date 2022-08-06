@@ -14,8 +14,8 @@
             </script>
         {% endapply %}
     {% endif %}
-    <meta name="description" content="{% block metadescription %}{{ 'frontend.layout.tags.description' | trans }}{% endblock %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="{% block metadescription %}{{ 'frontend.layout.tags.description' | trans({'%main_brand_title%': main_brand_title}) | lower }}{% endblock %}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="author" content="www.flux.cat">
     <meta charset="UTF-8">
     <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
@@ -36,107 +36,73 @@
             fbq('track', 'PageView');
         </script>
         <noscript>
-            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ facebook_pixel_id }}&ev=PageView&noscript=1"/>
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ facebook_pixel_id }}&ev=PageView&noscript=1" alt="none"/>
         </noscript>
     {% endif %}
+    {% block head_javascripts %}
+        {{ encore_entry_script_tags('frontend') }}
+        {{ encore_entry_script_tags('scroll_to_flash') }}
+    {% endblock %}
 </head>
-<body class="my-body" data-spy="scroll" data-target="#navbar" data-offset="200">
+<body{% block body_class %} class="my-body" data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true"{% endblock %}>
     {% if google_tag_manager_enabled %}
         <noscript>
             <iframe src="https://www.googletagmanager.com/ns.html?id={{ google_tag_manager_account }}" height="0" width="0" style="display:none;visibility:hidden"></iframe>
         </noscript>
     {% endif %}
     {#<!-- Fixed top menu -->#}
-    <nav class="navbar navbar-default navbar-fixed-top my-nav" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" data-aria-expanded="false" data-aria-controls="navbar">
-                    <span class="sr-only">{{ 'frontend.layout.toggle.navigation' | trans }}</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+    {% block header %}
+        <nav class="navbar navbar-expand-sm fixed-top navbar-light bg-light">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                {% block head %}
-                    <a class="navbar-brand" href="{{ path('app_homepage') }}"><img src="{{ asset('build/images/menu.png') }}" alt="{{ 'frontend.layout.main.title' | trans | capitalize }}"/></a>
-                {% endblock %}
-                <h1 class="text-hide">{{ 'frontend.layout.main.title' | trans | capitalize }}. Acadèmia escolar i classes de repàs a Amposta.</h1>
-            </div>
-            {% block menu %}
-                <div id="navbar" class="navbar-collapse collapse float-right">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#classes-de-repas">{{ 'frontend.layout.menu.courses' | trans | upper }}</a></li>
-                        <li><a href="#sobre-mi">{{ 'frontend.layout.menu.about' | trans | upper }}</a></li>
-                        <li><a href="#contacte">{{ 'frontend.layout.menu.contact' | trans | upper }}</a></li>
-                        <li><a href="{{ path('app_blog') }}">{{ 'frontend.layout.menu.blog' | trans | upper }}</a></li>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li><a href="{{ path('sonata_admin_dashboard') }}"><i class="fa fa-cog"></i></a></li>
-                        {% endif %}
-                    </ul>
+                <a class="navbar-brand" href="{{ path('app_homepage') }}">
+                    <h1 class="visually-hidden">{{ main_brand_title }}</h1>
+                    <img src="{{ asset('build/img/menu.png') }}" alt="{{ 'frontend.layout.main.title' | trans | capitalize }}"/>
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    {{ knp_menu_render('top', {currentClass: 'active'}) }}
                 </div>
-            {% endblock %}
-        </div>
-    </nav>
+            </div>
+        </nav>
+    {% endblock %}
     {#<!-- Main content -->#}
     {% block main %}{% endblock %}
-    {#<!-- Scroll-Top effect -->#}
+    {#<!-- Scroll-to-top effect -->#}
     <div class="scroll-top-wrapper"><span class="scroll-top-inner"><i class="fa fa-2x fa-arrow-circle-up"></i></span></div>
     {#<!-- Footer -->#}
     {% block footer %}
-        <footer>
+        <footer class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <ul class="list-unstyled">
-                            <li class="col-sm-3 hidden-xs"></li>
-                            <li class="col-sm-3 col-xs-12">
-                                <h5>{{ 'frontend.layout.footer.contact' | trans | upper }}:</h5>
-                                <address>
-                                    <span>{{ boss_name | upper }}</span><br>
-                                    <i class="fa fa-envelope"></i> <a href="mailto:{{ mailer_destination }}">{{ mailer_destination }}</a><br>
-                                    <i class="fa fa-phone-square"></i> <a href="tel:{{ main_brand_phone_1 | replace({' ': ''}) }}">{{ main_brand_phone_1 }}</a>
-                                </address>
-                            </li>
-                            <li class="col-sm-3 col-xs-12">
-                                <h5>{{ 'frontend.layout.footer.address' | trans | upper }}:</h5>
-                                <address>
-                                    <span>{{ main_brand_address }}</span><br>
-                                    43870 Amposta<br>
-                                    (Tarragona)
-                                </address>
-                            </li>
-                            <li class="col-sm-3 hidden-xs text-right">
-                                <a target="_blank" href="https://www.facebook.com/pasarepas"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;<a target="_blank" href="https://www.instagram.com/pasarepas"><i class="fa fa-instagram fa-2x"></i></a><br><br>
-                                <a href="{{ path('app_credits') }}">crèdits</a><br>
-                                <a href="{{ path('app_privacy_policy') }}">política de privacitat</a><br>
-                                <i class="fa fa-copyright"></i> {{ 'now' | date('Y') }}
-                            </li>
-                            <li class="visible-xs text-right">
-                                <a target="_blank" href="https://www.facebook.com/pasarepas"><i class="fa fa-facebook-official fa-2x"></i></a><br><br>
-                                <a href="{{ path('app_credits') }}">crèdits</a><br>
-                                <a href="{{ path('app_privacy_policy') }}">política de privacitat</a><br>
-                                <i class="fa fa-copyright"></i> {{ 'now' | date('Y') }}
-                            </li>
-                        </ul>
+                    <div class="col-sm-6 col-md-4 mb-4">
+                        <h5>{{ 'frontend.layout.footer.contact' | trans | upper }}:</h5>
+                        <address>
+                            <span>{{ boss_name | upper }}</span><br>
+                            <i class="far fa-envelope me-1"></i> <a href="mailto:{{ main_brand_email }}">{{ main_brand_email }}</a><br>
+                            <i class="fas fa-mobile-alt me-1"></i> <a href="tel:+34{{ main_brand_phone_1 | replace({' ': ''}) }}">{{ main_brand_phone_1 }}</a>
+                        </address>
+                    </div>
+                    <div class="col-sm-6 col-md-4 mb-4">
+                        <h5>{{ 'frontend.layout.footer.address' | trans | upper }}:</h5>
+                        <address>
+                            <span>{{ main_brand_address }}</span><br>
+                            43870 Amposta<br>
+                            (Tarragona)
+                        </address>
+                    </div>
+                    <div class="col-sm-6 col-md-4 mb-4 text-md-end">
+                        <a target="_blank" href="https://www.facebook.com/pasarepas"><i class="fab fa-facebook-square fa-3x me-2"></i></a>&nbsp;<a target="_blank" href="https://www.instagram.com/pasarepas"><i class="fab fa-instagram fa-3x"></i></a><br><br>
+                        <a href="{{ path('app_credits') }}">crèdits</a><br>
+                        <a href="{{ path('app_privacy_policy') }}">política de privacitat</a><br>
+                        <i class="far fa-copyright me-1"></i> {{ 'now' | date('Y') }}
                     </div>
                 </div>
             </div>
         </footer>
     {% endblock %}
     {#<!-- Javascripts -->#}
-    {% block javascripts %}
-        {{ encore_entry_script_tags('frontend') }}
-        <script type="text/javascript">
-            jQuery(document).ready(function() {
-                {% block inside_on_ready_javascripts_node %}
-                    jQuery('div#navbar li a').click(function(event) {
-                        if (event.target.innerHTML !== 'BLOG') {
-                            event.preventDefault();
-                            jQuery('html,body').animate({scrollTop: jQuery(event.target.hash).offset().top - 90}, "slow");
-                        }
-                    });
-                {% endblock %}
-            });
-        </script>
-    {% endblock %}
+    {% block javascripts %}{% endblock %}
 </body>
 </html>

@@ -2,19 +2,13 @@
 
 namespace App\Pdf;
 
+use App\Entity\AbstractBase;
 use App\Entity\Receipt;
-use App\Service\SmartAssetsHelperService;
-use Qipsius\TCPDFBundle\Controller\TCPDFController;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use DateTimeImmutable;
 use TCPDF;
 
 class ReceiptReminderBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
 {
-    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, Translator $ts, string $pwt, string $bn, string $bd, string $ba, string $bc, string $ib, string $locale)
-    {
-        parent::__construct($tcpdf, $sahs, $ts, $pwt, $bn, $bd, $ba, $bc, $ib, $locale);
-    }
-
     public function buildBatchReminder(): TCPDF
     {
         if ($this->sahs->isCliContext()) {
@@ -22,7 +16,7 @@ class ReceiptReminderBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
         }
 
         /** @var BaseTcpdf $pdf */
-        $pdf = $this->tcpdf->create($this->sahs);
+        $pdf = $this->tcpdf->create($this->sahs, $this->pb);
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
@@ -50,10 +44,8 @@ class ReceiptReminderBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
         if ($this->sahs->isCliContext()) {
             $this->ts->setLocale($this->locale);
         }
-
         /** @var BaseTcpdf $pdf */
-        $pdf = $this->tcpdf->create($this->sahs);
-
+        $pdf = $this->tcpdf->create($this->sahs, $this->pb);
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor($this->pwt);
@@ -98,7 +90,7 @@ class ReceiptReminderBuilderPdf extends AbstractReceiptInvoiceBuilderPdf
 
         $pdf->Write(0, $this->ts->trans('backend.admin.receipt_reminder.second_paragraph_1'), '', false, 'L', false);
         $pdf->setFontStyle(null, 'B', 11);
-        $pdf->Write(0, (new \DateTime())->format('d/m/Y'), '', false, 'L', false);
+        $pdf->Write(0, (new DateTimeImmutable())->format(AbstractBase::DATE_STRING_FORMAT), '', false, 'L', false);
         $pdf->setFontStyle(null, '', 11);
         $pdf->Write(0, $this->ts->trans('backend.admin.receipt_reminder.second_paragraph_2'), '', false, 'L', false);
         $pdf->setFontStyle(null, 'B', 11);

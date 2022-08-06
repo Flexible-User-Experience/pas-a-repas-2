@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-final class StudentAgesEnum
+class StudentAgesEnum
 {
     private const AGE_3 = 3;
     private const AGE_4 = 4;

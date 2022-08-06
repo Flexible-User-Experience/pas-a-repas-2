@@ -1,3 +1,6 @@
+// Imports
+@import "colors.scss";
+
 .main-header .navbar {
   border-left: 1px solid #eee;
 }
@@ -17,3 +20,8 @@
     width: 90px !important;
   }
 }
+
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';

@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-final class EventClassroomTypeEnum
+class EventClassroomTypeEnum
 {
     public const CLASSROOM_1 = 0;
     public const CLASSROOM_2 = 1;

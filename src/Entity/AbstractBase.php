@@ -10,6 +10,11 @@ abstract class AbstractBase
 {
     public const DEFAULT_NULL_STRING = '---';
     public const DEFAULT_NULL_DATE_STRING = '--/--/----';
+    public const DEFAULT_NULL_DATETIME_STRING = '--/--/---- --:--';
+    public const DATE_STRING_FORMAT = 'd/m/Y';
+    public const DATETIME_STRING_FORMAT = 'd/m/Y H:i';
+    public const DATABASE_DATE_STRING_FORMAT = 'Y-m-d';
+    public const DATABASE_DATETIME_STRING_FORMAT = 'Y-m-d H:i:s';
 
     /**
      * @ORM\Id
@@ -54,7 +59,7 @@ abstract class AbstractBase
 
     public function getCreatedAtString(): string
     {
-        return $this->getCreatedAt() ? $this->getCreatedAt()->format('d/m/Y') : self::DEFAULT_NULL_DATE_STRING;
+        return self::convertDateTimeAsString($this->getCreatedAt());
     }
 
     public function setUpdatedAt(?DateTimeInterface $updatedAt): self
@@ -71,7 +76,7 @@ abstract class AbstractBase
 
     public function getUpdatedAtString(): string
     {
-        return $this->getUpdatedAt() ? $this->getUpdatedAt()->format('d/m/Y') : self::DEFAULT_NULL_DATE_STRING;
+        return self::convertDateTimeAsString($this->getUpdatedAt());
     }
 
     public function setEnabled(bool $enabled): self
@@ -91,7 +96,22 @@ abstract class AbstractBase
         return $this->getEnabled();
     }
 
-    public function __toString()
+    public static function convertBooleanValueAsString(?bool $value): string
+    {
+        return $value ? 'yes' : 'no';
+    }
+
+    public static function convertDateAsString(?DateTimeInterface $date): string
+    {
+        return $date ? $date->format(self::DATE_STRING_FORMAT) : self::DEFAULT_NULL_DATE_STRING;
+    }
+
+    public static function convertDateTimeAsString(?DateTimeInterface $date): string
+    {
+        return $date ? $date->format(self::DATETIME_STRING_FORMAT) : self::DEFAULT_NULL_DATETIME_STRING;
+    }
+
+    public function __toString(): string
     {
         return $this->id ? $this->getId().' · '.$this->getCreatedAtString() : self::DEFAULT_NULL_STRING;
     }
