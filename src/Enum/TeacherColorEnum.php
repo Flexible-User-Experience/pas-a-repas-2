@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-final class TeacherColorEnum
+class TeacherColorEnum
 {
     public const MAGENTA = 0;
     public const BLUE = 1;

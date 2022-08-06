@@ -2,7 +2,7 @@
 
 namespace App\Entity\Traits;
 
-Trait SlugTrait
+trait SlugTrait
 {
     public function getSlug(): string
     {

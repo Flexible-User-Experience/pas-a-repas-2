@@ -1,4 +1,5 @@
 ivory_google_map:
     map:
-        language: "%default_locale%"
-        api_key:  "%google_maps_api_key%"
+        debug: '%kernel.debug%'
+        language: '%default_locale%'
+        api_key: '%google_maps_api_key%'

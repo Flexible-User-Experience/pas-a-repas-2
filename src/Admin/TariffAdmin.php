@@ -2,23 +2,28 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Enum\TariffTypeEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class TariffAdmin extends AbstractBaseAdmin
+final class TariffAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Tarriff';
     protected $baseRoutePattern = 'billings/tariff';
-    protected $datagridValues = [
-        '_sort_by' => 'year',
-        '_sort_order' => 'desc',
-    ];
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::DESC;
+        $sortValues[DatagridInterface::SORT_BY] = 'year';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection->remove('delete');
@@ -27,7 +32,7 @@ class TariffAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general', 3))
             ->add(
                 'year',
                 null,
@@ -53,7 +58,7 @@ class TariffAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
                 'type',
                 ChoiceType::class,
@@ -84,12 +89,12 @@ class TariffAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'backend.admin.tariff.type',
-                ],
-                ChoiceType::class,
-                [
-                    'expanded' => false,
-                    'multiple' => false,
-                    'choices' => TariffTypeEnum::getEnumArray(),
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'expanded' => false,
+                        'multiple' => false,
+                        'choices' => TariffTypeEnum::getEnumArray(),
+                    ],
                 ]
             )
             ->add(
@@ -149,27 +154,29 @@ class TariffAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                null,
                 [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
                     'actions' => [
-                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
                     ],
-                    'label' => 'backend.admin.actions',
                 ]
             )
         ;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'year',
+            'typeString',
             'name',
             'price',
-            'typeString',
         ];
     }
 }

@@ -96,7 +96,7 @@ class ReceiptYearMonthEnum
         $steps = $currentYear - self::APP_FIRST_YEAR + 1;
         for ($i = 0; $i < $steps; ++$i) {
             $year = $currentYear - $i;
-            $result["$year"] = $year;
+            $result[(string) $year] = $year;
         }
 
         return $result;

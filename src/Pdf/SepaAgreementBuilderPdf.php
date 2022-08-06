@@ -5,6 +5,7 @@ namespace App\Pdf;
 use App\Entity\Student;
 use App\Service\SmartAssetsHelperService;
 use Qipsius\TCPDFBundle\Controller\TCPDFController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TCPDF;
 
@@ -13,22 +14,24 @@ class SepaAgreementBuilderPdf
     private TCPDFController $tcpdf;
     private SmartAssetsHelperService $sahs;
     private TranslatorInterface $ts;
+    private ParameterBagInterface $pb;
     private string $pwt;
     private string $bn;
 
-    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, TranslatorInterface $ts, string $pwt, string $bn)
+    public function __construct(TCPDFController $tcpdf, SmartAssetsHelperService $sahs, TranslatorInterface $ts, ParameterBagInterface $pb)
     {
         $this->tcpdf = $tcpdf;
         $this->sahs = $sahs;
         $this->ts = $ts;
-        $this->pwt = $pwt;
-        $this->bn = $bn;
+        $this->pb = $pb;
+        $this->pwt = $pb->get('project_web_title');
+        $this->bn = $pb->get('boss_name');
     }
 
     public function build(Student $student): TCPDF
     {
         /** @var BaseTcpdf $pdf */
-        $pdf = $this->tcpdf->create($this->sahs);
+        $pdf = $this->tcpdf->create($this->sahs, $this->pb);
 
         $maxCellWidth = BaseTcpdf::PDF_WIDTH - BaseTcpdf::PDF_MARGIN_LEFT - BaseTcpdf::PDF_MARGIN_RIGHT;
 
@@ -59,9 +62,9 @@ class SepaAgreementBuilderPdf
         $pdf->Ln(BaseTcpdf::MARGIN_VERTICAL_SMALL);
         $pdf->Write(0, $this->ts->trans('backend.admin.sepaagreement.text1'), '', false, 'L', true);
         $pdf->Ln(BaseTcpdf::MARGIN_VERTICAL_SMALL);
-        $pdf->Write(0, $this->ts->trans('backend.admin.sepaagreement.text2'), '', false, 'L', true);
+        $pdf->Write(0, $this->ts->trans('backend.admin.sepaagreement.text2', ['%boss_name%' => $this->bn]), '', false, 'L', true);
         $pdf->Ln(BaseTcpdf::MARGIN_VERTICAL_SMALL);
-        $pdf->Write(0, $this->ts->trans('backend.admin.sepaagreement.text3'), '', false, 'L', true);
+        $pdf->Write(0, $this->ts->trans('backend.admin.sepaagreement.text3', ['%boss_name%' => $this->bn]), '', false, 'L', true);
         // table
         $pdf->Ln(BaseTcpdf::MARGIN_VERTICAL_BIG);
         $pdf->setCellPaddings(2, 1, 0, 0);
@@ -90,7 +93,7 @@ class SepaAgreementBuilderPdf
         $pdf->setCellPaddings(0, 0, 0, 0);
         // description legal
         $pdf->Ln(BaseTcpdf::MARGIN_VERTICAL_BIG);
-        $pdf->Write(0, $this->ts->trans('backend.admin.sepaagreement.end_text'), '', false, 'L', true);
+        $pdf->Write(0, $this->ts->trans('backend.admin.sepaagreement.end_text', ['%boss_name%' => $this->bn]), '', false, 'L', true);
         // signs
         $pdf->Ln(BaseTcpdf::MARGIN_VERTICAL_BIG);
         $pdf->MultiCell($maxCellWidth / 2, 7, '<strong>'.$this->bn.'</strong>', 0, 'L', false, 0, '', '', true, 0, true, true, 0, 'T', false);

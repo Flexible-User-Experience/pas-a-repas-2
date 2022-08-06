@@ -2,31 +2,39 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\BankCreditorSepa;
 use App\Entity\City;
 use App\Entity\Person;
 use App\Enum\StudentPaymentEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
-class PersonAdmin extends AbstractBaseAdmin
+final class PersonAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Person';
     protected $baseRoutePattern = 'students/parent';
-    protected $datagridValues = [
-        '_sort_by' => 'surname',
-        '_sort_order' => 'asc',
-    ];
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'surname';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection->remove('delete');
@@ -35,7 +43,7 @@ class PersonAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general', 3))
             ->add(
                 'name',
                 null,
@@ -51,22 +59,28 @@ class PersonAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.contact.contact', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.parent.phone',
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.parent.email',
-                    'required' => false,
-                ]
-            )
+            ->with('backend.admin.contact.contact', $this->getFormMdSuccessBoxArray('backend.admin.contact.contact', 3))
+        ;
+        if ($this->isAdminUser()) {
+            $form
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.phone',
+                    ]
+                )
+                ->add(
+                    'email',
+                    EmailType::class,
+                    [
+                        'label' => 'backend.admin.parent.email',
+                        'required' => true,
+                    ]
+                )
+            ;
+        }
+        $form
             ->add(
                 'address',
                 null,
@@ -83,11 +97,11 @@ class PersonAdmin extends AbstractBaseAdmin
                     'required' => true,
                     'class' => City::class,
                     'choice_label' => 'name',
-                    'query_builder' => $this->getConfigurationPool()->getContainer()->get('app.city_repository')->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->em->getRepository(City::class)->getEnabledSortedByNameQB(),
                 ]
             )
             ->end()
-            ->with('backend.admin.student.payment_information', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.student.payment_information', $this->getFormMdSuccessBoxArray('backend.admin.student.payment_information', 3))
             ->add(
                 'payment',
                 ChoiceType::class,
@@ -97,6 +111,17 @@ class PersonAdmin extends AbstractBaseAdmin
                     'multiple' => false,
                     'expanded' => false,
                     'required' => true,
+                ]
+            )
+            ->add(
+                'bankCreditorSepa',
+                EntityType::class,
+                [
+                    'label' => 'backend.admin.bank.creditor_bank_name',
+                    'help' => 'backend.admin.bank.creditor_bank_name_help',
+                    'required' => true,
+                    'class' => BankCreditorSepa::class,
+                    'query_builder' => $this->em->getRepository(BankCreditorSepa::class)->getEnabledSortedByNameQB(),
                 ]
             )
             ->add(
@@ -110,7 +135,7 @@ class PersonAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
                 'students',
                 null,
@@ -172,20 +197,26 @@ class PersonAdmin extends AbstractBaseAdmin
                     'label' => 'backend.admin.parent.surname',
                 ]
             )
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.parent.phone',
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.parent.email',
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $filter
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.phone',
+                    ]
+                )
+                ->add(
+                    'email',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.email',
+                    ]
+                )
+            ;
+        }
+        $filter
             ->add(
                 'address',
                 null,
@@ -195,14 +226,14 @@ class PersonAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'city',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'backend.admin.parent.city',
-                ],
-                null,
-                [
-                    'class' => City::class,
-                    'property' => ['name', 'postalCode'],
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'class' => City::class,
+                        'property' => ['name', 'postalCode'],
+                    ],
                 ]
             )
             ->add(
@@ -210,12 +241,12 @@ class PersonAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'backend.admin.parent.payment',
-                ],
-                ChoiceType::class,
-                [
-                    'choices' => StudentPaymentEnum::getEnumArray(),
-                    'expanded' => false,
-                    'multiple' => false,
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => StudentPaymentEnum::getEnumArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
                 ]
             )
             ->add(
@@ -240,17 +271,28 @@ class PersonAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'bankCreditorSepa',
+                null,
+                [
+                    'label' => 'backend.admin.bank.creditor_bank_name',
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'required' => false,
+                        'class' => BankCreditorSepa::class,
+                        'query_builder' => $this->em->getRepository(BankCreditorSepa::class)->getAllSortedByNameQB(),
+                    ],
+                ]
+            )
+            ->add(
                 'dischargeDate',
                 DateFilter::class,
                 [
                     'label' => 'backend.admin.student.dischargeDate',
                     'field_type' => DatePickerType::class,
-                    'format' => 'd-m-Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                    ],
                 ]
             )
             ->add(
@@ -282,22 +324,28 @@ class PersonAdmin extends AbstractBaseAdmin
                     'editable' => true,
                 ]
             )
-            ->add(
-                'phone',
-                null,
-                [
-                    'label' => 'backend.admin.parent.phone',
-                    'editable' => true,
-                ]
-            )
-            ->add(
-                'email',
-                null,
-                [
-                    'label' => 'backend.admin.parent.email',
-                    'editable' => true,
-                ]
-            )
+        ;
+        if ($this->isAdminUser()) {
+            $list
+                ->add(
+                    'phone',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.phone',
+                        'editable' => true,
+                    ]
+                )
+                ->add(
+                    'email',
+                    null,
+                    [
+                        'label' => 'backend.admin.parent.email',
+                        'editable' => true,
+                    ]
+                )
+            ;
+        }
+        $list
             ->add(
                 'enabled',
                 null,
@@ -309,23 +357,23 @@ class PersonAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                null,
                 [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
                     'actions' => [
                         'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
                 ]
             )
         ;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
-        return [
+        $result = [
             'dni',
             'name',
             'surname',
@@ -337,9 +385,16 @@ class PersonAdmin extends AbstractBaseAdmin
             'bank.name',
             'bank.swiftCode',
             'bank.accountNumber',
+            'bankCreditorSepa.name',
+            'bankCreditorSepa.iban',
             'dischargeDateString',
             'enabled',
         ];
+        if (!$this->isAdminUser()) {
+            unset($result[3], $result[4]);
+        }
+
+        return $result;
     }
 
     /**
@@ -358,9 +413,6 @@ class PersonAdmin extends AbstractBaseAdmin
         $this->commonPreActions($object);
     }
 
-    /**
-     * @param Person $object
-     */
     private function commonPreActions($object): void
     {
         if ($object->getBank() && $object->getBank()->getAccountNumber()) {

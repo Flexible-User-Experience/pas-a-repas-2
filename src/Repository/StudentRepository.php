@@ -6,8 +6,8 @@ use App\Entity\ClassGroup;
 use App\Entity\PreRegister;
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class StudentRepository extends ServiceEntityRepository
@@ -21,8 +21,7 @@ final class StudentRepository extends ServiceEntityRepository
     {
         return $this->getAllSortedByNameQB()
             ->where('s.enabled = :enabled')
-            ->setParameter('enabled', true)
-        ;
+            ->setParameter('enabled', true);
     }
 
     public function getEnabledSortedByNameQ(): Query
@@ -75,8 +74,7 @@ final class StudentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('s')
             ->orderBy('s.surname', 'ASC')
-            ->addOrderBy('s.name', 'ASC')
-        ;
+            ->addOrderBy('s.name', 'ASC');
     }
 
     public function getAllSortedBySurnameQ(): Query
@@ -104,7 +102,7 @@ final class StudentRepository extends ServiceEntityRepository
         return $this->getEnabledSortedBySurnameValidTariffQ()->getResult();
     }
 
-    public function getStudentsInEventsByYearAndMonthQB($year, $month): QueryBuilder
+    public function getStudentsInEventsByYearAndMonthQB(int $year, int $month): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->join('s.events', 'e')
@@ -118,30 +116,29 @@ final class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    public function getStudentsInEventsByYearAndMonthQ($year, $month): Query
+    public function getStudentsInEventsByYearAndMonthQ(int $year, int $month): Query
     {
         return $this->getStudentsInEventsByYearAndMonthQB($year, $month)->getQuery();
     }
 
-    public function getStudentsInEventsByYearAndMonth($year, $month): array
+    public function getStudentsInEventsByYearAndMonth(int $year, int $month): array
     {
         return $this->getStudentsInEventsByYearAndMonthQ($year, $month)->getResult();
     }
 
-    public function getStudentsInEventsByYearAndMonthSortedBySurnameQB($year, $month): QueryBuilder
+    public function getStudentsInEventsByYearAndMonthSortedBySurnameQB(int $year, int $month): QueryBuilder
     {
         return $this->getStudentsInEventsByYearAndMonthQB($year, $month)
             ->orderBy('s.surname', 'ASC')
-            ->addOrderBy('s.name', 'ASC')
-        ;
+            ->addOrderBy('s.name', 'ASC');
     }
 
-    public function getStudentsInEventsByYearAndMonthSortedBySurnameQ($year, $month): Query
+    public function getStudentsInEventsByYearAndMonthSortedBySurnameQ(int $year, int $month): Query
     {
         return $this->getStudentsInEventsByYearAndMonthSortedBySurnameQB($year, $month)->getQuery();
     }
 
-    public function getStudentsInEventsByYearAndMonthSortedBySurname($year, $month): array
+    public function getStudentsInEventsByYearAndMonthSortedBySurname(int $year, int $month): array
     {
         return $this->getStudentsInEventsByYearAndMonthSortedBySurnameQ($year, $month)->getResult();
     }
@@ -183,7 +180,7 @@ final class StudentRepository extends ServiceEntityRepository
         return $this->getPrivateLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)->getResult();
     }
 
-    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month): QueryBuilder
+    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB(int $year, int $month): QueryBuilder
     {
         return $this->getStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)
             ->andWhere('cg.isForPrivateLessons = :isForPrivateLessons')
@@ -191,12 +188,12 @@ final class StudentRepository extends ServiceEntityRepository
         ;
     }
 
-    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month): Query
+    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ(int $year, int $month): Query
     {
         return $this->getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQB($year, $month)->getQuery();
     }
 
-    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff($year, $month): array
+    public function getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariff(int $year, int $month): array
     {
         return $this->getGroupLessonStudentsInEventsForYearAndMonthSortedBySurnameWithValidTariffQ($year, $month)->getResult();
     }

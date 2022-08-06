@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\AbstractBase;
 use App\Entity\Spending;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -19,21 +20,21 @@ final class SpendingRepository extends ServiceEntityRepository
     /**
      * @throws NonUniqueResultException
      */
-    public function getMonthlyExpensesAmountForDate(DateTimeInterface $date): float
+    public function getMonthlyExpensesAmountForDate(DateTimeInterface $date): int
     {
         $begin = clone $date;
         $end = clone $date;
         $begin->modify('first day of this month');
         $end->modify('last day of this month');
-        $query = $this->createQueryBuilder('s')
-            ->select('SUM(s.baseAmount) as amount')
-            ->where('s.date >= :begin')
-            ->andWhere('s.date <= :end')
-            ->setParameter('begin', $begin->format('Y-m-d'))
-            ->setParameter('end', $end->format('Y-m-d'))
+        $query = $this->createQueryBuilder('i')
+            ->select('SUM(i.baseAmount) as amount')
+            ->where('i.date >= :begin')
+            ->andWhere('i.date <= :end')
+            ->setParameter('begin', $begin->format(AbstractBase::DATABASE_DATE_STRING_FORMAT))
+            ->setParameter('end', $end->format(AbstractBase::DATABASE_DATE_STRING_FORMAT))
             ->getQuery()
         ;
 
-        return is_null($query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR)) ? 0 : (float) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
+        return is_null($query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR)) ? 0 : (int) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 }

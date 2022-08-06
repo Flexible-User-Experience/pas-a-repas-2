@@ -1,56 +1,45 @@
-// Variables
-$magenta: #CD5599;
-$cyan:    #40B4E5;
-$wine:    #782C63;
-$violet:  #62259D;
-$lviolet: #8E64A7;
-$grey:    #9FA1A1;
-$lgrey:   #F0F1F2;
-$brown:   #AA542F;
-$lbrown:  #D5BC94;
-$white:   #FFFFFF;
-$black:   #222222;
-$gap-extra:  40px;
-$gap-double: 60px;
-$screen-xs: 480px !default;
-$screen-sm: 768px !default;
-$screen-md: 992px !default;
-$screen-lg: 1200px !default;
+// Imports
+@import "colors.scss";
 
 // Fonts
 $icon-font-path: "../../fonts/bootstrap/";
 
 @font-face {
     font-family: 'pluto';
-    src:url('../../public/build/fonts/PlutoSansRegular.eot');
-    src:url('../../public/build/fonts/PlutoSansRegular.eot?#iefix') format('embedded-opentype'),
-    url('../../public/build/fonts/PlutoSansRegular.ttf') format('truetype'),
-    url('../../public/build/fonts/PlutoSansRegular.woff') format('woff'),
-    url('../../public/build/fonts/PlutoSansRegular.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'plutobold';
-    src:url('../../public/build/fonts/PlutoSansBold.eot');
-    src:url('../../public/build/fonts/PlutoSansBold.eot?#iefix') format('embedded-opentype'),
-    url('../../public/build/fonts/PlutoSansBold.ttf') format('truetype'),
-    url('../../public/build/fonts/PlutoSansBold.woff') format('woff'),
-    url('../../public/build/fonts/PlutoSansBold.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'icomoon';
-    src:url('../../public/build/fonts/icomoon.eot?owk010');
-    src:url('../../public/build/fonts/icomoon.eot?owk010#iefix') format('embedded-opentype'),
-    url('../../public/build/fonts/icomoon.ttf?owk010') format('truetype'),
-    url('../../public/build/fonts/icomoon.woff?owk010') format('woff'),
-    url('../../public/build/fonts/icomoon.svg?owk010#icomoon') format('svg');
+    src:url('../fonts/PlutoSansRegular.eot');
+    src:url('../fonts/PlutoSansRegular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/PlutoSansRegular.ttf') format('truetype'),
+    url('../fonts/PlutoSansRegular.woff') format('woff'),
+    url('../fonts/PlutoSansRegular.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'plutobold';
+    src:url('../fonts/PlutoSansBold.eot');
+    src:url('../fonts/PlutoSansBold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/PlutoSansBold.ttf') format('truetype'),
+    url('../fonts/PlutoSansBold.woff') format('woff'),
+    url('../fonts/PlutoSansBold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'icomoon';
+    src:url('../fonts/icomoon.eot?owk010');
+    src:url('../fonts/icomoon.eot?owk010#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?owk010') format('truetype'),
+    url('../fonts/icomoon.woff?owk010') format('woff'),
+    url('../fonts/icomoon.svg?owk010#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+$font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+// Custom font icons
 [class^="icon-"], [class*=" icon-"] {
     font-family: 'icomoon', sans-serif !important;
     speak: none;
@@ -91,64 +80,40 @@ $icon-font-path: "../../fonts/bootstrap/";
     content: "\e905";
 }
 
-$font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+// Custom Bootstrap vars
 $text-color: $grey;
+$screen-xs: 480px !default;
+$screen-sm: 768px !default;
+$screen-md: 992px !default;
+$screen-lg: 1200px !default;
 
-// Navbar
-$navbar-height: 90px;
-$navbar-default-border: $grey;
-$navbar-default-color: transparent;
-$navbar-default-bg: $white;
-$navbar-default-brand-color: $grey;
-$navbar-default-link-color: $grey;
-$navbar-default-link-active-color: $cyan;
-$navbar-default-link-hover-color: $magenta;
-$navbar-default-link-active-bg: transparent;
-nav.my-nav {
-    a.navbar-brand { margin-top: -20px; }
-    div.navbar-collapse.collapse.float-right { float: right; }
-    div#navbar { padding-right: 15px; }
-}
-@media (min-width: $screen-sm) {
-    .navbar-nav > li > a {
-        padding-top: 58px;
-        padding-bottom: 20px;
-    }
-}
-.nav-justified > li {
-    display: table-cell;
-    width: 1%;
-}
+// Custom navbar
+$navbar-light-brand-color:       $grey;
+$navbar-light-brand-hover-color: darken($navbar-light-brand-color, 25%);
+$navbar-light-color:             $navbar-light-brand-color;
+$navbar-light-hover-color:       $magenta;
+$navbar-light-active-color:      $cyan;
 
 // Link
 $link-color: $magenta;
 $link-hover-color: darken($link-color, 15%);
 
-// Colors
-.c-magenta  { color: $magenta }
-.c-cyan     { color: $cyan }
-.c-wine     { color: $wine }
-.c-violet   { color: $violet }
-.c-lviolet  { color: $lviolet }
-.c-grey     { color: $grey }
-.c-brown    { color: $brown }
-.c-lbrown   { color: $lbrown }
-.c-white    { color: $white }
-.c-black    { color: $black }
-.bc-magenta { background-color: $magenta }
-.bc-cyan    { background-color: $cyan }
-.bc-wine    { background-color: $wine }
-.bc-violet  { background-color: $violet }
-.bc-lviolet { background-color: $lviolet }
-.bc-grey    { background-color: $grey }
-.bc-brown   { background-color: $brown }
-.bc-lbrown  { background-color: $lbrown }
-.bc-white   { background-color: $white }
-.bc-black   { background-color: $black }
-
 // Body
+$vertical-offset: 84px;
+
+// Buttons
+.btn-violet {
+    color: $white !important;
+    background-color: $violet !important;
+    border-color: $lviolet !important;
+    &:hover {
+        background-color: $lviolet !important;
+    }
+}
+
+// Customs
 body.my-body {
-    margin-top: 90px;
+    padding-top: $vertical-offset;
     position: relative;
     font-size: 8px;
     @media (min-width: $screen-xs) {
@@ -165,70 +130,57 @@ body.my-body {
     }
 }
 
-// Strongs
+.navbar {
+    text-transform: uppercase;
+}
+
 strong {
     text-decoration: underline;
 }
 
-// Textarea
-textarea { resize: vertical; }
-
-// Address
-address { line-height: 1.65; }
-
-// Gaps
-.no-m { margin: 0; }
-.no-m-top { margin-top: 0; }
-.no-m-bottom { margin-bottom: 0; }
-.no-m-left { margin-left: 0; }
-.no-m-right { margin-right: 0; }
-.extra-m-top { margin-top: $gap-extra; }
-.extra-d-top { margin-top: $gap-double; }
-.extra-m-bottom { margin-bottom: $gap-extra; }
-.extra-d-bottom { margin-bottom: $gap-double; }
-.no-p-left { padding-left: 0; }
-.no-p-right { padding-right: 0; }
-.no-h-padding {
-    padding-left: 0;
-    padding-right: 0;
+address {
+    line-height: 1.65;
 }
 
-// Clean ups
-.no-overflow { overflow: hidden; }
+.no-overflow {
+    overflow: hidden;
+}
+
 .no-underline {
     text-decoration: none;
-    &:hover { text-decoration: none; }
-}
-.d-block { display: block; }
-
-// Buttons
-.btn-violet {
-    color: $white;
-    background-color: $violet;
-    border-color: $lviolet;
     &:hover {
-        color: $white;
-        background-color: $lviolet;
+        text-decoration: none;
     }
 }
 
-// Captions
-.my-carousel-caption {
-    position: absolute;
-    left: 5%;
-    right: 5%;
-    top: 0;
-    z-index: 10;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    color: #ffffff;
-    text-align: center;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-    background-color: rgba(0, 0, 0, 0.4);
+.container-fluid{
+    overflow: hidden;
 }
 
-// Customs
+.vertical-offset:before {
+    display: block;
+    content: " ";
+    height: $vertical-offset;
+    margin-top: -$vertical-offset;
+    visibility: hidden;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.fa-4x {
+    font-size: 3em;
+    @media (min-width: $screen-sm) {
+        font-size: 3.5em;
+    }
+    @media (min-width: $screen-md) {
+        font-size: 4em;
+    }
+}
+
 h2.my-h2 {
+    color: $grey;
     margin: 30px 0;
     font-size: 18px;
     &.c-white { color: $white; }
@@ -241,7 +193,7 @@ h2.my-h2 {
         font-size: 24px;
     }
 }
-.google-maps-container { height: 400px; }
+
 .banner-service {
     line-height: 1.65;
     margin-bottom: 0;
@@ -255,42 +207,8 @@ h2.my-h2 {
     @media (min-width: $screen-lg) {
         padding: 70px;
     }
-    &.sobre-mi { padding: 0 20px 70px 20px; }
 }
-div.navbar ul.nav.nav-justified {
-    li {
-        i {
-            display: block;
-            margin-bottom: 10px;
-            &.icon-arrow { margin: 0 }
-        }
-        .current-mark {
-            visibility: hidden;
-            margin-top: 5px;
-            display: block;
-        }
-        a.c-magenta:hover, a.c-magenta:focus { color: $magenta }
-        a.c-cyan:hover,    a.c-cyan:focus    { color: $cyan }
-        a.c-wine:hover,    a.c-wine:focus    { color: $wine }
-        a.c-violet:hover,  a.c-violet:focus  { color: $violet }
-        a.c-lviolet:hover, a.c-lviolet:focus { color: $lviolet }
-        &.active {
-            background-color: #EEE;
-            & > a {
-                margin-bottom: 0;
-            }
-        }
-        &:hover {
-            background-color: #EEE;
-        }
-        &.active, & a:hover {
-            .current-mark {
-                visibility: visible;
-            }
-        }
-    }
-}
-p.text-center.contacte { margin: 0 0 40px 0; }
+
 .blog-categories {
     h3 { margin-top: 0; }
     ul.list-unstyled {
@@ -298,10 +216,14 @@ p.text-center.contacte { margin: 0 0 40px 0; }
         li {
             padding: 10px;
             border-bottom: solid 1px $grey;
-            a { color: $grey; }
+            a {
+                color: $grey;
+            }
             &.active {
                 border-bottom: solid 1px $cyan;
-                a { color: $cyan; }
+                a {
+                    color: $cyan;
+                }
             }
             &:hover a {
                 color: $magenta;
@@ -310,22 +232,6 @@ p.text-center.contacte { margin: 0 0 40px 0; }
         }
     }
 }
-.fa-4x {
-    font-size: 3em;
-    @media (min-width: $screen-sm) {
-        font-size: 3.5em;
-    }
-    @media (min-width: $screen-md) {
-        font-size: 4em;
-    }
-}
-
-// Thumbnails
-$thumbnail-padding: 0;
-$thumbnail-bg: $lgrey;
-$thumbnail-border: $lgrey;
-$thumbnail-border-radius: 10px;
-$thumbnail-caption-padding: 40px;
 
 // Scroll to top helper
 .scroll-top-wrapper {
@@ -350,7 +256,9 @@ $thumbnail-caption-padding: 40px;
         cursor: pointer;
         opacity: 0.85;
     }
-    i.fa { line-height: inherit; }
+    i.fa {
+        line-height: inherit;
+    }
 }
 
 // Pagination
@@ -376,10 +284,13 @@ footer {
             text-decoration: underline;
         }
     }
-    a.btn { text-decoration: none; }
+    a.btn {
+        text-decoration: none;
+    }
 }
 
-@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import '~bootstrap/scss/bootstrap';
+@import '~icheck-bootstrap/icheck-bootstrap.css';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';

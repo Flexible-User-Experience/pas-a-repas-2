@@ -3,8 +3,8 @@
 namespace App\Command;
 
 use App\Entity\Invoice;
-use App\Service\NotificationService;
 use App\Pdf\InvoiceBuilderPdf;
+use App\Service\NotificationService;
 use Exception;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Console\Command\Command;
@@ -45,10 +45,7 @@ class DeliverInvoiceByEmailCommand extends Command
     /**
      * Execute command.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws Exception
      */
@@ -56,7 +53,7 @@ class DeliverInvoiceByEmailCommand extends Command
     {
         $output->writeln('<info>Welcome to '.$this->getName().' command</info>');
         /** @var Invoice|null $invoice */
-        $invoice = $this->getContainer()->get('doctrine')->getRepository(Invoice::class)->find(intval($input->getArgument('invoice')));
+        $invoice = $this->getContainer()->get('doctrine')->getRepository(Invoice::class)->find((int) $input->getArgument('invoice'));
         if ($invoice) {
             $output->write('building PDF invoice number '.$invoice->getInvoiceNumber().'... ');
             /** @var InvoiceBuilderPdf $ibp */
@@ -84,7 +81,7 @@ class DeliverInvoiceByEmailCommand extends Command
                 }
             }
         } else {
-            $output->writeln('<error>No invoice with ID#'.intval($input->getArgument('invoice')).' found. Nothing send.</error>');
+            $output->writeln('<error>No invoice with ID#'.(int) $input->getArgument('invoice').' found. Nothing send.</error>');
         }
 
         $output->writeln('<info>EOF.</info>');

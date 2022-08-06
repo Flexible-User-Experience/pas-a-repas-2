@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 import axios from 'axios';
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 const routes = require('../../public/js/fos_js_routes.json');
@@ -32,7 +32,7 @@ export default class extends Controller {
                     console.error('[EventsStudentAssistance::update] attend axios error response', error);
                 });
         } else {
-            // not attend class
+            // not atted class
             let self = this;
             axios.get(Routing.generate('admin_app_event_apinotattendedclass', { id: this.eidValue, student: event.target.value}))
                 .then(function (response) {

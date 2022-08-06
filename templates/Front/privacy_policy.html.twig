@@ -2,17 +2,13 @@
 
 {% block title %}Política de privacitat · {{ parent() }}{% endblock %}
 
-{% block menu %}
-    {% include "Front/includes/full_link_menu_navbar.html.twig" %}
-{% endblock %}
-
 {% block main %}
-    <div class="container container-main">
-        <div class="row extra-d-top extra-d-bottom">
-            <div class="col-md-12 text-justify">
+    <div class="container">
+        <div class="row py-5">
+            <div class="col-12 text-justify c-grey">
                 <h3>1. POLÍTICA DE PRIVACITAT</h3>
                 <p>{{ main_brand_title | upper }} està especialment sensibilitzada en la protecció de dades de caràcter personal dels Usuaris dels serveis de la pàgina Web. Mitjançant la present Política de Privacitat (d’ara endavant, la Política).
-                    {{ main_brand_title | upper }} informa als USUARIS del lloc web {{ project_url_base }}, del tractament i usos als quals se sotmeten les dades de caràcter personal que es recullen al Web, amb la finalitat que pugin decidir, lliure i voluntàriament, si desitgen facilitar la informació sol·licitada.</p>
+                    {{ main_brand_title | upper }} informa als USUARIS del lloc web {{ main_brand_url }}, del tractament i usos als quals se sotmeten les dades de caràcter personal que es recullen al Web, amb la finalitat que pugin decidir, lliure i voluntàriament, si desitgen facilitar la informació sol·licitada.</p>
                 <p>{{ main_brand_title | upper }}, com a responsable del lloc web, de conformitat amb el que disposa el Reglament (UE) 2016/679 de 27 d’abril de 2016 (RGPD) relatiu a la protecció de les persones físiques quant a tractament de dades personals, i per la Llei 34/2002, d’11 de juliol, de Serveis de la Societat de la Informació i del Comerç Electrònic (LSSICE), l’informa que té implementades les mesures de seguretat necessàries, d’índole tècnica i organitzatives, per garantir i protegir la confidencialitat, integritat i disponibilitat de les dades introduïdes.</p>
                 <p>{{ main_brand_title | upper }} es reserva la facultat de modificar aquesta Política amb l’objecte d’adaptar-la a novetats legislatives, criteris jurisprudencials, pràctiques del sector o interessos de l’entitat. Qualsevol modificació d’aquesta política serà anunciada amb antelació per tal d’informar als Usuaris.</p>
                 <h4>REGISTRE DE FITXERS I FORMULARIS</h4>
@@ -42,7 +38,7 @@
                     <li>
                         Enviant un correu electrònic a:
                         <ul class="list-unstyled" style="margin-left: 20px">
-                            <li><a href="mailto:{{ mailer_destination }}?subject=RGPD. Exercici Drets">{{ mailer_destination }}</a></li>
+                            <li><a href="mailto:{{ main_brand_email }}?subject=RGPD. Exercici Drets">{{ main_brand_email }}</a></li>
                         </ul>
                     </li>
                 </ol>
@@ -61,7 +57,7 @@
                 </ul>
                 </p>
                 <h3>2. COOKIES</h3>
-                <p>En compliment del Reial Decret-Llei 13/2012, {{ main_brand_title | upper }} demana el teu permís per instal·lar cookies amb la finalitat d’obtenir dades estadístiques de la teva navegació en aquesta pàgina web. En continuar utilitzant “{{ project_url_base }}” estàs acceptant l’instal·lació i l’ús de cookies. Política de privacitat. Sobre les cookies.</p>
+                <p>En compliment del Reial Decret-Llei 13/2012, {{ main_brand_title | upper }} demana el teu permís per instal·lar cookies amb la finalitat d’obtenir dades estadístiques de la teva navegació en aquesta pàgina web. En continuar utilitzant “{{ main_brand_url }}” estàs acceptant l’instal·lació i l’ús de cookies. Política de privacitat. Sobre les cookies.</p>
                 <p>Sobre l’ús de les galetes o cookies en aquest lloc web.</p>
                 <p>Una galeta (o cookie en anglès) és un petit fragment de codi que els llocs web que visites envien al teu navegador. La seva funció és diversa, per exemple:
                 <ul>
@@ -80,14 +76,14 @@
                     <li>Si navegues amb Chrome: <a href="https://support.google.com/chrome/answer/95647?hl=ca">https://support.google.com/chrome/answer/95647?hl=ca</a></li>
                     <li>Si navegues amb Internet Explorer: <a href="https://support.microsoft.com/es-es/kb/278835">https://support.microsoft.com/es-es/kb/278835</a></li>
                     <li>Si navegues amb Safari: <a href="https://support.apple.com/es-es/HT201265">https://support.apple.com/es-es/HT201265</a></li>
-                    <li>Si et calen més detalls sobre l’ús que fem de les cookies escriu-nos a <a href="mailto:{{ mailer_destination }}">{{ mailer_destination }}</a> i te n’informarem.</li>
+                    <li>Si et calen més detalls sobre l’ús que fem de les cookies escriu-nos a <a href="mailto:{{ main_brand_email }}">{{ main_brand_email }}</a> i te n’informarem.</li>
                 </ul>
                 </p>
                 <h3>3. AVÍS LEGAL</h3>
                 <h4>Responsabilitat del web</h4>
                 <p>{{ main_brand_title | upper }}, és la marca comercial de {{ boss_name | upper }}, amb domicili al
                     {{ main_brand_address }}, 43870 Amposta - (Tarragona), de la qual, {{ boss_name }}, amb DNI
-                    {{ boss_dni }} actua com a titular, dinamitzadora i gestora de continguts del web: {{ project_url_base }}</p>
+                    {{ boss_dni }} actua com a titular, dinamitzadora i gestora de continguts del web: {{ main_brand_url }}</p>
                 <h4>Concepte d’usuari</h4>
                 <p>La utilització del web atribueix la condició d’usuari, i implica l’acceptació plena i sense reserves de totes i cadascuna de les disposicions incloses en aquest Avís Legal en la versió publicada per {{ main_brand_title | upper }} en el mateix moment que l’usuari accedeixi a la Web. {{ main_brand_title | upper }} informarà als usuaris de qualsevol canvi en aquest Avís legal.</p>
                 <p>Informació sobre els enllaços o links {{ main_brand_title | upper }} no es fa responsable de les webs no pròpies a les quals es pot accedir mitjançant vincles o de qualsevol contingut posat a disposició per tercers. Qualsevol ús d’un vincle o accés a un web no propi és realitzat per voluntat i risc exclusiu de l’usuari i {{ main_brand_title | upper }} no recomana ni garanteix cap informació obtinguda a través d’un vincle aliè al web de {{ main_brand_title | upper }} ni es responsabilitza de cap pèrdua, reclamació o perjudici derivada de l’ús o mal ús d’un vincle, o de la informació obtinguda a través d’ell, incloent altres vincles o webs, de la interrupció en el servei o en l’accés, o de l’intent d’usar o usar malament un vincle, tant al connectar al web de {{ main_brand_title | upper }} com a l’accedir a la informació d’altres webs des del web de {{ main_brand_title | upper }}</p>
@@ -118,5 +114,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block inside_on_ready_javascripts_node %}{% endblock %}

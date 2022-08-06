@@ -3,78 +3,76 @@
 namespace App\Form\Type;
 
 use App\Entity\NewsletterContact;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaV3Type;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrueV3 as RecaptchaTrue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * Class ContactHomepageType.
- *
- * @category FormType
- */
 class ContactHomepageType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
                 'email',
                 EmailType::class,
-                array(
+                [
                     'required' => true,
-                    'attr' => array(
+                    'attr' => [
                         'placeholder' => 'frontend.forms.email',
                         'class' => 'newsletter-email',
-                    ),
-                    'constraints' => array(
+                    ],
+                    'constraints' => [
                         new Assert\NotBlank(),
-                        new Assert\Email(array(
-                            'strict' => true,
-                            'checkMX' => true,
-                            'checkHost' => true,
-                        )),
-                    ),
-                )
+                        new Assert\Email(),
+                    ],
+                ]
             )
             ->add(
                 'privacy',
                 CheckboxType::class,
-                array(
+                [
                     'required' => true,
                     'label' => 'frontend.forms.privacy',
                     'mapped' => false,
-                )
+                ]
+            )
+            ->add(
+                'captcha',
+                EWZRecaptchaV3Type::class,
+                [
+                    'label' => false,
+                    'action_name' => 'contact_homepage',
+                    'mapped' => false,
+                    'constraints' => [
+                        new RecaptchaTrue(),
+                    ],
+                ]
             )
             ->add(
                 'send',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'frontend.forms.subscribe',
-                    'attr' => array(
-                        'class' => 'btn-newsletter',
-                    ),
-                )
+                    'attr' => [
+                        'class' => 'btn btn-primary',
+                    ],
+                ]
             )
         ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => NewsletterContact::class,
-            )
+            ]
         );
     }
 }

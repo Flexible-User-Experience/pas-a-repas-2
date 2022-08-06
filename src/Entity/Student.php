@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\BankCreditorSepaTrait;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Student extends AbstractPerson
 {
-    public const DISCOUNT_PER_EXTRA_SON = 0;
+    use BankCreditorSepaTrait;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -88,7 +89,7 @@ class Student extends AbstractPerson
 
     public function getBirthDateString(): string
     {
-        return $this->getBirthDate() ? $this->getBirthDate()->format('d/m/Y') : AbstractBase::DEFAULT_NULL_DATE_STRING;
+        return $this->getBirthDate() ? $this->getBirthDate()->format(AbstractBase::DATE_STRING_FORMAT) : AbstractBase::DEFAULT_NULL_DATE_STRING;
     }
 
     public function setBirthDate(?DateTimeInterface $birthDate): self
@@ -256,24 +257,24 @@ class Student extends AbstractPerson
         return $this;
     }
 
-    public function calculateMonthlyTariff(): float
+    public function calculateMonthlyTariffWithExtraSonDiscount(int $discountExtraSon): float
     {
         $price = $this->getTariff()->getPrice();
         if ($this->getParent()) {
             $enabledSonsAmount = $this->getParent()->getEnabledSonsAmount();
-            $discount = $enabledSonsAmount ? ((($enabledSonsAmount - 1) * self::DISCOUNT_PER_EXTRA_SON) / $enabledSonsAmount) : 0;
+            $discount = $enabledSonsAmount ? ((($enabledSonsAmount - 1) * $discountExtraSon) / $enabledSonsAmount) : 0;
             $price -= $discount;
         }
 
         return $price;
     }
 
-    public function calculateMonthlyDiscount(): float
+    public function calculateMonthlyDiscountWithExtraSonDiscount(int $discountExtraSon): float
     {
         $discount = 0;
         if ($this->getParent()) {
             $enabledSonsAmount = $this->getParent()->getEnabledSonsAmount();
-            $discount = $enabledSonsAmount ? round(($enabledSonsAmount - 1) * self::DISCOUNT_PER_EXTRA_SON / $enabledSonsAmount, 2) : 0;
+            $discount = $enabledSonsAmount ? round(($enabledSonsAmount - 1) * $discountExtraSon / $enabledSonsAmount, 2) : 0;
         }
 
         return $discount;
@@ -288,7 +289,7 @@ class Student extends AbstractPerson
         return false;
     }
 
-    public function getMainEmailSubject(): string
+    public function getMainEmailSubject(): ?string
     {
         $email = $this->getEmail();
         if ($this->getParent() && $this->getParent()->getEmail()) {
@@ -301,7 +302,7 @@ class Student extends AbstractPerson
     public function canBeDeletedSafely(): bool
     {
         $result = false;
-        if (is_null($this->getParent()) && count($this->getEvents()) === 0) {
+        if (is_null($this->getParent()) && 0 === count($this->getEvents())) {
             $result = true;
         }
 

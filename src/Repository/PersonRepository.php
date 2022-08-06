@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 final class PersonRepository extends ServiceEntityRepository
@@ -21,8 +21,7 @@ final class PersonRepository extends ServiceEntityRepository
             ->where('p.enabled = :enabled')
             ->setParameter('enabled', true)
             ->orderBy('p.surname', 'ASC')
-            ->addOrderBy('p.name', 'ASC')
-        ;
+            ->addOrderBy('p.name', 'ASC');
     }
 
     public function getEnabledSortedBySurnameQ(): Query

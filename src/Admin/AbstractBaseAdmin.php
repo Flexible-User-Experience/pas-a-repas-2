@@ -2,190 +2,98 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Enum\UserRolesEnum;
+use App\Service\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Security\Core\Security;
+use Twig\Environment;
 
-/**
- * Class BaseAdmin.
- *
- * @category Admin
- */
 abstract class AbstractBaseAdmin extends AbstractAdmin
 {
-    private UploaderHelper $vus;
-    private CacheManager $lis;
+    protected EntityManagerInterface $em;
+    protected Security $ss;
+    protected Environment $twig;
+    protected FileService $fs;
 
-    /**
-     * @param string         $code
-     * @param string         $class
-     * @param string         $baseControllerName
-     * @param UploaderHelper $vus
-     * @param CacheManager   $lis
-     */
-    public function __construct($code, $class, $baseControllerName, UploaderHelper $vus, CacheManager $lis)
+    protected array $perPageOptions = [25, 50, 100, 200, 400];
+
+    public function __construct($code, $class, $baseControllerName, EntityManagerInterface $em, Security $ss, Environment $twig, FileService $fs)
     {
         parent::__construct($code, $class, $baseControllerName);
-        $this->vus = $vus;
-        $this->lis = $lis;
+        $this->em = $em;
+        $this->ss = $ss;
+        $this->twig = $twig;
+        $this->fs = $fs;
     }
 
-    /**
-     * @var array
-     */
-    protected $perPageOptions = array(25, 50, 100, 200, 400);
-
-    /**
-     * @var int
-     */
-    protected $maxPerPage = 25;
-
-    /**
-     * Configure route collection.
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureDefaultSortValues(array &$sortValues): void
     {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::PER_PAGE] = 25;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'id';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
         $collection
             ->remove('show')
-            ->remove('batch');
+            ->remove('batch')
+        ;
     }
 
-    /**
-     * Remove batch action list view first column.
-     *
-     * @return array
-     */
-    public function getBatchActions(): array
+    public function configureBatchActions(array $actions): array
     {
-        $actions = parent::getBatchActions();
         unset($actions['delete']);
 
         return $actions;
     }
 
-    /**
-     * Get export formats.
-     *
-     * @return array
-     */
     public function getExportFormats(): array
     {
-        return array(
-            'csv',
-            'xls',
-        );
+        return ['csv', 'xls', 'xlsx'];
     }
 
-    /**
-     * @param string $bootstrapGrid
-     * @param string $bootstrapSize
-     * @param string $boxClass
-     *
-     * @return array
-     */
-    protected function getDefaultFormBoxArray($bootstrapGrid = 'md', $bootstrapSize = '6', $boxClass = 'primary'): array
+    protected function getDefaultFormBoxArray(string $label, string $bootstrapGrid = 'md', string $bootstrapSize = '6', string $boxClass = 'primary'): array
     {
-        return array(
+        return [
+            'label' => $label,
             'class' => 'col-'.$bootstrapGrid.'-'.$bootstrapSize,
             'box_class' => 'box box-'.$boxClass,
-        );
+        ];
     }
 
-    /**
-     * @param string $bootstrapColSize
-     *
-     * @return array
-     */
-    protected function getFormMdSuccessBoxArray($bootstrapColSize = '6'): array
+    protected function getFormMdSuccessBoxArray(string $label, int $bootstrapColSize = 6): array
     {
-        return $this->getDefaultFormBoxArray('md', $bootstrapColSize, 'success');
+        return $this->getDefaultFormBoxArray($label, 'md', (string) $bootstrapColSize, 'success');
     }
 
-    /**
-     * Get image helper form mapper with thumbnail.
-     *
-     * @return string
-     */
-    protected function getImageHelperFormMapperWithThumbnail(): string
+    protected function getShowMdInfoBoxArray(string $label, int $bootstrapColSize = 6, string $boxClass = 'info'): array
     {
-        return ($this->getSubject() ? $this->getSubject()->getImageName() ? '<img src="'.$this->lis->getBrowserPath(
-                    $this->vus->asset($this->getSubject(), 'imageFile'),
-                    '480xY'
-                ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 1200px (màx. 10MB amb JPG o PNG)</span>';
+        return [
+            'label' => $label,
+            'class' => 'col-md-'.$bootstrapColSize,
+            'box_class' => 'box box-'.$boxClass,
+        ];
     }
 
-    /**
-     * Get image helper form mapper with thumbnail for black&white.
-     *
-     * @return string
-     */
-    protected function getImageHelperFormMapperWithThumbnailBW(): string
+    protected function isFormToCreateNewRecord(): bool
     {
-        return ($this->getSubject() ? $this->getSubject()->getImageNameBW() ? '<img src="'.$this->lis->getBrowserPath(
-                    $this->vus->asset($this->getSubject(), 'imageFileBW'),
-                    '480xY'
-                ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 1200px (màx. 10MB amb JPG o PNG)</span>';
+        return !$this->id($this->getSubject());
     }
 
-    /**
-     * @return string
-     */
-    protected function getImageHelperFormMapperWithThumbnailGif(): string
+    protected function isChildForm(): bool
     {
-        return ($this->getSubject() ? $this->getSubject()->getGifName() ? '<img src="'.$this->lis->getBrowserPath(
-                    $this->vus->asset($this->getSubject(), 'gifFile'),
-                    '480xY'
-                ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">mida 780x1168px (màx. 10MB amb GIF)</span>';
+        return $this->hasParentFieldDescription();
     }
 
-    /**
-     * @return string
-     */
-    protected function getImageHelperFormMapperWithThumbnailAspectRatio(): string
+    protected function isAdminUser(): bool
     {
-        return ($this->getSubject() ? $this->getSubject()->getImageName() ? '<img src="'.$this->lis->getBrowserPath(
-                    $this->vus->asset($this->getSubject(), 'imageFile'),
-                    '480xY'
-                ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">Les imatges han de ser verticals i amplada mínima 600px (màx. 10MB)</span>';
-    }
-
-    /**
-     * Get image helper form mapper with thumbnail.
-     *
-     * @param string $attribute
-     * @param string $uploaderMapping
-     *
-     * @return string
-     *
-     * @throws \Twig\Error\Error
-     */
-    protected function getSmartHelper($attribute, $uploaderMapping): string
-    {
-        $fs = $this->getConfigurationPool()->getContainer()->get('app.file_service');
-        $tes = $this->getConfigurationPool()->getContainer()->get('twig');
-
-        if ($this->getSubject() && $this->getSubject()->$attribute()) {
-            if ($fs->isPdf($this->getSubject(), $uploaderMapping)) {
-                // PDF case
-                return $tes->render('Admin/Helpers/pdf.html.twig', [
-                    'attribute' => $this->getSubject()->$attribute(),
-                    'subject' => $this->getSubject(),
-                    'uploaderMapping' => $uploaderMapping,
-                ]);
-            } else {
-                // Image case
-                return $tes->render('Admin/Helpers/image.html.twig', [
-                    'attribute' => $this->getSubject()->$attribute(),
-                    'subject' => $this->getSubject(),
-                    'uploaderMapping' => $uploaderMapping,
-                ]);
-            }
-        } else {
-            // Undefined case
-            return '<span style="width:100%;display:block;">Pots adjuntar un PDF o una imatge. Pes màxim 10MB.</span>';
-        }
+        return $this->isGranted(UserRolesEnum::ROLE_ADMIN);
     }
 }

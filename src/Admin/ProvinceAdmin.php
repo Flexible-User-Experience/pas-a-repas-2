@@ -2,23 +2,28 @@
 
 namespace App\Admin;
 
+use App\Doctrine\Enum\SortOrderTypeEnum;
 use App\Service\SpanishSepaHelperService;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ProvinceAdmin extends AbstractBaseAdmin
 {
     protected $classnameLabel = 'Province';
     protected $baseRoutePattern = 'administrations/province';
-    protected $datagridValues = [
-        '_sort_by' => 'name',
-        '_sort_order' => 'asc',
-    ];
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::ASC;
+        $sortValues[DatagridInterface::SORT_BY] = 'name';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection->remove('delete');
@@ -27,7 +32,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.general', $this->getFormMdSuccessBoxArray('backend.admin.general', 3))
             ->add(
                 'code',
                 null,
@@ -43,7 +48,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray(3))
+            ->with('backend.admin.controls', $this->getFormMdSuccessBoxArray('backend.admin.controls', 3))
             ->add(
                 'enabled',
                 CheckboxType::class,
@@ -130,18 +135,31 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                '_action',
-                'actions',
+                ListMapper::NAME_ACTIONS,
+                null,
                 [
+                    'label' => 'backend.admin.actions',
                     'header_class' => 'text-right',
                     'row_align' => 'right',
                     'actions' => [
-                        'edit' => ['template' => 'Admin/Buttons/list__action_edit_button.html.twig'],
+                        'edit' => [
+                            'template' => 'Admin/Buttons/list__action_edit_button.html.twig',
+                        ],
                     ],
-                    'label' => 'Accions',
                 ]
             )
         ;
+    }
+
+    public function configureExportFields(): array
+    {
+        return [
+            'code',
+            'name',
+            'country',
+            'creditorName',
+            'enabled',
+        ];
     }
 
     public function prePersist($object): void

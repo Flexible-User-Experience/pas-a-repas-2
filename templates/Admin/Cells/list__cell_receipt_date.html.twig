@@ -1,5 +1,7 @@
 {% extends "@SonataAdmin/CRUD/base_list_field.html.twig" %}
 
 {% block field %}
-    {{ object.date | date('d/m/Y') }}
+    <div class="text-center">
+        {{ object.date | date('d/m/Y') }}
+    </div>
 {% endblock %}

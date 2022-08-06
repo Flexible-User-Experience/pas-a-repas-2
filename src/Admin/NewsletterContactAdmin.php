@@ -2,29 +2,34 @@
 
 namespace App\Admin;
 
-use Sonata\AdminBundle\Datagrid\ListMapper;
+use App\Doctrine\Enum\SortOrderTypeEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter;
 use Sonata\Form\Type\DateTimePickerType;
 
-class NewsletterContactAdmin extends AbstractBaseAdmin
+final class NewsletterContactAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Newsletter Contact';
+    protected $classnameLabel = 'NewsletterContact';
     protected $baseRoutePattern = 'contacts/newsletter';
-    protected $datagridValues = array(
-        '_sort_by' => 'createdAt',
-        '_sort_order' => 'desc',
-    );
 
-    protected function configureRoutes(RouteCollection $collection): void
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = SortOrderTypeEnum::DESC;
+        $sortValues[DatagridInterface::SORT_BY] = 'createdAt';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
+            ->add('answer', $this->getRouterIdParameter().'/answer')
             ->remove('create')
             ->remove('edit')
             ->remove('delete')
             ->remove('batch')
-            ->add('answer', $this->getRouterIdParameter().'/answer')
             ->remove('batch');
     }
 
@@ -34,23 +39,21 @@ class NewsletterContactAdmin extends AbstractBaseAdmin
             ->add(
                 'createdAt',
                 DateTimeFilter::class,
-                array(
+                [
                     'label' => 'backend.admin.date',
                     'field_type' => DateTimePickerType::class,
-                    'format' => 'd-m-Y H:i',
-                ),
-                null,
-                array(
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy HH:mm',
-                )
+                    'field_options' => [
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy HH:mm',
+                    ],
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.email',
-                )
+                ]
             )
         ;
     }
@@ -61,18 +64,26 @@ class NewsletterContactAdmin extends AbstractBaseAdmin
             ->add(
                 'createdAt',
                 'date',
-                array(
+                [
                     'label' => 'backend.admin.contact.date',
                     'format' => 'd/m/Y H:i',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'backend.admin.contact.email',
-                )
+                ]
             )
         ;
+    }
+
+    public function configureExportFields(): array
+    {
+        return [
+            'createdAtString',
+            'email',
+        ];
     }
 }
