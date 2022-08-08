@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\AbstractBase;
 use App\Entity\Student;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -170,7 +171,7 @@ final class StudentAbsenceAdmin extends AbstractBaseAdmin
                 'date',
                 [
                     'label' => 'backend.admin.student.notification_date',
-                    'format' => 'd/m/Y H:i',
+                    'format' => AbstractBase::DATETIME_STRING_FORMAT,
                     'editable' => false,
                     'header_class' => 'text-center',
                     'row_align' => 'center',

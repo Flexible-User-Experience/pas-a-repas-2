@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\AbstractBase;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -115,7 +116,7 @@ final class ContactMessageAdmin extends AbstractBaseAdmin
                 'date',
                 [
                     'label' => 'backend.admin.date',
-                    'format' => 'd/m/Y H:i',
+                    'format' => AbstractBase::DATETIME_STRING_FORMAT,
                 ]
             )
             ->add(
