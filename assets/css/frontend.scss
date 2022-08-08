@@ -83,6 +83,7 @@ $font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif
 // Custom Bootstrap vars
 $text-color: $grey;
 $list-group-bg: lighten($grey, 35%);
+$list-group-active-bg: $magenta;
 $pagination-active-bg: $magenta;
 $pagination-border-radius: 0;
 $screen-xs: 480px !default;
