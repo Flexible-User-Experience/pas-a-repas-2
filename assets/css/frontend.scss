@@ -82,6 +82,10 @@ $font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif
 
 // Custom Bootstrap vars
 $text-color: $grey;
+$list-group-bg: lighten($grey, 35%);
+$list-group-active-bg: $magenta;
+$pagination-active-bg: $magenta;
+$pagination-border-radius: 0;
 $screen-xs: 480px !default;
 $screen-sm: 768px !default;
 $screen-md: 992px !default;
@@ -140,10 +144,6 @@ strong {
 
 address {
     line-height: 1.65;
-}
-
-.no-overflow {
-    overflow: hidden;
 }
 
 .no-underline {
@@ -209,30 +209,6 @@ h2.my-h2 {
     }
 }
 
-.blog-categories {
-    h3 { margin-top: 0; }
-    ul.list-unstyled {
-        margin-bottom: 0;
-        li {
-            padding: 10px;
-            border-bottom: solid 1px $grey;
-            a {
-                color: $grey;
-            }
-            &.active {
-                border-bottom: solid 1px $cyan;
-                a {
-                    color: $cyan;
-                }
-            }
-            &:hover a {
-                color: $magenta;
-                text-decoration: none;
-            }
-        }
-    }
-}
-
 // Scroll to top helper
 .scroll-top-wrapper {
     position: fixed;
@@ -258,16 +234,6 @@ h2.my-h2 {
     }
     i.fa {
         line-height: inherit;
-    }
-}
-
-// Pagination
-ul.pagination {
-    li.active {
-        span.c-magenta {
-            background-color: $magenta;
-            border-color: $magenta;
-        }
     }
 }
 

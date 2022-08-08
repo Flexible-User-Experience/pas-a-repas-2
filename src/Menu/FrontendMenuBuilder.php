@@ -98,7 +98,7 @@ class FrontendMenuBuilder
                     'class' => 'nav-item',
                 ],
                 'linkAttributes' => [
-                    'class' => 'nav-link'.('app_blog' === $current ? ' active' : ''),
+                    'class' => 'nav-link'.('app_blog' === $current || 'app_blog_detail' === $current || 'app_blog_category_detail' === $current ? ' active' : ''),
                 ],
             ]
         );

@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\AbstractBase;
 use App\Enum\PreRegisterSeasonEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -156,7 +157,7 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'frontend.forms.preregister.date',
-                    'format' => 'd/m/Y H:i',
+                    'format' => AbstractBase::DATETIME_STRING_FORMAT,
                 ]
             )
             ->add(
@@ -262,7 +263,7 @@ final class PreRegisterAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'frontend.forms.preregister.date',
                     'editable' => false,
-                    'format' => 'd/m/Y H:i',
+                    'format' => AbstractBase::DATETIME_STRING_FORMAT,
                 ]
             )
             ->add(

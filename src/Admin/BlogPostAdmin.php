@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\AbstractBase;
 use App\Repository\BlogCategoryRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -13,7 +14,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 final class BlogPostAdmin extends AbstractBaseAdmin
 {
@@ -53,10 +54,9 @@ final class BlogPostAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'imageFile',
-                FileType::class,
+                VichImageType::class,
                 [
                     'label' => 'backend.admin.image',
-                    'help' => $this->getImageHelperFormMapperWithThumbnail(),
                     'required' => false,
                 ]
             )
@@ -182,7 +182,7 @@ final class BlogPostAdmin extends AbstractBaseAdmin
     {
         $list
             ->add(
-                'image',
+                'id',
                 null,
                 [
                     'label' => 'backend.admin.image',
@@ -194,7 +194,7 @@ final class BlogPostAdmin extends AbstractBaseAdmin
                 'date',
                 [
                     'label' => 'backend.admin.published_date',
-                    'format' => 'd/m/Y',
+                    'format' => AbstractBase::DATE_STRING_FORMAT,
                     'editable' => true,
                     'header_class' => 'text-center',
                     'row_align' => 'center',

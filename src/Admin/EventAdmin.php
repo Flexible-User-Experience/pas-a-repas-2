@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Doctrine\Enum\SortOrderTypeEnum;
+use App\Entity\AbstractBase;
 use App\Entity\ClassGroup;
 use App\Entity\Event;
 use App\Entity\Student;
@@ -229,7 +230,7 @@ final class EventAdmin extends AbstractBaseAdmin
                 'date',
                 [
                     'label' => 'backend.admin.event.begin',
-                    'format' => 'd/m/Y H:i',
+                    'format' => AbstractBase::DATETIME_STRING_FORMAT,
                     'editable' => false,
                     'header_class' => 'text-center',
                     'row_align' => 'center',
@@ -240,7 +241,7 @@ final class EventAdmin extends AbstractBaseAdmin
                 'date',
                 [
                     'label' => 'backend.admin.event.end',
-                    'format' => 'd/m/Y H:i',
+                    'format' => AbstractBase::DATETIME_STRING_FORMAT,
                     'editable' => false,
                     'header_class' => 'text-center',
                     'row_align' => 'center',

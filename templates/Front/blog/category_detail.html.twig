@@ -3,13 +3,11 @@
 {% block title %}{{ selectedCategory.title }} · {{ parent() }}{% endblock %}
 
 {% block categories %}
-    <ul class="list-unstyled">
+    <div class="list-group list-group-flush">
         {% for category in categories %}
             {% if category.posts | length > 0 %}
-                <li{% if category.id == selectedCategory.id %} class="active"{% endif %}>
-                    <a href="{{ path('app_blog_category_detail', {slug: category.slug}) }}">{{ category.title }}</a>
-                </li>
+                <a href="{{ path('app_blog_category_detail', {slug: category.slug}) }}" class="list-group-item list-group-item-action{% if category.id == selectedCategory.id %} active{% endif %}">{{ category.title }}</a>
             {% endif %}
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

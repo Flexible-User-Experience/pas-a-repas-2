@@ -50,7 +50,7 @@ class BlogController extends AbstractController
             throw $this->createNotFoundException('Wrong Post entity published date');
         }
 
-        return $this->render('Front/Blog/blog_detail.html.twig', array(
+        return $this->render('Front/blog/blog_detail.html.twig', array(
             'post' => $post,
             'categories' => $categories,
         ));
@@ -70,7 +70,7 @@ class BlogController extends AbstractController
         $posts = $bpr->getPostsByCategoryEnabledSortedByPublishedDateWithJoinUntilNow($category);
         $postsPaginator = $paginator->paginate($posts, $pagina, self::PAGE_LIMIT);
 
-        return $this->render('Front/Blog/category_detail.html.twig', array(
+        return $this->render('Front/blog/category_detail.html.twig', array(
             'selectedCategory' => $category,
             'posts' => $postsPaginator,
             'categories' => $categories,
