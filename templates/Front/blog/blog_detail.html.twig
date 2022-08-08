@@ -5,13 +5,13 @@
 {% block main %}
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">&nbsp;</div>
+            <div class="col-12">&nbsp;</div>
         </div>
     </div>
     {% if not post.enabled %}
         <div class="container">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-12">
                     <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle"></i> Esborrany</div>
                 </div>
             </div>
@@ -33,20 +33,16 @@
             <div class="col-sm-4">
                 {# right side #}
                 {% if categories | length > 0 %}
-                    <div class="blog-categories">
-                        <div class="caption">
-                            <h3 class="c-cyan">{{ 'frontend.blog.main.categories' | trans | upper }}</h3>
-                            {% block categories %}
-                                <div class="list-group list-group-flush">
-                                    {% for category in categories %}
-                                        {% if category.posts | length > 0 %}
-                                            <a href="{{ path('app_blog_category_detail', {slug: category.slug}) }}" class="list-group-item list-group-item-action">{{ category.title }}</a>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            {% endblock %}
+                    <h3 class="c-cyan">{{ 'frontend.blog.main.categories' | trans | upper }}</h3>
+                    {% block categories %}
+                        <div class="list-group list-group-flush">
+                            {% for category in categories %}
+                                {% if category.posts | length > 0 %}
+                                    <a href="{{ path('app_blog_category_detail', {slug: category.slug}) }}" class="list-group-item list-group-item-action">{{ category.title }}</a>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                    </div>
+                    {% endblock %}
                 {% endif %}
             </div>
         </div>
