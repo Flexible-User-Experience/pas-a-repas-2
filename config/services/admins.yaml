@@ -23,7 +23,7 @@ services:
         class: App\Admin\PreRegisterAdmin
         arguments: [ ~, App\Entity\PreRegister, App\Controller\Admin\PreRegisterAdminController, '@doctrine.orm.entity_manager', '@security.helper', '@twig', '@App\Service\FileService' ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Preinscipcions', group: 'Alumnes' }
+            - { name: sonata.admin, manager_type: orm, label: 'Preinscipcions', group: 'Alumnes', show_in_dashboard: false }
     # Teachers
     admin.teacher:
         class: App\Admin\TeacherAdmin
@@ -102,7 +102,7 @@ services:
         class: App\Admin\ServiceAdmin
         arguments: [ ~, App\Entity\Service, ~, '@doctrine.orm.entity_manager', '@security.helper', '@twig', '@App\Service\FileService' ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Servei', group: 'Serveis' }
+            - { name: sonata.admin, manager_type: orm, label: 'Servei', group: 'Serveis', show_in_dashboard: false }
     # Contacts
     admin.contactmessage:
         class: App\Admin\ContactMessageAdmin
@@ -113,7 +113,7 @@ services:
         class: App\Admin\NewsletterContactAdmin
         arguments: [ ~, App\Entity\NewsletterContact, ~, '@doctrine.orm.entity_manager', '@security.helper', '@twig', '@App\Service\FileService' ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Butlletí de contacte', group: 'Contactes' }
+            - { name: sonata.admin, manager_type: orm, label: 'Butlletí de contacte', group: 'Contactes', show_in_dashboard: false }
     # Configurations
     admin.bank_creditor_sepa:
         class: App\Admin\BankCreditorSepaAdmin
