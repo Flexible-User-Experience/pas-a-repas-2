@@ -82,6 +82,7 @@ $font-family-sans-serif: "pluto", "Helvetica Neue", Helvetica, Arial, sans-serif
 
 // Custom Bootstrap vars
 $text-color: $grey;
+$list-group-bg: lighten($grey, 45%);
 $screen-xs: 480px !default;
 $screen-sm: 768px !default;
 $screen-md: 992px !default;
@@ -140,10 +141,6 @@ strong {
 
 address {
     line-height: 1.65;
-}
-
-.no-overflow {
-    overflow: hidden;
 }
 
 .no-underline {

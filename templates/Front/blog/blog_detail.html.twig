@@ -33,19 +33,17 @@
             <div class="col-sm-4">
                 {# right side #}
                 {% if categories | length > 0 %}
-                    <div class="thumbnail blog-categories">
+                    <div class="blog-categories">
                         <div class="caption">
                             <h3 class="c-cyan">{{ 'frontend.blog.main.categories' | trans | upper }}</h3>
                             {% block categories %}
-                                <ul class="list-unstyled">
+                                <div class="list-group list-group-flush">
                                     {% for category in categories %}
                                         {% if category.posts | length > 0 %}
-                                            <li>
-                                                <a href="{{ path('app_blog_category_detail', {slug: category.slug}) }}">{{ category.title }}</a>
-                                            </li>
+                                            <a href="{{ path('app_blog_category_detail', {slug: category.slug}) }}" class="list-group-item list-group-item-action">{{ category.title }}</a>
                                         {% endif %}
                                     {% endfor %}
-                                </ul>
+                                </div>
                             {% endblock %}
                         </div>
                     </div>
