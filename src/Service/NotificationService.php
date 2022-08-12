@@ -67,7 +67,7 @@ class NotificationService
             $this->messenger->sendEmail(
                 $contactMessage->getEmail(),
                 $this->amd,
-                $this->pub.' contact form received',
+                'Missatge de contacte pàgina web '.$this->pub.' rebut',
                 $this->twig->render('Mails/contact_form_admin_notification.html.twig', [
                     'contact' => $contactMessage,
                 ])
@@ -111,7 +111,7 @@ class NotificationService
             $this->messenger->sendEmail(
                 $this->amd,
                 $contactMessage->getEmail(),
-                $this->pub.' contact form answer',
+                'Resposta missatge de contacte pàgina web '.$this->pub,
                 $this->twig->render('Mails/contact_form_user_backend_notification.html.twig', [
                     'contact' => $contactMessage,
                 ])
