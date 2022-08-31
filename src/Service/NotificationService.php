@@ -20,7 +20,7 @@ class NotificationService
 {
     private CourierService $messenger;
     private Environment $twig;
-    private string $amd; // system's App Mail Destionation
+    private string $amd; // system's App Mail Destination
     private string $pwt; // project web title
     private string $pub; // project URL base
 
