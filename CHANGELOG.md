@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.22 (WIP)
+##### Version 4.5.23 (WIP)
  * fix minor bugs
+ * add ContactMessageAnswerType flash message translation
+
+##### Version 4.5.22 (2022-08-31)
  * fix bad green color definition in drawTeacherColorSpan Twig extension
  * add HasAtLeastOneEventClassGroupAssignedFilter in Student admin
  * improve ClassGroupBuilderPdf render
