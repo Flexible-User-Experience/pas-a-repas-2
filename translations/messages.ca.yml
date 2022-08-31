@@ -455,6 +455,8 @@ backend:
             second_paragraph_4: ", amb una quantitat de "
             third_paragraph: "Atentament,"
         receipt:
+            generate_first_sepa: "Generar primera remesa (FRST) de rebuts marcats"
+            generate_rcurr_sepa: "Generar remesa recurrent (RCUR) de rebuts marcats"
             mark_as_payed_batch_action: "Marcar com a rebuts pagats"
             receipt: "Rebut"
             date: "Data"

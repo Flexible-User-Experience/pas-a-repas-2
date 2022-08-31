@@ -226,6 +226,55 @@ final class ReceiptAdminController extends AbstractAdminController
         }
     }
 
+    public function batchActionGeneratefirstsepaxmls(ProxyQueryInterface $query): Response
+    {
+        $this->admin->checkAccess('edit');
+        $selectedModels = $query->execute();
+        try {
+            $paymentUniqueId = uniqid('', true);
+            $xmlsArray = [];
+            $banksCreditorSepa = $this->bcsr->getEnabledSortedByName();
+            /** @var BankCreditorSepa $bankCreditorSepa */
+            foreach ($banksCreditorSepa as $bankCreditorSepa) {
+                $xmlsArray[] = $this->xsbs->buildDirectDebitReceiptsXmlForBankCreditorSepa($paymentUniqueId, new DateTime('now + 3 days'), $selectedModels, $bankCreditorSepa, true);
+            }
+            /** @var Receipt $selectedModel */
+            foreach ($selectedModels as $selectedModel) {
+                if ($selectedModel->isReadyToGenerateSepa() && !$selectedModel->getStudent()->getIsPaymentExempt()) {
+                    $selectedModel
+                        ->setIsSepaXmlGenerated(true)
+                        ->setSepaXmlGeneratedDate(new DateTimeImmutable())
+                    ;
+                }
+            }
+            $this->mr->getManager()->flush();
+            $now = new DateTimeImmutable();
+            $fileName = 'SEPA_receipts_'.$now->format('Y-m-d_H-i').'.zip';
+            $fileNamePath = sys_get_temp_dir().DIRECTORY_SEPARATOR.$fileName;
+            $zipFile = new ZipFile();
+            $index = 0;
+            /** @var BankCreditorSepa $bankCreditorSepa */
+            foreach ($banksCreditorSepa as $bankCreditorSepa) {
+                $zipFile->addFromString('SEPA_'.StringHelper::sanitizeString($bankCreditorSepa->getName()).'.xml', $xmlsArray[$index]);
+                ++$index;
+            }
+            $zipFile->saveAsFile($fileNamePath)->close();
+            $response = new BinaryFileResponse($fileNamePath, 200, ['Content-type' => 'application/zip']);
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+
+            return $response;
+        } catch (Exception $e) {
+            $this->addFlash('error', 'S\'ha produït un error al generar l\'arxiu SEPA amb format XML. Revisa els rebuts seleccionats.');
+            $this->addFlash('error', $e->getMessage());
+
+            return new RedirectResponse(
+                $this->admin->generateUrl('list', [
+                    'filter' => $this->admin->getFilterParameters(),
+                ])
+            );
+        }
+    }
+
     public function batchActionGeneratesepaxmls(ProxyQueryInterface $query): Response
     {
         $this->admin->checkAccess('edit');
