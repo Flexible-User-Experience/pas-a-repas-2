@@ -1,8 +1,20 @@
 Changelog
 =========
 
-##### Version 4.5.22 (WIP)
+##### Version 4.5.23 (WIP)
  * fix minor bugs
+
+##### Version 4.5.22 (2022-08-31)
+ * fix bad green color definition in drawTeacherColorSpan Twig extension
+ * add HasAtLeastOneEventClassGroupAssignedFilter in Student admin
+ * improve ClassGroupBuilderPdf render
+ * improve students amount column render in EventsAdmin list
+ * improve ContactMessageAnswerType
+ * improve price column render in Tariff list
+ * remove some hardcoded Admin list 'decimal' types
+ * add ContactMessageAnswerType flash message translation
+ * add weekday name translations in ExportCalendarToListBuilderPdf
+ * fix missing FRST & RCUR sepa batch actions
 
 ##### Version 4.5.21 (2021-11-26)
  * avoid SEPA receipts generation for empty units receipt case

@@ -7,6 +7,7 @@ use App\Entity\BankCreditorSepa;
 use App\Entity\Invoice;
 use App\Entity\Receipt;
 use DateTimeInterface;
+use Digitick\Sepa\Exception\InvalidArgumentException;
 use Digitick\Sepa\GroupHeader;
 use Digitick\Sepa\PaymentInformation;
 use Digitick\Sepa\TransferFile\Facade\CustomerDirectDebitFacade;
@@ -35,6 +36,9 @@ class XmlSepaBuilderService
         $this->bic = $this->removeSpacesFrom($pb->get('bic_number'));
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function buildDirectDebitSingleReceiptXml(string $paymentId, DateTimeInterface $dueDate, Receipt $receipt): string
     {
         $directDebit = $this->buildDirectDebit($paymentId);
@@ -50,10 +54,13 @@ class XmlSepaBuilderService
         return $directDebit->asXML();
     }
 
-    public function buildDirectDebitReceiptsXml(string $paymentId, DateTimeInterface $dueDate, $receipts): string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function buildDirectDebitReceiptsXml(string $paymentId, DateTimeInterface $dueDate, $receipts, bool $isFristDebit = false): string
     {
         $directDebit = $this->buildDirectDebit($paymentId);
-        $this->addPaymentInfo($directDebit, $paymentId, $dueDate);
+        $this->addPaymentInfo($directDebit, $paymentId, $dueDate, $isFristDebit);
         /** @var Receipt $receipt */
         foreach ($receipts as $receipt) {
             if ($receipt->isReadyToGenerateSepa() && !$receipt->getStudent()->getIsPaymentExempt()) {
@@ -64,10 +71,13 @@ class XmlSepaBuilderService
         return $directDebit->asXML();
     }
 
-    public function buildDirectDebitReceiptsXmlForBankCreditorSepa(string $paymentId, DateTimeInterface $dueDate, $receipts, BankCreditorSepa $bankCreditorSepa): string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function buildDirectDebitReceiptsXmlForBankCreditorSepa(string $paymentId, DateTimeInterface $dueDate, $receipts, BankCreditorSepa $bankCreditorSepa, bool $isFristDebit = false): string
     {
         $directDebit = $this->buildDirectDebit($paymentId);
-        $this->addPaymentInfoForBankCreditorSepa($directDebit, $paymentId, $dueDate, $bankCreditorSepa);
+        $this->addPaymentInfoForBankCreditorSepa($directDebit, $paymentId, $dueDate, $bankCreditorSepa, $isFristDebit);
         /** @var Receipt $receipt */
         foreach ($receipts as $receipt) {
             if ($receipt->isReadyToGenerateSepa() && !$receipt->getStudent()->getIsPaymentExempt() && $receipt->getMainSubject()->getBankCreditorSepa() && $receipt->getMainSubject()->getBankCreditorSepa()->getId() === $bankCreditorSepa->getId()) {
@@ -78,6 +88,9 @@ class XmlSepaBuilderService
         return $directDebit->asXML();
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function buildDirectDebitSingleInvoiceXml(string $paymentId, DateTimeInterface $dueDate, Invoice $invoice): string
     {
         $directDebit = $this->buildDirectDebit($paymentId);
@@ -93,6 +106,9 @@ class XmlSepaBuilderService
         return $directDebit->asXML();
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function buildDirectDebitInvoicesXml(string $paymentId, DateTimeInterface $dueDate, $invoices): string
     {
         $directDebit = $this->buildDirectDebit($paymentId);
@@ -117,7 +133,10 @@ class XmlSepaBuilderService
         return TransferFileFacadeFactory::createDirectDebitWithGroupHeader($header, self::DIRECT_DEBIT_PAIN_CODE);
     }
 
-    private function addPaymentInfo(CustomerDirectDebitFacade $directDebit, string $paymentId, DateTimeInterface $dueDate): void
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function addPaymentInfo(CustomerDirectDebitFacade $directDebit, string $paymentId, DateTimeInterface $dueDate, ?bool $isFristDebit = false): void
     {
         $directDebit->addPaymentInfo($paymentId, [
             'id' => StringHelper::sanitizeString($paymentId),
@@ -125,13 +144,16 @@ class XmlSepaBuilderService
             'creditorName' => strtoupper(StringHelper::sanitizeString($this->bn)),
             'creditorAccountIBAN' => $this->ib,
             'creditorAgentBIC' => $this->bic,
-            'seqType' => PaymentInformation::S_ONEOFF,
+            'seqType' => $isFristDebit ? PaymentInformation::S_FIRST : PaymentInformation::S_RECURRING,
             'creditorId' => $this->sshs->getSpanishCreditorIdFromNif($this->bd),
             'localInstrumentCode' => self::DIRECT_DEBIT_LI_CODE,
         ]);
     }
 
-    private function addPaymentInfoForBankCreditorSepa(CustomerDirectDebitFacade $directDebit, string $paymentId, DateTimeInterface $dueDate, BankCreditorSepa $bankCreditorSepa): void
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function addPaymentInfoForBankCreditorSepa(CustomerDirectDebitFacade $directDebit, string $paymentId, DateTimeInterface $dueDate, BankCreditorSepa $bankCreditorSepa, ?bool $isFristDebit = false): void
     {
         $directDebit->addPaymentInfo($paymentId, [
             'id' => StringHelper::sanitizeString($paymentId),
@@ -139,12 +161,15 @@ class XmlSepaBuilderService
             'creditorName' => strtoupper(StringHelper::sanitizeString($bankCreditorSepa->getCreditorName())),
             'creditorAccountIBAN' => $bankCreditorSepa->getIban(),
             'creditorAgentBIC' => $bankCreditorSepa->getBic(),
-            'seqType' => PaymentInformation::S_ONEOFF,
+            'seqType' => $isFristDebit ? PaymentInformation::S_FIRST : PaymentInformation::S_RECURRING,
             'creditorId' => $this->sshs->getSpanishCreditorIdFromNif($bankCreditorSepa->getOrganizationId()),
             'localInstrumentCode' => self::DIRECT_DEBIT_LI_CODE,
         ]);
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     private function addTransfer(CustomerDirectDebitFacade $directDebit, string $paymentId, $ari): void
     {
         $remitanceInformation = self::DEFAULT_REMITANCE_INFORMATION;
@@ -174,7 +199,7 @@ class XmlSepaBuilderService
             'endToEndId' => StringHelper::sanitizeString($endToEndId),
         ];
 
-        if ($ari->getMainBank()->getSwiftCode()) {
+        if ($ari->getMainBank() && $ari->getMainBank()->getSwiftCode()) {
             $transferInformation['debtorBic'] = $this->removeSpacesFrom($ari->getMainBank()->getSwiftCode());
         }
 
