@@ -130,7 +130,7 @@
         <div class="container-fluid">
             <div class="row bc-grey justify-content-center p-5">
                 <div class="col-12 col-md-6">
-                    <p class="c-white text-center mb-0">{{ 'frontend.index.about_mi' | trans | raw }}</p>
+                    <p class="c-white text-center mb-0">{{ 'frontend.index.about_mi' | trans({'%main_brand_title%': main_brand_title}) | raw }}</p>
                 </div>
             </div>
         </div>
@@ -174,10 +174,10 @@
                 <hr style="margin-top:70px">
                 <h2 class="my-h2 text-center">{{ 'frontend.index.contact.msg3' | trans | upper }}</h2>
                 <p class="text-center c-grey">
-                    {{ 'frontend.index.contact.msg4' | trans }}<br>
+                    {{ 'frontend.index.contact.msg4' | trans({'%main_brand_title%': main_brand_title}) }}<br>
                 </p>
                 <p class="text-center">
-                    <a id="whatsapp-href-holder" href="https://wa.me/34{{ main_brand_phone_1 | replace({' ': ''}) }}?text={{ 'frontend.index.contact.msg5' | trans }}" class="btn btn-violet"><i class="fa fa-paper-plane" style="margin-right:5px" aria-hidden="true"></i> {{ 'frontend.index.contact.msg6' | trans }}</a>
+                    <a id="whatsapp-href-holder" href="https://wa.me/34{{ main_brand_phone_1 | replace({' ': ''}) }}?text={{ 'frontend.index.contact.msg5' | trans({'%main_brand_title%': main_brand_title}) }}" class="btn btn-violet"><i class="fa fa-paper-plane" style="margin-right:5px" aria-hidden="true"></i> {{ 'frontend.index.contact.msg6' | trans }}</a>
                 </p>
             </div>
         </div>
