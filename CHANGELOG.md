@@ -7,6 +7,8 @@ Changelog
  * add HasAtLeastOneEventClassGroupAssignedFilter in Student admin
  * improve ClassGroupBuilderPdf render
  * improve students amount column render in EventsAdmin list
+ * improve ContactMessageAnswerType
+ * improve price column render in Tariff list
 
 ##### Version 4.5.21 (2021-11-26)
  * avoid SEPA receipts generation for empty units receipt case
