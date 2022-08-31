@@ -4,6 +4,7 @@ Changelog
 ##### Version 4.5.23 (WIP)
  * fix minor bugs
  * add ContactMessageAnswerType flash message translation
+ * add weekday name translations in ExportCalendarToListBuilderPdf
 
 ##### Version 4.5.22 (2022-08-31)
  * fix bad green color definition in drawTeacherColorSpan Twig extension
