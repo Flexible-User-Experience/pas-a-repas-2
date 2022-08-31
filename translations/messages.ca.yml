@@ -210,6 +210,15 @@ backend:
         payments: "Pagaments"
         documents: "Documents"
         files: "Gestor de documents"
+        title: "Títol"
+        post: "Article"
+        content: "Contingut"
+        posts: "Articles"
+        posts_amount: "Articles Publicats"
+        categories: "Caregoties"
+        metakeywords: "Paraules Clau"
+        metakeywordshelp: "Separades per coma"
+        metadescription: "Metadescripció"
         calendar:
             export:
                 pdf:
