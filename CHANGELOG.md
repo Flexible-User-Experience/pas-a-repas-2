@@ -3,6 +3,7 @@ Changelog
 
 ##### Version 4.5.22 (WIP)
  * fix minor bugs
+ * fix bad green color definition in drawTeacherColorSpan Twig extension
 
 ##### Version 4.5.21 (2021-11-26)
  * avoid SEPA receipts generation for empty units receipt case
