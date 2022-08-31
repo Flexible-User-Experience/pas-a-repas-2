@@ -14,14 +14,17 @@ use App\Entity\Tariff;
 use App\Enum\SchoolYearChoicesGeneratorEnum;
 use App\Enum\StudentAgesEnum;
 use App\Enum\StudentPaymentEnum;
-use DateTime;
+use App\Model\BeginEndSchoolYearMoment;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Exception\ModelManagerThrowable;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
@@ -388,6 +391,21 @@ final class StudentAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'hasAtLeastOneEventClassGroupAssigned',
+                CallbackFilter::class,
+                [
+                    'label' => 'backend.admin.class_group.has_at_least_one_event_class_group_assigned',
+                    'callback' => [$this, 'buildDatagridHasAtLeastOneEventClassGroupAssignedFilter'],
+                    'required' => true,
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                        'choices' => SchoolYearChoicesGeneratorEnum::getSchoolYearChoicesArray(),
+                        'expanded' => false,
+                        'multiple' => false,
+                    ],
+                ]
+            )
+            ->add(
                 'schoolYear',
                 CallbackFilter::class,
                 [
@@ -499,21 +517,21 @@ final class StudentAdmin extends AbstractBaseAdmin
         ;
     }
 
-    public function buildDatagridSchoolYearFilter($queryBuilder, $alias, $field, $value): bool
+    public function buildDatagridHasAtLeastOneEventClassGroupAssignedFilter(ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool
     {
-        if ($value && array_key_exists('value', $value)) {
-            $schoolYear = (int) $value['value'];
-            $begin = new DateTime();
-            $begin->setDate($schoolYear, 8, 31);
-            $begin->setTime(0, 0);
-            $end = new DateTime();
-            $end->setDate($schoolYear + 1, 9, 1);
-            $end->setTime(0, 0);
-            $queryBuilder->join($alias.'.events', 'e');
-            $queryBuilder->andWhere('e.begin > :begin');
-            $queryBuilder->andWhere('e.begin < :end');
-            $queryBuilder->setParameter('begin', $begin);
-            $queryBuilder->setParameter('end', $end);
+        if ($field === 'hasAtLeastOneEventClassGroupAssigned' && $data->hasValue()) {
+            $beginEndSchoolYearMoment = new BeginEndSchoolYearMoment((int) $data->getValue());
+            $relatedEntitiesQuery = $query->getQueryBuilder()->getEntityManager()->getRepository(Student::class)
+                ->createQueryBuilder('student')
+                ->select(['student.id'])
+                ->leftJoin('student.events', 'e')
+                ->andWhere('e.begin > :begin')
+                ->andWhere('e.begin < :end')
+                ->setParameter('begin', $beginEndSchoolYearMoment->getBegin())
+                ->setParameter('end', $beginEndSchoolYearMoment->getEnd())
+            ;
+            $query->andWhere($query->expr()->notIn($alias.'.id', ':subquery'));
+            $query->setParameter('subquery', $relatedEntitiesQuery->getQuery()->getArrayResult());
 
             return true;
         }
@@ -521,16 +539,32 @@ final class StudentAdmin extends AbstractBaseAdmin
         return false;
     }
 
-    public function buildDatagridAgesFilter($queryBuilder, $alias, $field, $value): bool
+    public function buildDatagridSchoolYearFilter(ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool
     {
-        if ($value && array_key_exists('value', $value)) {
-            $age = (int) $value['value'];
+        if ($field === 'schoolYear' && $data->hasValue()) {
+            $beginEndSchoolYearMoment = new BeginEndSchoolYearMoment((int) $data->getValue());
+            $query->leftJoin($alias.'.events', 'ev');
+            $query->andWhere('ev.begin > :begin');
+            $query->andWhere('ev.begin < :end');
+            $query->setParameter('begin', $beginEndSchoolYearMoment->getBegin());
+            $query->setParameter('end', $beginEndSchoolYearMoment->getEnd());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function buildDatagridAgesFilter(ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool
+    {
+        if ($field === 'age' && $data->hasValue()) {
+            $age = (int) $data->getValue();
             if ($age < StudentAgesEnum::AGE_20_plus) {
-                $queryBuilder->andWhere('TIMESTAMPDIFF(year, '.$alias.'.birthDate, NOW()) = :age');
+                $query->andWhere('TIMESTAMPDIFF(year, '.$alias.'.birthDate, NOW()) = :age');
             } else {
-                $queryBuilder->andWhere('TIMESTAMPDIFF(year, '.$alias.'.birthDate, NOW()) >= :age');
+                $query->andWhere('TIMESTAMPDIFF(year, '.$alias.'.birthDate, NOW()) >= :age');
             }
-            $queryBuilder->setParameter('age', $age);
+            $query->setParameter('age', $age);
 
             return true;
         }
@@ -682,6 +716,9 @@ final class StudentAdmin extends AbstractBaseAdmin
         return $result;
     }
 
+    /**
+     * @throws ModelManagerThrowable
+     */
     public function preRemove($object): void
     {
         $relatedReceipts = $this->getModelManager()->findBy(Receipt::class, [
