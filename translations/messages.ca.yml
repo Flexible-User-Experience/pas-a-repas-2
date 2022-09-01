@@ -329,6 +329,8 @@ backend:
             tariff_13: "hora particular familiar"
             tariff_14: "2'5h / setmana"
             tariff_15: "hora i mitja particular"
+            tariff_16: "meitat parking mensual"
+            tariff_17: "parking mensual sencer"
         event:
             range: "Limitar l'abast dels canvis a la data"
             begin: "Inici"

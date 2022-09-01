@@ -1,8 +1,13 @@
 Changelog
 =========
 
-##### Version 4.5.23 (WIP)
+##### Version 4.5.24 (WIP)
  * fix minor bugs
+
+##### Version 4.5.23 (2022-09-01)
+ * add parking tariffs
+ * composer dependecies update
+ * yarn dependencies update
 
 ##### Version 4.5.22 (2022-08-31)
  * fix bad green color definition in drawTeacherColorSpan Twig extension
