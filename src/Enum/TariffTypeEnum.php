@@ -20,7 +20,8 @@ class TariffTypeEnum
     public const TARIFF_ONE_WEEK_INTESIVE = 13;
     public const TARIFF_TWO_WEEKS_INTESIVE = 14;
     public const TARIFF_THREE_WEEKS_INTESIVE = 15;
-    public const TARIFF_FOUR_FIVE_WEEKS_INTESIVE = 16;
+    public const TARIFF_HALF_PARKING = 16;
+    public const TARIFF_FULL_PARKING = 17;
 
     public static function getEnumArray(): array
     {
@@ -46,7 +47,8 @@ class TariffTypeEnum
             self::TARIFF_ONE_WEEK_INTESIVE => 'backend.admin.tariff.tariff_13',
             self::TARIFF_TWO_WEEKS_INTESIVE => 'backend.admin.tariff.tariff_14',
             self::TARIFF_THREE_WEEKS_INTESIVE => 'backend.admin.tariff.tariff_15',
-            self::TARIFF_FOUR_FIVE_WEEKS_INTESIVE => 'backend.admin.tariff.tariff_16',
+            self::TARIFF_HALF_PARKING => 'backend.admin.tariff.tariff_16',
+            self::TARIFF_FULL_PARKING => 'backend.admin.tariff.tariff_17',
         ];
     }
 
@@ -68,8 +70,8 @@ class TariffTypeEnum
             self::TARIFF_SPECIAL_TYPE => 'preu especial',
             self::TARIFF_ONE_WEEK_INTESIVE => 'intensiu 1 setmana',
             self::TARIFF_TWO_WEEKS_INTESIVE => 'intensiu 2 setmanes',
-            self::TARIFF_THREE_WEEKS_INTESIVE => 'intensiu 3 setmanes',
-            self::TARIFF_FOUR_FIVE_WEEKS_INTESIVE => 'intensiu 4/5 setmanes',
+            self::TARIFF_HALF_PARKING => 'meitat parking mensual',
+            self::TARIFF_FULL_PARKING => 'parking mensual sencer',
         ];
     }
 }
