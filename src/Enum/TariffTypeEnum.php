@@ -70,6 +70,7 @@ class TariffTypeEnum
             self::TARIFF_SPECIAL_TYPE => 'preu especial',
             self::TARIFF_ONE_WEEK_INTESIVE => 'intensiu 1 setmana',
             self::TARIFF_TWO_WEEKS_INTESIVE => 'intensiu 2 setmanes',
+            self::TARIFF_THREE_WEEKS_INTESIVE => 'intensiu 3 setmanes',
             self::TARIFF_HALF_PARKING => 'meitat parking mensual',
             self::TARIFF_FULL_PARKING => 'parking mensual sencer',
         ];
