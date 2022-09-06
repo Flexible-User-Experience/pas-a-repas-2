@@ -1,8 +1,12 @@
 Changelog
 =========
 
-##### Version 4.5.24 (WIP)
+##### Version 4.5.25 (WIP)
  * fix minor bugs
+
+##### Version 4.5.24 (2022-09-06)
+ * fix problem during User persist process due to missing required canonical fields (username & email)
+ * dependencies update
 
 ##### Version 4.5.23 (2022-09-01)
  * add parking tariffs
