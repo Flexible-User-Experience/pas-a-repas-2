@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.5.25 (WIP)
+##### Version 4.5.26 (WIP)
  * fix minor bugs
+
+##### Version 4.5.25 (2022-10-12)
+ * fix Twig security issue
 
 ##### Version 4.5.24 (2022-09-06)
  * fix problem during User persist process due to missing required canonical fields (username & email)
