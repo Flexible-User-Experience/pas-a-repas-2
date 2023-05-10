@@ -15,10 +15,10 @@ doctrine:
         dql:
             datetime_functions:
                 timestampdiff: 'DoctrineExtensions\Query\Mysql\TimestampDiff'
-                year:          'DoctrineExtensions\Query\Mysql\Year'
-                month:         'DoctrineExtensions\Query\Mysql\Month'
-                date:          'DoctrineExtensions\Query\Mysql\Date'
-                now:           'DoctrineExtensions\Query\Mysql\Now'
+                year: 'DoctrineExtensions\Query\Mysql\Year'
+                month: 'DoctrineExtensions\Query\Mysql\Month'
+                date: 'DoctrineExtensions\Query\Mysql\Date'
+                now: 'DoctrineExtensions\Query\Mysql\Now'
 when@test:
     doctrine:
         dbal:
@@ -35,14 +35,14 @@ when@prod:
             auto_generate_proxy_classes: false
             query_cache_driver:
                 type: pool
-                pool: doctrine.system_cache_pool
+                pool: 'doctrine.system_cache_pool'
             result_cache_driver:
                 type: pool
-                pool: doctrine.result_cache_pool
+                pool: 'doctrine.result_cache_pool'
     framework:
         cache:
             pools:
                 doctrine.result_cache_pool:
-                    adapter: cache.app
+                    adapter: 'cache.app'
                 doctrine.system_cache_pool:
-                    adapter: cache.system
+                    adapter: 'cache.system'
